@@ -1,5 +1,5 @@
 serve:
-	@python -m http.server
+	@python -m http.server -d ./src 9999
 
 dev:
-	@livereload ./ --port=9999
+	@livereload ./src -p 9999
