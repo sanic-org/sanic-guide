@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Description">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"> -->
+
+  <style>
+    :root {
+      --base-font-size: 14px;
+      --theme-color: #ff0f6a;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: '',
+      repo: '',
+      copyCode: {
+        buttonText: 'Copy to clipboard',
+        errorText: 'Error',
+        successText: 'Copied'
+      },
+      pagination: {
+        previousText: 'PREVIOUS',
+        nextText: 'NEXT',
+        crossChapter: true,
+        crossChapterText: true,
+      },
+      tabs: {
+        persist: true, // default
+        sync: true, // default
+        theme: 'classic', // default
+        tabComments: true, // default
+        tabHeadings: true // default
+      }
+    }
+  </script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script> -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <!-- https://github.com/imyelo/docsify-pagination -->
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+
+  <!-- https://github.com/jperasmus/docsify-copy-code -->
+  <script src="//unpkg.com/docsify-copy-code@2"></script>
+
+  <!-- https://jhildenbiddle.github.io/docsify-tabs/#/ -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+
+  <!-- https://vagnerdomingues.github.io/docsify-example-panels/#/?id=demo -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-example-panels@1"></script>
+
+  <!-- https://jhildenbiddle.github.io/docsify-themeable/#/quick-start -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+
+  <!-- https://github.com/fzankl/docsify-plugin-flexible-alerts -->
+  <!-- https://github.com/boopathikumar018/docsify-darklight-theme -->
+</body>
+
+</html>
