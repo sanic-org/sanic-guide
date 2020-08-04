@@ -2,6 +2,15 @@
 
 > A user guide for **Sanic**
 
+## THOUGHTS
+
+```
+quick start
+user guide
+how do i ...
+organization
+```
+
 ## Example
 
 ```python
