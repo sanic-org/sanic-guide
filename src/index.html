@@ -9,10 +9,10 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css"> -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css">
+  <link rel="stylesheet" href="/dev/theme-simple.css">
   <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple-dark.css"> -->
 
-   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/konpa/devicon@master/devicon.min.css">
+  <link rel="stylesheet" href="/dev/devicon.css">
 
   <style>
     :root {
@@ -22,6 +22,15 @@
       --cover-background-image: radial-gradient(ellipse at center 115%, rgba(255, 255, 255, 0.4), transparent);
       --cover-blockquote-color: #bbb;
       --cover-color: #eee;
+      --cover-max-width: 50em;
+
+      --content-max-width: 55em;
+
+      --docsify-example-panels-document-width: 1100px;
+    }
+
+    .markdown-section {
+      margin-left: 2rem;
     }
   </style>
 </head>
@@ -41,6 +50,9 @@
       relativePath: true,
       search: "auto",
       themeColor: '#ff0f6a',
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md'
+      },
       copyCode: {
         buttonText: 'Copy to clipboard',
         errorText: 'Error',
@@ -62,27 +74,36 @@
     }
   </script>
   <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script> -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify@4"></script> -->
+  <script src="/dev/docsify.js"></script>
 
   <!-- https://github.com/imyelo/docsify-pagination -->
-  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script> -->
+  <script src="/dev/docsify-pagination.js"></script>
 
   <!-- https://github.com/jperasmus/docsify-copy-code -->
-  <script src="//unpkg.com/docsify-copy-code@2"></script>
+  <!-- <script src="//unpkg.com/docsify-copy-code@2"></script> -->
+  <script src="/dev/docsify-copy-code.js"></script>
 
   <!-- https://jhildenbiddle.github.io/docsify-tabs/#/ -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify-tabs@1"></script> -->
+  <script src="/dev/docsify-tabs.js"></script>
 
   <!-- https://vagnerdomingues.github.io/docsify-example-panels/#/?id=demo -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-example-panels@1"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify-example-panels@1"></script> -->
+  <script src="/dev/docsify-example-panels.js"></script>
 
   <!-- https://jhildenbiddle.github.io/docsify-themeable/#/quick-start -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/docsify-themeable@0"></script> -->
+  <script src="/dev/docsify-themeable.js"></script>
 
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script> -->
+  <script src="/dev/prism-bash.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script> -->
+  <script src="/dev/prism-python.js"></script>
 
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <!-- <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script> -->
+  <script src="/dev/search.js"></script>
 
 
 

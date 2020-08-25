@@ -2,6 +2,10 @@
 
 ## What is it?
 
+First things first, before you jump in the water, you should know that Sanic is different than other frameworks.
+
+Right there in that first sentence there is a huge mistake because sanic is _both_ a **framework** and a **web server**. In the [deployment](/deployment) section we will talk a little bit more about this. But, remember
+
 ## Features
 
 ## Join the Community
