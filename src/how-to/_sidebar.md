@@ -1,12 +1,21 @@
+
+
 **Build fast. Run fast.**
 
 
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
-* [Basics](basics/index.md)
-* [Best Practices](best-practices/index.md)
-* [Running & Deploying](deployment/index.md)
-* [How to...](how-to/index.md)
+* [Basics](/basics/index.md)
+* [Best Practices](/best-practices/index.md)
+* [Running & Deploying](/deployment/index.md)
+* [How to...](index.md)
+  * [Connect to a DB](db.md)
+  * [Authentication](authentication.md)
+  * [CORS](cors.md)
+  * [CSRF](csrf.md)
+  * [Autodiscovery](autodiscovery.md)
+  * [Task Queue](task-queue.md)
+  * [Websocket Feed](websocket-feed.md)
 
 ---
 

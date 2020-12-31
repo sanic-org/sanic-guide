@@ -1,12 +1,19 @@
+
+
 **Build fast. Run fast.**
 
 
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
-* [Basics](basics/index.md)
-* [Best Practices](best-practices/index.md)
-* [Running & Deploying](deployment/index.md)
-* [How to...](how-to/index.md)
+* [Basics](index.md)
+  * [Handlers](handlers.md)
+  * [Listeners](listeners.md)
+  * [Middleware](middleware.md)
+  * [Tasks](tasks.md)
+  * [Websockets](websockets.md)
+* [Best Practices](/best-practices/index.md)
+* [Running & Deploying](/deployment/index.md)
+* [How to...](/how-to/index.md)
 
 ---
 

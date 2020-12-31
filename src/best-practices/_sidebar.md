@@ -1,13 +1,18 @@
+
+
 **Build fast. Run fast.**
 
 
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
-* [Basics](basics/index.md)
-* [Best Practices](best-practices/index.md)
-* [Running & Deploying](deployment/index.md)
-* [How to...](how-to/index.md)
-
+* [Basics](/basics/index.md)
+* [Best Practices](index.md)
+  * [Blueprints](blueprints.md)
+  * [Exceptions](exceptions.md)
+  * [Logging](logging.md)
+  * [Testing](testing.md)
+* [Running & Deploying](/deployment/index.md)
+* [How to...](/how-to/index.md)
 ---
 
 **Links**

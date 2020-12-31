@@ -1,12 +1,20 @@
+
+
 **Build fast. Run fast.**
 
 
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
-* [Basics](basics/index.md)
-* [Best Practices](best-practices/index.md)
-* [Running & Deploying](deployment/index.md)
-* [How to...](how-to/index.md)
+* [Basics](/basics/index.md)
+* [Best Practices](/best-practices/index.md)
+* [Running & Deploying](index.md)
+  * [Configuration](configuration.md)
+  * [Development](development.md)
+  * [Server Choice](server-choice.md)
+  * [Nginx](nginx.md)
+  * [Docker](docker.md)
+  * [Kubernetes](kubernetes.md)
+* [How to...](/how-to/index.md)
 
 ---
 
