@@ -11,6 +11,8 @@ In Sanic, a handler is any callable that takes at least a `Request` instance as 
 Huh? :confused:
 
 It is a **function**; either synchronous or asynchronous.
+
+The job of the handler is to respond to an endpoint and do something. This is where the majority of your business logic will go.
 <!-- div:right-panel -->
 ```python
 def i_am_a_handler(request):
@@ -41,131 +43,66 @@ async def foo_handler(request):
     return text("I said foo!")
 ```
 <!-- panels:end -->
-## Request
 
-The `Request` instance has **a lot** of helpful information available. Here is some brief information about _some_ of the properties. Refer to the [API documentation](https://sanic.readthedocs.io/) for full details.
+---
 
-- `request.app` - blah blah
-- `request.headers` - blah blah
-- `request.version` - blah blah
-- `request.method` - blah blah
-- `request.endpoint` - blah blah
-- `request.token` - blah blah
-- `request.cookies` - blah blah
-- `request.ip` - blah blah
-- `request.path` - blah blah
-- `request.host` - blah blah
-- `request.url` - blah blah
+### A word about _async_...
 
-### Body
+<!-- panels:start -->
+<!-- div:left-panel -->
+It is entirely possible to write handlers that are synchronous.
 
-#### JSON data
-`request.json`
-#### Raw body
-`request.body`
-#### Form data
-`request.form`
-#### Uploaded files
-`request.files`
+In this example, we are using the _blocking_ `time.sleep()` to simulate 100ms of processing time. Perhaps this represents fetching data from a DB, or a 3rd-party website.
 
-### Context
-`request.ctx`
-### Parameters
-### Arguments
-`request.args`
-## Response
+Using four (4) worker processes and a common benchmarking tool:
 
-<!-- tabs:start -->
+- **956** requests in 30.10s
+- Or, about **31.76** requests/second
+<!-- div:right-panel -->
+```python
+@app.get("/sync")
+def sync_handler(request):
+    time.sleep(0.1)
+    return text("Done.")
+```
+<!-- panels:end -->
 
+<!-- panels:start -->
+<!-- div:left-panel -->
+Just by changing to the asynchronous alternative `asyncio.sleep()`, we see an incredible change in performance. :rocket:
 
-#### ** Text **
+Using the same four (4) worker processes:
+
+- **115,590** requests in 30.08s
+- Or, about **3,843.17** requests/second
+
+:flushed:
+
+Okay... this is a ridiculously overdramatic result. And any benchmark you see is inherently very biased. This example is meant to over-the-top show the benefit of `async/await` in the web world. Results will certainly vary. Tools like Sanic and other async Python libraries are not magic bullets that make things faster. They make them _more efficient_.
+
+In our example, the asynchronous version is so much better because while one request is sleeping, it is able to start another one, and another one, and another one, and another one...
+<!-- div:right-panel -->
+```python
+@app.get("/async")
+async def async_handler(request):
+    await asyncio.sleep(0.1)
+    return text("Done.")
+```
+<!-- panels:end -->
+
+!> **A common mistake!** Don't do this! You need to ping a website. What do you use? `pip install your-fav-request-library` :see_no_evil: Instead, try using a client that is `async/await` capable. Your server will thank you. Avoid using blocking tools, and favor those that play well in the asynchronous ecosystem. If you need recommendations, check out [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
+
+---
+
+### A fully annotated handler
+
+For those that are using type annotations...
 
 ```python
-from sanic.response import text
+from sanic.response import HTTPResponse, text
+from sanic.request import Request
 
-@app.route("/")
-def handler(request):
-    return text(...)
+@app.get("/typed")
+async def typed_handler(request: Request) -> HTTPResponse:
+    return text("Done.")
 ```
-
-#### ** HTML **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** JSON **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** File **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** Streaming **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** File Streaming **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** Redirect **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** Raw **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** Empty **
-
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-<!-- tabs:end -->

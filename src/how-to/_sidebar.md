@@ -10,12 +10,15 @@
 * [Running & Deploying](/deployment/configuration.md)
 * **How to...**
   * [Connect to a DB](db.md)
+  * [Decorators](decorators.md)
+  * [Validation](validation.md)
   * [Authentication](authentication.md)
   * [CORS](cors.md)
   * [CSRF](csrf.md)
   * [Autodiscovery](autodiscovery.md)
   * [Task Queue](task-queue.md)
   * [Websocket Feed](websocket-feed.md)
+  * [Server-sent Events](server-sent-events.md)
 
 ---
 
