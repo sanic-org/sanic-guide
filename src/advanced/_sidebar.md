@@ -3,16 +3,15 @@
 **Build fast. Run fast.**
 
 
-* [Home](/#sanic)
-* [Getting Started](/getting-started)
-* [Basics](/basics/index.md)
-* [Advanced](index.md)
+* [General](/#sanic)
+* [Basics](/basics/app.md)
+* **Advanced**
   * [Class Based Views](class-based-views.md)
   * [Streaming](streaming.md)
   * [Websockets](websockets.md)
-* [Best Practices](/best-practices/index.md)
-* [Running & Deploying](/deployment/index.md)
-* [How to...](/how-to/index.md)
+* [Best Practices](/best-practices/blueprints.md)
+* [Running & Deploying](/deployment/configuration.md)
+* [How to...](/how-to/db.md)
 
 ---
 

@@ -3,13 +3,12 @@
 **Build fast. Run fast.**
 
 
-* [Home](/#sanic)
-* [Getting Started](/getting-started)
-* [Basics](/basics/index.md)
-* [Advanced](/advanced/index.md)
-* [Best Practices](/best-practices/index.md)
-* [Running & Deploying](/deployment/index.md)
-* [How to...](index.md)
+* [General](/#sanic)
+* [Basics](/basics/app.md)
+* [Advanced](/advanced/class-based-views.md)
+* [Best Practices](/best-practices/blueprints.md)
+* [Running & Deploying](/deployment/configuration.md)
+* **How to...**
   * [Connect to a DB](db.md)
   * [Authentication](authentication.md)
   * [CORS](cors.md)

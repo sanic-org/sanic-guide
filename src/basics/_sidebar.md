@@ -3,19 +3,21 @@
 **Build fast. Run fast.**
 
 
-* [Home](/#sanic)
-* [Getting Started](/getting-started)
-* [Basics](index.md)
+* [General](/#sanic)
+* **Basics**
+  * [Sanic App](app.md)
   * [Handlers](handlers.md)
+  * [Routing](routing.md)
   * [Listeners](listeners.md)
   * [Middleware](middleware.md)
+  * [Headers](headers.md)
   * [Cookies](cookies.md)
   * [Tasks](tasks.md)
   * [Websockets](websockets.md)
-* [Advanced](/advanced/index.md)
-* [Best Practices](/best-practices/index.md)
-* [Running & Deploying](/deployment/index.md)
-* [How to...](/how-to/index.md)
+* [Advanced](/advanced/class-based-views.md)
+* [Best Practices](/best-practices/blueprints.md)
+* [Running & Deploying](/deployment/configuration.md)
+* [How to...](/how-to/db.md)
 
 ---
 
