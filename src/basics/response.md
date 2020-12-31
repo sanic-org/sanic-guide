@@ -1,238 +1,172 @@
-# Handlers
+# Response
 
-The next important building block are your _handlers_. These are also sometimes called "views".
+All [handlers](handlers.md) **must** return a response object, and [middleware](middleware.md) may optionally return a response object.
 
-In Sanic, a handler is any callable that takes at least a `Request` instance as an argument, and returns either an `HTTPResonse` instance, or a coroutine that does the same.
-
-
-
-<!-- panels:start -->
-<!-- div:left-panel -->
-Huh? :confused:
-
-It is a **function**; either synchronous or asynchronous.
-
-The job of the handler is to respond to an endpoint and do something. This is where the majority of your business logic will go.
-<!-- div:right-panel -->
-```python
-def i_am_a_handler(request):
-    return HTTPResonse()
-
-async def i_am_ALSO_a_handler(request):
-    return HTTPResonse()
-```
-<!-- panels:end -->
-
-?> **Heads up** If you want to learn more about encapsulating your logic, checkout [class based views](/advanced/class-based-views.md).
-
-<!-- panels:start -->
-Then, all you need to do is wire it up to an endpoint. We'll learn more about routing [in the next section](routing.md).
-<!-- div:left-panel -->
-Let's look at a practical example.
-
-- We use a convenience decorator on our app instance: `@app.get()`
-- And a handy convenience method for generating out response object: `text()`
-
-Mission accomplished :muscle:
-<!-- div:right-panel -->
-```python
-from sanic.response import text
-
-@app.get("/foo")
-async def foo_handler(request):
-    return text("I said foo!")
-```
-<!-- panels:end -->
-## Request
-
-The `Request` instance contains **a lot** of helpful information available on its parameters. Refer to the [API documentation](https://sanic.readthedocs.io/) for full details.
-
-### Body
+The easiest way to generate a response object is to use one of the nine (9) convenience methods.
 
 <!-- tabs:start -->
-#### ** JSON data **
-
-**Parameter**: `request.json`  
-**Description**: The parsed JSON object
-
-```bash
-$ curl localhost:8000 -d '{"foo": "bar"}'
-```
-
-
-```python
->>> print(request.json)
-{'foo': 'bar'}
-```
-
-#### ** Raw body **
-
-**Parameter**: `request.body`  
-**Description**: The raw bytes from the request body
-
-```bash
-$ curl localhost:8000 -d '{"foo": "bar"}'
-```
-
-```python
->>> print(request.body)
-b'{"foo": "bar"}'
-```
-
-#### ** Form data **
-
-**Parameter**: `request.form`  
-**Description**: The form data
-
-```bash
-$ curl localhost:8000 -d 'foo=bar'
-```
-
-```python
->>> print(request.body)
-b'foo=bar'
-
->>> print(request.form)
-{'foo': ['bar']}
-
->>> print(request.form.get("foo"))
-bar
-
->>> print(request.form.getlist("foo"))
-['bar']
-```
-
-?> :bulb: **FYI** The `request.form` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
-
-#### ** Uploaded files **
-
-**Parameter**: `request.files`  
-**Description**: The files uploaded to the server
-
-```bash
-$ curl -F 'my_file=@/path/to/TEST' http://localhost:8000
-```
-
-```python
->>> print(request.body)
-b'--------------------------cb566ad845ad02d3\r\nContent-Disposition: form-data; name="my_file"; filename="TEST"\r\nContent-Type: application/octet-stream\r\n\r\nhello\n\r\n--------------------------cb566ad845ad02d3--\r\n'
-
->>> print(request.files)
-{'my_file': [File(type='application/octet-stream', body=b'hello\n', name='TEST')]}
-
->>> print(request.files.get("my_file"))
-File(type='application/octet-stream', body=b'hello\n', name='TEST')
-
->>> print(request.files.getlist("my_file"))
-[File(type='application/octet-stream', body=b'hello\n', name='TEST')]
-```
-?> :bulb: **FYI** The `request.files` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
-
-<!-- tabs:end -->
-### Context
-`request.ctx`
-
-### Parameters
-
-### Arguments
-`request.args`
-
-
-## Response
-
-
-<!-- tabs:start -->
-
 #### ** Text **
+
+**Default Content-Type**: `text/plain; charset=utf-8`  
+**Description**: Returns plain text
 
 ```python
 from sanic.response import text
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return text("Hi 😎")
 ```
 
 #### ** HTML **
 
+**Default Content-Type**: `text/html; charset=utf-8`  
+**Description**: Returns an HTML document
+
 ```python
-from sanic.response import text
+from sanic.response import html
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return html('<!DOCTYPE html><html lang="en"><meta charset="UTF-8"><div>Hi 😎</div>')
 ```
 
 #### ** JSON **
 
+**Default Content-Type**: `application/json`  
+**Description**: Returns a JSON document
+
 ```python
-from sanic.response import text
+from sanic.response import json
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return json({"foo": "bar"})
+```
+
+By default, Sanic ships with [`ujson`](https://github.com/ultrajson/ultrajson) as its JSON encoder of choice. It is super simple to change this if you want.
+
+```python
+from orjson import dumps
+
+json({"foo": "bar"}, dumps=dumps)
 ```
 
 #### ** File **
 
+**Default Content-Type**: N/A  
+**Description**: Returns a file
+
+
 ```python
-from sanic.response import text
+from sanic.response import file
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return file("/path/to/whatever.png")
+```
+
+Sanic will examine the file, and try and guess its mime type and use an appropriate value for the content type. You could be explicit, if you would like:
+
+```python
+file("/path/to/whatever.png", mime_type="image/png")
+```
+
+You can also choose to override the file name:
+
+```python
+file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 
 #### ** Streaming **
 
+**Default Content-Type**: `text/plain; charset=utf-8`  
+**Description**: Streams data to a client
+
 ```python
-from sanic.response import text
+from sanic.response import stream
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return stream(streaming_fn)
+
+async def streaming_fn(response):
+    await response.write('foo')
+    await response.write('bar')
+```
+By default, Sanic will stream back to the client using chunked encoding if the client supports it. You can disable this:
+
+```python
+stream(streaming_fn, chunked=False)
 ```
 
 #### ** File Streaming **
 
+**Default Content-Type**: N/A  
+**Description**: Streams a file to a client, useful when streaming large files, like a video
+
 ```python
-from sanic.response import text
+from sanic.response import file_stream
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return file_stream("/path/to/whatever.mp4")
+```
+
+Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file.
+
+#### ** Raw **
+
+**Default Content-Type**: `application/octet-stream`  
+**Description**: Send raw bytes without encoding the body
+
+```python
+from sanic.response import raw
+
+@app.route("/")
+async def handler(request):
+    return raw(b"raw bytes")
 ```
 
 #### ** Redirect **
 
-```python
-from sanic.response import text
-
-@app.route("/")
-def handler(request):
-    return text(...)
-```
-
-#### ** Raw **
+**Default Content-Type**: `text/html; charset=utf-8`  
+**Description**: Send a `302` response to redirect the client to a different path
 
 ```python
-from sanic.response import text
+from sanic.response import redirect
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return redirect("/login")
 ```
+
 
 #### ** Empty **
 
+**Default Content-Type**: N/A  
+**Description**: For responding with an empty message as defined by [RFC 2616](https://tools.ietf.org/search/rfc2616#section-7.2.1)
+
 ```python
-from sanic.response import text
+from sanic.response import empty
 
 @app.route("/")
-def handler(request):
-    return text(...)
+async def handler(request):
+    return empty()
 ```
 
+Defaults to a `204` status.
+
 <!-- tabs:end -->
+
+### Default status
+
+The default HTTP status code for the response is `200`. If you need to change it, it can be done by the response method.
+
+
+```python
+@app.post("/")
+async def create_new(request):
+    new_thing = await do_create(request)
+    return json({"created": True, "id": new_thing.thing_id}, status=201)
+```
