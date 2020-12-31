@@ -6,6 +6,7 @@
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
 * [Basics](/basics/index.md)
+* [Advanced](/advanced/index.md)
 * [Best Practices](index.md)
   * [Blueprints](blueprints.md)
   * [Exceptions](exceptions.md)

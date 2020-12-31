@@ -4,6 +4,7 @@
 * [Home](/#sanic)
 * [Getting Started](/getting-started)
 * [Basics](basics/index.md)
+* [Advanced](/advanced/index.md)
 * [Best Practices](best-practices/index.md)
 * [Running & Deploying](deployment/index.md)
 * [How to...](how-to/index.md)
