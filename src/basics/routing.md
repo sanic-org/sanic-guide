@@ -22,13 +22,15 @@ But what is it? And how do we use it?
 
 <!-- panels:start -->
 <!-- div:left-panel -->
-The most basic way to wire up a handler to an endpoing is with `app.add_route()`. See [API docs]() for more details.
+The most basic way to wire up a handler to an endpoing is with `app.add_route()`.
+
+See [API docs]() for more details.
 <!-- div:right-panel -->
 ```python
 async def handler(request):
-    return text('OK')
+    return text("OK")
 
-app.add_route(handler, '/test')
+app.add_route(handler, "/test")
 ```
 <!-- panels:end -->
 
@@ -311,6 +313,8 @@ Also supported is passing multiple values for a single query key.
 )
 '/posts/5?arg_one=one&arg_one=two'
 ```
+<!-- panels:end -->
+
 ### Special keyword arguments
 
 See [API Docs]() for more details.
@@ -332,10 +336,154 @@ See [API Docs]() for more details.
 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
+### Customizing a route name
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+A custom route name can be used by passing a `name` argument while registering the route.
+<!-- div:right-panel -->
+```python
+@app.get("/get", name="get_handler")
+def handler(request):
+    return text("OK")
+```
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+Now, use this custom name to retrieve the URL
+<!-- div:right-panel -->
+```python
+>>> app.url_for("get_handler", foo="bar")
+'/get?foo=bar'
+```
+<!-- panels:end -->
+
 ## Websockets routes
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+Websocket routing works similar to HTTP methods.
+<!-- div:right-panel -->
+```python
+async def handler(request, ws):
+    messgage = "Start"
+    while True:
+        await ws.send(message)
+        message = ws.recv()
+
+app.add_websocket_route(handler, "/test")
+```
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+It also has a convenience decorator.
+<!-- div:right-panel -->
+```python
+@app.websocket("/test")
+async def handler(request, ws):
+    messgage = "Start"
+    while True:
+        await ws.send(message)
+        message = ws.recv()
+```
+<!-- panels:end -->
+
+Read the [websockets section](/advanced/websockets.md) to learn more about how they work.
 
 ## Strict slashes
 
-## Route naming
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+Sanic routes can be configured to strictly match on whether or not there is a trailing slash: `/`. This can be configured at a few levels and follows this order of precedence:
+
+1. Route
+2. Blueprint
+3. Application
+<!-- div:right-panel -->
+```python
+# provide default strict_slashes value for all routes
+app = Sanic(__file__, strict_slashes=True)
+```
+
+```python
+# overwrite strict_slashes value for specific route
+@app.get("/get", strict_slashes=False)
+def handler(request):
+    return text("OK")
+```
+
+```python
+# it also works for blueprints
+bp = Blueprint(__file__, strict_slashes=True)
+
+@bp.get("/bp/get", strict_slashes=False)
+def handler(request):
+    return text("OK")
+```
+<!-- panels:end -->
 
 ## Static files
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+In order to serve static files from Sanic, use `app.static()`.
+
+The order of arguments is important:
+
+1. Route the files will be served from
+2. Path to the files on the server
+
+See [API docs]() for more details.
+<!-- div:right-panel -->
+```python
+app.static("/static", "/path/to/directory")
+```
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+You can also serve individual files.
+<!-- div:right-panel -->
+```python
+app.static("/", "/path/to/index.html")
+```
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+It is also sometimes helpful to name your endpoint
+<!-- div:right-panel -->
+```python
+app.static(
+    "/user/uploads",
+    "/path/to/uploads",
+    name="uploads",
+)
+```
+<!-- panels:end -->
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory.
+<!-- div:right-panel -->
+```python
+>>> app.url_for(
+    "static",
+    name="static",
+    filename="file.txt",
+)
+'/static/file.txt'
+
+```python
+>>> app.url_for(
+    "static",
+    name="uploads",
+    filename="image.png",
+)
+'/user/uploads/image.png'
+
+```
+<!-- panels:end -->
