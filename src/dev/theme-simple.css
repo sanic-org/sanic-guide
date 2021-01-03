@@ -2760,6 +2760,7 @@ body .sidebar {
 article > .docsify-example-panels,
 article > .docsify-tabs,
 article > p,
+article > pre,
 article > ul {
   margin-left: 18px !important;
 }

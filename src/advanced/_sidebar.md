@@ -7,6 +7,7 @@
 * [Basics](/basics/app.md)
 * **Advanced**
   * [Class Based Views](class-based-views.md)
+  * [Proxy headers](proxy-headers.md)
   * [Streaming](streaming.md)
   * [Websockets](websockets.md)
 * [Best Practices](/best-practices/blueprints.md)

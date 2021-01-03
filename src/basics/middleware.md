@@ -55,11 +55,15 @@ async def prevent_xss(request, response):
 <!-- panels:start -->
 <!-- div:left-panel -->
 Middleware can modify the request or response parameter it is given, _as long as it does not return it_.
+
+#### Order of execution
+
+1. Request middleware: `add_key`
+2. Route handler: `index`
+3. Response middleware: `prevent_xss`
+4. Response middleware: `custom_banner`
 <!-- div:right-panel -->
 ```python
-app = Sanic(__name__)
-
-
 @app.middleware("request")
 async def add_key(request):
     # Arbitrary data may be stored in request context:
@@ -80,13 +84,66 @@ async def prevent_xss(request, response):
 async def index(request):
     return text(request.ctx.foo)
 
-
-app.run(host="0.0.0.0", port=8000)
 ```
 <!-- panels:end -->
 
 ## Resonding early
 
+<!-- panels:start -->
+<!-- div:left-panel -->
+If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+<!-- div:right-panel -->
+```python
+@app.middleware("request")
+async def halt_request(request):
+    return text("I halted the request")
+
+@app.middleware("response")
+async def halt_response(request, response):
+    return text("I halted the response")
+```
+<!-- panels:end -->
+
 ## Order of execution
 
-exception caveat in request middleware
+Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
+
+Given the following setup, we should expect to see this in the console.
+
+<!-- panels:start -->
+<!-- div:left-panel -->
+```python
+@app.middleware("request")
+async def middleware_1(request):
+    print("middleware_1")
+
+
+@app.middleware("request")
+async def middleware_2(request):
+    print("middleware_2")
+
+
+@app.middleware("response")
+async def middleware_3(request, response):
+    print("middleware_3")
+
+
+@app.middleware("response")
+async def middleware_4(request, response):
+    print("middleware_4")
+    
+@app.get("/handler")
+async def handler(request):
+    print("~ handler ~")
+    return text("Done.")
+```
+<!-- div:right-panel -->
+```bash
+middleware_1
+middleware_2
+~ handler ~
+middleware_4
+middleware_3
+[INFO][127.0.0.1:44788]: GET http://localhost:8000/handler  200 5
+```
+<!-- panels:end -->

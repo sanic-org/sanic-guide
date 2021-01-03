@@ -102,6 +102,10 @@ async def hi_my_name_is(request):
     return text("Hi, my name is {}".format(request.ctx.user.name))
 ```
 
+A typical use case would be to store the user object acquired from database in an authentication middleware. Keys added are accessible to all later middleware as well as the handler over the duration of the request.
+
+Custom context is reserved for applications and extensions. Sanic itself makes no use of it.
+
 ## Parameters
 
 <!-- panels:start -->
