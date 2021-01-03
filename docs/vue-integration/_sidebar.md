@@ -1,2 +1,0 @@
-- [Basic](basic.md)
-- [Manual](manual.md)
