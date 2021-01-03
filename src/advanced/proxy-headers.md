@@ -1,4 +1,5 @@
-Proxy configuration
+# Proxy configuration
+
 When you use a reverse proxy server (e.g. nginx), the value of request.ip will contain ip of a proxy, typically 127.0.0.1. Sanic may be configured to use proxy headers for determining the true client IP, available as request.remote_addr. The full external URL is also constructed from header fields if available.
 
 Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
