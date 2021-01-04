@@ -10,11 +10,11 @@
 * **Running & Deploying**
   * [Configuration](configuration.md)
   * [Development](development.md)
-  * [Server Choice](server-choice.md)
-  * [ASGI](asgi.md)
+  <!-- * [Server Choice](server-choice.md) -->
+  <!-- * [ASGI](asgi.md) -->
   * [Nginx](nginx.md)
-  * [Docker](docker.md)
-  * [Kubernetes](kubernetes.md)
+  <!-- * [Docker](docker.md) -->
+  <!-- * [Kubernetes](kubernetes.md) -->
 * [How to...](/how-to/db.md)
 
 ---
