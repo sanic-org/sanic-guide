@@ -1,4 +1,4 @@
-# Sanic
+# ~ Sanic ~
 
 ## What is it?
 
@@ -13,13 +13,17 @@ But, remember, out of the box Sanic comes with everything you need to write, dep
 > To provide a simple way to get up and running a highly performant HTTP server that is easy to build, to expand, and ultimately to scale.
 ## Features
 
+<!-- panels:start -->
+<!-- div:left-panel -->
 - Built in _fast_ web server
-- Dynamic route handling
 - Production ready
 - Highly scalable
 - ASGI compliant
 - Simple and intuitive API design
 - By the community, for the community
+<!-- div:right-panel -->
+[![Downloads](https://pepy.tech/badge/sanic/week)](https://pepy.tech/project/sanic)
+<!-- panels:end -->
 
 ## Join the Community
 

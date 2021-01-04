@@ -16,6 +16,7 @@
   * [CORS](cors.md)
   * [CSRF](csrf.md)
   * [Autodiscovery](autodiscovery.md)
+  * [Serialization](serialization.md)
   * [Task Queue](task-queue.md)
   * [Websocket Feed](websocket-feed.md)
   * [Server-sent Events](server-sent-events.md)

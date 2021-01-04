@@ -9,6 +9,7 @@
 * **Best Practices**
   * [Blueprints](blueprints.md)
   * [Exceptions](exceptions.md)
+  * [Decorators](decorators.md)
   * [Logging](logging.md)
   * [Testing](testing.md)
 * [Running & Deploying](/deployment/configuration.md)

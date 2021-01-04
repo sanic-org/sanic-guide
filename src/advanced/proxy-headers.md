@@ -1,43 +1,58 @@
 # Proxy configuration
 
-When you use a reverse proxy server (e.g. nginx), the value of request.ip will contain ip of a proxy, typically 127.0.0.1. Sanic may be configured to use proxy headers for determining the true client IP, available as request.remote_addr. The full external URL is also constructed from header fields if available.
+When you use a reverse proxy server (e.g. nginx), the value of `request.ip` will contain the IP of a proxy, typically `127.0.0.1`. Almost always, this is **not** what you will want.
 
-Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
+Sanic may be configured to use proxy headers for determining the true client IP, available as `request.remote_addr`. The full external URL is also constructed from header fields _if available_.
 
-Services behind reverse proxies must configure FORWARDED_SECRET, REAL_IP_HEADER and/or PROXIES_COUNT.
+?> **Heads up** Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
 
-Forwarded header
-Set FORWARDED_SECRET to an identifier used by the proxy of interest.
 
-The secret is used to securely identify a specific proxy server. Given the above header, secret Pr0xy would use the information on the first line and secret _1234proxy would use the second line. The secret must exactly match the value of secret or by. A secret in by must begin with an underscore and use only characters specified in RFC 7239 section 6.3, while secret has no such restrictions.
+<!-- panels:start -->
+<!-- div:left-panel -->
+Services behind reverse proxies must configure one or more of the following [configuration values](/deployment/configuration.md):
+
+- `FORWARDED_SECRET`
+- `REAL_IP_HEADER`
+- `PROXIES_COUNT`
+<!-- div:right-panel -->
+```python
+app.config.FORWARDED_SECRET = "super-duper-secret"
+app.config.REAL_IP_HEADER = "CF-Connecting-IP"
+app.config.PROXIES_COUNT = 2
+```
+<!-- panels:end -->
+
+## Forwarded header
+
+In order to use the `Forwarded` header, you should set `app.config.FORWARDED_SECRET` to a value known to the trusted proxy server. The secret is used to securely identify a specific proxy server.
 
 Sanic ignores any elements without the secret key, and will not even parse the header if no secret is set.
 
 All other proxy headers are ignored once a trusted forwarded element is found, as it already carries complete information about the client.
 
-Traditional proxy headers
-Set REAL_IP_HEADER to x-real-ip, true-client-ip, cf-connecting-ip or other name of such header.
+To learn more about the `Forwarded` header, read the related [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) and [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/) articles.
 
-Set PROXIES_COUNT to the number of entries expected in x-forwarded-for (name configurable via FORWARDED_FOR_HEADER).
+## Traditional proxy headers
 
-If client IP is found by one of these methods, Sanic uses the following headers for URL parts:
+### IP Headers
 
-x-forwarded-proto, x-forwarded-host, x-forwarded-port, x-forwarded-path and if necessary, x-scheme.
+When your proxy forwards you the IP address in a known header, you can tell Sanic what that is with the `REAL_IP_HEADER` config value.
 
-Proxy config if using …
-a proxy that supports forwarded: set FORWARDED_SECRET to the value that the proxy inserts in the header
-Apache Traffic Server: CONFIG proxy.config.http.insert_forwarded STRING for|proto|host|by=_secret
+### X-Forwarded-For
 
-NGHTTPX: nghttpx –add-forwarded=for,proto,host,by –forwarded-for=ip –forwarded-by=_secret
+This header typically contains a chain of IP addresses through each layer of a proxy. Setting `PROXIES_COUNT` tells Sanic how deep to look to get an actual IP address for the client. This value should equal the _expected_ number of IP addresses in the chain.
 
-NGINX: Nginx Deployment.
+### Other X-headers
 
-a custom header with client IP: set REAL_IP_HEADER to the name of that header
+If a client IP is found by one of these methods, Sanic uses the following headers for URL parts:
 
-x-forwarded-for: set PROXIES_COUNT to 1 for a single proxy, or a greater number to allow Sanic to select the correct IP
+- x-forwarded-proto
+- x-forwarded-host
+- x-forwarded-port
+- x-forwarded-path
+- x-scheme
 
-no proxies: no configuration required!
-
+## Examples
 
 In the following examples, all requests will assume that the endpoint looks like this:
 ```python
@@ -54,7 +69,7 @@ async def forwarded(request):
     )
 ```
 <!-- panels:start -->
-
+---
 <!-- div:left-panel -->
 ##### Example 1
 Without configured FORWARDED_SECRET, x-headers should be respected
@@ -85,7 +100,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 2
@@ -121,7 +136,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 3
@@ -153,7 +168,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 4
@@ -180,7 +195,7 @@ $ curl localhost:8000/fwd \
 
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 5
@@ -209,7 +224,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 6
@@ -239,7 +254,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 7
@@ -269,7 +284,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 8
@@ -298,7 +313,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 9
@@ -327,7 +342,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 10
@@ -356,7 +371,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 11
@@ -388,7 +403,7 @@ $ curl localhost:8000/fwd \
 }
 ```
 <!-- panels:end -->
-
+---
 <!-- panels:start -->
 <!-- div:left-panel -->
 ##### Example 12

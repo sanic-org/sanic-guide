@@ -10,6 +10,7 @@
   * [Proxy headers](proxy-headers.md)
   * [Streaming](streaming.md)
   * [Websockets](websockets.md)
+  * [Versioning](versioning.md)
 * [Best Practices](/best-practices/blueprints.md)
 * [Running & Deploying](/deployment/configuration.md)
 * [How to...](/how-to/db.md)

@@ -2761,6 +2761,7 @@ article > .docsify-example-panels,
 article > .docsify-tabs,
 article > p,
 article > pre,
-article > ul {
+article > ul,
+article > ol {
   margin-left: 18px !important;
 }
