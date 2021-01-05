@@ -43,7 +43,7 @@ But, remember, out of the box Sanic comes with everything you need to write, dep
 
 ## Join the Community
 
-The main channel for discussion is at the [community forums]([https://](https://community.sanicframework.org/). There also is a [Gitter channel](https://gitter.im/sanic-python/Lobby), but we prefer to use the discourse board since it makes history more searchable in the future.
+The main channel for discussion is at the [community forums](https://community.sanicframework.org/). There also is a [Gitter channel](https://gitter.im/sanic-python/Lobby), but we prefer to use the discourse board since it makes history more searchable in the future.
 
 The Stackoverflow `[sanic]` tag is [actively monitored](https://stackoverflow.com/questions/tagged/sanic) by project maintainers.
 
