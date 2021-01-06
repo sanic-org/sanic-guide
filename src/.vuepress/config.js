@@ -18,7 +18,10 @@ module.exports = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
-    "ribbon",
+    "@vuepress/google-analytics",
+    {
+      ga: "G-EBKY9S1Y86",
+    },
   ],
   themeConfig: {
     repo: "sanic-org/sanic",
