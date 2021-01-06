@@ -1,0 +1,33 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'run', 'docs:build' ]
+2 info using npm@6.14.8
+3 info using node@v12.19.1
+4 verbose run-script [ 'predocs:build', 'docs:build', 'postdocs:build' ]
+5 info lifecycle sanic-guide@1.0.0~predocs:build: sanic-guide@1.0.0
+6 info lifecycle sanic-guide@1.0.0~docs:build: sanic-guide@1.0.0
+7 verbose lifecycle sanic-guide@1.0.0~docs:build: unsafe-perm in lifecycle true
+8 verbose lifecycle sanic-guide@1.0.0~docs:build: PATH: /usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/node-gyp-bin:/github/workspace/node_modules/.bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+9 verbose lifecycle sanic-guide@1.0.0~docs:build: CWD: /github/workspace
+10 silly lifecycle sanic-guide@1.0.0~docs:build: Args: [ '-c', 'vuepress build src' ]
+11 info lifecycle sanic-guide@1.0.0~docs:build: Failed to exec docs:build script
+12 verbose stack Error: sanic-guide@1.0.0 docs:build: `vuepress build src`
+12 verbose stack spawn ENOENT
+12 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-lifecycle/lib/spawn.js:48:18)
+12 verbose stack     at ChildProcess.emit (events.js:314:20)
+12 verbose stack     at maybeClose (internal/child_process.js:1021:16)
+12 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:286:5)
+13 verbose pkgid sanic-guide@1.0.0
+14 verbose cwd /github/workspace
+15 verbose Linux 5.4.0-1032-azure
+16 verbose argv "/usr/local/bin/node" "/usr/local/bin/npm" "run" "docs:build"
+17 verbose node v12.19.1
+18 verbose npm  v6.14.8
+19 error code ELIFECYCLE
+20 error syscall spawn
+21 error file sh
+22 error errno ENOENT
+23 error sanic-guide@1.0.0 docs:build: `vuepress build src`
+23 error spawn ENOENT
+24 error Failed at the sanic-guide@1.0.0 docs:build script.
+24 error This is probably not a problem with npm. There is likely additional logging output above.
+25 verbose exit [ 1, true ]
