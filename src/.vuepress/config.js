@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   title: "Sanic Framework",
-  subtitle: "qqqqq",
+  subtitle: "Build fast. Run fast.",
   description:
     "Sanic is a Python 3.6+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.",
   markdown: {
