@@ -14,5 +14,6 @@ jobs:
         uses: testthedocs/github-pages-deploy-action@master
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BUILD_DIR: docs
-          BUILD_SCRIPT: npm install && npm docs:build
+          BUILD_SCRIPT: npm install
+      - run: npm docs:build
+      - run: npm docs:build
