@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Nginx Deployment | Sanic Framework</title>
+    <meta name="generator" content="VuePress 1.8.0">
+    
+    <meta name="description" content="Sanic is a Python 3.6+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.">
+    
+    <link rel="preload" href="/assets/css/0.styles.8556df31.css" as="style"><link rel="preload" href="/assets/js/app.d1edc229.js" as="script"><link rel="preload" href="/assets/js/2.dd1c3ce3.js" as="script"><link rel="preload" href="/assets/js/38.96a83d96.js" as="script"><link rel="prefetch" href="/assets/js/10.767e1644.js"><link rel="prefetch" href="/assets/js/11.c9d8ca8a.js"><link rel="prefetch" href="/assets/js/12.328ee088.js"><link rel="prefetch" href="/assets/js/13.5a430046.js"><link rel="prefetch" href="/assets/js/14.2c3d8b5e.js"><link rel="prefetch" href="/assets/js/15.1479063a.js"><link rel="prefetch" href="/assets/js/16.96a5d58e.js"><link rel="prefetch" href="/assets/js/17.06a0cbf3.js"><link rel="prefetch" href="/assets/js/18.8d08ee00.js"><link rel="prefetch" href="/assets/js/19.b1bcc724.js"><link rel="prefetch" href="/assets/js/20.54391cac.js"><link rel="prefetch" href="/assets/js/21.e87ad396.js"><link rel="prefetch" href="/assets/js/22.101c1a4e.js"><link rel="prefetch" href="/assets/js/23.5afbda03.js"><link rel="prefetch" href="/assets/js/24.ddb91f9e.js"><link rel="prefetch" href="/assets/js/25.529ef5aa.js"><link rel="prefetch" href="/assets/js/26.4f0bb471.js"><link rel="prefetch" href="/assets/js/27.326f697d.js"><link rel="prefetch" href="/assets/js/28.f693b172.js"><link rel="prefetch" href="/assets/js/29.22e47bea.js"><link rel="prefetch" href="/assets/js/3.de514e11.js"><link rel="prefetch" href="/assets/js/30.8004a06f.js"><link rel="prefetch" href="/assets/js/31.d94b6a79.js"><link rel="prefetch" href="/assets/js/32.32fb9ac4.js"><link rel="prefetch" href="/assets/js/33.3d63e800.js"><link rel="prefetch" href="/assets/js/34.24d45ed2.js"><link rel="prefetch" href="/assets/js/35.4d864e47.js"><link rel="prefetch" href="/assets/js/36.20bcc9c5.js"><link rel="prefetch" href="/assets/js/37.6d028605.js"><link rel="prefetch" href="/assets/js/39.03914af0.js"><link rel="prefetch" href="/assets/js/4.03086123.js"><link rel="prefetch" href="/assets/js/40.26ad06fd.js"><link rel="prefetch" href="/assets/js/41.9335a6ff.js"><link rel="prefetch" href="/assets/js/42.67706a27.js"><link rel="prefetch" href="/assets/js/43.1c921091.js"><link rel="prefetch" href="/assets/js/44.fbefdcab.js"><link rel="prefetch" href="/assets/js/45.2ee04d64.js"><link rel="prefetch" href="/assets/js/46.45ef51bc.js"><link rel="prefetch" href="/assets/js/47.9fc7d119.js"><link rel="prefetch" href="/assets/js/48.a84c148d.js"><link rel="prefetch" href="/assets/js/49.00d47330.js"><link rel="prefetch" href="/assets/js/5.85e2313f.js"><link rel="prefetch" href="/assets/js/50.37ab2b20.js"><link rel="prefetch" href="/assets/js/51.c5a6336a.js"><link rel="prefetch" href="/assets/js/52.6e6bba10.js"><link rel="prefetch" href="/assets/js/53.fc82bdc2.js"><link rel="prefetch" href="/assets/js/54.29e1e7fd.js"><link rel="prefetch" href="/assets/js/6.fd2f0d7b.js"><link rel="prefetch" href="/assets/js/7.78629c09.js"><link rel="prefetch" href="/assets/js/8.ecf6c517.js"><link rel="prefetch" href="/assets/js/9.1c10602d.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.8556df31.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><img src="https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png" alt="Sanic Framework" class="logo"> <span class="site-name can-hide">Sanic Framework</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/announcements.html" class="nav-link">
+  Announcements
+</a></div><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://community.sanicframework.org/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Forums
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://sanic.readthedocs.io" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  API Docs
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/sanic-org/sanic" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Home
+</a></div><div class="nav-item"><a href="/announcements.html" class="nav-link">
+  Announcements
+</a></div><div class="nav-item"><a href="/guide/" class="nav-link router-link-active">
+  Guide
+</a></div><div class="nav-item"><a href="https://community.sanicframework.org/" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  Forums
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div><div class="nav-item"><a href="https://sanic.readthedocs.io" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  API Docs
+  <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></div> <a href="https://github.com/sanic-org/sanic" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>General</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Basics</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Advanced</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Best Practices</span> <span class="arrow right"></span></p> <!----></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Running &amp; Deploying</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/guide/deployment/configuration.html" class="sidebar-link">Configuration</a></li><li><a href="/guide/deployment/development.html" class="sidebar-link">Development</a></li><li><a href="/guide/deployment/nginx.html" aria-current="page" class="active sidebar-link">Nginx Deployment</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/guide/deployment/nginx.html#introduction" class="sidebar-link">Introduction</a></li><li class="sidebar-sub-header"><a href="/guide/deployment/nginx.html#proxied-sanic-app" class="sidebar-link">Proxied Sanic app</a></li><li class="sidebar-sub-header"><a href="/guide/deployment/nginx.html#nginx-configuration" class="sidebar-link">Nginx configuration</a></li><li class="sidebar-sub-header"><a href="/guide/deployment/nginx.html#ssl-certificates" class="sidebar-link">SSL certificates</a></li><li class="sidebar-sub-header"><a href="/guide/deployment/nginx.html#running-as-a-service" class="sidebar-link">Running as a service</a></li></ul></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>How to...</span> <span class="arrow right"></span></p> <!----></section></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="nginx-deployment"><a href="#nginx-deployment" class="header-anchor">#</a> Nginx Deployment</h1> <h2 id="introduction"><a href="#introduction" class="header-anchor">#</a> Introduction</h2> <p>Although Sanic can be run directly on Internet, it may be useful to use a proxy
+server such as Nginx in front of it. This is particularly useful for running
+multiple virtual hosts on the same IP, serving NodeJS or other services beside
+a single Sanic app, and it also allows for efficient serving of static files.
+SSL and HTTP/2 are also easily implemented on such proxy.</p> <p>We are setting the Sanic app to serve only locally at <code>127.0.0.1:8000</code>, while the
+Nginx installation is responsible for providing the service to public Internet
+on domain <code>example.com</code>. Static files will be served from <code>/var/www/</code>.</p> <h2 id="proxied-sanic-app"><a href="#proxied-sanic-app" class="header-anchor">#</a> Proxied Sanic app</h2> <p>The app needs to be setup with a secret key used to identify a trusted proxy,
+so that real client IP and other information can be identified. This protects
+against anyone on the Internet sending fake headers to spoof their IP addresses
+and other details. Choose any random string and configure it both on the app
+and in Nginx config.</p> <div class="language-python extra-class"><pre class="language-python"><code><span class="token keyword">from</span> sanic <span class="token keyword">import</span> Sanic
+<span class="token keyword">from</span> sanic<span class="token punctuation">.</span>response <span class="token keyword">import</span> text
+
+app <span class="token operator">=</span> Sanic<span class="token punctuation">(</span><span class="token string">&quot;proxied_example&quot;</span><span class="token punctuation">)</span>
+app<span class="token punctuation">.</span>config<span class="token punctuation">.</span>FORWARDED_SECRET <span class="token operator">=</span> <span class="token string">&quot;YOUR SECRET&quot;</span>
+
+<span class="token decorator annotation punctuation">@app<span class="token punctuation">.</span>get</span><span class="token punctuation">(</span><span class="token string">&quot;/&quot;</span><span class="token punctuation">)</span>
+<span class="token keyword">def</span> <span class="token function">index</span><span class="token punctuation">(</span>request<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># This should display external (public) addresses:</span>
+    <span class="token keyword">return</span> text<span class="token punctuation">(</span>
+        <span class="token string-interpolation"><span class="token string">f&quot;</span><span class="token interpolation"><span class="token punctuation">{</span>request<span class="token punctuation">.</span>remote_addr<span class="token punctuation">}</span></span><span class="token string"> connected to </span><span class="token interpolation"><span class="token punctuation">{</span>request<span class="token punctuation">.</span>url_for<span class="token punctuation">(</span><span class="token string">'index'</span><span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">\n&quot;</span></span>
+        <span class="token string-interpolation"><span class="token string">f&quot;Forwarded: </span><span class="token interpolation"><span class="token punctuation">{</span>request<span class="token punctuation">.</span>forwarded<span class="token punctuation">}</span></span><span class="token string">\n&quot;</span></span>
+    <span class="token punctuation">)</span>
+
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">&quot;__main__&quot;</span><span class="token punctuation">:</span>
+    app<span class="token punctuation">.</span>run<span class="token punctuation">(</span>host<span class="token operator">=</span><span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span> port<span class="token operator">=</span><span class="token number">8000</span><span class="token punctuation">,</span> workers<span class="token operator">=</span><span class="token number">8</span><span class="token punctuation">,</span> access_log<span class="token operator">=</span><span class="token boolean">False</span><span class="token punctuation">)</span>
+</code></pre></div><p>Since this is going to be a system service, save your code to
+<code>/srv/sanicexample/sanicexample.py</code>.</p> <p>For testing, run your app in a terminal.</p> <h2 id="nginx-configuration"><a href="#nginx-configuration" class="header-anchor">#</a> Nginx configuration</h2> <p>Quite much configuration is required to allow fast transparent proxying, but
+for the most part these don't need to be modified, so bear with me.</p> <p>Upstream servers need to be configured in a separate <code>upstream</code> block to enable
+HTTP keep-alive, which can drastically improve performance, so we use this
+instead of directly providing an upstream address in <code>proxy_pass</code> directive. In
+this example, the upstream section is named by <code>server_name</code>, i.e. the public
+domain name, which then also gets passed to Sanic in the <code>Host</code> header. You may
+change the naming as you see fit. Multiple servers may also be provided for
+load balancing and failover.</p> <p>Change the two occurrences of <code>example.com</code> to your true domain name, and
+instead of <code>YOUR SECRET</code> use the secret you chose for your app.</p> <div class="language-nginx extra-class"><pre class="language-nginx"><code><span class="token keyword">upstream</span> example<span class="token punctuation">.</span>com <span class="token punctuation">{</span>
+    <span class="token keyword">keepalive</span> <span class="token number">100</span><span class="token punctuation">;</span>
+    <span class="token keyword">server</span> <span class="token number">127.0</span><span class="token number">.0</span><span class="token number">.1</span><span class="token punctuation">:</span><span class="token number">8000</span><span class="token punctuation">;</span>
+    <span class="token comment">#server unix:/tmp/sanic.sock;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">server</span> <span class="token punctuation">{</span>
+    <span class="token keyword">server_name</span> example<span class="token punctuation">.</span>com<span class="token punctuation">;</span>
+    <span class="token keyword">listen</span> <span class="token number">443</span> <span class="token keyword">ssl</span> http2 default_server<span class="token punctuation">;</span>
+    <span class="token keyword">listen</span> <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">443</span> <span class="token keyword">ssl</span> http2 default_server<span class="token punctuation">;</span>
+    <span class="token comment"># Serve static files if found, otherwise proxy to Sanic</span>
+    <span class="token keyword">location</span> <span class="token operator">/</span> <span class="token punctuation">{</span>
+    <span class="token keyword">root</span> <span class="token operator">/</span>var<span class="token operator">/</span>www<span class="token punctuation">;</span>
+    <span class="token keyword">try_files</span> <span class="token variable">$uri</span> @sanic<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">location</span> @sanic <span class="token punctuation">{</span>
+    <span class="token keyword">proxy_pass</span> <span class="token keyword">http</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span><span class="token variable">$server_name</span><span class="token punctuation">;</span>
+    <span class="token comment"># Allow fast streaming HTTP/1.1 pipes (keep-alive, unbuffered)</span>
+    <span class="token keyword">proxy_http_version</span> <span class="token number">1.1</span><span class="token punctuation">;</span>
+    proxy_request_buffering off<span class="token punctuation">;</span>
+    <span class="token keyword">proxy_buffering</span> off<span class="token punctuation">;</span>
+    <span class="token comment"># Proxy forwarding (password configured in app.config.FORWARDED_SECRET)</span>
+    <span class="token keyword">proxy_set_header</span> forwarded <span class="token string">&quot;$proxy_forwarded;secret=\&quot;YOUR SECRET\&quot;&quot;</span><span class="token punctuation">;</span>
+    <span class="token comment"># Allow websockets</span>
+    <span class="token keyword">proxy_set_header</span> connection <span class="token string">&quot;upgrade&quot;</span><span class="token punctuation">;</span>
+    <span class="token keyword">proxy_set_header</span> upgrade <span class="token variable">$http_upgrade</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>To avoid cookie visibility issues and inconsistent addresses on search engines,
+it is a good idea to redirect all visitors to one true domain, always using
+HTTPS:</p> <div class="language-nginx extra-class"><pre class="language-nginx"><code><span class="token comment"># Redirect all HTTP to HTTPS with no-WWW</span>
+<span class="token keyword">server</span> <span class="token punctuation">{</span>
+    <span class="token keyword">listen</span> <span class="token number">80</span> default_server<span class="token punctuation">;</span>
+    <span class="token keyword">listen</span> <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">80</span> default_server<span class="token punctuation">;</span>
+    <span class="token keyword">server_name</span> <span class="token operator">~</span><span class="token operator">^</span><span class="token punctuation">(</span><span class="token operator">?</span><span class="token punctuation">:</span>www\<span class="token punctuation">.</span><span class="token punctuation">)</span><span class="token operator">?</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">)</span>$<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">301</span> <span class="token keyword">https</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>$<span class="token number">1</span><span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Redirect WWW to no-WWW</span>
+<span class="token keyword">server</span> <span class="token punctuation">{</span>
+    <span class="token keyword">listen</span> <span class="token number">443</span> <span class="token keyword">ssl</span> http2<span class="token punctuation">;</span>
+    <span class="token keyword">listen</span> <span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">:</span><span class="token number">443</span> <span class="token keyword">ssl</span> http2<span class="token punctuation">;</span>
+    <span class="token keyword">server_name</span> <span class="token operator">~</span><span class="token operator">^</span>www\<span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">.</span><span class="token operator">*</span><span class="token punctuation">)</span>$<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> <span class="token number">301</span> <span class="token variable">$scheme</span><span class="token punctuation">:</span><span class="token operator">/</span><span class="token operator">/</span>$<span class="token number">1</span><span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>The above config sections may be placed in <code>/etc/nginx/sites-available/default</code>
+or in other site configs (be sure to symlink them to <code>sites-enabled</code> if you
+create new ones).</p> <p>Make sure that your SSL certificates are configured in the main config, or
+add the <code>ssl_certificate</code> and <code>ssl_certificate_key</code> directives to each
+<code>server</code> section that listens on SSL.</p> <p>Additionally, copy&amp;paste all of this into <code>nginx/conf.d/forwarded.conf</code>:</p> <div class="language-nginx extra-class"><pre class="language-nginx"><code><span class="token comment"># RFC 7239 Forwarded header for Nginx proxy_pass</span>
+
+<span class="token comment"># Add within your server or location block:</span>
+<span class="token comment">#    proxy_set_header forwarded &quot;$proxy_forwarded;secret=\&quot;YOUR SECRET\&quot;&quot;;</span>
+
+<span class="token comment"># Configure your upstream web server to identify this proxy by that password</span>
+<span class="token comment"># because otherwise anyone on the Internet could spoof these headers and fake</span>
+<span class="token comment"># their real IP address and other information to your service.</span>
+
+
+<span class="token comment"># Provide the full proxy chain in $proxy_forwarded</span>
+<span class="token keyword">map</span> <span class="token variable">$proxy_add_forwarded</span> <span class="token variable">$proxy_forwarded</span> <span class="token punctuation">{</span>
+    default <span class="token string">&quot;$proxy_add_forwarded;by=\&quot;_$hostname\&quot;;proto=$scheme;host=\&quot;$http_host\&quot;;path=\&quot;$request_uri\&quot;&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># The following mappings are based on</span>
+<span class="token comment"># https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/</span>
+
+<span class="token keyword">map</span> <span class="token variable">$remote_addr</span> <span class="token variable">$proxy_forwarded_elem</span> <span class="token punctuation">{</span>
+    <span class="token comment"># IPv4 addresses can be sent as-is</span>
+    <span class="token operator">~</span><span class="token operator">^</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token operator">-</span><span class="token number">9.</span><span class="token punctuation">]</span><span class="token operator">+</span>$          <span class="token string">&quot;for=$remote_addr&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment"># IPv6 addresses need to be bracketed and quoted</span>
+    <span class="token operator">~</span><span class="token operator">^</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token operator">-</span><span class="token number">9</span>A<span class="token operator">-</span>Fa<span class="token operator">-</span>f<span class="token punctuation">:</span><span class="token punctuation">.</span><span class="token punctuation">]</span><span class="token operator">+</span>$   <span class="token string">&quot;for=\&quot;[$remote_addr]\&quot;&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment"># Unix domain socket names cannot be represented in RFC 7239 syntax</span>
+    default             <span class="token string">&quot;for=unknown&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">map</span> <span class="token variable">$http_forwarded</span> <span class="token variable">$proxy_add_forwarded</span> <span class="token punctuation">{</span>
+    <span class="token comment"># If the incoming Forwarded header is syntactically valid, append to it</span>
+    <span class="token string">&quot;~^(,[ \\t]*)*([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+=([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+|\&quot;([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\&quot;))?(;([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+=([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+|\&quot;([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\&quot;))?)*([ \\t]*,([ \\t]*([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+=([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+|\&quot;([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\&quot;))?(;([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+=([!#$%&amp;'*+.^_`|~0-9A-Za-z-]+|\&quot;([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\&quot;))?)*)?)*$&quot;</span> <span class="token string">&quot;$http_forwarded, $proxy_forwarded_elem&quot;</span><span class="token punctuation">;</span>
+
+    <span class="token comment"># Otherwise, replace it</span>
+    default <span class="token string">&quot;$proxy_forwarded_elem&quot;</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>For installs that don't use <code>conf.d</code> and <code>sites-available</code>, all of the above
+configs may also be placed inside the <code>http</code> section of the main <code>nginx.conf</code>.</p> <p>Reload Nginx config after changes:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> nginx -s reload
+</code></pre></div><p>Now you should be able to connect your app on <code>https://example.com/</code>. Any 404
+errors and such will be handled by Sanic's error pages, and whenever a static
+file is present at a given path, it will be served by Nginx.</p> <h2 id="ssl-certificates"><a href="#ssl-certificates" class="header-anchor">#</a> SSL certificates</h2> <p>If you haven't already configured valid certificates on your server, now is a
+good time to do so. Install <code>certbot</code> and <code>python3-certbot-nginx</code>, then run</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ certbot --nginx -d example.com -d www.example.com
+</code></pre></div><p><code>&lt;https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/&gt;</code>_</p> <h2 id="running-as-a-service"><a href="#running-as-a-service" class="header-anchor">#</a> Running as a service</h2> <p>This part is for Linux distributions based on <code>systemd</code>. Create a unit file
+<code>/etc/systemd/system/sanicexample.service</code></p> <div class="language-text extra-class"><pre class="language-text"><code>[Unit]
+Description=Sanic Example
+
+[Service]
+User=nobody
+WorkingDirectory=/srv/sanicexample
+ExecStart=/usr/bin/env python3 sanicexample.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div><p>Then reload service files, start your service and enable it on boot:</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> systemctl daemon-reload
+$ <span class="token function">sudo</span> systemctl start sanicexample
+$ <span class="token function">sudo</span> systemctl <span class="token builtin class-name">enable</span> sanicexample
+</code></pre></div></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/sanic-org/sanic-guide/edit/master/docs/guide/deployment/nginx.md" target="_blank" rel="noopener noreferrer">Edit this page</a> <span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></div> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">1/6/2021, 11:35:54 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/guide/deployment/development.html" class="prev">
+        Development
+      </a></span> <!----></p></div> </main></div><div class="global-ui"><!----></div></div>
+    <script src="/assets/js/app.d1edc229.js" defer></script><script src="/assets/js/2.dd1c3ce3.js" defer></script><script src="/assets/js/38.96a83d96.js" defer></script>
+  </body>
+</html>
