@@ -16,4 +16,4 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BUILD_SCRIPT: npm install
       - run: npm run docs:build
-      - run: echo "sanicframework.org" > docs/CNAME
+      # - run: echo "sanicframework.org" > docs/CNAME
