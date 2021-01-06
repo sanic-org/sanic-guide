@@ -16,7 +16,7 @@ jobs:
       #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       #     BUILD_SCRIPT: npm install
       - name: Build
-        run: npm install& npm run docs:build
+        run: npm install & npm run docs:build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
