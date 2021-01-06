@@ -10,13 +10,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
-      # - name: Build
-      #   uses: testthedocs/github-pages-deploy-action@master
-      #   env:
-      #     ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-      #     BUILD_SCRIPT: npm install
       - name: Build
-        run: npm install & npm run docs:build
+        uses: testthedocs/github-pages-deploy-action@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BUILD_SCRIPT: npm install & npm run docs:build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
