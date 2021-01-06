@@ -1,0 +1,43 @@
+@require '~vuepress-plugin-tabs/dist/themes/default.styl'
+
+main.home,
+.theme-default-content:not(.custom)
+    max-width: 1140px
+.navbar .site-name
+    display: none
+.content__default h1,
+.content__default h2,
+.content__default h3
+    margin-left: -18px
+.multicolumn > .multicolumn-column:first-of-type
+    margin-right: 1em
+.multicolumn > .multicolumn-column
+    width: 0
+    flex: 1 1 0 !important
+    overflow: auto
+.multicolumn > .multicolumn-column h3
+    margin-left: 0
+.sidebar
+    width: 18rem
+.page-nav,
+.page-edit
+    max-width: 100% !important
+.page-nav .inner,
+.page-edit div
+    padding: 0 3rem
+div[class*="language-"]
+    overflow: visible !important
+.sidebar::after
+    content: "BETA: This site is still under development and is not expected to complete until v21.3"
+    position: absolute
+    bottom: 1rem
+    left: 1rem
+    right: 1rem
+    display: block
+    background: #ff0d68
+    border-radius: 5px
+    padding: 0.75em
+    color: #fff
+.intro table thead,
+.intro table a span
+    display: none
