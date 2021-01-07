@@ -18,11 +18,13 @@ module.exports = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
-    "umami",
-    {
-      trackerUrl: "https://analytics.sanicframework.org",
-      siteId: "0131e426-4d6d-476b-a84b-34a45e0be6de",
-    },
+    [
+      "umami",
+      {
+        trackerUrl: "https://analytics.sanicframework.org",
+        siteId: "0131e426-4d6d-476b-a84b-34a45e0be6de",
+      },
+    ],
   ],
   themeConfig: {
     repo: "sanic-org/sanic",
