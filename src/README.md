@@ -13,4 +13,6 @@ features:
 - title: Performant and scalable
   details: Built from the ground up with speed and scalability as a main concern. It is ready to power web applications big and small.
 footer: MIT Licensed | Copyright © 2018-present Sanic Community Organization
+pageClass: landing-page
+logo: false
 ---

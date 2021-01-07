@@ -18,9 +18,10 @@ module.exports = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
-    "@vuepress/google-analytics",
+    "umami",
     {
-      ga: "G-EBKY9S1Y86",
+      trackerUrl: "https://analytics.sanicframework.org",
+      siteId: "0131e426-4d6d-476b-a84b-34a45e0be6de",
     },
   ],
   themeConfig: {
