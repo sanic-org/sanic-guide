@@ -40,10 +40,47 @@ module.exports = {
       "https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
     nav: [
       { text: "Home", link: "/" },
-      { text: "Announcements", link: "/announcements" },
-      { text: "Guide", link: "/guide/" },
-      { text: "Forums", link: "https://community.sanicframework.org/" },
-      { text: "API Docs", link: "https://sanic.readthedocs.io" },
+      // { text: "Announcements", link: "/announcements" },
+      {
+        text: "Docs",
+        items: [
+          {
+            text: "User Guide",
+            items: [
+              { text: "General", link: "/guide/getting-started.md" },
+              { text: "Basics", link: "/guide/basics/app.md" },
+              {
+                text: "Advanced",
+                link: "/guide/advanced/class-based-views.md",
+              },
+              {
+                text: "Best Practices",
+                link: "/guide/best-practices/blueprints.md",
+              },
+              {
+                text: "Running & Deploying",
+                link: "/guide/deployment/configuration.md",
+              },
+            ],
+          },
+          {
+            text: "API Docs",
+            items: [
+              { text: "Legacy Docs", link: "https://sanic.readthedocs.io" },
+            ],
+          },
+        ],
+      },
+      {
+        text: "Community",
+        items: [
+          { text: "Forums", link: "https://community.sanicframework.org/" },
+          {
+            text: "Gitter",
+            link: "https://gitter.im/sanic-python/Lobby",
+          },
+        ],
+      },
     ],
     sidebar: [
       {
