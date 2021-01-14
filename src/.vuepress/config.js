@@ -79,6 +79,14 @@ module.exports = {
             text: "Gitter",
             link: "https://gitter.im/sanic-python/Lobby",
           },
+          {
+            text: "Twitter",
+            link: "https://twitter.com/sanicframework",
+          },
+          {
+            text: "Sponsorship",
+            link: "https://opencollective.com/sanic-org/",
+          },
         ],
       },
     ],
