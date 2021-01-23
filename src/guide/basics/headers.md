@@ -12,7 +12,7 @@ Sanic does attempt to do some normalization on request headers before presenting
 ---:1
 #### Tokens
 
-Authorization tokens in the form `Token <token>` or `Bearer <token>` are extracted to the request object: `reuest.token`.
+Authorization tokens in the form `Token <token>` or `Bearer <token>` are extracted to the request object: `request.token`.
 :--:1
 ```python
 @app.route("/")
