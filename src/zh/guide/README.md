@@ -6,7 +6,7 @@ pageClass: intro
 
 ::: warning 🚧正在施工🚧  
 
-这些文件仍在建设中。它最终将会取代 readthedocs 上的文档。另外该文档将是严格的API文档。欢迎在                                                       [Github仓库](https://github.com/sanic-org/sanic-guide) 或 [论坛](https://community.sanicframework.org/t/frontpage-and-documentation-overhaul/770) 上提出任何建议 或 提供任何支持。
+这些文件仍在建设中。它最终将会取代 readthedocs 上的文档。另外该文档将是严格的API文档。欢迎在 [Github仓库](https://github.com/sanic-org/sanic-guide) 或 [论坛](https://community.sanicframework.org/t/frontpage-and-documentation-overhaul/770) 上提出任何建议 或 提供任何支持。
 
 最终版本预计将与21.3版本一致。
 

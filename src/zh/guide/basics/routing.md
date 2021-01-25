@@ -1,11 +1,11 @@
-# Routing
+# 路由(Routing)
 
 ---:1
 
-So far we have seen a lot of this decorator in different forms.
+到目前为止，我们已经接触了各式各样的装饰器，但是这些装饰器是干什么用的？我们该如何使用它？
 
-But what is it? And how do we use it?
 :--:1
+
 ```python
 @app.route("/stairway")
 ...
@@ -18,14 +18,14 @@ But what is it? And how do we use it?
 ```
 :---
 
-## Adding a route
+## 添加路由
 
 ---:1
 
-The most basic way to wire up a handler to an endpoing is with `app.add_route()`.
+将响应程序进行挂载的最基本方式就是使用 `app.add_route()`，具体的细节请查看 [API文档]()
 
-See [API docs]() for more details.
 :--:1
+
 ```python
 async def handler(request):
     return text("OK")
@@ -36,8 +36,10 @@ app.add_route(handler, "/test")
 
 ---:1
 
-By default, routes are available as an HTTP `GET` call. You can change a handler to respond to one or more HTTP methods.
+默认的情况下，路由会绑定监听 HTTP `GET` 请求方式， 你可以通过修改 `methods` 参数，从而达到使用一个响应函数响应 HTTP 的多种请求方式。
+
 :--:1
+
 ```python
 app.add_route(
     handler,
@@ -49,8 +51,10 @@ app.add_route(
 
 ---:1
 
-Using the decorator syntax, the previous example is identical to this.
+你也可以使用装饰器来进行路由绑定，下面是使用装饰器的方式进行路由绑定的例子，实现的效果和上一个例子相同。
+
 :--:1
+
 ```python
 @app.route('/test', methods=["POST", "PUT"])
 async def handler(request):
@@ -60,9 +64,10 @@ async def handler(request):
 
 ## HTTP methods
 
-Each of the standard HTTP methods has a convenience decorator.
+每一个标准的HTTP请求方式都对应封装了一个简单易用的装饰器：
 
 :::: tabs
+
 ::: tab GET
 
 ```python
@@ -72,7 +77,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET)
+
 :::
+
 ::: tab POST
 
 ```python
@@ -82,7 +89,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST)
+
 :::
+
 ::: tab PUT
 
 ```python
@@ -92,7 +101,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT)
+
 :::
+
 ::: tab PATCH
 
 ```python
@@ -102,7 +113,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
+
 :::
+
 ::: tab DELETE
 
 ```python
@@ -112,7 +125,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE)
+
 :::
+
 ::: tab HEAD
 
 ```python
@@ -122,7 +137,9 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
+
 :::
+
 ::: tab OPTIONS
 
 ```python
@@ -132,15 +149,19 @@ async def handler(request):
 ```
 
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
+
 :::
+
 ::::
 
-## Path parameters
+## 路由参数(Path parameters)
 
 ---:1
 
-Sanic allows for pattern matching, and for extracting values from URL paths. These parameters are then injected as keyword arguments in the route handler.
+Sanic允许模式匹配，并从URL中提取值。然后将这些参数作为关键字参数传递到响应程序中。
+
 :--:1
+
 ```python
 @app.get("/tag/<tag>")
 async def tag_handler(request, tag):
@@ -150,8 +171,10 @@ async def tag_handler(request, tag):
 
 ---:1
 
-You can declare a type for the parameter. This will be enforced when matching, and also will type cast the variable.
+你可以为路由参数指定类型，它将在匹配时进行强制类型转换。
+
 :--:1
+
 ```python
 @app.get("/foo/<foo_id:uuid>")
 async def uuid_handler(request, foo_id: UUID):
@@ -170,12 +193,17 @@ async def uuid_handler(request, foo_id: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/]+")`  
-**Cast type**: `str`  
-**Example matches**:
+**使用的正则表达式**: `r"[^/]+")`  
+
+**转换类型**: `str`  
+
+**匹配示例**:
+
 - `/path/to/Bob`
 - `/path/to/Python%203`
+
 :::
+
 ::: tab  int
 
 ```python
@@ -183,14 +211,20 @@ async def handler(request, foo: str):
 async def handler(request, foo: int):
     ...
 ```
-**Regular expression applied**: `r"-?\d+")`  
-**Cast type**: `int`  
-**Example matches**:
+**使用的正则表达式**: `r"-?\d+")`  
+
+**转换类型**: `int`  
+
+**匹配示例**:
+
 - `/path/to/10`
+
 - `/path/to/-10`
 
-_Does not match float, hex, octal, etc_
+    无法匹配 float，hex，octal，etc 等数字类型。
+
 :::
+
 ::: tab number
 
 ```python
@@ -198,13 +232,18 @@ _Does not match float, hex, octal, etc_
 async def handler(request, foo: float):
     ...
 ```
-**Regular expression applied**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
-**Cast type**: `float`  
-**Example matches**:
+**使用的正则表达式**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
+
+**转换类型**: `float`  
+
+**匹配示例**:
+
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
+
 :::
+
 ::: tab alpha
 
 ```python
@@ -212,14 +251,20 @@ async def handler(request, foo: float):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[A-Za-z]+")`  
-**Cast type**: `str`  
-**Example matches**:
+**使用的正则表达式**: `r"[A-Za-z]+")`  
+
+**转换类型**: `str`  
+
+**匹配示例**:
+
 - `/path/to/Bob`
+
 - `/path/to/Python`
 
-_Does not match a digit, or a space or other special character_
+    无法匹配数字，空格以及其他特殊字符。
+
 :::
+
 ::: tab path
 
 ```python
@@ -227,16 +272,22 @@ _Does not match a digit, or a space or other special character_
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/].*?")`  
-**Cast type**: `str`  
-**Example matches**:
+**使用的正则表达式**: `r"[^/].*?")`  
+
+**转换类型**: `str`  
+
+**匹配示例**:
+
 - `/path/to/hello`
 - `/path/to/hello.txt`
 - `/path/to/hello/world.txt`
 
 ::: warning
-Because this will match on `/`, you should be careful and thoroughly test your patterns that use path so they do not capture traffic intended for another endpoint.
+
+因为这将从 `/`开始进行匹配，所以您应该小心使用，并测试您的正则表达式是否正确，以免匹配错误而调用了错误的响应程序。
+
 :::
+
 ::: tab uuid
 
 ```python
@@ -244,11 +295,16 @@ Because this will match on `/`, you should be careful and thoroughly test your p
 async def handler(request, foo: UUID):
     ...
 ```
-**Regular expression applied**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
-**Cast type**: `UUID`  
-**Example matches**:
-- `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
+**使用的正则表达式**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
+
+**转换类型**: `UUID`  
+
+**匹配示例**:
+
+`/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
+
 :::
+
 ::: tab regex
 
 ```python
@@ -256,16 +312,20 @@ async def handler(request, foo: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: _whatever you insert_  
-**Cast type**: `str`  
-**Example matches**:
+**使用的正则表达式**: _whatever you insert_  
+
+**转换类型**: `str`  
+
+**匹配示例**:
+
 - `/path/to/2021-01-01`
 
-This gives you the freedom to define specific matching patterns for your use case. 
+该方法允许您使用自定义的匹配模式，在上面的示例中，我们通过指定的正则表达式，来匹配符合 `YYYY-MM-DD` 格式的路由参数。
 
-In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
 :::
+
 ::::
+
 ## Generating a URL
 
 ---:1
@@ -478,7 +538,7 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 )
 '/static/file.txt'
 
-```python
+​```python
 >>> app.url_for(
     "static",
     name="uploads",

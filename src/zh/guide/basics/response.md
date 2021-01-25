@@ -1,17 +1,18 @@
-# Response
+# 响应(Response)
 
-All [handlers](./handlers.md) **must** return a response object, and [middleware](./middleware.md) may optionally return a response object.
+所有的 [响应程序](./handlers.md) 都必须返回一个 response 对象，[中间件](./middleware.md) 可以自由选择是否返回 response 对象。
 
-## Methods
+## 响应方式(Methods)
 
-The easiest way to generate a response object is to use one of the nine (9) convenience methods.
+Sanic 内置了 9 种常用的返回类型，您可以通过以下方式中的任意一种快速生成返回对象。
 
 :::: tabs
 
 ::: tab Text
 
-**Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Returns plain text
+**响应类型**: `text/plain; charset=utf-8`
+
+**响应说明**: 返回纯文本内容。
 
 ```python
 from sanic.response import text
@@ -20,11 +21,14 @@ from sanic.response import text
 async def handler(request):
     return text("Hi 😎")
 ```
+
 :::
+
 ::: tab HTML
 
-**Default Content-Type**: `text/html; charset=utf-8`  
-**Description**: Returns an HTML document
+**响应类型**: `text/html; charset=utf-8`
+
+**响应说明**: 返回 HTML 文档
 
 ```python
 from sanic.response import html
@@ -33,11 +37,14 @@ from sanic.response import html
 async def handler(request):
     return html('<!DOCTYPE html><html lang="en"><meta charset="UTF-8"><div>Hi 😎</div>')
 ```
+
 :::
+
 ::: tab JSON
 
-**Default Content-Type**: `application/json`  
-**Description**: Returns a JSON document
+**响应类型**: `application/json`
+
+**响应说明**: 返回 JSON 内容
 
 ```python
 from sanic.response import json
@@ -47,19 +54,21 @@ async def handler(request):
     return json({"foo": "bar"})
 ```
 
-By default, Sanic ships with [`ujson`](https://github.com/ultrajson/ultrajson) as its JSON encoder of choice. It is super simple to change this if you want.
+在默认情况下， Sanic 使用 [`ujson`](https://github.com/ultrajson/ultrajson) 作为JSON 编码器， 更改此配置非常简单，只需如下操作：
 
 ```python
 from orjson import dumps
 
 json({"foo": "bar"}, dumps=dumps)
 ```
+
 :::
+
 ::: tab File
 
-**Default Content-Type**: N/A  
-**Description**: Returns a file
+**响应类型**: N/A
 
+**响应说明**: 返回一个文件
 
 ```python
 from sanic.response import file
@@ -69,22 +78,27 @@ async def handler(request):
     return file("/path/to/whatever.png")
 ```
 
-Sanic will examine the file, and try and guess its mime type and use an appropriate value for the content type. You could be explicit, if you would like:
+Sanic 将会自动检查文件，并猜测其可能的 mine 类型，并且为响应类型设置合适的值。
+
+如果您愿意指定响应类型，只需如下操作：
 
 ```python
 file("/path/to/whatever.png", mime_type="image/png")
 ```
 
-You can also choose to override the file name:
+您也可以选择重命名文件:
 
 ```python
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
+
 :::
+
 ::: tab Streaming
 
-**Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Streams data to a client
+**响应类型**: `text/plain; charset=utf-8`
+
+**响应说明**: 数据流到客户端
 
 ```python
 from sanic.response import stream
@@ -97,16 +111,20 @@ async def streaming_fn(response):
     await response.write('foo')
     await response.write('bar')
 ```
-By default, Sanic will stream back to the client using chunked encoding if the client supports it. You can disable this:
+
+默认情况下，如果客户端支持，Sanic 将使用分块编码传输到客户端。 您可以禁用此功能：
 
 ```python
 stream(streaming_fn, chunked=False)
 ```
+
 :::
+
 ::: tab "File Streaming"
 
-**Default Content-Type**: N/A  
-**Description**: Streams a file to a client, useful when streaming large files, like a video
+**响应类型**: N/A
+
+**响应说明**: 将文件流传输到客户端，在传输大文件(例如视频)的时候非常有用：
 
 ```python
 from sanic.response import file_stream
@@ -116,12 +134,15 @@ async def handler(request):
     return file_stream("/path/to/whatever.mp4")
 ```
 
-Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file.
+和 `file()` 一样，`file_stream()` 也将主动确定您的 mine 类型，并为响应类型进行自动设置。
+
 :::
+
 ::: tab Raw
 
-**Default Content-Type**: `application/octet-stream`  
-**Description**: Send raw bytes without encoding the body
+**响应类型**: `application/octet-stream`
+
+**响应说明**: 发送未进行编码的原始字节。
 
 ```python
 from sanic.response import raw
@@ -130,11 +151,14 @@ from sanic.response import raw
 async def handler(request):
     return raw(b"raw bytes")
 ```
+
 :::
+
 ::: tab Redirect
 
-**Default Content-Type**: `text/html; charset=utf-8`  
-**Description**: Send a `302` response to redirect the client to a different path
+**响应类型**: `text/html; charset=utf-8`
+
+**响应说明**: 发送状态码 `302` 以将客户端重定向到其他路由
 
 ```python
 from sanic.response import redirect
@@ -145,10 +169,12 @@ async def handler(request):
 ```
 
 :::
+
 ::: tab Empty
 
-**Default Content-Type**: N/A  
-**Description**: For responding with an empty message as defined by [RFC 2616](https://tools.ietf.org/search/rfc2616#section-7.2.1)
+**响应类型**: N/A
+
+**响应说明**: 用于响应定义的空消息，遵循 [RFC 2616](https://tools.ietf.org/search/rfc2616#section-7.2.1)
 
 ```python
 from sanic.response import empty
@@ -158,14 +184,15 @@ async def handler(request):
     return empty()
 ```
 
-Defaults to a `204` status.
+默认返回状态码 `204`
+
 :::
+
 ::::
 
-## Default status
+## 默认状态码(Default Status)
 
-The default HTTP status code for the response is `200`. If you need to change it, it can be done by the response method.
-
+响应的默认 HTTP 状态码是 `200`，如果您需要更改状态码，可以通过下面的方式进行更改：
 
 ```python
 @app.post("/")
