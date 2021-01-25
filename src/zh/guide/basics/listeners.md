@@ -1,13 +1,13 @@
-# Listeners
+# 监听器(Listeners)
 
-During the life cylce of a worker process, Sanic provides you with four(4) opportunities to inject an operation. This enables you to execute startup/teardown code as your server starts or closes.
+在工作流程的生命周期中，Sanic 为您提供了 4 个切入点来帮助您注入操作，它可以方便您在服务器启动或关闭时挂载/拆卸某些代码。
 
 - `before_server_start`
 - `after_server_start`
 - `before_server_stop`
 - `after_server_stop`
 
-The life cycle of a worker process looks like this:
+工作流程的生命周期如下：
 
 ```text
 event     <worker process starts>
@@ -25,14 +25,16 @@ listener      after_server_stop
 event     <process exits>
 ```
 
-## Attaching a listener
+## 启用监听器(Attaching a listener)
 
 ---:1
 
-The process to setup a function as a listener is similar to declaring a route.
+将函数设置为侦听器的过程类似于声明路由。
 
-The two injected arguments are the currently running `Sanic()` instance, and the currently running loop.
+两个注入的参数是当前正在运行 `Sanic()` 的实例和当前正在运行的循环。
+
 :--:1
+
 ```python
 async def setup_db(app, loop):
     app.db = await db_setup()
@@ -43,8 +45,10 @@ app.register_listener(setup_db, "before_server_start")
 
 ---:1
 
-The `Sanic` app instance also has a convenience decorator.
+您也可以通过装饰器的方式来将函数添加为监听器。
+
 :--:1
+
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
@@ -52,18 +56,18 @@ async def setup_db(app, loop):
 ```
 :---
 
-## Order of execution
+## 执行顺序(Order of execution)
 
-Listeners are executed in the order they are declared during startup, and reverse order of declaration during teardown
+听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
 
-|                       | Phase    | Order   |
-|-----------------------|----------|---------|
-| `before_server_start` | startup  | regular |
-| `after_server_start`  | startup  | regular |
-| `before_server_stop`  | shutdown | reverse |
-| `after_server_stop`   | shutdown | reverse |
+|                       | 执行阶段 | 执行顺序 |
+| :-------------------: | :------: | :------: |
+| `before_server_start` | 启动阶段 | 正向执行 |
+| `after_server_start`  | 启动阶段 | 正向执行 |
+| `before_server_stop`  | 关闭阶段 | 反向执行 |
+|  `after_server_stop`  | 关闭阶段 | 反向执行 |
 
-Given the following setup, we should expect to see this in the console.
+以下列代码为例，我们在执行之后看到的输出内容应该是这样的：
 
 ---:1
 
@@ -117,6 +121,9 @@ listener_7
 ```
 :---
 
-::: tip FYI
-The practical result of this is that if the first listener in `before_server_start` handler setups a database connection, listeners that are registered after it can rely upon that connection being alive both when they are started and stopped.
+::: tip 小提示：
+
+在实际的使用过程中，如果您定义了一个数据库连接函数，并将其注册为 `before_server_start` 的第一个监听器，那么在此之后注册的所有监听器都可以依靠该连接保持活跃状态。
+
+:::
 
