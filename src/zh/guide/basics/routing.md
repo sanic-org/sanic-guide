@@ -10,15 +10,19 @@
 @app.route("/stairway")
 ...
 
+
 @app.get("/to")
 ...
 
+
 @app.post("/heaven")
 ...
+
 ```
+
 :---
 
-## 添加路由
+## 添加路由(Adding a route)
 
 ---:1
 
@@ -30,8 +34,10 @@
 async def handler(request):
     return text("OK")
 
+
 app.add_route(handler, "/test")
 ```
+
 :---
 
 ---:1
@@ -42,11 +48,12 @@ app.add_route(handler, "/test")
 
 ```python
 app.add_route(
-    handler,
-    '/test',
-    methods=["POST", "PUT"],
+        handler,
+        '/test',
+        methods=["POST", "PUT"],
 )
 ```
+
 :---
 
 ---:1
@@ -60,9 +67,10 @@ app.add_route(
 async def handler(request):
     return text('OK')
 ```
+
 :---
 
-## HTTP methods
+## HTTP方法(HTTP methods)
 
 每一个标准的HTTP请求方式都对应封装了一个简单易用的装饰器：
 
@@ -167,6 +175,7 @@ Sanic允许模式匹配，并从URL中提取值。然后将这些参数作为关
 async def tag_handler(request, tag):
     return text("Tag - {}".format(tag))
 ```
+
 :---
 
 ---:1
@@ -180,9 +189,10 @@ async def tag_handler(request, tag):
 async def uuid_handler(request, foo_id: UUID):
     return text("UUID - {}".format(foo_id))
 ```
+
 :---
 
-### Supported types
+### 匹配类型(Supported types)
 
 :::: tabs
 
@@ -193,9 +203,10 @@ async def uuid_handler(request, foo_id: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**使用的正则表达式**: `r"[^/]+")`  
 
-**转换类型**: `str`  
+**使用的正则表达式**: `r"[^/]+")`
+
+**转换类型**: `str`
 
 **匹配示例**:
 
@@ -204,16 +215,17 @@ async def handler(request, foo: str):
 
 :::
 
-::: tab  int
+::: tab int
 
 ```python
 @app.route("/path/to/<foo:int>")
 async def handler(request, foo: int):
     ...
 ```
-**使用的正则表达式**: `r"-?\d+")`  
 
-**转换类型**: `int`  
+**使用的正则表达式**: `r"-?\d+")`
+
+**转换类型**: `int`
 
 **匹配示例**:
 
@@ -221,7 +233,7 @@ async def handler(request, foo: int):
 
 - `/path/to/-10`
 
-    无法匹配 float，hex，octal，etc 等数字类型。
+  无法匹配 float，hex，octal，etc 等数字类型。
 
 :::
 
@@ -232,9 +244,10 @@ async def handler(request, foo: int):
 async def handler(request, foo: float):
     ...
 ```
-**使用的正则表达式**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
 
-**转换类型**: `float`  
+**使用的正则表达式**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`
+
+**转换类型**: `float`
 
 **匹配示例**:
 
@@ -251,9 +264,10 @@ async def handler(request, foo: float):
 async def handler(request, foo: str):
     ...
 ```
-**使用的正则表达式**: `r"[A-Za-z]+")`  
 
-**转换类型**: `str`  
+**使用的正则表达式**: `r"[A-Za-z]+")`
+
+**转换类型**: `str`
 
 **匹配示例**:
 
@@ -261,7 +275,7 @@ async def handler(request, foo: str):
 
 - `/path/to/Python`
 
-    无法匹配数字，空格以及其他特殊字符。
+  无法匹配数字，空格以及其他特殊字符。
 
 :::
 
@@ -272,9 +286,10 @@ async def handler(request, foo: str):
 async def handler(request, foo: str):
     ...
 ```
-**使用的正则表达式**: `r"[^/].*?")`  
 
-**转换类型**: `str`  
+**使用的正则表达式**: `r"[^/].*?")`
+
+**转换类型**: `str`
 
 **匹配示例**:
 
@@ -295,9 +310,10 @@ async def handler(request, foo: str):
 async def handler(request, foo: UUID):
     ...
 ```
-**使用的正则表达式**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
 
-**转换类型**: `UUID`  
+**使用的正则表达式**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`
+
+**转换类型**: `UUID`
 
 **匹配示例**:
 
@@ -312,9 +328,10 @@ async def handler(request, foo: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**使用的正则表达式**: _whatever you insert_  
 
-**转换类型**: `str`  
+**使用的正则表达式**: _whatever you insert_
+
+**转换类型**: `str`
 
 **匹配示例**:
 
@@ -326,12 +343,14 @@ async def handler(request, foo: str):
 
 ::::
 
-## Generating a URL
+## 动态访问(Generating a URL)
 
 ---:1
 
-Sanic provides a method to generate URLs based on the handler method name: `app.url_for()`. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name.
+Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，你只需要函数名称即可实现响应程序之间的处理权力的移交。在你不希望将 url 进行硬编码或希望响应程序之间具有层级关系的时候，这将非常有用。它的使用方法如下：
+
 :--:1
+
 ```python
 @app.route('/')
 async def index(request):
@@ -341,91 +360,108 @@ async def index(request):
     # Redirect to `/posts/5`
     return redirect(url)
 
+
 @app.route('/posts/<post_id>')
 async def post_handler(request, post_id):
     ...
 ```
+
 :---
 
 ---:1
 
-You can pass any arbitrary number of keyword arguments. Anything that is _not_ a request parameter will be implemented as a part of the query string.
+您可以传递任意数量的关键字参数，任何非路由参数的部分都会被是做为查询字符串的一部分
+
 :--:1
+
 ```python
->>> app.url_for(
-    "post_handler",
-    post_id=5,
-    arg_one="one",
-    arg_two="two",
+>> > app.url_for(
+        "post_handler",
+        post_id=5,
+        arg_one="one",
+        arg_two="two",
 )
 '/posts/5?arg_one=one&arg_two=two'
 ```
+
 :---
 
 ---:1
 
-Also supported is passing multiple values for a single query key.
+该方法同样支持为一个键名传递多个值。
+
 :--:1
+
 ```python
->>> app.url_for(
-    "post_handler",
-    post_id=5,
-    arg_one=["one", "two"],
+>> > app.url_for(
+        "post_handler",
+        post_id=5,
+        arg_one=["one", "two"],
 )
 '/posts/5?arg_one=one&arg_one=two'
 ```
+
 :---
 
-### Special keyword arguments
+### 特殊关键字参数(Special keyword arguments)
 
-See [API Docs]() for more details.
+你可以在 [API Docs]() 查看更多详细信息。
 
 ```python
->>> app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
+>> > app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
 '/posts/5?arg_one=one#anchor'
 
 # _external requires you to pass an argument _server or set SERVER_NAME in app.config if not url will be same as no _external
->>> app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
+>> > app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
 '//server/posts/5?arg_one=one'
 
 # when specifying _scheme, _external must be True
->>> app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
+>> > app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
 'http://server/posts/5?arg_one=one'
 
 # you can pass all special arguments at once
->>> app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
+>> > app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http",
+                 _external=True, _server="another_server:8888")
 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
-### Customizing a route name
+### 自定义路由名称(Customizing a route name)
 
 ---:1
 
-A custom route name can be used by passing a `name` argument while registering the route.
+在注册路由的时候，可以通过给定 `name` 参数来自定义路由名称
+
 :--:1
+
 ```python
 @app.get("/get", name="get_handler")
 def handler(request):
     return text("OK")
 ```
+
 :---
 
 ---:1
 
-Now, use this custom name to retrieve the URL
+现在，你可以通过自定义的名称进行路由匹配。
+
 :--:1
+
 ```python
->>> app.url_for("get_handler", foo="bar")
+>> > app.url_for("get_handler", foo="bar")
 '/get?foo=bar'
 ```
+
 :---
 
-## Websockets routes
+## Websocket
 
 ---:1
 
-Websocket routing works similar to HTTP methods.
+Websocket 的工作方式和 HTTP 是类似的。
+
 :--:1
+
 ```python
 async def handler(request, ws):
     messgage = "Start"
@@ -433,14 +469,18 @@ async def handler(request, ws):
         await ws.send(message)
         message = ws.recv()
 
+
 app.add_websocket_route(handler, "/test")
 ```
+
 :---
 
 ---:1
 
-It also has a convenience decorator.
+它也具备有一个独立的装饰器。
+
 :--:1
+
 ```python
 @app.websocket("/test")
 async def handler(request, ws):
@@ -449,46 +489,56 @@ async def handler(request, ws):
         await ws.send(message)
         message = ws.recv()
 ```
+
 :---
 
-Read the [websockets section](/guide/advanced/websockets.md) to learn more about how they work.
+具体的工作原理，我们会在之后的 [websocket](/zh/guide/advanced/websockets.md) 进行更多描述。
 
-## Strict slashes
-
+## 严格匹配分隔符(Strict slashes)
 
 ---:1
 
-Sanic routes can be configured to strictly match on whether or not there is a trailing slash: `/`. This can be configured at a few levels and follows this order of precedence:
+Sanic 可以按需开启或关闭路由的严格匹配模式，开启后路由将会严格按照 `/` 作为分隔来进行路由匹配，你可以在以下几种方法中进行匹配，它们的优先级遵循：
 
-1. Route
-2. Blueprint
-3. Application
+`Route`  >  `Blueprint`  >  `Application`
+
 :--:1
+
 ```python
-# provide default strict_slashes value for all routes
+# 为应用程序下所有的路由都启用严格匹配模式
 app = Sanic(__file__, strict_slashes=True)
 ```
 
 ```python
-# overwrite strict_slashes value for specific route
+# 为指定的路由启用严格匹配模式
 @app.get("/get", strict_slashes=False)
 def handler(request):
     return text("OK")
 ```
 
 ```python
-# it also works for blueprints
+# 为蓝图所属的路由启用严格匹配模式
 bp = Blueprint(__file__, strict_slashes=True)
+
 
 @bp.get("/bp/get", strict_slashes=False)
 def handler(request):
     return text("OK")
 ```
+
 :---
 
-## Static files
+## 静态文件(Static files)
 
 ---:1
+
+为了确保 Sanic 可以正确渲染静态文件，请使用  `app.static()` 方法进行路由分配。
+
+在这里，参数的顺序十分重要
+
+第一个参数是静态文件所需要匹配的路由
+
+第二个参数是渲染文件所在的文件(夹)路径
 
 In order to serve static files from Sanic, use `app.static()`.
 
@@ -497,54 +547,66 @@ The order of arguments is important:
 1. Route the files will be served from
 2. Path to the files on the server
 
-See [API docs]() for more details.
+更多详细用法请参考  [API docs]() 
+
 :--:1
+
 ```python
 app.static("/static", "/path/to/directory")
 ```
+
 :---
 
 ---:1
 
-You can also serve individual files.
+您也可以提供单独的文件
+
 :--:1
+
 ```python
 app.static("/", "/path/to/index.html")
 ```
+
 :---
 
 ---:1
 
-It is also sometimes helpful to name your endpoint
+它同样支持自定义名称，来帮助您实现快速访问
+
 :--:1
+
 ```python
 app.static(
-    "/user/uploads",
-    "/path/to/uploads",
-    name="uploads",
+        "/user/uploads",
+        "/path/to/uploads",
+        name="uploads",
 )
 ```
+
 :---
 
 ---:1
 
-Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory.
+检索 URL 的流程和响应程序类似，但是当您需要特定的文件的时候，可以通过添加 `filename` 参数来达到效果。
+
 :--:1
+
 ```python
->>> app.url_for(
-    "static",
-    name="static",
-    filename="file.txt",
+>> > app.url_for(
+        "static",
+        name="static",
+        filename="file.txt",
 )
 '/static/file.txt'
 
 ​```python
->>> app.url_for(
-    "static",
-    name="uploads",
-    filename="image.png",
+>> > app.url_for(
+        "static",
+        name="uploads",
+        filename="image.png",
 )
 '/user/uploads/image.png'
 
 ```
+
 :---
