@@ -41,6 +41,7 @@ Response cookies can be set like dictionary values and have the following parame
 - `max-age: int` - Number of seconds the cookie should live for.
 - `secure: bool` - Specifies whether the cookie will only be sent via HTTPS.
 - `httponly: bool` - Specifies whether the cookie cannot be read by Javascript.
+- `samesite: str` - Default is browser dependent, specification states (Lax, Strict, and None) are valid values.
 
 ## Deleting
 
