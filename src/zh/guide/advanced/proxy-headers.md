@@ -1,16 +1,16 @@
-# Proxy configuration
+# 代理设置（Proxy configuration）
 
-When you use a reverse proxy server (e.g. nginx), the value of `request.ip` will contain the IP of a proxy, typically `127.0.0.1`. Almost always, this is **not** what you will want.
+当使用反向代理时(比如nginx等)，`request.ip`的值将会被设置为反向代理的IP，一般来说就是`127.0.0.1`。而这通常并不是您希望看到的。
 
-Sanic may be configured to use proxy headers for determining the true client IP, available as `request.remote_addr`. The full external URL is also constructed from header fields _if available_.
+Sanic可以通过配置来从代理请求的请求头部信息获取客户端的真实的IP地址，这个地址会被保存到`request.remote_addr`属性中。如果请求头中包含URL的完整信息，那同样也可以获取得到。
 
 ::: Heads up
-Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
+如果没有适当的防护措施，一些恶意客户端可能会使用代理头来隐藏自己的IP。为了避免此类问题，除非明确启用，否则Sanic不会使用任何代理头。
 :::
 
 ---:1
 
-Services behind reverse proxies must configure one or more of the following [configuration values](/guide/deployment/configuration.md):
+反向代理后的服务必须要设置如下一项或多项[配置](/guide/deployment/configuration.md)
 
 - `FORWARDED_SECRET`
 - `REAL_IP_HEADER`
@@ -23,29 +23,29 @@ app.config.PROXIES_COUNT = 2
 ```
 :---
 
-## Forwarded header
+## 转发头(Forwarded header)
 
-In order to use the `Forwarded` header, you should set `app.config.FORWARDED_SECRET` to a value known to the trusted proxy server. The secret is used to securely identify a specific proxy server.
+如果想使用`转发(Forwarded)`头，您应该将`app.config.FORWARDED_SECRET`秘钥值设置为受信的反向代理服务器已知的秘钥值。这个秘钥会被用于鉴定反向代理服务是否安全。
 
-Sanic ignores any elements without the secret key, and will not even parse the header if no secret is set.
+Sanic会忽略任何不携带这个秘钥的信息，并且如果不设置秘钥值，就不会去解析请求头。
 
-All other proxy headers are ignored once a trusted forwarded element is found, as it already carries complete information about the client.
+一旦获取了受信的转发头信息，所有其他的代理相关的头信息都会被忽略，因为该头中已经携带了原始客户端的所有信息。
 
-To learn more about the `Forwarded` header, read the related [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) and [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/) articles.
+想要了解更多关于`转发(Forwarded)`头，可以查看[MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded)或者[Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)上的文章。
 
-## Traditional proxy headers
+## 一些代理相关的请求头（Traditional proxy headers）
 
-### IP Headers
+### IP头信息（IP Headers）
 
-When your proxy forwards you the IP address in a known header, you can tell Sanic what that is with the `REAL_IP_HEADER` config value.
+当您的代理服务器在某个请求头中携带了客户端IP，您可以通过设置Sanic的`REAL_IP_HEADER`来明确这个请求头是什么。
 
 ### X-Forwarded-For
 
-This header typically contains a chain of IP addresses through each layer of a proxy. Setting `PROXIES_COUNT` tells Sanic how deep to look to get an actual IP address for the client. This value should equal the _expected_ number of IP addresses in the chain.
+这个请求头是一串IP地址链，通常包含了一连串的代理IP地址。可以通过设置Sanic的`PROXIES_COUNT`配置变量来确定客户端IP地址在该链路中的具体位置。这个值通常应该等于IP地址链中*预期的*IP数量.
 
-### Other X-headers
+### 其他的X-headers
 
-If a client IP is found by one of these methods, Sanic uses the following headers for URL parts:
+如果Sanic从以上任意一种方法中获取了客户端的IP地址，那么URL的部分将会从以下请求头信息中获取。
 
 - x-forwarded-proto
 - x-forwarded-host
@@ -53,9 +53,9 @@ If a client IP is found by one of these methods, Sanic uses the following header
 - x-forwarded-path
 - x-scheme
 
-## Examples
+## 实例（Examples）
 
-In the following examples, all requests will assume that the endpoint looks like this:
+在接下来的例子中，假设所有的请求都是走下面定义的这个方法：
 ```python
 @app.route("/fwd")
 async def forwarded(request):
@@ -72,8 +72,8 @@ async def forwarded(request):
 ---:1
 ---
 
-##### Example 1
-Without configured FORWARDED_SECRET, x-headers should be respected
+##### 例一
+没有设置`FORWARDED_SECRET`，那就以x-headers中的信息为准
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -104,8 +104,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 2
-FORWARDED_SECRET now configured
+##### 例二
+配置`FORWARDED_SECRET`后
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -113,7 +113,7 @@ app.config.FORWARDED_SECRET = "mySecret"
 ```
 ```bash
 $ curl localhost:8000/fwd \
-    -H 'Forwarded: for=1.1.1.1, for=injected;host=", for="[::2]";proto=https;host=me.tld;path="/app/";secret=mySecret,for=broken;;secret=b0rked, for=127.0.0.3;scheme=http;port=1234' \
+    -H 'Forwarded: for=1.1.1.1, for=injected;host=", for="[::2]";proto=https;host=me.tld;path="/app/";secret=mySecret, for=broken;;secret=b0rked, for=127.0.0.3;scheme=http;port=1234' \
     -H "X-Real-IP: 127.0.0.2" \
     -H "X-Forwarded-For: 127.0.1.1" \
     -H "X-Scheme: ws" \
@@ -140,8 +140,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 3
-Empty Forwarded header -> use X-headers
+##### 例三
+转发头(Forwarded header)为空时，这时候还是使用X-headers
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -172,8 +172,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 4
-Header present but not matching anything
+##### 例四
+没有请求头但是不包含任何匹配的信息
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -199,8 +199,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 5
-Forwarded header present but no matching secret -> use X-headers
+##### 例五
+虽然有转发头(Forwarded header)，但是没有对的上的秘钥，还是使用X-headers中的值
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -228,8 +228,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 6
-Different formatting and hitting both ends of the header
+##### 例6
+不同的格式但也满足条件的情况
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -258,8 +258,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 7
-Test escapes (modify this if you see anyone implementing quoted-pairs)
+##### 例7
+测试包含转译字符的（如果你看到有人实现了引号对，请修改这一点）
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -288,8 +288,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 8
-Secret insulated by malformed field #1
+##### 例8
+如果出现破坏了格式的信息，情况1
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -317,8 +317,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 9
-Secret insulated by malformed field #2
+##### 例9
+如果出现破坏了格式的信息，情况2
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -346,8 +346,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 10
-Unexpected termination should not lose existing acceptable values
+##### 例10
+出现意外值不会丢失其他有效信息
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -375,8 +375,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 11
-Field normalization
+##### 例11
+反转译
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -407,8 +407,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 12
-Using "by" field as secret
+##### 例12
+可以使用“by”字段携带密钥
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
