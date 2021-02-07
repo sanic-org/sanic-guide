@@ -17,7 +17,7 @@ app.config["DB_USER"] = "appuser"
 
 ---:1
 
-因此，您也可是使用 `update()` 方法来更新配置。
+因此，您也可以使用 `update()` 方法来更新配置。
 :--:1
 
 ```python
@@ -30,7 +30,7 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip 
+::: tip 小提示
 
 在 Sanic 中， 标准做法是使用 **大写字母** 来命名您的配置名称，如果您将大写名称和小写名称混合使用，可能会导致某些配置无法正常读取，遇到无法解释的状况。
 
@@ -128,7 +128,7 @@ app.update_config("${my_path}/my_config.py")
 ```
 :---
 
-::: 小提示
+::: tip 小提示
 
 请记住，您必须以 `$environment_variable` 的格式来提供环境变量。而且`${environment_variable}` 被视作纯文本（没有使用字符串格式化）
 
@@ -208,11 +208,11 @@ app.update_config(MyConfig())
 
 ### 请求超时（REQUEST_TIMEOUT）
 
-请求时间用于衡量从建立 TCP 连接到接收完整个 HTTP 请求所花费的时间。如果请求时间超过了设定的 `REQUEST_TIMEOUT` ，Sanic 会将其视为客户端错误并将 HTTP 408 作为响应发送给客户端。如果您的客户端需要频繁传递大量的数据， 请您将此参数调至更高或减少传输数据。
+请求时间用于衡量从建立 TCP 连接到整个 HTTP 请求接收完成所花费的时间。如果请求时间超过了设定的 `REQUEST_TIMEOUT` ，Sanic 会将其视为客户端错误并将 HTTP 408 作为响应发送给客户端。如果您的客户端需要频繁传递大量的数据， 请您将此参数调至更高或减少传输数据。
 
 ### 响应超时（RESPONSE_TIMEOUT）
 
-响应时间用于衡量从 Sanic 接收完 HTTP 请求到 Sanic 将响应完整发送至客户端所花费的时间。如果响应时间超过了设定的 `RESONSE_TIMEOUT` ，Sanic 会将其视为服务端错误并将 HTTP 503 作为响应发送给客户端。如果您的应用程序需要消耗大量的时间来进行响应，请尝试将此参数调至更高或优化响应效率。
+响应时间用于衡量从整个 HTTP 请求接收完成到 Sanic 将响应完整发送至客户端所花费的时间。如果响应时间超过了设定的 `RESONSE_TIMEOUT` ，Sanic 会将其视为服务端错误并将 HTTP 503 作为响应发送给客户端。如果您的应用程序需要消耗大量的时间来进行响应，请尝试将此参数调至更高或优化响应效率。
 
 ### 长连接超时（KEEP_ALIVE_TIMEOUT）
 
