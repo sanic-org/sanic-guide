@@ -1,14 +1,14 @@
-# Versioning
+# 版本管理（Versioning）
 
-It is standard practice in API building to add versions to your endpoints. This allows you to easily differentiate incompatible endpoints when you try and change your API down the road in a breaking manner.
+在URL中前添加版本信息是接口开发中的一种惯例。这样做可以让您在迭代您API功能时，保证旧版本API的兼容性。
 
-Adding a version will add a `/v{version}` url prefix to your endpoints.
+添加版本信息就是在URL上添加这样的`/v{version}`前缀。
 
-## Per route
+## 为路由添加版本前缀
 
 ---:1
 
-You can pass a version number to the routes directly.
+您可以在定义路由时直接传入版本号。
 :--:1
 ```python
 # /v1/text
@@ -23,11 +23,11 @@ def handle_request(request):
 ```
 :---
 
-## Per Blueprint
+## 为蓝图添加版本前缀
 
 ---:1
 
-You can also pass a version number to the blueprint, which will apply to all routes in that blueprint.
+您也可以在创建蓝图的时候传入版本号，这样蓝图下的所有路由都会拥有该版本号的前缀。
 :--:1
 ```python
 bp = Blueprint("test", url_prefix="/foo" version=1)

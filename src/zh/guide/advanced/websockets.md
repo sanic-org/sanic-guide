@@ -1,13 +1,12 @@
 # Websockets
 
-Sanic provides an easy to use abstraction on top of [websockets](https://websockets.readthedocs.io/en/stable/).
+Sanic提供了操作一个易操作的[websockets](https://websockets.readthedocs.io/en/stable/)封装。
 
-
-## Routing
+## 定义路由
 
 ---:1
 
-Websocket handlers can be hooked up to the router similar to regular handlers.
+定义Websocket的路由和定义普通的路由相似。
 :--:1
 ```python
 async def feed(request, ws):
@@ -22,16 +21,16 @@ async def feed(request, ws):
 ```
 :---
 
-## Handler
+## 定义处理函数
 
 
 ---:1
 
-Typically, a websocket handler will want to hold open a loop.
+通常的，一个websocket的处理函数将会打开并维持一个通讯循环。
 
-It can then use the `send()` and `recv()` methods on the second object injected into the handler.
+然后，可以调用传入函数的第二个参数对象的`send()` 和 `recv()`方法来处理业务。
 
-This example is a simple endpoint that echos back to the client messages that it receives.
+下面这个例子定义了一个简单的websocket路由，它将客户端发送的信息再发送回去。
 :--:1
 ```python
 
@@ -45,9 +44,9 @@ async def feed(request, ws):
         print("Received: " + data)
 ```
 :---
-## Configuration
+## 配置
 
-See [configuration section](/guide/deployment/configuration.md) for more details.
+更多细节请看[配置](/guide/deployment/configuration.md)一节。
 ```python
 app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
 app.config.WEBSOCKET_MAX_QUEUE = 32
