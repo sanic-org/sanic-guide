@@ -76,8 +76,9 @@ module.exports = {
         items: [
           { text: "Forums", link: "https://community.sanicframework.org/" },
           {
-            text: "Gitter",
-            link: "https://gitter.im/sanic-python/Lobby",
+            text: "Discord",
+            link:
+              "https://discord.com/channels/812221182594121728/812221182594121731",
           },
           {
             text: "Twitter",
