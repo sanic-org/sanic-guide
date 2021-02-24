@@ -19,7 +19,7 @@ Sanic is a Python 3.6+ web server and web framework that’s written to go fast.
 | Build   | [![Build Status][]][1] [![AppVeyor Build Status][]][2] [![Codecov]][3]                                                  |
 | Docs    | [![Documentation]][4]                                                                                                   |
 | Package | [![PyPI][]][5] [![PyPI version][]][5] [![PyPI Wheel][]][6] [![Supported implementations][]][6] [![Code style black]][7] |
-| Support | [![Forums][]][8] [![Join the chat at <https://gitter.im/sanic-python/Lobby>][]][9] [![Awesome Sanic List]][10]          |
+| Support | [![Forums][]][8] [![Discord][]][9] [![Awesome Sanic List]][10]          |
 | Stats   | [![Downloads][]][11] [![Downloads][12]][11]                                                                             |
 
 ## What is it?
@@ -55,14 +55,14 @@ But, remember, out of the box Sanic comes with everything you need to write, dep
 
 Manage pull requests and conduct code reviews in your IDE with full source-tree context. Comment on any line, not just the diffs. Use jump-to-definition, your favorite keybindings, and code intelligence with more of your workflow.
 
-[Try it free](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
+[Learn More](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
 
 Thank you to our sponsor. Check out [open collective](https://opencollective.com/sanic-org) to learn more about helping to fund Sanic.
 
 
 ## Join the Community
 
-The main channel for discussion is at the [community forums](https://community.sanicframework.org/). There also is a [Gitter channel](https://gitter.im/sanic-python/Lobby), but we prefer to use the discourse board since it makes history more searchable in the future.
+The main channel for discussion is at the [community forums](https://community.sanicframework.org/). There also is a [Discord Server](https://discord.gg/FARQzAEMAA) for live discussion and chat.
 
 The Stackoverflow `[sanic]` tag is [actively monitored](https://stackoverflow.com/questions/tagged/sanic) by project maintainers.
 
@@ -88,8 +88,8 @@ We are always happy to have new contributions. We have [marked issues good for a
 [7]: https://github.com/ambv/black
 [Forums]: https://img.shields.io/badge/forums-community-ff0068.svg
 [8]: https://community.sanicframework.org/
-[Join the chat at <https://gitter.im/sanic-python/Lobby>]: https://badges.gitter.im/sanic-python/Lobby.svg
-[9]: https://gitter.im/sanic-python/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[Discord]: https://img.shields.io/discord/812221182594121728?logo=discord
+[9]: https://discord.gg/FARQzAEMAA
 [Awesome Sanic List]: https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg
 [10]: https://github.com/mekicha/awesome-sanic
 [Downloads]: https://pepy.tech/badge/sanic/month
