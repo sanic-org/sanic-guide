@@ -1,12 +1,13 @@
-# Configuration
+# 配置（Configuration）
 
-## Basics
-
+## 基础（Basics）
 
 ---:1
 
-Sanic holds the configuration in the config attribute of the application object. The configuration object is merely an object that can be modified either using dot-notation or like a dictionary.
+Sanic 会将配置保存在应用程序对象的Config属性中，它是一个可以通过字典的形式或者属性的形式进行操作的对象。
+
 :--:1
+
 ```python
 app = Sanic("myapp")
 app.config.DB_NAME = "appdb"
@@ -16,8 +17,9 @@ app.config["DB_USER"] = "appuser"
 
 ---:1
 
-You can also use the `update()` method like on regular dictionaries.
+因此，您也可以使用 `update()` 方法来更新配置。
 :--:1
+
 ```python
 db_settings = {
     'DB_HOST': 'localhost',
@@ -28,18 +30,22 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip 
-It is standard practice in Sanic to name your config values in **uppercase letters**. Indeed, you may experience weird behaviors if you start mixing uppercase and lowercase names.
+::: tip 小提示
+
+在 Sanic 中， 标准做法是使用 **大写字母** 来命名您的配置名称，如果您将大写名称和小写名称混合使用，可能会导致某些配置无法正常读取，遇到无法解释的状况。
+
 :::
 
-## Loading
+## 配置加载（Loading）
 
-### Environment variables
+### 环境变量（Environment variables）
 
 ---:1
 
-Any environment variables defined with the `SANIC_` prefix will be applied to the Sanic config. For example, setting `SANIC_REQUEST_TIMEOUT` will be loaded by the application automatically and fed into the `REQUEST_TIMEOUT` config variable.
+任何使用 `SANIC_` 作为前缀的环境变量都会被加载并应用于 Sanic 配置。例如：在环境变量中设置 `SANIC_REQUEST_TIMEOUT` 环境变量后，将会被应用程序自动加载，并传递到 `REQUEST_TIMEOUT` 配置变量中。
+
 :--:1
+
 ```bash
 $ export SANIC_REQUEST_TIMEOUT=10
 ```
@@ -51,8 +57,10 @@ $ export SANIC_REQUEST_TIMEOUT=10
 
 ---:1
 
-You can change the prefix that Sanic is expecting at startup.
+您可以自动选择启动时应用程序要读取的变量前缀。
+
 :--:1
+
 ```bash
 $ export MYAPP_REQUEST_TIMEOUT=10
 ```
@@ -65,23 +73,27 @@ $ export MYAPP_REQUEST_TIMEOUT=10
 
 ---:1
 
-You can also disable environment variable loading completely.
+同样，您可以完全禁用环境变量的加载。
+
 :--:1
+
 ```python
 app = Sanic(__name__, load_env=False)
 ```
 :---
 
-### Using Sanic.update_config
+### 使用通用方法加载（Using Sanic.update_config）
 
-The `Sanic` instance has a _very_ versatile method for loading config: `app.update_config`. You can feed it a path to a file, a dictionary, a class, or just about any other sort of object.
+`Sanic` 中有一种通用的方法用于加载配置：`app.update_config` 。您可以通过向它提供文件路径，字典，类，或者几乎任何其他种类的对象的路径来更新配置。
 
-#### From a file
+#### 通过文件加载（From a file）
 
 ---:1
 
-Let's say you have `my_config.py` file that looks like this.
+假设您有一个名为 `my_config.py` 的文件，它的内容如下：
+
 :--:1
+
 ```python
 # my_config.py
 A = 1
@@ -91,8 +103,10 @@ B = 2
 
 ---:1
 
-You can load this as config values by passing its path to `app.update_config`.
+您可以通过将文件路径传递给 `app.update_config` 进行配置加载。
+
 :--:1
+
 ```python
 >>> app.update_config("/path/to/my_config.py")
 >>> print(app.config.A)
@@ -102,8 +116,10 @@ You can load this as config values by passing its path to `app.update_config`.
 
 ---:1
 
-This path also accepts bash style environment variables.
+它同样接受 bash 风格的环境变量。
+
 :--:1
+
 ```bash
 $ export my_path="/path/to"
 ```
@@ -112,26 +128,32 @@ app.update_config("${my_path}/my_config.py")
 ```
 :---
 
-::: tip 
-Just remember that you have to provide environment variables in the format `${environment_variable}` and that `$environment_variable` is not expanded (is treated as "plain" text).
+::: tip 小提示
+
+请记住，您必须以 `$environment_variable` 的格式来提供环境变量。而且`${environment_variable}` 被视作纯文本（没有使用字符串格式化）
+
 :::
-#### From a dict
+
+#### 通过字典加载（From a dict）
 
 ---:1
 
-The `app.update_config` method also works on plain dictionaries.
+`app.update_config` 的方法同样适用于字典
 :--:1
+
 ```python
 app.update_config({"A": 1, "B": 2})
 ```
 :---
 
-#### From a class or object
+#### 通过类加载（From a class or object）
 
 ---:1
 
-You can define your own config class, and pass it to `app.update_config`
+您可以自定义配置类，并将该类传递给 `app.update_config`
+
 :--:1
+
 ```python
 class MyConfig:
     A = 1
@@ -143,88 +165,75 @@ app.update_config(MyConfig)
 
 ---:1
 
-It even could be instantiated.
+甚至您可以向它传递一个实例化好的对象
+
 :--:1
+
 ```python
 app.update_config(MyConfig())
 ```
 :---
 
-## Builtin values
+## 内置配置（Builtin values）
 
 
-| **Variable**              | **Default**       | **Description**                                                             |
-|---------------------------|-------------------|-----------------------------------------------------------------------------|
-| REQUEST_MAX_SIZE          | 100000000         | How big a request may be (bytes)                                            |
-| REQUEST_BUFFER_QUEUE_SIZE | 100               | Request streaming buffer queue size                                         |
-| REQUEST_TIMEOUT           | 60                | How long a request can take to arrive (sec)                                 |
-| RESPONSE_TIMEOUT          | 60                | How long a response can take to process (sec)                               |
-| KEEP_ALIVE                | True              | Disables keep-alive when False                                              |
-| KEEP_ALIVE_TIMEOUT        | 5                 | How long to hold a TCP connection open (sec)                                |
-| WEBSOCKET_MAX_SIZE        | 2^20              | Maximum size for incoming messages (bytes)                                  |
-| WEBSOCKET_MAX_QUEUE       | 32                | Maximum length of the queue that holds incoming messages                    |
-| WEBSOCKET_READ_LIMIT      | 2^16              | High-water limit of the buffer for incoming bytes                           |
-| WEBSOCKET_WRITE_LIMIT     | 2^16              | High-water limit of the buffer for outgoing bytes                           |
-| WEBSOCKET_PING_INTERVAL   | 20                | A Ping frame is sent every ping_interval seconds.                           |
-| WEBSOCKET_PING_TIMEOUT    | 20                | Connection is closed when Pong is not received after ping_timeout seconds   |
-| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0              | How long to wait to force close non-idle connection (sec)                   |
-| ACCESS_LOG                | True              | Disable or enable access log                                                |
-| FORWARDED_SECRET          | None              | Used to securely identify a specific proxy server (see below)               |
-| PROXIES_COUNT             | None              | The number of proxy servers in front of the app (e.g. nginx; see below)     |
-| FORWARDED_FOR_HEADER      | X-Forwarded-For   | The name of "X-Forwarded-For" HTTP header that contains client and proxy ip |
-| REAL_IP_HEADER            | None              | The name of "X-Real-IP" HTTP header that contains real client ip            |
+| 变量名称                  | 默认值          | 说明                                     |
+| :------------------------ | --------------- | ---------------------------------------- |
+| REQUEST_MAX_SIZE          | 100000000       | Request 的最大字节数                     |
+| REQUEST_BUFFER_QUEUE_SIZE | 100             | 请求流缓冲区队列大小                     |
+| REQUEST_TIMEOUT           | 60              | 请求超时时间                             |
+| RESPONSE_TIMEOUT          | 60              | 响应超时时间                             |
+| KEEP_ALIVE                | True            | 是否启用长连接                           |
+| KEEP_ALIVE_TIMEOUT        | 5               | 长连接超时时间                           |
+| WEBSOCKET_MAX_SIZE        | 2^20            | websocket 传入消息最大字节数             |
+| WEBSOCKET_MAX_QUEUE       | 32              | websocket 传入消息最小字节数             |
+| WEBSOCKET_READ_LIMIT      | 2^16            | websocket 传入字节的缓冲区上限           |
+| WEBSOCKET_WRITE_LIMIT     | 2^16            | websocket 传出字节的缓冲区上限           |
+| WEBSOCKET_PING_INTERVAL   | 20              | websocket ping 帧 发送间隔               |
+| WEBSOCKET_PING_TIMEOUT    | 20              | websocket pong 帧 响应超时时间           |
+| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | 强制关闭非空闲连接超时时间               |
+| ACCESS_LOG                | True            | 访问日志开关                             |
+| FORWARDED_SECRET          | None            | 用于安全地识别特定的代理服务器（见下文） |
+| PROXIES_COUNT             | None            | 应用程序钱代理服务器的数量（见下文）     |
+| FORWARDED_FOR_HEADER      | X-Forwarded-For | 客户端IP和代理IP：X-Forwarded-For        |
+| REAL_IP_HEADER            | None            | 客户端真实IP： X-Real-IP                 |
 
-::: tip FYI
-The `WEBSOCKET_` values will be ignored if in ASGI mode.
+::: tip 
+
+如果您处于 ASGI 模式， 那么 `WEBSOCKET_` 的值将会被忽略 
+
 :::
 
-## Timeouts
+## 超时（Timeouts）
 
-### REQUEST_TIMEOUT
+### 请求超时（REQUEST_TIMEOUT）
 
-A request timeout measures the duration of time between the instant when a new open TCP connection is passed to the
-Sanic backend server, and the instant when the whole HTTP request is received. If the time taken exceeds the
-`REQUEST_TIMEOUT` value (in seconds), this is considered a Client Error so Sanic generates an `HTTP 408` response
-and sends that to the client. Set this parameter's value higher if your clients routinely pass very large request payloads
-or upload requests very slowly.
+请求时间用于衡量从建立 TCP 连接到整个 HTTP 请求接收完成所花费的时间。如果请求时间超过了设定的 `REQUEST_TIMEOUT` ，Sanic 会将其视为客户端错误并将 HTTP 408 作为响应发送给客户端。如果您的客户端需要频繁传递大量的数据， 请您将此参数调至更高或减少传输数据。
 
-### RESPONSE_TIMEOUT
+### 响应超时（RESPONSE_TIMEOUT）
 
-A response timeout measures the duration of time between the instant the Sanic server passes the HTTP request to the
-Sanic App, and the instant a HTTP response is sent to the client. If the time taken exceeds the `RESPONSE_TIMEOUT`
-value (in seconds), this is considered a Server Error so Sanic generates an `HTTP 503` response and sends that to the
-client. Set this parameter's value higher if your application is likely to have long-running process that delay the
-generation of a response.
+响应时间用于衡量从整个 HTTP 请求接收完成到 Sanic 将响应完整发送至客户端所花费的时间。如果响应时间超过了设定的 `RESONSE_TIMEOUT` ，Sanic 会将其视为服务端错误并将 HTTP 503 作为响应发送给客户端。如果您的应用程序需要消耗大量的时间来进行响应，请尝试将此参数调至更高或优化响应效率。
 
-### KEEP_ALIVE_TIMEOUT
+### 长连接超时（KEEP_ALIVE_TIMEOUT）
 
-#### What is Keep Alive? And what does the Keep Alive Timeout value do?
+#### 什么是长连接？长连接超时有什么作用？
 
-`Keep-Alive` is a HTTP feature introduced in `HTTP 1.1`. When sending a HTTP request, the client (usually a web browser application)
-can set a `Keep-Alive` header to indicate the http server (Sanic) to not close the TCP connection after it has send the response.
-This allows the client to reuse the existing TCP connection to send subsequent HTTP requests, and ensures more efficient
-network traffic for both the client and the server.
+`Keep-Alive` 中文叫做长连接，它是 HTTP1.1 中引入的 HTTP 功能。当发送 HTTP 请求时，客户端（通常是浏览器）可以通过设置 `Keep-Alive` 标头来指示 http 服务器（Sanic）在发送响应之后不关闭 TCP 连接。这将允许客户端重用现有的 TCP 连接来发送后续的 HTTP 请求，以提高客户端和服务端之间的通讯效率。
 
-The `KEEP_ALIVE` config variable is set to `True` in Sanic by default. If you don't need this feature in your application,
-set it to `False` to cause all client connections to close immediately after a response is sent, regardless of
-the `Keep-Alive` header on the request.
+在默认情况下，Sanic 中的 `Keep-Alive` 的值为 `True` 。如果您的应用程序不需要此功能，可以将其设置为 False。不过此举将导致 Sanic 无视 `Keep_Alive` 标头，且所有的客户端连接在响应发送完成之后被立即关闭。
 
-The amount of time the server holds the TCP connection open is decided by the server itself.
-In Sanic, that value is configured using the `KEEP_ALIVE_TIMEOUT` value. By default, it is set to 5 seconds.
-This is the same default setting as the Apache HTTP server and is a good balance between allowing enough time for
-the client to send a new request, and not holding open too many connections at once. Do not exceed 75 seconds unless
-you know your clients are using a browser which supports TCP connections held open for that long.
+TCP连接打开的时长本质上由服务器自身决定，在 Sanic 中，使用 `KEEP_ALIVE_TIMEOUT` 作为该值。默认情况下它设置为 5 秒。这与 Apache 的默认值相同。该值足够客户端发送一个新的请求。如非必要请勿更改此项。如需更改，请勿超过 75 秒，除非您确认客户端支持TCP连接保持足够久。
 
-For reference:
+仅供参考：
 
-* Apache httpd server default keepalive timeout = 5 seconds
-* Nginx server default keepalive timeout = 75 seconds
-* Nginx performance tuning guidelines uses keepalive = 15 seconds
-* IE (5-9) client hard keepalive limit = 60 seconds
-* Firefox client hard keepalive limit = 115 seconds
-* Opera 11 client hard keepalive limit = 120 seconds
-* Chrome 13+ client keepalive limit > 300+ seconds
+* Apache httpd 服务器默认 KEEP_ALIVE_TIMEOUT = 5秒
+* Nginx 服务器默认 KEEP_ALIVE_TIMEOUT = 75秒
+* Nginx 性能调整准则使用 KEEP_ALIVE_TIMEOUT = 15秒
+* IE（5-9）客户端 KEEP_ALIVE_LIMIT = 60秒
+* Firefox 客户端 KEEP_ALIVE_LIMIT = 115秒
+* Opera 11 客户端 KEEP_ALIVE_LIMIT  = 120秒
+* Chrome 13+ 客户端 KEEP_ALIVE_LIMIT > 300+秒
 
-## Proxy configuration
+## 代理配置（Proxy configuration）
 
-See [proxy configuration section](/advanced/proxy-headers.md)
+请参照 [代理配置](/advanced/proxy-headers.md)

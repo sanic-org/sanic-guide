@@ -1,26 +1,20 @@
-# Nginx Deployment
+# Nginx 部署（Nginx Deployment）
 
-## Introduction
+## 介绍（Introduction）
 
+尽管 Sanic 可以直接运行在 Internet 中，但是使用代理服务器可能会更好。
+例如在 Sanic 服务器之前添加 Nginx 代理服务器。这将有助于在同一台机器上同时提供多个不同的服务。
+这样做还可以简单快捷的提供静态文件。包括 SSL 和 HTTP2 等协议也可以在此类代理上轻松实现。
 
-Although Sanic can be run directly on Internet, it may be useful to use a proxy
-server such as Nginx in front of it. This is particularly useful for running
-multiple virtual hosts on the same IP, serving NodeJS or other services beside
-a single Sanic app, and it also allows for efficient serving of static files.
-SSL and HTTP/2 are also easily implemented on such proxy.
+我们将 Sanic 应用部署在本地，监听 `127.0.0.1`，
+然后使用 Nginx 代理 `/var/www` 下的静态文件，
+最后使用 Nginx 绑定域名 `example.com` 向公网提供服务
 
-We are setting the Sanic app to serve only locally at `127.0.0.1:8000`, while the
-Nginx installation is responsible for providing the service to public Internet
-on domain `example.com`. Static files will be served from `/var/www/`.
+## 代理 Sanic（Proxied Sanic app)
 
-
-## Proxied Sanic app
-
-The app needs to be setup with a secret key used to identify a trusted proxy,
-so that real client IP and other information can be identified. This protects
-against anyone on the Internet sending fake headers to spoof their IP addresses
-and other details. Choose any random string and configure it both on the app
-and in Nginx config.
+被代理的应用应该设置 `FORWARDED_SECRET`（受信任代理的密钥）用于识别真实的客户端 IP 以及其他信息。
+这可以有效的防止网络中发送的伪造标头来隐藏其 IP 地址的请求。
+您可以设置任意随机字符串，同时，您需要在 Nginx 中进行相同的配置。
 
 ```python
 from sanic import Sanic
@@ -31,7 +25,7 @@ app.config.FORWARDED_SECRET = "YOUR SECRET"
 
 @app.get("/")
 def index(request):
-    # This should display external (public) addresses:
+    # 此处将会显示公网IP
     return text(
         f"{request.remote_addr} connected to {request.url_for('index')}\n"
         f"Forwarded: {request.forwarded}\n"
@@ -41,26 +35,19 @@ if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000, workers=8, access_log=False)
 ```
 
-Since this is going to be a system service, save your code to
-`/srv/sanicexample/sanicexample.py`.
+将您的代码保存到 `/srv/sanicexample/sanicexample.py`
 
-For testing, run your app in a terminal.
+测试时在终端运行您的应用程序。
 
-## Nginx configuration
+## Nigin 配置（Nginx configuration）
 
-Quite much configuration is required to allow fast transparent proxying, but
-for the most part these don't need to be modified, so bear with me.
+允许快速透明代理需要相当多的配置，但是在大多数情况下，这些并不需要修改。
 
-Upstream servers need to be configured in a separate `upstream` block to enable
-HTTP keep-alive, which can drastically improve performance, so we use this
-instead of directly providing an upstream address in `proxy_pass` directive. In
-this example, the upstream section is named by `server_name`, i.e. the public
-domain name, which then also gets passed to Sanic in the `Host` header. You may
-change the naming as you see fit. Multiple servers may also be provided for
-load balancing and failover.
+在单独的 `upstream` 模块中配置 `keepalive` 来启用长连接，这可以极大的提高性能，而不是直接在 `server` 中 配置 `proxy_pass`。
+在此示例中，`upstream` 命名为 `server_name` 及域名，该名称将通过 Host 标头传递给 Sanic， 您可以按需修改该名称，也可以提供多个服务器以达到负载均衡和故障转移。
 
-Change the two occurrences of `example.com` to your true domain name, and
-instead of `YOUR SECRET` use the secret you chose for your app.
+将两次出现的 `example.com` 更改为您的域名，然后
+将 `YOUR SECRET` 替换为您应用中配置的 `FORWARDED_SECRET`
 
 ```nginx
 upstream example.com {
@@ -93,9 +80,9 @@ server {
 }
 ```
 
-To avoid cookie visibility issues and inconsistent addresses on search engines,
-it is a good idea to redirect all visitors to one true domain, always using
-HTTPS:
+为避免Cookie可见性问题和搜索引擎上的地址不一致的问题，
+您可以使用以下方法将所有的访问都重定向到真实的域名上。
+以确保始终为 HTTPS 访问：
 
 ```nginx
 # Redirect all HTTP to HTTPS with no-WWW
@@ -115,15 +102,11 @@ server {
 }
 ```
 
-The above config sections may be placed in `/etc/nginx/sites-available/default`
-or in other site configs (be sure to symlink them to `sites-enabled` if you
-create new ones).
+上面的配置部分可以放在`/etc/nginx/sites-available/default`中或其他网站配置中（如果您创建了新的配置，请务必将它们链接到`sites-enabled`中）。
 
-Make sure that your SSL certificates are configured in the main config, or
-add the `ssl_certificate` and `ssl_certificate_key` directives to each
-`server` section that listens on SSL.
+请确保在主配置中配置了您的SSL证书，或者向每个 `server` 模块添加 `ssl_certificate` 和 `ssl_certificate_key` 配置来进行 SSL 监听。
 
-Additionally, copy&paste all of this into `nginx/conf.d/forwarded.conf`:
+除此之外，复制并粘贴以下内容到 `nginx/conf.d/forwarded.conf` 中：
 
 ```nginx
 # RFC 7239 Forwarded header for Nginx proxy_pass
@@ -164,34 +147,31 @@ map $http_forwarded $proxy_add_forwarded {
 }
 ```
 
-For installs that don't use `conf.d` and `sites-available`, all of the above
-configs may also be placed inside the `http` section of the main `nginx.conf`.
+如果您的 Nginx 不使用 `conf.d` 和 `sites-available`，以上全部配置也可以放在 `nginx.conf` 的 `http` 模块中。
 
-Reload Nginx config after changes:
-
-```bash
-$ sudo nginx -s reload
-```
-
-Now you should be able to connect your app on `https://example.com/`. Any 404
-errors and such will be handled by Sanic's error pages, and whenever a static
-file is present at a given path, it will be served by Nginx.
-
-## SSL certificates
-
-If you haven't already configured valid certificates on your server, now is a
-good time to do so. Install `certbot` and `python3-certbot-nginx`, then run
+保存修改之后，重新启动 Nginx 服务：
 
 ```bash
-$ certbot --nginx -d example.com -d www.example.com
+sudo nginx -s reload
 ```
 
-`<https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/>`_
+现在，您应该可以在 `https://example.com/` 上访问您的应用了。
+任何的 404 以及类似的错误都将交由 Sanic 进行处理。
+静态文件存储在指定的目录下，将由 Nginx 提供访问。
 
-## Running as a service
+## SSL 证书（SSL certificates）
 
-This part is for Linux distributions based on `systemd`. Create a unit file
-`/etc/systemd/system/sanicexample.service`
+如果您尚未在服务器上配置有效证书，您可以安装 `certbot` 和 `python3-certbot-nginx` 以使用免费的 SSL/TLS 证书，然后运行:
+
+```bash
+certbot --nginx -d example.com -d www.example.com
+```
+
+相关资料请参考：[使用免费的 SSL/TLS 证书](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
+
+## 作为服务运行（Running as a service）
+
+这部分是针对基于 `systemd` 的 Linux 发行版。 创建一个文件：`/etc/systemd/system/sanicexample.service` 并写入以下内容：
 
 ```text
 [Unit]
@@ -207,10 +187,10 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-Then reload service files, start your service and enable it on boot:
+之后重新加载服务文件，启动服务并允许开机启动：
 
 ```bash
-$ sudo systemctl daemon-reload
-$ sudo systemctl start sanicexample
-$ sudo systemctl enable sanicexample
+sudo systemctl daemon-reload
+sudo systemctl start sanicexample
+sudo systemctl enable sanicexample
 ```
