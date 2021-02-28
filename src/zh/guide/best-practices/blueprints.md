@@ -1,16 +1,16 @@
-# Blueprints
+# 蓝图（Blueprints）
 
-## Overview
+## 概述
 
-Blueprints are objects that can be used for sub-routing within an application. Instead of adding routes to the application instance, blueprints define similar methods for adding routes, which are then registered with the application in a flexible and pluggable manner.
+蓝图是应用中可以作为子路由的对象。蓝图定义了同样的添加路由的方式，您可以将一系列路由注册到蓝图上而不是直接注册到应用上，然后再以可插拔的方式将蓝图注册到到应用程序。
 
-Blueprints are especially useful for larger applications, where your application logic can be broken down into several groups or areas of responsibility.
+蓝图对于大型应用特别有用。在大型应用中，您可以将应用代码根据不同的业务分解成多个蓝图。
 
-## Creating and registering
+## 创建和注册蓝图
 
 ---:1
 
-First, you must create a blueprint. It has a very similar API as the `Sanic()` app instance with many of the same decorators.
+首先，您必须先创建一个蓝图。蓝图对象有着和`Sanic`对象十分相似的方法，它也提供了相同的装饰器来注册路由。
 :--:1
 ```python
 # ./my_blueprint.py
@@ -28,7 +28,7 @@ async def bp_root(request):
 
 ---:1
 
-Next, you register it with the app instance.
+接下来，您可以将蓝图注册到Sanic应用上。
 :--:1
 ```python
 from sanic import Sanic
@@ -39,11 +39,11 @@ app.blueprint(bp)
 ```
 :---
 
-Blueprints also have the same `websocket()` decorator and `add_websocket_route` method for implementing websockets.
+蓝图也提供了`websocket()`装饰器和`add_websocket_route`方法来实现websocket通讯。
 
-## Blueprint groups
+## 蓝图组
 
-Blueprints may also be registered as part of a list or tuple, where the registrar will recursively cycle through any sub-sequences of blueprints and register them accordingly. The Blueprint.group method is provided to simplify this process, allowing a ‘mock’ backend directory structure mimicking what’s seen from the front end. Consider this (quite contrived) example:
+蓝图也可以以列表或者元组的形式进行注册，在这种情况下，注册时会递归地遍历当前序列，在序列中或者在子序列中的所有蓝图对象都会被注册到应用上。`Blueprint.group`方法允许模拟一个后端目录结构来简化上述问题。请看这个例子：
 
 ```text
 api/
@@ -58,7 +58,7 @@ app.py
 
 ---:1
 
-#### First blueprint
+#### 第一个蓝图
 
 :--:1
 ```python
@@ -71,7 +71,7 @@ authors = Blueprint("content_authors", url_prefix="/authors")
 
 ---:1
 
-#### Second blueprint
+#### 第二个蓝图
 
 :--:1
 ```python
@@ -84,7 +84,7 @@ static = Blueprint("content_static", url_prefix="/static")
 
 ---:1
 
-#### Blueprint group
+#### 蓝图组
 
 :--:1
 ```python
@@ -99,7 +99,7 @@ content = Blueprint.group(static, authors, url_prefix="/content")
 
 ---:1
 
-#### Third blueprint
+#### 第三个蓝图
 
 :--:1
 ```python
@@ -112,7 +112,7 @@ info = Blueprint("info", url_prefix="/info")
 
 ---:1
 
-#### Another blueprint group
+#### 另一个蓝图组
 
 :--:1
 ```python
@@ -127,9 +127,9 @@ api = Blueprint.group(content, info, url_prefix="/api")
 
 ---:1
 
-#### Main server
+#### 主应用
 
-All blueprints are now registered
+所有的蓝图都会被注册。
 
 :--:1
 ```python
@@ -142,11 +142,11 @@ app.blueprint(api)
 ```
 :---
 
-## Middleware
+## 中间件
 
 ---:1
 
-Blueprints can also have middleware that is specifically registered for its endpoints only.
+蓝图也可以有自己的中间件，这些中间件只会影响到注册到该蓝图上的路由。
 :--:1
 ```python
 @bp.middleware
@@ -165,7 +165,7 @@ async def halt_response(request, response):
 
 ---:1
 
-Similarly, using blueprint groups, it is possible to apply middleware to an entire group of nested blueprints.
+同样的，使用蓝图组能够将中间件应用给同组中的所用蓝图。
 :--:1
 ```python
 bp1 = Blueprint("bp1", url_prefix="/bp1")
@@ -194,11 +194,11 @@ app.blueprint(group)
 ```
 :---
 
-## Exceptions
+## 异常
 
 ---:1
 
-Just like other [exception handling](./exceptions.md), you can define blueprint specific handlers.
+正如[异常处理](./exceptions.md)一节，您可以定义蓝图特定的异常处理函数。
 :--:1
 ```python
 @bp.exception(NotFound)
@@ -207,11 +207,11 @@ def ignore_404s(request, exception):
 ```
 :---
 
-## Static files
+## 静态文件
 
 ---:1
 
-Blueprints can also have their own static handlers
+蓝图也可以单独指定需要代理的静态文件。
 :--:1
 ```python
 bp = Blueprint("bp", url_prefix="/bp")
@@ -222,7 +222,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-Which can then be retrieved using `url_for()`. See [routing](/guide/basics/routing.md) for more information.
+然后文件可以使用`url_for()`函数来获取。详见[routing](/guide/basics/routing.md)一节。
 :--:1
 ```python
 >>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
@@ -230,11 +230,11 @@ Which can then be retrieved using `url_for()`. See [routing](/guide/basics/routi
 ```
 :---
 
-## Listeners
+## 监听（Listener）
 
 ---:1
 
-Blueprints can also implement [listeners](/guide/basics/listeners.md).
+蓝图也可以实现[监听](/guide/basics/listeners.md)。
 :--:1
 ```python
 @bp.listener("before_server_start")
@@ -247,23 +247,23 @@ async def after_server_stop(app, loop):
 ```
 :---
 
-## Versioning
+## 版本管理
 
-As discussed in the [versioning section](/guide/advanced/versioning.md), blueprints can be used to implement different versions of a web API.
+[版本管理](/guide/advanced/versioning.md)一章中介绍了如何进行版本管理，蓝图也可以使用该功能来管理不同版本API。
 
 ---:1
 
-The `version` will be prepended to the routes as `/v1` or `/v2`, etc.
+`version`参数会被作为前缀添加到路由上，如`/v1`，`/v2`等等。
 :--:1
 ```python
 auth1 = Blueprint("auth", url_prefix="/auth", version=1)
-auth2 = Blueprint("auth", url_prefix="/auth", verison=2)
+auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 ```
 :---
 
 ---:1
 
-When we register our blueprints on the app, the routes `/v1/auth` and `/v2/auth` will now point to the individual blueprints, which allows the creation of sub-sites for each API version.
+当我们将蓝图注册到APP上时，`/v1/auth`和`/v1/auth`路由将指向两个不同的蓝图，这就允许您为每个API版本创建子路由。
 :--:1
 ```python
 from auth_blueprints import auth1, auth2
@@ -274,9 +274,9 @@ app.blueprint(auth2)
 ```
 :---
 
-## Generating a URL
+## URL生成
 
-When generating a url with `url_for()`, the endpoint name will be in the form:
+当使用`url_for()`来生成URL时，端点的名称将以以下格式来组织：
 
 ```text
 <blueprint_name>.<handler_name>
