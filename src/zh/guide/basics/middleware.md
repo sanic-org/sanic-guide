@@ -1,8 +1,8 @@
-# Middleware
+# 中间件(Middleware)
 
-Whereas listeners allow you to attach functionality to the lifecycle of a worker process, middleware allows you to attach functionality to the lifecycle of an HTTP stream.
+监听器允许您将功能挂载到工作进程的生命周期，而中间件允许您将功能挂载到HTTP流的生命周期。
 
-You can execute middleware either _before_ the handler is executed, or _after_.
+你可以在执行响应程序之前或者响应程序之后执行中间件。
 
 ```text
 event       <http connection is made, parsed, routed>
@@ -14,12 +14,14 @@ middleware        response
 event       <response is delivered and stram is closed>
 ```
 
-## Attaching middleware
+## 启用(Attaching middleware)
 
 ---:1
 
-This should probably look familar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`.
+这看起来和之前的流程没有什么不同，您需要做的就是完成响应程序的构建，并将其挂载到 `request ` 或  `response`  上
+
 :--:1
+
 ```python
 async def extract_user(request):
     request.ctx.user = await extract_user_from_request(request)
@@ -30,8 +32,10 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-Again, the `Sanic` app instance also has a convenience decorator.
+同样, 中间件一样支持使用装饰器进行挂载。
+
 :--:1
+
 ```python
 @app.middleware("request")
 async def extract_user(request):
@@ -41,8 +45,10 @@ async def extract_user(request):
 
 ---:1
 
-Response middleware receives both the `request` and `response` arguments.
+响应中间件需要同时接收 `request` 和 `response` 两个参数
+
 :--:1
+
 ```python
 @app.middleware('response')
 async def prevent_xss(request, response):
@@ -50,19 +56,23 @@ async def prevent_xss(request, response):
 ```
 :---
 
-## Modification
+## 变更(Modification)
 
 ---:1
 
-Middleware can modify the request or response parameter it is given, _as long as it does not return it_.
+如果您的中间件*不涉及返回响应操作*，那么您可以使用中间件来修改请求参数或者响应参数。
 
-#### Order of execution
+#### 执行顺序(Order of execution)
 
-1. Request middleware: `add_key`
-2. Route handler: `index`
-3. Response middleware: `prevent_xss`
-4. Response middleware: `custom_banner`
+
+
+1. 请求中间件：`add_key`
+2. 响应程序：`index`
+3. 响应中间件：`prevent_xss`
+4. 响应中间件：`custom_banner`
+
 :--:1
+
 ```python
 @app.middleware("request")
 async def add_key(request):
@@ -87,12 +97,14 @@ async def index(request):
 ```
 :---
 
-## Resonding early
+## 提前响应(Resonding early)
 
 ---:1
 
-If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+如果中间件返回了一个 `HTTPResponse` 对象， 那么请求将会终止，此对象将会作为最终响应进行返回。如果此操作发生在响应程序之前，那么响应程序将不会被调用。除此之外，此操作同样不会调用该中间件之后的其他中间件。
+
 :--:1
+
 ```python
 @app.middleware("request")
 async def halt_request(request):
@@ -104,11 +116,9 @@ async def halt_response(request, response):
 ```
 :---
 
-#### Order of execution
+#### 执行顺序(Order of execution)
 
-Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
-
-Given the following setup, we should expect to see this in the console.
+请求中间件按照声明的顺序执行。响应中间件按照声明顺序的**逆序**执行。 在此示例中，我们可以在控制台看到如下的输出顺序。
 
 ---:1
 
