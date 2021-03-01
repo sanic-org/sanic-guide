@@ -176,6 +176,11 @@ module.exports = {
           // "/guide/how-to/server-sent-events.md",
         ],
       },
+      {
+        title: "Project",
+        sidebarDepth: 1,
+        children: ["/guide/project/policies.md", "/guide/project/scope.md"],
+      },
     ],
   },
   configureWebpack: {
