@@ -29,7 +29,10 @@ module.exports = {
       "vuepress-plugin-container",
       {
         type: "new",
-        defaultTitle: "NEW",
+        defaultTitle: {
+          "/": "NEW",
+          "/zh/": "新的",
+        },
       },
     ],
   ],
