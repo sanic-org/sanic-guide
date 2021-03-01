@@ -142,7 +142,7 @@ async def halt_response(request, response):
 ```
 :---
 
-## Order of execution
+#### Order of execution
 
 Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
 

@@ -22,7 +22,7 @@ But what is it? And how do we use it?
 
 ---:1
 
-The most basic way to wire up a handler to an endpoing is with `app.add_route()`.
+The most basic way to wire up a handler to an endpoint is with `app.add_route()`.
 
 See [API docs]() for more details.
 :--:1
