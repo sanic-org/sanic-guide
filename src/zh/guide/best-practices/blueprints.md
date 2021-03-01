@@ -198,7 +198,7 @@ app.blueprint(group)
 
 ---:1
 
-正如[异常处理](./exceptions.md)一节，您可以定义蓝图特定的异常处理函数。
+正如[异常处理](./exceptions.md)一节，您可以定义蓝图特定的异常响应程序。
 :--:1
 ```python
 @bp.exception(NotFound)
@@ -222,7 +222,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-然后文件可以使用`url_for()`函数来获取。详见[routing](/guide/basics/routing.md)一节。
+然后文件可以使用`url_for()`函数来获取。详见[路由](/zh/guide/basics/routing.md)一节。
 :--:1
 ```python
 >>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
@@ -234,7 +234,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-蓝图也可以实现[监听](/guide/basics/listeners.md)。
+蓝图也可以实现[监听器](/zh/guide/basics/listeners.md)。
 :--:1
 ```python
 @bp.listener("before_server_start")
@@ -249,7 +249,7 @@ async def after_server_stop(app, loop):
 
 ## 版本管理
 
-[版本管理](/guide/advanced/versioning.md)一章中介绍了如何进行版本管理，蓝图也可以使用该功能来管理不同版本API。
+[版本管理](/zh/guide/advanced/versioning.md)一章中介绍了如何进行版本管理，蓝图也可以使用该功能来管理不同版本API。
 
 ---:1
 

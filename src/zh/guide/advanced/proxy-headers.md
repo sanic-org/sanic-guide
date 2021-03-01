@@ -10,7 +10,7 @@ Sanic可以通过配置来从代理请求的请求头部信息获取客户端的
 
 ---:1
 
-反向代理后的服务必须要设置如下一项或多项[配置](/guide/deployment/configuration.md)
+反向代理后的服务必须要设置如下一项或多项[配置](/zh/guide/deployment/configuration.md)
 
 - `FORWARDED_SECRET`
 - `REAL_IP_HEADER`

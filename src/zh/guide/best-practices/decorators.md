@@ -1,10 +1,10 @@
-# Decorators
+# 装饰器（Decorators）
 
-One of the best ways to create a consistent and DRY web API is to make use of decorators to remove functionality from the handlers, and make it repeatable across your views.
+为了更好的创建一个web API，在编码时遵循“一次且仅一次”的原则很有必要的，而使用装饰器则是遵循这些原则的最好方式之一，您可以将特定的逻辑进行封装，灵活的在各种响应程序上复用。
 
 ---:1
 
-Therefore, it is very common to see a Sanic view handler with several decorators on it.
+因此，在Sanic的视图函数上使用多个装饰器是十分常见的。
 :--:1
 ```python
 @app.get("/orders")
@@ -17,11 +17,11 @@ async def get_order_details(request, params, user):
 :---
 
 
-### Example
+### 例子
 
-Here is a starter template to help you create decorators.
+这里有一个入门模板来帮助您创建装饰器。
 
-In this example, let’s say you want to check that a user is authorized to access a particular endpoint. You can create a decorator that wraps a handler function, checks a request if the client is authorized to access a resource, and sends the appropriate response.
+在下面的例子中，假设您想去检查某个用户是否对特定的路由有访问的权限。您可以创建一个装饰器来装饰一个响应程序，检查发送请求的客户端是否有权限来访问该资源，并返回正确的响应。
 ```python
 from functools import wraps
 from sanic.response import json

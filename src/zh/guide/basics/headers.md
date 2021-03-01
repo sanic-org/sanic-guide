@@ -40,7 +40,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 #### 代理头(Proxy headers)
 
-Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/guide/advanced/proxy-headers.md) 章节的解释
+Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
 
 ## 响应头(Response Headers)
 
