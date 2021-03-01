@@ -5,13 +5,13 @@ Whereas listeners allow you to attach functionality to the lifecycle of a worker
 You can execute middleware either _before_ the handler is executed, or _after_.
 
 ```text
-event       <http connection is made, parsed, routed>
-middleware        request
-
-event                 <route handler executed>
-
-middleware        response
-event       <response is delivered and stram is closed>
+[event]       |  <http connection is made, parsed, routed>
+[middleware]  |        @on_request
+              |
+[event]       |            <route handler executed>
+              |
+[middleware]  |        @on_response
+[event]       |  <response is delivered and stram is closed>
 ```
 
 ## Attaching middleware
@@ -47,6 +47,23 @@ Response middleware receives both the `request` and `response` arguments.
 @app.middleware('response')
 async def prevent_xss(request, response):
     response.headers["x-xss-protection"] = "1; mode=block"
+```
+:---
+
+---:1
+
+::: new NEW in v21.3
+You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
+:::
+:--:1
+```python
+@app.on_request
+async def extract_user(request):
+    ...
+
+@app.on_response
+async def prevent_xss(request, response):
+    ...
 ```
 :---
 
@@ -87,6 +104,27 @@ async def index(request):
 ```
 :---
 
+
+---:1
+::: new NEW in v21.3
+You can modify the `request.match_info`. A useful feature that could be used, for example, in middleware to convert `a-slug` to `a_slug`.
+:::
+:--:1
+```python
+@app.on_request
+def convert_slug_to_underscore(request: Request):
+    request._match_info["slug"] = request._match_info["slug"].replace("-", "_")
+
+
+@app.get("/<slug:[a-z0-9]+(?:-[a-z0-9]+)*>")
+async def handler(request, slug):
+    return text(slug)
+```
+```
+$ curl localhost:9999/foo-bar-baz
+foo_bar_baz
+```
+:---
 ## Resonding early
 
 ---:1

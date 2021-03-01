@@ -95,6 +95,29 @@ async def index(request):
 ::: tip FYI
 If a client supports HTTP/1.1, Sanic will use [chunked transfer encoding](https://en.wikipedia.org/wiki/Chunked_transfer_encoding); you can explicitly enable or disable it using chunked option of the stream function.
 :::
+
+---:1
+::: new
+Starting in v21.3, there is first-class support in the `HTTPResponse` object for streaming. Therefore, the coroutine callback pattern using `stream` is not needed. Indeed, it is merely a convenienve method for backwards compatability.
+
+You now are able to stream the response directly in the handler.
+
+_FYI: This new style streaming API is still in BETA, and might change slightly._
+:::
+
+:--:1
+```python
+@app.route("/")
+async def test(request):
+    response = await request.respond(content_type="text/csv")
+    await response.send("foo,")
+    await response.send("bar")
+    await response.send("", True)
+    return response
+```
+:---
+
+
 ## File streaming
 
 ---:1

@@ -4,6 +4,14 @@ It is standard practice in API building to add versions to your endpoints. This 
 
 Adding a version will add a `/v{version}` url prefix to your endpoints.
 
+::: new NEW in v21.3
+The version can be a `int`, `float`, or `str`. Acceptable values:
+
+- `1`, `2`, `3`
+- `1.1`, `2.25`, `3.0`
+- `"1"`, `"v1"`, `"v1.1"`
+:::
+
 ## Per route
 
 ---:1

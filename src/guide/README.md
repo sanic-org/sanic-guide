@@ -4,15 +4,7 @@ pageClass: intro
 
 # Introduction
 
-::: warning UNDER CONSTRUCTION  
-These documents are still under construction. Ultimately they will replace the docs at readthedocs, and that page will be strictly API documentation. Any suggestions or support will be welcome [at the repo](https://github.com/sanic-org/sanic-guide) or [on the forums](https://community.sanicframework.org/t/frontpage-and-documentation-overhaul/770).
-
-Final version expected to conincide with 21.3 release.  
-
-*Updated January 2021*
-:::
-
-Sanic is a Python 3.6+ web server and web framework that’s written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.
+Sanic is a Python 3.7+ web server and web framework that’s written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.
 
 |         |                                                                                                                         |
 |---------|-------------------------------------------------------------------------------------------------------------------------|

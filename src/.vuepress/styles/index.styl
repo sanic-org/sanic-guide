@@ -1,5 +1,6 @@
 @require '~vuepress-plugin-tabs/dist/themes/default.styl'
 @require 'breakpoints.styl'
+@require 'custom.styl'
 
 main.home,
 .theme-default-content:not(.custom)
@@ -20,17 +21,18 @@ main.home,
     padding: 0 3rem
 div[class*="language-"]
     overflow: visible !important
-.sidebar::after
-    content: "BETA: This site is still under development and is not expected to complete until v21.3"
-    position: fixed
-    bottom: 1rem
-    left: 1rem
-    right: 1rem
-    display: block
-    background: #ff0d68
-    border-radius: 5px
-    padding: 0.75em
-    color: #fff
+// Hack for placing fixed banner at the bottom of the page
+// .sidebar::after
+//     content: "BETA: This site is still under development and is not expected to complete until v21.3"
+//     position: fixed
+//     bottom: 1rem
+//     left: 1rem
+//     right: 1rem
+//     display: block
+//     background: #ff0d68
+//     border-radius: 5px
+//     padding: 0.75em
+//     color: #fff
 .intro table thead,
 .intro table a span
     display: none

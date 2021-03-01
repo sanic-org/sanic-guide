@@ -25,6 +25,13 @@ module.exports = {
         siteId: "0131e426-4d6d-476b-a84b-34a45e0be6de",
       },
     ],
+    [
+      "vuepress-plugin-container",
+      {
+        type: "new",
+        defaultTitle: "NEW",
+      },
+    ],
   ],
   themeConfig: {
     repo: "sanic-org/sanic",
