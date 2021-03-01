@@ -238,8 +238,8 @@ let zh_locales = {
                     link: "https://community.sanicframework.org/"
                 },
                 {
-                    text: "Gitter",
-                    link: "https://gitter.im/sanic-python/Lobby",
+                  text: "Discord",
+                  link: "https://discord.gg/FARQzAEMAA",
                 },
                 {
                     text: "Twitter",
