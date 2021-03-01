@@ -21,12 +21,12 @@ async def feed(request, ws):
 ```
 :---
 
-## 定义处理函数
+## 定义响应程序
 
 
 ---:1
 
-通常的，一个websocket的处理函数将会打开并维持一个通讯循环。
+通常的，一个websocket的响应程序将会打开并维持一个通讯循环。
 
 然后，可以调用传入函数的第二个参数对象的`send()` 和 `recv()`方法来处理业务。
 
@@ -46,7 +46,7 @@ async def feed(request, ws):
 :---
 ## 配置
 
-更多细节请看[配置](/guide/deployment/configuration.md)一节。
+更多细节请看[配置](/zh/guide/deployment/configuration.md)一节。
 ```python
 app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
 app.config.WEBSOCKET_MAX_QUEUE = 32

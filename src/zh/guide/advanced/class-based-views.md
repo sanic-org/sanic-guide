@@ -179,11 +179,11 @@ class ViewWithSomeDecorator(HTTPMethodView):
 ```
 :---
 
-## 添加路由(Generating a URL)
+## URL生成(Generating a URL)
 
 ---:1
 
-和路由章节中的 [添加路由](/zh/guide/basics/routing.md#generating-a-url) 一样，除了指定需要添加的类之外，其他的使用方法是一致的。
+和路由章节中的 [URL生成](/zh/guide/basics/routing.md#generating-a-url) 一样，除了指定需要添加的类之外，其他的使用方法是一致的。
 
 :--:1
 

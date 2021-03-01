@@ -27,13 +27,13 @@ async def i_am_ALSO_a_handler(request):
 
 ::: tip 小提示：
 
-如果您想要了解更多关于封装逻辑的信息，可以通过 [基于类的视图](/guide/zh/advanced/class-based-views.md) 这一章节来了解更多
+如果您想要了解更多关于封装逻辑的信息，可以通过 [基于类的视图](/zh/guide/advanced/class-based-views.md) 这一章节来了解更多
 
 :::
 
 ---:1
 
-之后，您需要做的就只是将其挂载到服务端点上。 在 [路由](./routing.md) 这一章节，我们将会了解更多相关的内容
+之后，您需要做的就只是将其挂载到服务端点上。 在 [路由](/zh/guide/basics/routing.md) 这一章节，我们将会了解更多相关的内容
 
 让我们来用一个实例进行讲解：
 

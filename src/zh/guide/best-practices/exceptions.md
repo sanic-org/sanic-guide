@@ -126,7 +126,7 @@ Sanic 自带了三种异常格式。
 2. Text
 3. JSON
 
-根据您的应用程序是否处于 [调试模式](/guide/deployment/development.md)，这些异常内容将呈现不同级别的细节。
+根据您的应用程序是否处于 [调试模式](/zh/guide/deployment/development.md)，这些异常内容将呈现不同级别的细节。
 
 ### HTML
 

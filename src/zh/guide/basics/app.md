@@ -93,7 +93,7 @@ app.config.bad = "boo"
 
 :::
 
-后面还有更多关于 [配置](/guide/zh/deployment/configuration.md) 的细节
+后面还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节
 
 <!-- ## Methods
 

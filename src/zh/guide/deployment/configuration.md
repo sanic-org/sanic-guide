@@ -236,4 +236,4 @@ TCP连接打开的时长本质上由服务器自身决定，在 Sanic 中，使�
 
 ## 代理配置（Proxy configuration）
 
-请参照 [代理配置](/advanced/proxy-headers.md)
+请参照 [代理配置](/zh/guide/advanced/proxy-headers.md)
