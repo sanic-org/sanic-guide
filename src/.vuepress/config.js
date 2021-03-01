@@ -161,6 +161,8 @@ module.exports = {
         title: "How to...",
         sidebarDepth: 1,
         children: [
+          "/guide/how-to/toc.md",
+          "/guide/how-to/mounting.md",
           // "/guide/how-to/db.md",
           // "/guide/how-to/decorators.md",
           // "/guide/how-to/validation.md",
