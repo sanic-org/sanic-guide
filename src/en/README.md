@@ -4,7 +4,7 @@ heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/pn
 heroText: Build fast. Run Fast.
 tagline: Async Python 3.6+ web server/framework
 actionText: Get Started →
-actionLink: /guide/
+actionLink: /en/guide/
 features:
 - title: Simple and lightweight
   details: Intuitive API with smart defaults and no bloat allows you to get straight to work building your app.
