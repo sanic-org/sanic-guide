@@ -2,7 +2,12 @@
   <div>
     <Page v-bind="$attrs" />
     <footer class="page-footer">
-      MIT Licensed | Copyright © 2018-present Sanic Community Organization
+      <a href="https://github.com/sanic-org/sanic/blob/master/LICENSE"
+        >MIT Licensed</a
+      >
+      <br />
+      Copyright © 2018-present Sanic Community Organization<br />
+      <p>Made with ❤️ and ☕️</p>
     </footer>
   </div>
 </template>
@@ -20,4 +25,6 @@ footer.page-footer
     text-align: center;
     font-size: 0.85rem;
     color: #999;
+footer p
+    font-size: 1rem;
 </style>
