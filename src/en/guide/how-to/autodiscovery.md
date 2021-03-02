@@ -79,7 +79,6 @@ def autodiscover(
         if recursive:
             base = Path(module.__file__).parent
             for path in glob(f"{base}/**/*.py", recursive=True):
-                # if "__init__" not in path and path not in _imported:
                 if path not in _imported:
                     name = "module"
                     if "__init__" in path:
