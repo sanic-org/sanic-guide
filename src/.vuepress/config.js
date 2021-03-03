@@ -359,6 +359,41 @@ let zh_locales = {
 */
 
 let site_config = {
+  head: [
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+    ],
+    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    [
+      "link",
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68" },
+    ],
+    ["meta", { name: "msapplication-TileColor", content: "#444444" }],
+    ["meta", { name: "theme-color", content: "#fd0d68" }],
+  ],
   locales: {
     "/en/": en,
     "/zh/": zh,
@@ -369,8 +404,6 @@ let site_config = {
       permalink: true,
     },
     extendMarkdown: (md) => {
-      // use more markdown-it plugins!
-      // md.use(require('markdown-it-multicolumn'))
       md.use(require("markdown-it-multicolumn").default);
     },
   },
@@ -380,6 +413,14 @@ let site_config = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
+    [
+      "seo",
+      {
+        image: () =>
+          "/images/sanic-framework-social-media-preview-1280x640.png",
+      },
+    ],
+    ["sitemap", { hostname: "https://sanicframework.org" }],
     [
       "umami",
       {
@@ -400,10 +441,12 @@ let site_config = {
     [
       "vuepress-plugin-redirect",
       {
-        // provide i18n redirection
-        // it will automatically redirect `/foo/bar/` to `/:locale/foo/bar/` if exists
         locales: true,
       },
+    ],
+    [
+      "vuepress-plugin-code-copy",
+      { color: "#ff0d68", backgroundTransition: false },
     ],
   ],
 
@@ -426,10 +469,14 @@ let site_config = {
     prevLinks: true,
     lastUpdated: "Last Updated",
     logo:
-      "https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
+      "https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
     locales: {
       "/en/": en_locales,
       "/zh/": zh_locales,
+    },
+    author: {
+      name: "Sanic Community Organization",
+      twitter: "@sanicframework",
     },
   },
 };
