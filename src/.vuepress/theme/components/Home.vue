@@ -1,14 +1,14 @@
 <template>
   <div>
-    <Page v-bind="$attrs" />
+    <Home v-bind="$attrs" />
     <Footer />
   </div>
 </template>
 
 <script>
-import Page from "@parent-theme/components/Page.vue";
+import Home from "@parent-theme/components/Home.vue";
 import Footer from "@theme/components/Footer.vue";
 export default {
-  components: { Page, Footer },
+  components: { Home, Footer },
 };
 </script>

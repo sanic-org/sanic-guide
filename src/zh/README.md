@@ -1,8 +1,8 @@
 ---
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
-heroText: Build fast. Run Fast.
-tagline: 异步 Python 3.6+ web 框架
+heroText: Build fast. Run fast.
+tagline: 异步 Python 3.7+ web 框架
 actionText: 快速开始 →
 actionLink: /zh/guide/
 features:
@@ -18,7 +18,6 @@ features:
   details: Sanic 是 PyPI 上最受欢迎的整体框架之一，是顶级的异步 Web 框架
 - title: 社区驱动
   details: 该项目由社区为社区维护和运行，具有大量的活跃贡献者。
-footer: MIT Licensed | Copyright © 2018-present Sanic Community Organization
 pageClass: landing-page
 logo: false
 ---

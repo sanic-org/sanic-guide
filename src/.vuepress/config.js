@@ -47,23 +47,27 @@ let en_locales = {
           items: [
             {
               text: "General",
-              link: "/guide/getting-started.md",
+              link: "/en/guide/getting-started.md",
             },
             {
               text: "Basics",
-              link: "/guide/basics/app.md",
+              link: "/en/guide/basics/app.md",
             },
             {
               text: "Advanced",
-              link: "/guide/advanced/class-based-views.md",
+              link: "/en/guide/advanced/class-based-views.md",
             },
             {
               text: "Best Practices",
-              link: "/guide/best-practices/blueprints.md",
+              link: "/en/guide/best-practices/blueprints.md",
             },
             {
               text: "Running & Deploying",
-              link: "/guide/deployment/configuration.md",
+              link: "/en/guide/deployment/configuration.md",
+            },
+            {
+              text: "How to...",
+              link: "/en/guide/how-to/toc.md",
             },
           ],
         },
@@ -71,8 +75,21 @@ let en_locales = {
           text: "API Docs",
           items: [
             {
-              text: "Legacy Docs",
+              text: "View API Docs",
               link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "Org Docs",
+          items: [
+            {
+              text: "Policies",
+              link: "/en/guide/project/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/en/guide/project/scope.md",
             },
           ],
         },
@@ -166,10 +183,10 @@ let en_locales = {
           "/en/guide/how-to/mounting.md",
           "/en/guide/how-to/authentication.md",
           "/en/guide/how-to/autodiscovery.md",
+          "/en/guide/how-to/cors.md",
           // "/guide/how-to/db.md",
           // "/guide/how-to/decorators.md",
           // "/guide/how-to/validation.md",
-          // "/guide/how-to/cors.md",
           // "/guide/how-to/csrf.md",
           // "/guide/how-to/serialization.md",
           // "/guide/how-to/task-queue.md",
@@ -178,7 +195,7 @@ let en_locales = {
         ],
       },
       {
-        title: "Project",
+        title: "Organization",
         sidebarDepth: 1,
         children: [
           "/en/guide/project/policies.md",
@@ -233,8 +250,21 @@ let zh_locales = {
           text: "API 文档",
           items: [
             {
-              text: "Legacy Docs",
+              text: "View API Docs",
               link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "Org 文档",
+          items: [
+            {
+              text: "Policies",
+              link: "/zh/guide/project/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/zh/guide/project/scope.md",
             },
           ],
         },
@@ -328,10 +358,10 @@ let zh_locales = {
           "/zh/guide/how-to/mounting.md",
           "/zh/guide/how-to/authentication.md",
           "/zh/guide/how-to/autodiscovery.md",
+          "/zh/guide/how-to/cors.md",
           // "/zh/guide/how-to/db.md",
           // "/zh/guide/how-to/decorators.md",
           // "/zh/guide/how-to/validation.md",
-          // "/zh/guide/how-to/cors.md",
           // "/zh/guide/how-to/csrf.md",
           // "/zh/guide/how-to/serialization.md",
           // "/zh/guide/how-to/task-queue.md",
@@ -340,7 +370,7 @@ let zh_locales = {
         ],
       },
       {
-        title: "Project",
+        title: "Organization",
         sidebarDepth: 1,
         children: [
           "/zh/guide/project/policies.md",
