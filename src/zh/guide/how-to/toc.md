@@ -1,13 +1,13 @@
-# Table of Contents
+# 目录（Table of Contents）
 
-We have compiled fully working examples to answer common questions and user cases. For the most part, the examples are as minimal as possible, but should be complete and runnable solutions.
+虽然我们已经编写了各种用户场景下的代码样例来回答常见的问题。但是在大多数情况下，这些例子都是尽可能的简单，所以同时应该有完整的可运行方案。
 
-| Page | How do I ... |
+| 内容 | 我该如何 ... |
 |:-----|:------------|
-| [Application mounting](./mounting.md) | ... mount my application at some path above the root? |
-| [Authentication](./authentication.md) | ... control authentication and authorization? |
-| [Autodiscovery](./autodiscovery.md)   | ... autodiscover the components I am using to build my application? |
-| CORS                                  | *Coming soon* |
+| [应用挂载](./mounting.md) | ... 将我的应用程序挂载在根目录下的某个路径？|
+| [认证](./authentication.md) | ... 控制认证和权限？ |
+| [自动发现](./autodiscovery.md)   | ... 自动发现我正在使用的组件来构建我的应用程序？|
+| [CORS](./cors.md)                     | ... 如何配置跨域资源共享 |
 | CSRF                                  | *Coming soon* |
 | Databases                             | *Coming soon* |
 | IPv6                                  | *Coming soon* |
