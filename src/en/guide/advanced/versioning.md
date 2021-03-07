@@ -46,3 +46,57 @@ def handle_request(request):
     return response.html("<p>Hello world!</p>")
 ```
 :---
+
+## Per Blueprint Group
+
+---:1
+In order to simplify the management of the versioned blueprints, you can provide a version number in the blueprint
+group. The same will be inherited to all the blueprint grouped under it if the blueprints don't already override the
+same information with a value specified while creating a blueprint instance.
+
+When using blueprint groups for managing the versions, the following order is followed to apply the Version prefix to
+the routes being registered.
+
+1. Route Level configuration
+2. Blueprint level configuration
+3. Blueprint Group level configuration
+
+If we find a more pointed versioning specification, we will pick that over the more generic versioning specification
+provided under the Blueprint or Blueprint Group
+:--:1
+```python
+from sanic.blueprints import Blueprint
+from sanic.response import json
+
+bp1 = Blueprint(
+    name="blueprint-1",
+    url_prefix="/bp1",
+    version=1.25,
+)
+bp2 = Blueprint(
+    name="blueprint-2",
+    url_prefix="/bp2",
+)
+
+group = Blueprint.group(
+    [bp1, bp2],
+    url_prefix="/bp-group",
+    version="v2",
+)
+
+# GET /v1.25/bp-group/bp1/endpoint-1
+@bp1.get("/endpoint-1")
+async def handle_endpoint_1_bp1(request):
+    return json({"Source": "blueprint-1/endpoint-1"})
+
+# GET /v2/bp-group/bp2/endpoint-2
+@bp2.get("/endpoint-1")
+async def handle_endpoint_1_bp2(request):
+    return json({"Source": "blueprint-2/endpoint-1"})
+
+# GET /v1/bp-group/bp2/endpoint-2
+@bp2.get("/endpoint-2", version=1)
+async def handle_endpoint_2_bp2(request):
+    return json({"Source": "blueprint-2/endpoint-2"})
+```
+:---
