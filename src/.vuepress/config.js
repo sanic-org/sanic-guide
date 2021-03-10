@@ -195,6 +195,11 @@ let en_locales = {
         ],
       },
       {
+        title: "Release Notes",
+        sidebarDepth: 1,
+        children: ["/en/guide/release-notes/v21.3.md"],
+      },
+      {
         title: "Organization",
         sidebarDepth: 1,
         children: [
