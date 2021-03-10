@@ -230,7 +230,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 ```
 :---
 
-## 监听（Listener）
+## 监听器
 
 ---:1
 
@@ -274,17 +274,20 @@ app.blueprint(auth2)
 ```
 :---
 
+---:1
+
 您也可以将多个蓝图放在一个蓝图组下然后同时为他们添加上版本信息。
 :--:1
 ```python
 auth = Blueprint("auth", url_prefix="/auth")
 metrics = Blueprint("metrics", url_prefix="/metrics")
+
 group = Blueprint.group([auth, metrics], version="v1")
+
 # This will provide APIS prefixed with the following URL path
 # /v1/auth/ and /v1/metrics
 ```
 :---
--
 
 ## URL生成
 

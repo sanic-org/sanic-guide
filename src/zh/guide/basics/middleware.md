@@ -5,13 +5,13 @@
 你可以在执行响应程序之前或者响应程序之后执行中间件。
 
 ```text
-event       <http connection is made, parsed, routed>
-middleware        request
-
-event                 <route handler executed>
-
-middleware        response
-event       <response is delivered and stram is closed>
+[event]       |  <http connection is made, parsed, routed>
+[middleware]  |        @on_request
+              |
+[event]       |            <route handler executed>
+              |
+[middleware]  |        @on_response
+[event]       |  <response is delivered and stram is closed>
 ```
 
 ## 启用(Attaching middleware)
@@ -56,6 +56,23 @@ async def prevent_xss(request, response):
 ```
 :---
 
+---:1
+
+::: new v21.3 新增
+您可以进一步缩短该装饰器的调用代码。如果您的IDE有自动补全应该会有很有用。
+:::
+:--:1
+```python
+@app.on_request
+async def extract_user(request):
+    ...
+
+@app.on_response
+async def prevent_xss(request, response):
+    ...
+```
+:---
+
 ## 变更(Modification)
 
 ---:1
@@ -97,6 +114,26 @@ async def index(request):
 ```
 :---
 
+---:1
+::: new v21.3 新增
+您可以修改`request.match_info`。这个功能可能很有用，比如下面这个例子中，在中间件里将`a-slug` 改变为 `a_slug`。
+:::
+:--:1
+```python
+@app.on_request
+def convert_slug_to_underscore(request: Request):
+    request._match_info["slug"] = request._match_info["slug"].replace("-", "_")
+
+
+@app.get("/<slug:[a-z0-9]+(?:-[a-z0-9]+)*>")
+async def handler(request, slug):
+    return text(slug)
+```
+```
+$ curl localhost:9999/foo-bar-baz
+foo_bar_baz
+```
+:---
 ## 提前响应(Resonding early)
 
 ---:1

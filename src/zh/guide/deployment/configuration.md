@@ -224,7 +224,7 @@ app.update_config(MyConfig())
 
 TCP连接打开的时长本质上由服务器自身决定，在 Sanic 中，使用 `KEEP_ALIVE_TIMEOUT` 作为该值。默认情况下它设置为 5 秒。这与 Apache 的默认值相同。该值足够客户端发送一个新的请求。如非必要请勿更改此项。如需更改，请勿超过 75 秒，除非您确认客户端支持TCP连接保持足够久。
 
-仅供参考：
+小提示：
 
 * Apache httpd 服务器默认 KEEP_ALIVE_TIMEOUT = 5秒
 * Nginx 服务器默认 KEEP_ALIVE_TIMEOUT = 75秒

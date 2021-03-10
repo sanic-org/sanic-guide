@@ -4,16 +4,7 @@ pageClass: intro
 
 # 介绍
 
-::: warning 🚧正在施工🚧  
-
-这些文件仍在建设中。它最终将会取代 readthedocs 上的文档。另外该文档将是严格的API文档。欢迎在 [Github仓库](https://github.com/sanic-org/sanic-guide) 或 [论坛](https://community.sanicframework.org/t/frontpage-and-documentation-overhaul/770) 上提出任何建议 或 提供任何支持。
-
-最终版本预计将与21.3版本一致。
-
-*更新于 2021 年 1 月*
-:::
-
-Sanic 是 Python 3.6+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。
+Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。
 
 |         |                                                                                                                         |
 |---------|-------------------------------------------------------------------------------------------------------------------------|
@@ -48,7 +39,15 @@ Sanic 是 Python 3.6+ Web 服务器和 Web 框架，旨在提高性能。它允�
 
 :---
 
+## 赞助商
 
+[![Try CodeStream][]][99]
+
+CodeStream能在您的IDE中展示完整的提交信息来，让您更方便地管理提交请求进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用看只看文件差异对比。还能使用定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。
+
+[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
+
+感谢我们的赞助商。请查看[open collective](https://opencollective.com/sanic-org)来了解更多关于资助Sanic的信息。
 
 ## 加入社区
 
@@ -58,7 +57,7 @@ Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframe
 
 ## 贡献
 
-我们总是很高兴有新的贡献。 我们已经为那些希望入门的人提供了 [标记好的问题](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)，并欢迎您在[论坛上的问题/解答/讨论](https://community.sanicframework.org/)。 请查看我们的[贡献准则](https://sanic.readthedocs.io/en/latest/sanic/contributing.html)。
+我们总是很高兴有新的贡献。 我们已经为那些希望入门的人提供了 [标记好的问题](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)，并欢迎您在[论坛上的问题/解答/讨论](https://community.sanicframework.org/)。 请查看我们的[贡献准则](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)。
 
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
@@ -85,3 +84,5 @@ Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframe
 [Downloads]: https://pepy.tech/badge/sanic/month
 [11]: https://pepy.tech/project/sanic
 [12]: https://pepy.tech/badge/sanic/week
+[Try CodeStream]: https://alt-images.codestream.com/codestream_logo_sanicorg.png
+[99]: https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner
