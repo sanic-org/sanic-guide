@@ -1,0 +1,19 @@
+name: Spell Check Documentation
+on:
+  pull_request:
+  push:
+
+
+jobs:
+  spellcheck:
+    runs-on: ubuntu-latest
+    name: Spell Check the Documenation
+    steps:
+      - uses: actions/checkout@v2
+        name: Checkout the Repository
+      - name: Setup Custom Actions
+        uses: harshanarayana/custom-actions@main
+        with:
+          action: 'spellcheck'
+          python-version: 3.9
+          spellcheck-ignore-errors: 'true'
