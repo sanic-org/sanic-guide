@@ -103,8 +103,8 @@ let en_locales = {
           link: "https://community.sanicframework.org/",
         },
         {
-          text: "Gitter",
-          link: "https://gitter.im/sanic-python/Lobby",
+          text: "Discord",
+          link: "https://discord.gg/FARQzAEMAA",
         },
         {
           text: "Twitter",
@@ -267,6 +267,11 @@ let zh_locales = {
               text: "Policies",
               link: "/zh/guide/project/policies.md",
             },
+          ],
+        },
+        {
+          text: "API 文档",
+          items: [
             {
               text: "S.C.O.P.E.",
               link: "/zh/guide/project/scope.md",
@@ -377,7 +382,7 @@ let zh_locales = {
       {
         title: "Release Notes",
         sidebarDepth: 1,
-        children: ["/en/guide/release-notes/v21.3.md"],
+        children: ["/zh/guide/release-notes/v21.3.md"],
       },
       {
         title: "Organization",
