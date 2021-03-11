@@ -1,10 +1,10 @@
-# Sanic 应用
+# Sanic 应用(Sanic Application)
 
 ## 实例(Instance)
 
 ---:1
 
-`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不必须叫做 `server.py` , 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic
+`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不是必须的, 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic
 对象。
 
 :--:1
@@ -24,7 +24,7 @@ app = Sanic("My Hello, world app")
 
 ---:1
 
-当您实例化一个 Sanic 对象之后， 你就可以随时通过 Sanic 注册表来获取该对象了，尤其是当您在无法通过其他方式来获取 Sanic 对象的时候， 这种方式将对您有非常大的帮助。
+当您实例化一个 Sanic 对象之后， 您就可以随时通过 Sanic 注册表来获取该对象了，尤其是当您在无法通过其他方式来获取 Sanic 对象的时候， 这种方式将对您有非常大的帮助。
 
 :--:1
 
@@ -62,7 +62,7 @@ app = Sanic.get_app(
 
 ---:1
 
-Sanic 将配置保存在 Sanic 对象的 `config` 属性中。可以使用**属性操作**或**字典操作**的方式来修改配置。
+Sanic 将配置保存在 Sanic 对象的 `config` 属性中。可以使用 **属性操作** 或 **字典操作** 的方式来修改配置。
 
 :--:1
 
@@ -93,10 +93,10 @@ app.config.bad = "boo"
 
 :::
 
-后面还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节
+之后还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节。
 
 <!-- ## Methods
 
-### 运行
+### 运行(Run)
 
-### 停止 -->
+### 停止(Stop) -->
