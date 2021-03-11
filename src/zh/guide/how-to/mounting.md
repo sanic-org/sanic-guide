@@ -1,6 +1,6 @@
-# Application Mounting
+# 应用挂载（Application Mounting）
 
-> How do I mount my application at some path above the root?
+> 我该如何将我的应用程序挂载在根目录下的某个路径？
 
 ```python
 # server.py

@@ -416,7 +416,9 @@ Sanic routes can be configured to strictly match on whether or not there is a tr
 
 1. Route
 2. Blueprint
-3. Application
+3. BlueprintGroup
+4. Application
+
 :--:1
 ```python
 # provide default strict_slashes value for all routes
@@ -437,6 +439,20 @@ bp = Blueprint(__file__, strict_slashes=True)
 @bp.get("/bp/get", strict_slashes=False)
 def handler(request):
     return text("OK")
+```
+
+```python
+bp1 = Blueprint(name="bp1", url_prefix="/bp1")
+bp2 = Blueprint(
+    name="bp1",
+    url_prefix="/bp2",
+    strict_slashes=False,
+)
+
+# This will enforce strict slashes check on the routes
+# under bp1 but ignore bp2 as that has an explicitly
+# set the strict slashes check to false
+group = Blueprint.group([bp1, bp2], strict_slashes=True)
 ```
 :---
 

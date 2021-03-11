@@ -40,15 +40,16 @@ async def test(request):
 
 response 的 cookies 可以通过和字典类型一样的操作方法来进行设置，而且它可以使用以下参数：
 
-|   名称    |   类型   |  说明
-| :------: | :------: | :---:
-| expires  | datetime | Cookie 在客户端浏览器上失效的时间。
-|  path    |    str   | 此 Cookie 适用的 URL 子集。默认值为 `/`。
-| comment  |    str   | 注释（元数据）。
-| domain   |    str   | 指定 Cookie 的有效域。显式指定的域必须始终以点开始。
-| max-age  |    int   | Cookie 应生存的秒数。
-| secure   |   bool   | 指定是否仅通过 HTTPS 发送 Cookie。
-| httponly |   bool   | 指定 Javascript 是否无法读取 Cookie。
+| 参数名称  | 参数类型 |                             参数说明                      |
+| :------: | :------: | :------------------------------------------------------: |
+| expires  | datetime | Cookie 在客户端浏览器上失效的时间。                        |
+|   path   |    str   | 此 Cookie 适用的 URL 子集。默认值为 `/`                    |
+| comment  |    str   | 注释（元数据）                                            |
+| domain   |    str   | 指定 Cookie 的有效域。显式指定的域必须始终以点开始。         |
+| max-age  |    int   | Cookie 应生存的秒数。                                     |
+| secure   |    bool  | 指定是否仅通过 HTTPS 发送 Cookie。                         |
+| httponly |    bool  | 指定 Javascript 是否无法读取 Cookie。                     |                               |
+| samesite |    str   | 默认值取决于浏览器，规范状态（Lax、Strict 和 None）是有效值。|
 
 ## 删除(Deleting)
 

@@ -1,8 +1,10 @@
-# Authentication
+# 认证（Authentication）
 
-> How do I control authentication and authorization?
+> 我该如何控制认证和权限？
 
-This is an _extremely_ complicated subject to cram into a few snippets. But, this should provide you with an idea on ways to tackle this problem. This example uses [JWTs](https://jwt.io/), but the concepts should be equally applicable to sessions or some other scheme.
+这是一个*十分*复杂的话题，很难用几行代码阐述清楚。尽管如此，本章节也许能够为您提供一些解决问题的思路。
+
+下面的例子使用了[JWTs](https://jwt.io/)来实现，如果您想使用session或者是其他的方式，那做法应该是类似的。
 
 :::: tabs
 ::: tab server.py
@@ -75,7 +77,7 @@ def protected(wrapped):
 
     return decorator(wrapped)
 ```
-This decorator pattern is taken from the [decorators page](/en/guide/best-practices/decorators.md).
+这一段装饰器的代码来自于[装饰器](/zh/guide/best-practices/decorators.md)一节
 :::
 ::::
 
@@ -108,7 +110,7 @@ content-type: text/plain; charset=utf-8
 You are unauthorized.
 ```
 
-Also, checkout some resources from the community:
-
-- Awesome Sanic - [Authorization](https://github.com/mekicha/awesome-sanic/blob/master/README.md#authentication) & [Session](https://github.com/mekicha/awesome-sanic/blob/master/README.md#session)
+同时，您可以查看一下社区内提供的资源：
+ 
+- Awesome Sanic - [认证（Authentication）](https://github.com/mekicha/awesome-sanic/blob/master/README.md#authentication) & [会话（Session）](https://github.com/mekicha/awesome-sanic/blob/master/README.md#session)
 - [EuroPython 2020 - Overcoming access control in web APIs](https://www.youtube.com/watch?v=Uqgoj43ky6A)

@@ -10,19 +10,19 @@
 工作流程的生命周期如下：
 
 ```text
-event     <worker process starts>
-listener      before_server_start
-event             <server started>
-listener              after_server_start
-
-event                     <serving requests>
-event                     <graceful shutdown initiated>
-event                     <complete remaining requests>
-
-listener              before_server_stop
-event             <server stopped>
-listener      after_server_stop
-event     <process exits>
+[event]     |  <worker process starts>
+[listener]  |      @app.before_server_start
+[event]     |          <server started>
+[listener]  |              @app.after_server_start
+            |
+[event]     |                  <serving requests>
+[event]     |                  <graceful shutdown initiated>
+[event]     |                  <complete remaining requests>
+            |
+[listener]  |              @app.before_server_stop
+[event]     |          <server stopped>
+[listener]  |      @app.after_server_stop
+[event]     |  <process exits>
 ```
 
 ## 启用监听器(Attaching a listener)
@@ -51,6 +51,18 @@ app.register_listener(setup_db, "before_server_start")
 
 ```python
 @app.listener("before_server_start")
+async def setup_db(app, loop):
+    app.db = await db_setup()
+```
+:---
+
+---:1
+::: new v21.3 新增
+您可以进一步缩短该装饰器的调用代码。如果您的IDE有自动补全应该会有很有用。
+:::
+:--:1
+```python
+@app.before_server_start
 async def setup_db(app, loop):
     app.db = await db_setup()
 ```

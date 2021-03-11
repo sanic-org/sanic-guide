@@ -53,7 +53,7 @@ bp.add_route(
 ```
 :---
 
-::: tip 仅供参考
+::: tip 小提示
 只有在post，put和patch装饰器中才有该参数。
 :::
 
@@ -92,9 +92,31 @@ async def index(request):
     return stream(stream_from_db)
 ```
 
-::: tip 仅供参考
+::: tip 小提示
 如果客户端支持HTTP/1.1，Sanic将会使用[分块传输编码](https://en.wikipedia.org/wiki/Chunked_transfer_encoding)进行流式传输；您也可以指定是否启用分块传输编码选项。
 :::
+
+---:1
+::: new
+从v21.3版本开始，`HTTPResponse` 对象提供了新的方法来支持流式传输。因此不需要定义协程作为回调再传入`stream`方法里面了。事实上，上面的方法仅仅只是为了方便做向下兼容了。
+
+您现在可在响应函数中直接进行流式传输了。
+
+_小提示：这个新的流式传输的API还处于BETA阶段，未来可能会有变动。_
+:::
+
+:--:1
+```python
+@app.route("/")
+async def test(request):
+    response = await request.respond(content_type="text/csv")
+    await response.send("foo,")
+    await response.send("bar")
+    await response.send("", True)
+    return response
+```
+:---
+
 ## 文件流（File streaming)
 
 ---:1

@@ -274,6 +274,22 @@ app.blueprint(auth2)
 ```
 :---
 
+---:1
+
+It is also possible to group the blueprints under a `BlueprintGroup` entity and version multiple of them together at the
+same time.
+:--:1
+```python
+auth = Blueprint("auth", url_prefix="/auth")
+metrics = Blueprint("metrics", url_prefix="/metrics")
+
+group = Blueprint.group([auth, metrics], version="v1")
+
+# This will provide APIS prefixed with the following URL path
+# /v1/auth/ and /v1/metrics
+```
+:---
+
 ## Generating a URL
 
 When generating a url with `url_for()`, the endpoint name will be in the form:

@@ -500,7 +500,10 @@ async def handler(request, ws):
 
 Sanic 可以按需开启或关闭路由的严格匹配模式，开启后路由将会严格按照 `/` 作为分隔来进行路由匹配，你可以在以下几种方法中进行匹配，它们的优先级遵循：
 
-`Route`  >  `Blueprint`  >  `Application`
+1. 路由（Route）
+2. 蓝图（Blueprint)
+3. 蓝图组（BlueprintGroup）
+4. 应用（Application）
 
 :--:1
 
@@ -526,6 +529,18 @@ def handler(request):
     return text("OK")
 ```
 
+```python
+bp1 = Blueprint(name="bp1", url_prefix="/bp1")
+bp2 = Blueprint(
+    name="bp1",
+    url_prefix="/bp2",
+    strict_slashes=False,
+)
+# This will enforce strict slashes check on the routes
+# under bp1 but ignore bp2 as that has an explicitly
+# set the strict slashes check to false
+group = Blueprint.group([bp1, bp2], strict_slashes=True)
+```
 :---
 
 ## 静态文件(Static files)

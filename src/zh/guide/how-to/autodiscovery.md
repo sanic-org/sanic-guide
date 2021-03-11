@@ -1,17 +1,17 @@
 ---
-title: Autodiscovery
+title: 自动发现（Autodiscovery）
 ---
 
 
-# Autodiscovery of Blueprints, Middleware, and Listeners
+# 自动发现蓝图，中间件和监听器
 
-> How do I autodiscover the components I am using to build my application?
+> 我该如何自动发现我正在使用的组件来构建我的应用程序？
 
-One of the first problems someone faces when building an application, is *how* to structure the project. Sanic makes heavy use of decorators to register route handlers, middleware, and listeners. And, after creating blueprints, they need to be mounted to the application.
+当创建一个应用时，您可能碰到的第一个问题就是*如何*去组织一个项目。Sanic十分依赖装饰器来注册路由、中间件和监听器。并且，在创建蓝图之后，也需要被挂载到应用上。
 
-A possible solution is a single file in which **everything** is imported and applied to the Sanic instance. Another is passing around the Sanic instance as a global variable. Both of these solutions have their drawbacks.
+一种解决方案是创建一个文件，在这个文件中导入*所有*的东西并且被应用于Sanic应用实例。另一种解决方式是将Sanic应用实例作为全局变量在不同文件中传递并使用。这两种方式都会有他的缺点。
 
-An alternative is autodiscovery. You point your application at modules (already imported, or strings), and let it wire everything up.
+而自动发现函数作为另一种补充。您可以把应用程序与模块（已经导入的对象或字符串）传入自动发现的函数中，该工具函数就会自动加载一切。
 
 :::: tabs
 ::: tab server.py
