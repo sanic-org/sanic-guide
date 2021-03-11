@@ -2,9 +2,9 @@
 pageClass: intro
 ---
 
-# 介绍
+# 介绍(Introduction)
 
-Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。
+Sanic 是 Python3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python3.5 中添加的 `async`/`await` 语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。
 
 |         |                                                                                                                         |
 |---------|-------------------------------------------------------------------------------------------------------------------------|
@@ -14,50 +14,50 @@ Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允�
 | Support | [![Forums][]][8] [![Join the chat at <https://gitter.im/sanic-python/Lobby>][]][9] [![Awesome Sanic List]][10]          |
 | Stats   | [![Downloads][]][11] [![Downloads][12]][11]                                                                             |
 
-## 它是什么?
+## 它是什么？(What is it?)
 
-首先，在入坑之前， 你应该知道 Sanic 框架和其他的框架相比是与众不同的。
+首先，在入坑之前， 您应该知道 Sanic 框架和其他的框架相比是与众不同的。
 
 哦，纠正一下，就在上面的那一句中，隐藏了一个巨大的错误，因为 Sanic 不仅仅是一个 **框架**，它还是一个 **Web 服务器**， 在后面的 **部署** 环节中，我们将仔细地探讨这个问题。
 
-但是，请记住，Sanic具备开箱即用的功能，它可以用于编写，部署和扩展生产级Web应用程序​ :rocket:。 
+但是，请记住，Sanic 具备开箱即用的功能，它可以用于编写，部署和扩展生产级 Web 应用程序。 :rocket:
 
-## 目标
+## 目标(Goal)
 
 > 提供一种简单且快速，集创建和启动于一体的方法，来实现一个易于修改和拓展的 HTTP 服务
-## 特征
+
+## 特征(Features)
 
 ---:1
 
 - 内置极速 web server
 - 生产准备就绪
 - 极高的拓展性
-- 支持 ASGI 
+- 支持 ASGI
 - 简单直观的 API 设计
 - 社区保障
+
 :--:1
 
 :---
 
-## 赞助商
+## 赞助商(Sponsor)
 
 [![Try CodeStream][]][99]
 
-CodeStream能在您的IDE中展示完整的提交信息来，让您更方便地管理提交请求进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用看只看文件差异对比。还能使用定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。
+CodeStream 能在您的 IDE 中展示完整的提交信息，让您更方便地管理提交请求和进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用看只看文件差异对比。除此之外您还可以使用自定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
 
-[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
+感谢我们的赞助商。请查看 [open collective](https://opencollective.com/sanic-org) 来了解更多关于资助 Sanic 的信息。
 
-感谢我们的赞助商。请查看[open collective](https://opencollective.com/sanic-org)来了解更多关于资助Sanic的信息。
+## 加入社区(Join the Community)
 
-## 加入社区
+Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframework.org/) 当然也有 [Discord Server](https://discord.gg/FARQzAEMAA) 但是我们更喜欢使用社区论坛，因为这样可以使我们更方便在未来管理历史讨论记录。
 
-Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframework.org/)  当然也有 [Gitter 频道](https://gitter.im/sanic-python/Lobby) 但是我们更喜欢使用社区论坛，因为这样可以使我们更方便在未来管理历史讨论记录。
+项目维护人员正在积极监视 Stackoverflow 的 `[sanic]` 标签，[点此](https://stackoverflow.com/questions/tagged/sanic) 快速访问。
 
-项目维护人员正在积极监视  Stackoverflow  `[sanic]标签`， 点此 [快速访问](https://stackoverflow.com/questions/tagged/sanic)
+## 贡献(Contribution)
 
-## 贡献
-
-我们总是很高兴有新的贡献。 我们已经为那些希望入门的人提供了 [标记好的问题](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)，并欢迎您在[论坛上的问题/解答/讨论](https://community.sanicframework.org/)。 请查看我们的[贡献准则](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)。
+我们非常欢迎新的贡献者加入。我们已经为那些希望加入的人提供了 [标记好的问题](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)，并欢迎您在 [论坛](https://community.sanicframework.org/) 上进行提问/讨论/解答。详情请查看我们的 [贡献准则](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)
 
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
