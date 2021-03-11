@@ -35,7 +35,7 @@ async def hello_world(request):
 
 :---
 
-### 注意
+### 注意(Important to note)
 
 - 每一个请求处理函数都可以使用同步方式（` def hello_world `）和异步方式（` async def hello_world `）进行声明。除非您有一个明确的需求和完善的使用方法，否则的话，请尽量使用 `async` 来声明处理函数。
 
@@ -43,11 +43,11 @@ async def hello_world(request):
 
 - 您 **必须** 使用 `Response` 或继承自 `Response` 的类作为响应类型。在许多其他框架中，它们允许您使用诸如 `return "Hello World"` 或者 `return {"foo":"bar"}` 的方式来进行返回，但是为了执行这类隐式调用，需要在响应流程中的某个位置花费大量的时间来确定您到底想要表达什么意思。因此，我们以轻松调用为代价，来提升服务的响应速度，Sanic 会要求您对您的响应进行显式调用。
 
-### 运行
+### 运行(Running)
 
 ---:1
 
-让我们将上面写好的文件保存为`sanic.py`， 然后运行它。
+让我们将上面写好的文件保存为 `sanic.py`， 然后运行它。
 
 :--:1
 
