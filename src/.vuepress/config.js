@@ -267,11 +267,6 @@ let zh_locales = {
               text: "Policies",
               link: "/zh/guide/project/policies.md",
             },
-          ],
-        },
-        {
-          text: "API 文档",
-          items: [
             {
               text: "S.C.O.P.E.",
               link: "/zh/guide/project/scope.md",
