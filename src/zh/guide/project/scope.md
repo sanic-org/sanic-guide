@@ -2,263 +2,266 @@
 title: S.C.O.P.E
 ---
 
+# Sanic 社区公约白皮书
 
-Sanic Community Organization Policy E-manual
-============================================
+2019 年 12 月 第一版
 
-December 2019, version 1
+## 目标(Goals)
 
-Goals
------
+围绕 Sanic 项目创建一个可持续的、社区驱动的组织，以促进：
 
-To create a sustainable, community-driven organization around the Sanic projects that promote: (1) stability and predictability, (2) quick iteration and enhancement cycles, (3) engagement from outside contributors, (4) overall reliable software, and (5) a safe, rewarding environment for the community members.
+（1）增强 Sanic 的稳定性和可预测性。
 
-Overview
---------
+（2）对 Sanic 进行快速迭代并增强周期支持。
 
-This Policy is the governance model for the Sanic Community Organization (“SCO”). The SCO is a meritocratic, consensus-based community organization responsible for all projects adopted by it. Anyone with an interest in one of the projects can join the community, contribute to the community or projects, and participate in the decision making process. This document describes how that participation takes place and how to set about earning merit within the project community.
+（3）外部贡献者参与其中。
 
-Structure
----------
+（4）创造一个整体可靠的软件。
 
-The SCO has multiple **projects**. Each project is represented by a single GitHub repository under the Sanic community umbrella. These projects are used by **users**, developed by **contributors**, governed by **core developers**, released by **release managers**, and ultimately overseen by a **steering council**. If this sounds similar to the Python project and PEP 8016 that is because it is intentionally designed that way.
+（5）为社区成员提供一个安全有益的环境。
 
-Roles and responsibilities
---------------------------
+## 概览(Overview)
 
-### Users
+本公约是 Sanic 社区组织（Sanic Community Organization 简称 SCO）的管理概述。SCO 是一个精英主义、以共识为基础的社区组织。负责其下所有的项目。任何对组织下任一项目感兴趣的人都可以加入社区。为社区或项目做贡献，并参与决策过程。本公约用于描述如何参与其中以及如何从中获益。
 
-Users are community members who have a need for the projects. They are the developers and personnel that download and install the packages. Users are the **most important** members of the community and without them the projects would have no purpose. Anyone can be a user and the licenses adopted by the projects shall be appropriate open source licenses.
+## 架构(Structure)
 
-_The SCO asks its users to participate in the project and community as much as possible._
+SCO 有多个 **项目**。每一个项目都由单独的 Github 仓库进行存储。这些项目由 **用户** 使用，由 **贡献者** 开发， **核心开发者** 管理， **发布经理** 发布 最终由 **指导委员会** 监督。这看起来与 Python 项目和 PEP8016 类似， 因为那是有意设计的。
 
-User contributions enable the project team to ensure that they are satisfying the needs of those users. Common user contributions include (but are not limited to):
+## 角色与责任(Roles and responsibilities)
 
-*   evangelising about the project (e.g. a link on a website and word-of-mouth awareness raising)
-*   informing developers of strengths and weaknesses from a new user perspective
-*   providing moral support (a ‘thank you’ goes a long way)
-*   providing financial support (the software is open source, but its developers need to eat)
+### 用户(Users)
 
-Users who continue to engage with the SCO, its projects, and its community will often become more and more involved. Such users may find themselves becoming contributors, as described in the next section.
+用户是对项目有需求的社区成员。他们是下载和安装软件包的开发者和使用者。他们是社区中 **最重要** 的成员，没有他们，项目就没有意义。任何人都可以是用户，项目采用的许可证应该是适当的开源许可证。
 
-### Contributors
+SCO 认为 _用户应该尽可能多的_ 参与项目与社区活动
 
-Contributors are community members who contribute in concrete ways to one or more of the projects. Anyone can become a contributor and contributions can take many forms. Contributions and requirements are governed by each project separately by a contribution policy.
+用户贡献使项目团队能够确保他们满足这些用户的需求。常见的用户贡献包括（但不限于）：
 
-There is **no expectation** of commitment to the project, **no specific skill requirements** and **no selection process**.
+* 宣传项目（例如：网站链接或进行宣传）。
+* 从新用户的角度告知开发者优势与劣势。
+* 提供精神支持（您的一句谢谢会让您受益匪浅）。
+* 提供资金支持（该软件开源，但是开发者也需要糊口）。
 
-In addition to their actions as users, contributors may also find themselves doing one or more of the following:
+长期参与 SCO 的项目和社区的用户，随着时间的推移，他们可能会发现自己成为贡献者，就如下一章节所述。
 
-*   supporting new users (existing users are often the best people to support new users)
-*   reporting bugs
-*   identifying requirements
-*   providing graphics and web design
-*   Programming
-*   example use cases
-*   assisting with project infrastructure
-*   writing documentation
-*   fixing bugs
-*   adding features
-*   providing constructive opinions and engaging in community discourse
+### 贡献者(Contributors)
 
-Contributors engage with the projects through GitHub and the Community Forums. They submit changes to the projects itself via pull requests, which will be considered for inclusion in the project by the community at large. The Community Forums are the most appropriate place to ask for help when making that first contribution.
+贡献者是以具体的方式为一个或多个项目做出贡献的社区成员。
+任何人都可以成为贡献者，贡献者可以有很多种形式。捐款和需求由每个项目通过捐献政策分别管理。
 
-Indeed one of the most important roles of a contributor may be to **simply engage in the community conversation**. Most decisions about the direction of a project are made by consensus. This is discussed in more detail below. In general, however, it is helpful for the health and direction of the projects for the contributors to **speak freely** (within the confines of the code of conduct) and **express their opinions and experiences** to help drive the consensus building.
+在贡献过程中，**不需要对项目进行负责**，也 **没有具体技能要求**，同样 **不需要对人员进行选拔**。
 
-As contributors gain experience and familiarity with a project, their profile within, and commitment to, the community will increase. At some stage, they may find themselves being nominated for a core developer team.
+除了作为用户的行为之外，贡献者可能还会发现自己在做以下一项或多项事情：
 
-### Core Developer
+* 为新用户提供技术支持（现有用户通常是为新用户提供技术支持的最佳人选）
+* 报告错误
+* 提交需求
+* 提供图像设计或网站设计
+* 编程
+* 提供使用示例
+* 协助项目进行改进
+* 编写文档
+* 修复 BUG
+* 添加功能
+* 提供建设性意见和参与社区讨论
 
-Each project under the SCO umbrella has its own team of core developers. They are the people in charge of that project.
+贡献者通过 GitHub 和社区论坛参与项目。他们通过提交请求的方式向项目提交变更，这将被整个社区考虑纳入项目中。当做出第一次贡献时，社区论坛是寻求帮助最合适的地方。
 
-_What is a core developer?_
+事实上, 贡献者承担最多的任务可能是 **参与社区对话**。因为大多数关于项目方向的决定都是通过协商做出的。这将在下面详细讨论。但是，一般来说，有助于项目发展的事情，贡献者都可以 **畅所欲言** （在行为准则的范围内）并 **表达他们的意见和经验** 以帮助达大家成共识。
 
-Core developers are community members who have shown that they are committed to the continued development of the project through ongoing engagement with the community. Being a core developer allows contributors to more easily carry on with their project related activities by giving them direct access to the project’s resources. They can make changes directly to the project repository without having to submit changes via pull requests from a fork.
+随着贡献者获得开发经验和对项目的熟悉度逐渐提升，他们在社区中的形象和在社区中承担的责任会也会逐步提升。直到某个阶段，他们可能会发现自己已经成为了核心开发者。
 
-This does not mean that a core developer is free to do what they want. In fact, core developers have no more direct authority over the final release of a package than do contributors. While this honor does indicate a valued member of the community who has demonstrated a healthy respect for the project’s aims and objectives, their work continues to be reviewed by the community before acceptance in an official release.
+### 核心开发者(Core Developer)
 
-_What can a core developer do on a project?_
+SCO 下的每一个项目都有自己的核心开发团队。他们是项目的负责人。
 
-Each project might define this role slightly differently. However, the general usage of this designation is that an individual has risen to a level of trust within the community such that they now are given some control. This comes in the form of push rights to non-protected branches, and the ability to have a voice in the approval of pull requests.
+_什么是核心开发者？_
 
-The projects employ various communication mechanisms to ensure that all contributions are reviewed by the community as a whole. This includes tools provided by GitHub, as well as the Community Forums. By the time a contributor is invited to become a core developer, they should be familiar with the various tools and workflows as a user and then as a contributor.
+核心开发者是社区成员，他们通过长期参与社区活动，表明他们致力于项目的持续发展。作为一名核心开发人员，通过让贡献者直接访问项目资源，使得他们可以更好的完成项目相关的内容。他们可以直接对项目库进行更改，不必通过 frok 项目的方式。
 
-_How to become a core developer?_
+这并不意味着核心开发者可以自由地做他们想做的事情。核心开发者并不比普通贡献者拥有更大的权力。他们并不能直接控制项目的最终发布。虽然这一荣誉确实表明他们作为社区中的重要成员对项目做出了具有积极意义的贡献，但他们的工作在正式发布前仍会受到社区的审查。
 
-Anyone can become a core developer; there are no special requirements, other than to have shown a willingness and ability to positively participate in the project as a team player.
+_核心开发者能够在项目中做什么？_
 
-Typically, a potential core developer will need to show that they have an understanding of the project, its objectives and its strategy. They will also have provided valuable contributions to the project over a period of time. However, there is **no technical or other skill** requirement for eligibility.
+每个项目对核心开发者的定义可能略有不同。当然，通常来说，拥有这种称呼的人在社区中已经上升到一个信任的水平，因此他们现在被给予一些权限。这表现为对非受保护分支的推送权限，以及在批准请求时拥有发言权。
 
-New core developers can be **nominated by any existing core developer** at any time. At least twice a year (April and October) there will be a ballot process run by the Steering Council. Voting should be done by secret ballot. Each existing core developer for that project receives a number of votes equivalent to the number of nominees on the ballot. For example, if there are four nominees, then each existing core developer has four votes. The core developer may cast those votes however they choose, but may not vote for a single nominee more than once. A nominee must receive two-thirds approval from the number of cast ballots (not the number of eligible ballots). Once accepted by the core developers, it is the responsibility of the Steering Council to approve and finalize the nomination. The Steering Council does not have the right to determine whether a nominee is meritorious enough to receive the core developer title. However, they do retain the right to override a vote in cases where the health of the community would so require.
+_如何成为核心开发者？_
 
-Once the vote has been held, the aggregated voting results are published on the Community Forums. The nominee is entitled to request an explanation of any override against them. A nominee that fails to be admitted as a core developer may be nominated again in the future.
+任何人都可以成为核心开发者。除了表现出作为团队成员积极参与项目的意愿和能力之外，没有其他特殊要求。
 
-It is important to recognise that being a core developer is a privilege, not a right. That privilege must be earned and once earned it can be removed by the Steering Council (see next section) in extreme circumstances. However, under normal circumstances the core developer title exists for as long as the individual wishes to continue engaging with the project and community.
+通常，一个潜在的核心开发者需要展现出他对项目目标与理念的深度理解。他们还将在一段时间内为该项目做出宝贵贡献。但是，对于资格没有 **技术** 或 **其他技能** 的要求
 
-A committer who shows an above-average level of contribution to the project, particularly with respect to its strategic direction and long-term health, may be nominated to become a member of the Steering Council, or a Release Manager. This role is described below.
+新的核心开发者可以由现有的任何核心开发者 **随时** 提名。指导委员会每年至少举行两次投票（4 月 和 10 月）。投票应以无记名投票方式进行。该项目的每一个现有的核心开发者都将获得相当于选票上被提名者人数的票数。例如，如果有四个提名者，那么每个现有的核心开发者有四票。核心开发者可以投出他们的选票，但是不能将选票重复投给同一个候选人。被提名的候选人必须获得三分之二的选票数才会被批准。一旦被核心开发团队接受，指导委员会有责任批准并最终确定提名。指导委员会无权决定被提名人是否有足够的资格获得核心开发者称号。当然，在必要的情况下，他们保留否定投票结果的权利。
 
-_What are the rights and responsibilities of core developers?_
+投票结束后，投票结果将在社区论坛上进行公布。被提名人有权要求对任何针对他们的否决进行解释。未被录取为核心开发者的被提名人，可以在之后的选举中被再次提名。
 
-As discussed, the majority of decisions to be made are by consensus building. In certain circumstances where an issue has become more contentious, or a major decision needs to be made, the Release Manager or Steering Council may decide (or be required) to implement the RFC process, which is outlined in more detail below.
+最重要的是要明白成为核心开发者是一种荣誉，而不是一种权利。只要成为核心开发者就必然获得这种荣誉。当然，指导委员会可以在极端情况下取消核心开发者称号（见下一节）。在正常情况下，只要个人希望继续参与项目和社区，核心开发者的头衔就一直存在。
 
-It is also incumbent upon core developers to have a voice in the governance of the community. All core developers for all of the projects have the ability to be nominated to be on the Steering Council and vote in their elections.
+对项目做出高于平均水平的贡献，特别是在战略方向和长期发展方面的贡献，可以被提名为指导委员会成员或发布经理。
 
-This Policy (the “SCOPE”) may only be changed under the authority of two-thirds of active core developers, except that in the first six (6) months after adoption, the core developers reserve the right to make changes under the authority of a simple majority of active core developers.
+_核心开发者的权力和责任是什么？_
 
-_What if a core developer becomes inactive?_
+如前所述，大多数决策都是通过协商并达成共识做出的。在某些情况下，当某个问题变得具有争议，或者需要做出重大决策时，发布经理或指导委员会可能会决定（或被要求）实施 RFC 流程，这将在之后进行详细介绍。
 
-It is hoped that all core developers participate and remain active on a regular basis in their projects. However, it is also understood that such commitments may not be realistic or possible from time to time.
+核心开发者在社区治理中同样拥有发言权。所有项目的所有核心开发者都有被提名为指导委员会委员和在选举中投票的权力。
 
-Therefore, the Steering Council has the duty to encourage participation and the responsibility to place core developers into an inactive status if they are no longer willing or capable to participate. The main purpose of this is **not to punish** a person for behavior, but to help the development process to continue for those that do remain active.
+本社区公约只能在三分之二活跃核心开发者的授权下进行更改，除非在采用后的前六个月内，多数核心开发者否定了多数活跃核心开发者的授权。
 
-To this end, a core developer that becomes “inactive” shall not have commit rights to a repository, and shall not participate in any votes. To be eligible to vote in an election, a core developer **must have been active** at the time of the previous scheduled project release.
+_如果核心开发者变得不活跃怎么办？_
 
-Inactive members may ask the Steering Council to reinstate their status at any time, and upon such request the Steering Council shall make the core developer active again.
+虽然我们希望所有核心开发者能够定期参与并保持活跃。但是大家都明白，这种承诺有时并不现实。
 
-Individuals that know they will be unable to maintain their active status for a period are asked to be in communication with the Steering Council and declare themselves inactive if necessary.
+因此，指导委员会有责任鼓励参与，并有责任将不再愿意或没有能力参与的核心开发者置于不活跃状态。这样做的主要目的 **不是为了惩罚** 一个人的行为，而是为了帮助那些确实保持活跃的人继续发展。
 
-An “active” core developer is an individual that has participated in a meaningful way during the previous six months. Any further definition is within the discretion of the Steering Council.
+一个变得“不活跃”的核心开发者不应该拥有存储库的提交权，也不应该参与任何投票。为了有资格在选举中投票，核心开发人员必须在先前计划的项目发布时处于 **活跃状态**。
 
-### Release Manager
+不活跃的成员可以随时要求指导委员会恢复他们的状态，根据这种请求，指导委员会应使核心开发者再次归为活跃状态。
 
-Core developers shall have access only to make commits and merges on non-protected branches. The “master” branch and other protected branches are controlled by the release management team for that project. Release managers shall be elected from the core development team by the core development team, and shall serve for a full release cycle.
+如果个人知道他们将在一段时间内无法保持其活跃状态，则会被要求与指导委员会保持联系，并在必要时宣布自己处于不活跃状态。
 
-Each core developer team may decide how many release managers to have for each release cycle. It is highly encouraged that there be at least two release managers for a release cycle to help divide the responsibilities and not force too much effort upon a single person. However, there also should not be so many managers that their efforts are impeded.
+“活跃的”核心开发者是指在过去六个月中以有意义的方式参与的核心开发者。最终解释权归指导委员会所有。
 
-The main responsibilities of the release management team include:
+### 发布经理(Release Manager)
 
-*   push the development cycle forward by monitoring and facilitating technical discussions
-*   establish a release calendar and perform actions required to release packages
-*   approve pull requests to the master branch and other protected branches
-*   merge pull requests to the master branch and other protected branches
+核心开发者只能在不受保护的分支上进行提交和合并。主分支和其他受保护的分支由该项目的发布管理团队控制。发布经理应由核心开发团队从核心开发团队中选出，并应在整个发布周期为大家服务。
 
-The release managers **do not have the authority to veto or withhold a merge** of a pull request that otherwise meets contribution criteria and has been accepted by the community. It is not their responsibility to decide what should be developed, but rather that the decisions of the community are carried out and that the project is being moved forward.
+每个核心开发团队可以决定每个发布周期有多少个发布经理。建每一个发布周期至少有两个发布经理，以分担职责。不能让一个人承担所有的压力。但是，也不应该有太多的发布经理，这样项目维护起来会变得十分繁琐。
 
-From time to time, a decision may need to be made that cannot be achieved through consensus. In that case, the release managers have the authority to call upon the removal of the decision to the RFC process. This should not occur regularly (unless required as discussed below), and its use should be discouraged in favor of the more communal consensus building strategy.
+发布管理团队的主要职责：
 
-Since not all projects have the same requirements, the specifics governing release managers on a project shall be set forth in an Appendix to this Policy, or in the project’s contribution guidelines.
+* 通过监听和促进技术讨论来推进开发周期
+* 制定发布日历并执行发布所需的操作
+* 批准对主分支和其他受保护分支的请求
+* 将请求合并到主分支和其他受保护的分支
 
-If necessary, the Steering Council has the right to remove a release manager that is derelict in their duties, or for other good cause.
+发布经理 **无权否决或拒绝** 那些 **符合贡献标准并已被社区接受** 的合并请求。他们无权决定开发什么。他们的责任是执行社区的决定，推进项目的进度。
 
-### Steering Council
+有时，可能需要做出无法通过协商达成共识的决定。在这种情况下，发布经理有权要求 RFC 流程删除决策。这种情况不应经常发生（除非有以下讨论的要求）。不应该鼓励使用这种方法，而是采用更有利于建立社区共识的方法。
 
-The Steering Council is the governing body consisting of those individuals identified as the “project owner” and having control of the resources and assets of the SCO. Their ultimate goal is to ensure the smooth operation of the projects by removing impediments, and assisting the members as needed. It is expected that they will be regular voices in the community.
+由于并非所有的项目都有相同的要求，所以管理项目发布经理的细节应在本公约的附录或项目贡献指南中规定。
 
-_What can the Steering Council do?_
+如有必要或出于其他正当理由，指导委员会有权撤换失职的发布经理。
 
-The members of the Steering Council **do not individually have any more authority than any other core developer**, and shall not have any additional rights to make decisions, commits, merges, or the like on a project.
+### 指导委员会(Steering Council)
 
-However, as a body, the Steering Council has the following capacity:
+指导委员会是由被确定为 “项目所有人” 并控制 SCO 资源和资产的个人组成的管理组织。他们的最终目标是通过消除障碍，并根据需要帮助成员，以确保项目的顺利进行。预计他们将成为社区的常客。
 
-*   accept, remand, and reject all RFCs
-*   enforce the community code of conduct
-*   administer community assets such as repositories, servers, forums, integration services, and the like (or, to delegate such authority to someone else)
-*   place core developers into inactive status where appropriate take any other enforcement measures afforded to it in this Policy, including, in extreme cases, removing core developers
-*   adopt or remove projects from the community umbrella
+_指导委员会能做什么？_
 
-It is highly encouraged that the Steering Council delegate its authority as much as possible, and where appropriate, to other willing community members.
+指导委员会的成员 **没有** 比其他任何核心开发者更多的权力，也没有任何额外的权利对项目进行决策、提交、合并等。
 
-The Steering Council **does not have the authority** to change this Policy.
+但是，指导委员会具有以下职能：
 
-_How many members are on the Steering Council?_
+* 同意、搁置和拒绝所有的 RFC 建议
+* 强制执行社区行为准则
+* 管理社区资产，如存储库、服务器、论坛、集成服务等（或者将这些权限委托给其他人）
+* 在适当的情况下，将核心开发者置于不活跃状态，并采取本政策中规定的任何其他强制措施。包括在极端情况下，移除核心开发者
+* 从社区保护伞下采纳或移除项目
 
-Four.
+我们强烈建议指导委员会尽可能将其权力授予其他有意愿的社区成员。
 
-While it seems like a committee with four votes may potentially end in a deadlock with no way to break a majority vote, the Steering Council is discouraged from voting as much as possible. Instead, it should try to work by consensus, and requires three consenting votes when it is necessary to vote on a matter.
+指导委员会 **无权更改** 本决策。
 
-_How long do members serve on the Steering Council?_
+_指导委员会有多少成员？_
 
-A single term shall be for two calendar years starting in January. Terms shall be staggered so that each year there are two members continuing from the previous year’s council.
+4 个。
 
-Therefore, the inaugural vote shall have two positions available for a two year term, and two positions available for a one year term.
+虽然只拥有 4 票的委员会可能会陷入僵局，无法打破多数票，但指导委员应该尽可能少地投票。相反，它应该努力以协商一致的方式工作。在有必要就一个问题进行表决时，需要三票同意。
 
-There are no limits to the number of terms that can be served, and it is possible for an individual to serve consecutive terms.
+_指导委员的任期是多久？_
 
-_Who runs the Steering Council?_
+单个任期应为两年，从 1 月开始。任期应错开，以便于每年有两名成员从上一年的理事会延续下来。
 
-After the Steering Council is elected, the group shall collectively decide upon one person to act as the Chair. The Chair does not have any additional rights or authority over any other member of the Steering Council.
+因此，选举投票将有两个任期为两年的职位，两个任期为一年的职位。
 
-The role of the Chair is merely as a coordinator and facilitator. The Chair is expected to ensure that all governance processes are adhered to. The position is more administrative and clerical, and is expected that the Chair sets agendas and coordinates discussion of the group.
+可以任职的任期没有限制，个人有可能连续任职。
 
-_How are council members elected?_
+_指导委员会如何运作？_
 
-Once a year, **all eligible core developers** for each of the projects shall have the right to elect members to the Steering Council.
+指导委员会选出后，小组应集体决策由一人担任主席。主席的权力和其他委员完全相同，没有任何额外的权力。
 
-Nominations shall be open from September 1 and shall close on September 30. After that, voting shall begin on October 1 and shall close on October 31. Every core developer active on the date of the June release of the Sanic Framework for that year shall be eligible to receive one vote per vacant seat on the Steering Council. For the sake of clarity, to be eligible to vote, a core developer **does not** need to be a core developer on Sanic Framework, but rather just have been active within their respective project on that date.
+主席的作用仅仅是作为协调者和推动者。主席应确保遵守所有治理规则。该职位更多的是行政和文书工作，预计主席将制定议程并协调小组讨论。
 
-The top recipients of votes shall be declared the winners. If there is any tie, it is highly encouraged that the tied nominees themselves resolve the dispute before a decision is made at random.
+_指导委员是如何选出的？_
 
-In regards to the inaugural vote of the Steering Council, the top two vote-recipients shall serve for two years, and the next two vote-recipients shall assume the one-year seats.
+每年一次，**所有核心开发者** 都有权选举指导委员会委员。
 
-To be an eligible candidate for the Steering Council, the individual must have been a core developer in active status on at least one project for the previous twelve months.
+选举提名从 9 月 1 日开始，9 月 30 日截止。投票于 10 月 1 日开始，10 月 31 日结束。每个在 6 月份发布该年度版本时活跃的核心开发者都能够参与选举和投票，每一位核心开发者都能获得相当于空缺的指导委员数量的选票。为了公平起见，核心开发者 **不需要** 是 Sanic Framework 的核心开发者，而是在各自的项目中处于活跃状态的核心开发者。
 
-_What if there is a vacancy?_
+获得票数最多的核心开发者将被宣布成为指导委员会委员。如果有任何平票，强烈建议平票的被提名者自己解决争议，然后再随机做出决定。
 
-If a vacancy on the Steering Council exists during a term, then the next highest vote-recipient in the previous election shall be offered to complete the remainder of the term. If one cannot be found this way, the Steering Council may decide the most appropriate course of action to fill the seat (whether by appointment, vote, or other means).
+关于指导委员会的创始投票，得票最多的两位当选者任期两年，之后两位当选者将获得一年的任期。
 
-If a member of the Steering Council becomes inactive, then that individual shall be removed from the Steering Council immediately and the seat shall become vacant.
+想要成为指导委员会的合格候选人，该候选人必须在过去的 12 个月中至少是一个项目的活跃核心开发者。
 
-In extreme cases, the body of all core developers has the right to bring a vote to remove a member of the Steering Council for cause by a two-thirds majority of all eligible voting core developers.
+_如果空缺怎么办？_
 
-_How shall the Steering Council conduct its business?_
+如果指导委员会在某个任期内存在空缺，则应提供上一次选举中得票次高的候选人来完成剩余任期。如果找不到合适的人选，指导委员会可以决定最合适的人选（通过任命、投票或其他方式）。
 
-As much as possible, the Steering Council shall conduct its business and discussions in the open. Any member of the community should be allowed to enter the conversation with them. However, at times it may be necessary or appropriate for discussions to be held privately. Selecting the proper venue for conversations is part of the administrative duties of the Chair.
+如果指导委员会的一名成员处于不活跃状态，则该成员应立即从指导委员会中除名，该席位将空缺。
 
-While the specifics of how to operate are beyond the scope of the Policy, it is encouraged that the Steering Council attempt to meet at least one time per quarter in a “real-time” discussion. This could be achieved via video conferencing, live chatting, or other appropriate means.
+在极端情况下，所有的核心开发者团队有权以投票的方式表决罢免指导委员会委员（需要超过三分之二的核心开发者赞同）
 
-Support
--------
+_指导委员会应如何展开工作？_
 
-All participants in the community are encouraged to provide support for users within the project management infrastructure. This support is provided as a way of growing the community. Those seeking support should recognise that all support activity within the project is voluntary and is therefore provided as and when time allows. A user requiring guaranteed response times or results should therefore seek to purchase a support contract from a community member. However, for those willing to engage with the project on its own terms, and willing to help support other users, the community support channels are ideal.
+指导委员会应尽可能公开开展工作和讨论。社区的任何成员都可以和他们进行对话。当然，有时私下讨论可能是必要的或适当的。选择合适的谈话地点是主席管理职责的一部分。
 
-Decision making process
------------------------
+虽然如何操作的细节超出了本公约的范围，但我们鼓励指导委员会尝试每季度至少召开一次“实时”讨论会议。这可以通过视频会议、实时聊天或其他适当的方式来实现。
 
-Decisions about the future of the projects are made through discussion with all members of the community, from the newest user to the most experienced member. Everyone has a voice.
+## 支持(Support)
 
-All non-sensitive project management discussion takes place on the community forums, or other designated channels. Occasionally, sensitive discussions may occur in private.
+鼓励社区中的所有参与者在项目管理基础架构中为用户提供技术支持。这种支持是作为社区发展的一种方式提供的。寻求支持的人应该意识到，项目中的所有技术支持都是自愿的，是在时间允许的情况下提供的。因此，要求保证响应时间或结果的用户应该寻求从社区成员处购买支持。当然，对于那些愿意以自己的方式参与项目，并愿意帮助支持其他用户的人来说，社区支持渠道是最理想的。
 
-In order to ensure that the project is not bogged down by endless discussion and continual voting, the project operates a policy of **lazy consensus**. This allows the majority of decisions to be made without resorting to a formal vote. For any **major decision** (as defined below), there is a separate Request for Comment (RFC) process.
+## 决策过程(Decision making process)
 
-### Technical decisions
+从最新用户到最有经验的成员，通过与社区所有成员的讨论来决定项目的未来。每个人都具有发言权。
 
-Pull requests and technical decisions should generally fall into the following categories.
+所有非敏感项目管理讨论都在社区论坛或其他指定渠道进行。偶尔，敏感的讨论可能会私下进行。
 
-*   **Routine**: Documentation fixes, code changes that are for cleanup or additional testing. No functionality changes.
-*   **Minor**: Changes to the code base that either fix a bug, or introduce a trivial feature. No breaking changes.
-*   **Major**: Any change to the code base that breaks or deprecates existing API, alters operation in a non-trivial manner, or adds a significant feature.
+为了确保项目不会因无休止的讨论和持续的投票导致停滞不前，该项目采取了 **惰性共识** 政策。这使得大多数决策无需正式投票即可做出。对于任何 **重大决策** (定义如下)，都有单独的征求意见（RFC）流程。
 
-It is generally the responsibility of the release managers to make sure that changes to the repositories receive the proper authorization before merge.
+### 技术决策(Technical decisions)
 
-The release managers retain the authority to individually review and accept routine decisions that meet standards for code quality without additional input.
+技术决策通常应分为以下几类：
 
-### Lazy consensus
+* **常规决策**：文档修复，用于清理或附加测试代码的更改。功能没有变化。
 
-Decision making (whether by the community or Steering Council) typically involves the following steps:
+* **次要决策**：对代码库的修改，修复一个错误或引入一个无关紧要的特性。没有突破性的变化。
 
-*   proposal
-*   discussion
-*   vote (if consensus is not reached through discussion)
-*   decision
+* **重要决策**: 对代码库的任何更改都会中断或弃用现有的应用接口，以一种非同寻常的方式改变操作，或者增加一个重要的特性。
 
-Any community member can make a proposal for consideration by the community. In order to initiate a discussion about a new idea, they should post a message on the appropriate channel on the Community forums, or submit a pull request implementing the idea on GitHub. This will prompt a review and, if necessary, a discussion of the idea.
+发布经理通常有责任确保对存储库的更改在合并之前得到适当的授权。
 
-The goal of this review and discussion is to gain approval for the contribution. Since most people in the project community have a shared vision, there is often little need for discussion in order to reach consensus.
+发布经理有权单独审查和接受符合代码质量标准的常规决策，而无需额外的输入。
 
-In general, as long as nobody explicitly opposes a proposal or patch, it is recognised as having the support of the community. This is called lazy consensus; that is, those who have not stated their opinion explicitly have implicitly agreed to the implementation of the proposal.
+### 惰性共识(Lazy consensus)
 
-Lazy consensus is a very important concept within the SCO. It is this process that allows a large group of people to efficiently reach consensus, as someone with no objections to a proposal need not spend time stating their position, and others need not spend time reading such messages.
+决策(无论是由社区还是指导委员会)通常包括以下步骤:
 
-For lazy consensus to be effective, it is necessary to allow an appropriate amount of time before assuming that there are no objections to the proposal. This is somewhat dependent upon the circumstances, but it is generally assumed that 72 hours is reasonable. This requirement ensures that everyone is given enough time to read, digest and respond to the proposal. This time period is chosen so as to be as inclusive as possible of all participants, regardless of their location and time commitments. The facilitators of discussion (whether it be the Chair or the Release Managers, where applicable) shall be charged with determining the proper length of time for such consensus to be reached.
+* 提议
+* 讨论
+* 投票(如果讨论未达成共识)
+* 决策
 
-As discussed above regarding so-called routine decisions, the release managers have the right to make decisions within a shorter period of time. In such cases, lazy consensus shall be implied.
+任何社区成员都可以提出建议供社区考虑。为了发起关于一个新想法的讨论，他们应该在社区论坛的适当渠道上发布一条消息，或者在 GitHub 上提交一个实现该想法的请求。这将促进对这一想法进行审查，并在必要时进行讨论。
 
-### Request for Comment (RFC)
+本次评审和讨论的目的是获得对贡献的认可。由于项目社区中的大多数人都有一个共同的愿景，因此通常很少需要讨论来达成共识。
 
-The Steering Council shall be in charge of overseeing the RFC process. It shall be a process that remains open to debate to all members of the community, and shall allow for ample time to consider a proposal and for members to respond and engage in meaningful discussion.
+一般来说，只要没有人明确反对一个提案或补丁，它就被认为得到了社区的支持。这叫惰性共识；也就是说，那些没有明确表示意见的人已经含蓄地同意了执行这项建议。
 
-The final decision is vested with the Steering Council. However, it is strongly discouraged that the Steering Council adopt a decision that is contrary to any consensus that may exist in the community. From time to time this may happen if there is a conflict between consensus and the overall project and community goals.
+惰性共识是 SCO 内一个非常重要的概念。正是这一过程使一大群人能够有效地达成共识，因为对一项提议没有异议的人不需要花时间阐述他们的立场，其他人也不需要花时间阅读这些信息。
 
-An RFC shall be initiated by submission to the Steering Council in the public manner as set forth by the Steering Council. Debate shall continue and be facilitated by the Steering Council in general, and the Chair specifically.
+为了使惰性共识有效，有必要在假设没有人反对该提案之前留出适当的时间。这在一定程度上取决于具体情况，但一般认为 72 小时是合理的。这一要求确保每个人都有足够的时间阅读、消化和回应提案。选择该时间段是为了尽可能包容所有参与者，无论他们的位置和时间如何。讨论主持人（无论是主席还是发布经理）应负责确定达成此类共识的适当时间长度。
 
-In circumstances that the Steering Council feels it is appropriate, the RFC process may be waived in favor of lazy consensus.
+如上所述，关于所谓的常规决策，发布经理有权在较短的时间内做出决策。在这种情况下，应暗示惰性共识。
+
+### 意见征求(Request for Comment)(RFC)
+
+指导委员会应负责监督意见征求的过程。这将是一个向社区所有成员开放的辩论过程，并应留出充足的时间来审议一项提案，让成员做出回应并参与有意义的讨论。
+
+最终决定权属于指导委员会。但是，强烈建议指导委员会不要通过与社区中可能存在的任何共识相悖的决定。有时可能会发生共识与整体项目和社区目标之间存在冲突的情况。
+
+应该按照指导委员会的规定，以公开的方式向指导委员会提交建议书，从而启动征求建议书。辩论应继续进行，并由指导委员会，特别是主席提供便利。
+
+在指导委员会认为合适的情况下，可以放弃征求建议书程序，达成惰性共识。
