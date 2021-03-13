@@ -95,12 +95,15 @@ async def async_handler(request):
 :---
 
 ::: warning A common mistake!
+
 Don't do this! You need to ping a website. What do you use? `pip install your-fav-request-library` :see_no_evil:
 
 Instead, try using a client that is `async/await` capable. Your server will thank you. Avoid using blocking tools, and favor those that play well in the asynchronous ecosystem. If you need recommendations, check out [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
 
 Internally, Sanic makes good use of [httpx](https://www.python-httpx.org/) :wink:.
+
 :::
+
 ---
 
 ## A fully annotated handler
