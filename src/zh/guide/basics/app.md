@@ -58,6 +58,18 @@ app = Sanic.get_app(
 
 :---
 
+---:1
+::: new v21.3 新增
+如果 **只有一个** Sanic 实例被注册了，那么调用 `Sanic.get_app()` 时如果不传入任何参数则将返回该实例。
+:::
+:--:1
+```python
+Sanic("My only app")
+
+app = Sanic.get_app()
+```
+:---
+
 ## 配置(Configuration)
 
 ---:1
