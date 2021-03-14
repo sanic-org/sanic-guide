@@ -257,7 +257,7 @@ The `version` will be prepended to the routes as `/v1` or `/v2`, etc.
 :--:1
 ```python
 auth1 = Blueprint("auth", url_prefix="/auth", version=1)
-auth2 = Blueprint("auth", url_prefix="/auth", verison=2)
+auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 ```
 :---
 

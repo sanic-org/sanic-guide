@@ -1,0 +1,9 @@
+matrix:
+- name: Check English
+  sources:
+  - src/en/**/*.md
+  aspell:
+    lang: en
+    d: en_US
+  pipeline:
+  - pyspelling.parsers.markdown_parser:
