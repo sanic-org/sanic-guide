@@ -62,6 +62,17 @@ from orjson import dumps
 json({"foo": "bar"}, dumps=dumps)
 ```
 
+如果没有安装 `ujson` ， 它就会使用Python自带的 `json` 模块。
+
+::: new v21.3 新增
+您可以在应用初始化时申明全局的Json序列化函数：
+
+```python
+from orjson import dumps
+
+app = Sanic(..., dumps=dumps)
+```
+
 :::
 
 ::: tab File
