@@ -169,8 +169,8 @@ let en_locales = {
         children: [
           "/en/guide/deployment/configuration.md",
           "/en/guide/deployment/development.md",
+          "/en/guide/deployment/running.md",
           // "/guide/deployment/server-choice.md",
-          // "/guide/deployment/asgi.md",
           "/en/guide/deployment/nginx.md",
           // "/guide/deployment/docker.md",
           // "/guide/deployment/kubernetes.md",
@@ -191,6 +191,7 @@ let en_locales = {
           // "/guide/how-to/csrf.md",
           // "/guide/how-to/serialization.md",
           // "/guide/how-to/task-queue.md",
+          "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",
           // "/guide/how-to/server-sent-events.md",
         ],
@@ -350,6 +351,7 @@ let zh_locales = {
         children: [
           "/zh/guide/deployment/configuration.md",
           "/zh/guide/deployment/development.md",
+          "/zh/guide/deployment/running.md",
           // "/zh/guide/deployment/server-choice.md",
           // "/zh/guide/deployment/asgi.md",
           "/zh/guide/deployment/nginx.md",
@@ -372,6 +374,7 @@ let zh_locales = {
           // "/zh/guide/how-to/csrf.md",
           // "/zh/guide/how-to/serialization.md",
           // "/zh/guide/how-to/task-queue.md",
+          "/zh/guide/how-to/tls.md",
           // "/zh/guide/how-to/websocket-feed.md",
           // "/zh/guide/how-to/server-sent-events.md",
         ],
