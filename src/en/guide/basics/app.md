@@ -50,6 +50,18 @@ app = Sanic.get_app(
 ```
 :---
 
+---:1
+::: new NEW in v21.3
+If there is **only one** Sanic instance registered, then calling `Sanic.get_app()` with no arguments will return that instance
+:::
+:--:1
+```python
+Sanic("My only app")
+
+app = Sanic.get_app()
+```
+:---
+
 ## Configuration
 
 

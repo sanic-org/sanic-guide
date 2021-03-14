@@ -149,6 +149,7 @@ let en_locales = {
           "/en/guide/advanced/streaming.md",
           "/en/guide/advanced/websockets.md",
           "/en/guide/advanced/versioning.md",
+          "/en/guide/advanced/signals.md",
         ],
       },
       {
@@ -329,6 +330,7 @@ let zh_locales = {
           "/zh/guide/advanced/streaming.md",
           "/zh/guide/advanced/websockets.md",
           "/zh/guide/advanced/versioning.md",
+          "/zh/guide/advanced/signals.md",
         ],
       },
       {
