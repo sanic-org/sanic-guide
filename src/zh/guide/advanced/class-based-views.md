@@ -127,7 +127,7 @@ app.add_route(NameView.as_view(), "/<name>")
 
 ## 装饰器(Decorators)
 
-就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应程序添加额外的功能，基于类的视图给出了两种方式来添加装饰器：
+就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应函数添加额外的功能，基于类的视图给出了两种方式来添加装饰器：
 
 1.  应用于视图中的 *所有*  HTTP 方法
 2.  独自应用于视图中的 *指定*  HTTP 方法
@@ -207,7 +207,7 @@ app.add_route(SpecialClassView.as_view(), "/special_class_view")
 
 作为 `HTTPMethodView` 的替代方法，可以使用 `CompositionView` 将处理程序函数移至视图类之外。
 
-每个支持的 HTTP 方法的响应程序都在源代码的其他地方定义，然后使用 `CompositionView.add` 方法添加到视图中来。 第一个参数是要处理的 HTTP 方法的列表（例如 `[“ GET”，“ POST”]` ），第二个参数是处理函数。
+每个支持的 HTTP 方法的响应函数都在源代码的其他地方定义，然后使用 `CompositionView.add` 方法添加到视图中来。 第一个参数是要处理的 HTTP 方法的列表（例如 `[“ GET”，“ POST”]` ），第二个参数是响应函数。
 
 ```python
 from sanic.views import CompositionView

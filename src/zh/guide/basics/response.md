@@ -1,6 +1,6 @@
 # 响应(Response)
 
-所有的 [响应程序](/zh/guide/basics/handlers.md) 都必须返回一个 response 对象，[中间件](/zh/guide/basics/middleware.md) 可以自由选择是否返回 response 对象。
+所有的 [响应函数](/zh/guide/basics/handlers.md) 都必须返回一个 response 对象，[中间件](/zh/guide/basics/middleware.md) 可以自由选择是否返回 response 对象。
 
 ## 响应方式(Methods)
 

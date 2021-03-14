@@ -116,7 +116,7 @@ async def async_handler(request):
 
 ---
 
-## 完全带注释的响应程序(A fully annotated handler)
+## 完全带注释的响应函数(A fully annotated handler)
 
 Sanic 支持使用类型注解，下面的例子送给喜欢使用类型注解的人…
 

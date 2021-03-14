@@ -198,7 +198,7 @@ app.blueprint(group)
 
 ---:1
 
-正如[异常处理](./exceptions.md)一节，您可以定义蓝图特定的异常响应程序。
+正如[异常处理](./exceptions.md)一节，您可以定义蓝图特定的异常响应函数。
 :--:1
 ```python
 @bp.exception(NotFound)
