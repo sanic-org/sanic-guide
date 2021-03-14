@@ -45,7 +45,7 @@ Sanic 是 Python3.7+ Web 服务器和 Web 框架，旨在提高性能。它允�
 
 [![Try CodeStream][]][99]
 
-CodeStream 能在您的 IDE 中展示完整的提交信息，让您更方便地管理提交请求和进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用看只看文件差异对比。除此之外您还可以使用自定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
+CodeStream 能在您的 IDE 中展示完整的提交信息，让您更方便地管理提交请求和进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用只看文件差异对比。除此之外您还可以使用自定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
 
 感谢我们的赞助商。请查看 [open collective](https://opencollective.com/sanic-org) 来了解更多关于资助 Sanic 的信息。
 
