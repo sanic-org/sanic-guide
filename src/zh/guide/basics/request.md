@@ -2,7 +2,7 @@
 
 `Request` 实例包含许多有关其参数的有用信息。 如果您想了解更多详细信息，请参考 [API文档](https://sanic.readthedocs.io/)。
 
-## 请求体（Body）
+## 请求体(Body)
 
 :::: tabs
 
@@ -64,7 +64,7 @@ bar
 
 ::: tip 小提示：
 
-:bulb:  `request.form`对象是少数几种字典之一，每个值都是一个列表。这是因为HTTP允许单个键名被重用以发送多个值。
+:bulb:  `request.form` 对象是少数几种字典之一，每个值都是一个列表。这是因为 HTTP 允许单个键名被重用以发送多个值。
 
 大多数情况下您只需要使用 `.get()` 方法来获取列表中的第一个元素即可，如果您想获取列表中的全部元素，那么请使用 `.getlist()` 方法。
 
@@ -95,9 +95,9 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 ```
 ::: tip 小提示：
 
-:bulb:  和 `request.form`对象一样， `request.files` 也是少数几种字典之一，每个值都是一个列表。这是因为HTTP同样允许单个键名被重用以发送多个文件。
+:bulb:  和 `request.form` 对象一样， `request.files` 也是少数几种字典之一，每个值都是一个列表。这是因为 HTTP 同样允许单个键名被重用以发送多个文件。
 
-获取方式也和 `request.form`一致，大多数情况下您只需要使用 `.get()` 方法来获取列表中的第一个元素即可，如果您想获取列表中的全部元素，那么请使用 `.getlist()` 方法。
+获取方式也和 `request.form` 一致，大多数情况下您只需要使用 `.get()` 方法来获取列表中的第一个元素即可，如果您想获取列表中的全部元素，那么请使用 `.getlist()` 方法。
 
 :::
 
@@ -138,9 +138,9 @@ async def tag_handler(request, tag):
 ```
 :---
 
-## 请求参数（Arguments)
+## 请求参数(Arguments)
 
-在 `request` 中，你可以通过两种属性来访问请求参数：
+在 `request` 中，您可以通过两种属性来访问请求参数：
 
 - `request.args`
 - `request.query_args`
@@ -169,7 +169,7 @@ key1=val1&key2=val2&key1=val3
 
 ::: tip 小提示：
 
-:bulb: 和上述的​`request.form`、`request.files`对象一样，`request.args` 同样是少数几种字典之一，每个值都是一个列表。这是因为HTTP允许单个键名被重用以发送多个值。 
+:bulb: 和上述的​ `request.form`、`request.files` 对象一样，`request.args` 同样是少数几种字典之一，每个值都是一个列表。这是因为HTTP允许单个键名被重用以发送多个值。 
 
 获取方式也和 它们一致，大多数情况下您只需要使用 `.get()` 方法来获取列表中的第一个元素即可，如果您想获取列表中的全部元素，那么请使用 `.getlist()` 方法。
 
