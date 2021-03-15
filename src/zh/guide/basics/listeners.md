@@ -54,18 +54,25 @@ app.register_listener(setup_db, "before_server_start")
 async def setup_db(app, loop):
     app.db = await db_setup()
 ```
+
 :---
 
 ---:1
+
 ::: new v21.3 新增
-您可以进一步缩短该装饰器的调用代码。如果您的IDE有自动补全应该会有很有用。
+
+您可以进一步缩短该装饰器的调用代码。如果您的 IDE 有自动补全应该会有很有用。
+
 :::
+
 :--:1
+
 ```python
 @app.before_server_start
 async def setup_db(app, loop):
     app.db = await db_setup()
 ```
+
 :---
 
 ## 执行顺序(Order of execution)
@@ -73,7 +80,7 @@ async def setup_db(app, loop):
 听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
 
 |                       | 执行阶段 | 执行顺序 |
-| :-------------------: | :------: | :------: |
+| :-------------------: | :------: | :-----: |
 | `before_server_start` | 启动阶段 | 正向执行 |
 | `after_server_start`  | 启动阶段 | 正向执行 |
 | `before_server_stop`  | 关闭阶段 | 反向执行 |
@@ -116,7 +123,9 @@ async def listener_7(app, loop):
 async def listener_8(app, loop):
     print("listener_8")
 ```
+
 :--:1
+
 ```bash
 [INFO] Goin' Fast @ http://127.0.0.1:8000
 listener_1
@@ -131,6 +140,7 @@ listener_8
 listener_7
 [INFO] Server Stopped
 ```
+
 :---
 
 ::: tip 小提示：
@@ -138,4 +148,3 @@ listener_7
 在实际的使用过程中，如果您定义了一个数据库连接函数，并将其注册为 `before_server_start` 的第一个监听器，那么在此之后注册的所有监听器都可以依靠该连接保持活跃状态。
 
 :::
-
