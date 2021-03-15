@@ -1,8 +1,8 @@
 # 中间件(Middleware)
 
-监听器允许您将功能挂载到工作进程的生命周期，而中间件允许您将功能挂载到HTTP流的生命周期。
+监听器允许您将功能挂载到工作进程的生命周期，而中间件允许您将功能挂载到 HTTP 流的生命周期。
 
-你可以在执行响应函数之前或者响应函数之后执行中间件。
+您可以在执行响应函数之前或者响应函数之后执行中间件。
 
 ```text
 [event]       |  <http connection is made, parsed, routed>
@@ -41,6 +41,7 @@ app.register_middleware(extract_user, "request")
 async def extract_user(request):
     request.ctx.user = await extract_user_from_request(request)
 ```
+
 :---
 
 ---:1
@@ -59,9 +60,13 @@ async def prevent_xss(request, response):
 ---:1
 
 ::: new v21.3 新增
-您可以进一步缩短该装饰器的调用代码。如果您的IDE有自动补全应该会有很有用。
+
+您可以进一步缩短该装饰器的调用代码。如果您的 IDE 有自动补全应该会有很有用。
+
 :::
+
 :--:1
+
 ```python
 @app.on_request
 async def extract_user(request):
@@ -71,13 +76,14 @@ async def extract_user(request):
 async def prevent_xss(request, response):
     ...
 ```
+
 :---
 
 ## 变更(Modification)
 
 ---:1
 
-如果您的中间件*不涉及返回响应操作*，那么您可以使用中间件来修改请求参数或者响应参数。
+如果您的中间件 *不涉及返回响应操作*，那么您可以使用中间件来修改请求参数或者响应参数。
 
 #### 执行顺序(Order of execution)
 
@@ -112,13 +118,19 @@ async def index(request):
     return text(request.ctx.foo)
 
 ```
+
 :---
 
 ---:1
+
 ::: new v21.3 新增
-您可以修改`request.match_info`。这个功能可能很有用，比如下面这个例子中，在中间件里将`a-slug` 改变为 `a_slug`。
+
+您可以修改 `request.match_info`。这个功能可能很有用，比如下面这个例子中，在中间件里将 `a-slug` 改变为 `a_slug`。
+
 :::
+
 :--:1
+
 ```python
 @app.on_request
 def convert_slug_to_underscore(request: Request):
@@ -133,7 +145,9 @@ async def handler(request, slug):
 $ curl localhost:9999/foo-bar-baz
 foo_bar_baz
 ```
+
 :---
+
 ## 提前响应(Resonding early)
 
 ---:1
@@ -151,11 +165,12 @@ async def halt_request(request):
 async def halt_response(request, response):
     return text("I halted the response")
 ```
+
 :---
 
 #### 执行顺序(Order of execution)
 
-请求中间件按照声明的顺序执行。响应中间件按照声明顺序的**逆序**执行。 在此示例中，我们可以在控制台看到如下的输出顺序。
+请求中间件按照声明的顺序执行。响应中间件按照声明顺序的 **逆序** 执行。 在此示例中，我们可以在控制台看到如下的输出顺序。
 
 ---:1
 
@@ -184,7 +199,9 @@ async def handler(request):
     print("~ handler ~")
     return text("Done.")
 ```
+
 :--:1
+
 ```bash
 middleware_1
 middleware_2
@@ -193,4 +210,5 @@ middleware_4
 middleware_3
 [INFO][127.0.0.1:44788]: GET http://localhost:8000/handler  200 5
 ```
+
 :---
