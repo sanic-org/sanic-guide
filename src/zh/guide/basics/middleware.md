@@ -4,14 +4,29 @@
 
 您可以在执行响应函数之前或者响应函数之后执行中间件。
 
-```text
-[event]       |  <http connection is made, parsed, routed>
-[middleware]  |        @on_request
-              |
-[event]       |            <route handler executed>
-              |
-[middleware]  |        @on_response
-[event]       |  <response is delivered and stram is closed>
+```mermaid
+sequenceDiagram
+autonumber
+participant 子程序
+participant 中间件
+participant 中间件响应函数
+participant 路由响应函数
+Note over 子程序: 收到的HTTP请求
+loop
+    子程序->>中间件: @app.on_request
+    中间件->>中间件响应函数: 调用中间件响应函数
+    中间件响应函数-->>子程序: 返回响应 （可选）
+end
+rect rgba(255, 13, 104, .1)
+子程序->>路由响应函数: 调用路由响应函数
+路由响应函数->>子程序: 返回响应
+end
+loop
+    子程序->>中间件: @app.on_response
+    中间件->>中间件响应函数: 调用中间件响应函数
+    中间件响应函数-->>子程序: 返回响应 （可选）
+end
+Note over 子程序: 返回响应
 ```
 
 ## 启用(Attaching middleware)
