@@ -458,6 +458,7 @@ let site_config = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
+    "vuepress-plugin-mermaidjs",
     [
       "seo",
       {

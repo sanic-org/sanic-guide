@@ -4,16 +4,30 @@ Whereas listeners allow you to attach functionality to the lifecycle of a worker
 
 You can execute middleware either _before_ the handler is executed, or _after_.
 
-```text
-[event]       |  <http connection is made, parsed, routed>
-[middleware]  |        @on_request
-              |
-[event]       |            <route handler executed>
-              |
-[middleware]  |        @on_response
-[event]       |  <response is delivered and stram is closed>
+```mermaid
+sequenceDiagram
+autonumber
+participant Worker
+participant Middleware
+participant MiddlewareHandler
+participant RouteHandler
+Note over Worker: Incoming HTTP request
+loop
+    Worker->>Middleware: @app.on_request
+    Middleware->>MiddlewareHandler: Invoke middleware handler
+    MiddlewareHandler-->>Worker: Return response (optional)
+end
+rect rgba(255, 13, 104, .1)
+Worker->>RouteHandler: Invoke route handler
+RouteHandler->>Worker: Return response
+end
+loop
+    Worker->>Middleware: @app.on_response
+    Middleware->>MiddlewareHandler: Invoke middleware handler
+    MiddlewareHandler-->>Worker: Return response (optional)
+end
+Note over Worker: Deliver response
 ```
-
 ## Attaching middleware
 
 ---:1
