@@ -184,7 +184,7 @@ In the above example, notice how there are three processes running:
 - `pid: 1111111` - Worker 1
 - `pid: 1222222` - Worker 2
 
-*Just because our example groups all of one worker and then all of another, in reality since these are running on seperate processes, the ordering between processes is not guaranteed. But, you can be sure that a single worker will **always** maintain its order.*
+*Just because our example groups all of one worker and then all of another, in reality since these are running on separate processes, the ordering between processes is not guaranteed. But, you can be sure that a single worker will **always** maintain its order.*
 :---
 
 
