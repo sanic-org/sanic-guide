@@ -235,7 +235,7 @@ async def handler(request, foo: str):
 - `/path/to/hello/world.txt`
 
 ::: warning
-Because this will match on `/`, you should be careful and thoroughly test your patterns that use path so they do not capture traffic intended for another endpoint.
+Because this will match on `/`, you should be careful and thoroughly test your patterns that use `path` so they do not capture traffic intended for another endpoint.
 :::
 ::: tab ymd
 
@@ -244,12 +244,11 @@ Because this will match on `/`, you should be careful and thoroughly test your p
 async def handler(request, foo: datetime.date):
     ...
 ```
+::: new NEW in v21.3
 **Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
 **Cast type**: `datetime.date`  
 **Example matches**:
 - `/path/to/2021-03-28`
-
-_New in v21.3_
 :::
 ::: tab uuid
 
