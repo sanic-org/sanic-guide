@@ -3,10 +3,7 @@
 ## Instance
 
 ---:1
-
-
 The most basic building block is the `Sanic()` instance. It is not required, but the custom is to instatiate this in a file called `server.py`.
-
 :--:1
 ```python
 # /path/to/server.py
@@ -14,9 +11,32 @@ The most basic building block is the `Sanic()` instance. It is not required, but
 from sanic import Sanic
 
 app = Sanic("My Hello, world app")
-
 ```
+:---
 
+## Application context
+::: new NEW in v21.3
+Most applications will have the need to share/reuse data or objects across different parts of the code base. The most common example is DB connections. 
+:::
+
+---:1
+In versions of Sanic prior to v21.3, this was commonly done by attaching an attribute to the application instance
+:--:1
+```python
+# Raises a warning as deprecated feature in 21.3
+app = Sanic("MyApp")
+app.db = Database()
+```
+:---
+
+---:1
+Because this can create potential problems with name conflicts, and to be consistent with [request context](./request.md#context) objects, v21.3 introduces application level context object.
+:--:1
+```python
+# Correct way to attach objects to the application
+app = Sanic("MyApp")
+app.ctx.db = Database()
+```
 :---
 
 ## App Registry

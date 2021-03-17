@@ -96,12 +96,14 @@ Most of the time you will want to use the `.get()` method can be used to access 
 
 ## Context
 
+### Request context
+
 The `request.ctx` object is your playground to store whatever information you need to about the request.
 
 This is often used to store items like authenticated user details. We will get more into [middleware](./middleware.md) later, but here is a simple example.
 
 ```python
-@app.middleware("request")
+@app.on_request
 async def run_before_handler(request):
     request.ctx.user = await fetch_user_by_token(request.token)
 
@@ -114,10 +116,44 @@ A typical use case would be to store the user object acquired from database in a
 
 Custom context is reserved for applications and extensions. Sanic itself makes no use of it.
 
+### Connection context
+
+---:1
+::: new NEW in v21.3
+Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
+
+The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
+
+When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
+:::
+:--:1
+```python
+@app.on_request
+async def increment_foo(request):
+    if not hasattr(request.conn_info.ctx, "foo"):
+        request.conn_info.ctx.foo = 0
+    request.conn_info.ctx.foo += 1
+
+@app.get("/")
+async def count_foo(request):
+    return text(f"{request.conn_info.ctx.foo=}")
+```
+
+```bash
+$ curl localhost:8000 localhost:8000 localhost:8000
+request.conn_info.ctx.foo=1
+request.conn_info.ctx.foo=2
+request.conn_info.ctx.foo=3
+```
+:---
+
+::: warning
+Connection level context is an experimental feature, and should be finalized in v21.6.
+:::
+
 ## Parameters
 
 ---:1
-
 Values that are extracted from the path are injected into the handler as parameters, or more specifically as keyword arguments. There is much more detail about this in the [Routing section](./routing.md).
 :--:1
 ```python
