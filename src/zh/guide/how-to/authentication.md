@@ -1,13 +1,15 @@
-# 认证（Authentication）
+# 认证(Authentication)
 
 > 我该如何控制认证和权限？
 
-这是一个*十分*复杂的话题，很难用几行代码阐述清楚。尽管如此，本章节也许能够为您提供一些解决问题的思路。
+这是一个 *十分* 复杂的话题，很难用几行代码阐述清楚。尽管如此，本章节也许能够为您提供一些解决问题的思路。
 
-下面的例子使用了[JWTs](https://jwt.io/)来实现，如果您想使用session或者是其他的方式，那做法应该是类似的。
+下面的例子使用了 [JWTs](https://jwt.io/) 来实现，如果您想使用 session  或者是其他的方式，那做法应该是类似的。
 
 :::: tabs
+
 ::: tab server.py
+
 ```python
 from sanic import Sanic, text
 
@@ -25,7 +27,9 @@ async def secret(request):
     return text("To go fast, you must be fast.")
 ```
 :::
+
 ::: tab login.py
+
 ```python
 import jwt
 from sanic import Blueprint, text
@@ -39,7 +43,9 @@ async def do_login(request):
     return text(token)
 ```
 :::
+
 ::: tab auth.py
+
 ```python
 from functools import wraps
 
@@ -77,8 +83,11 @@ def protected(wrapped):
 
     return decorator(wrapped)
 ```
-这一段装饰器的代码来自于[装饰器](/zh/guide/best-practices/decorators.md)一节
+
+这一段装饰器的代码来自于 [装饰器](/zh/guide/best-practices/decorators.md) 一节。
+
 :::
+
 ::::
 
 ```bash
