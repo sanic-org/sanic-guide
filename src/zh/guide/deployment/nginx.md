@@ -1,6 +1,6 @@
-# Nginx 部署（Nginx Deployment）
+# Nginx 部署(Nginx Deployment)
 
-## 介绍（Introduction）
+## 介绍(Introduction)
 
 尽管 Sanic 可以直接运行在 Internet 中，但是使用代理服务器可能会更好。
 例如在 Sanic 服务器之前添加 Nginx 代理服务器。这将有助于在同一台机器上同时提供多个不同的服务。
@@ -10,7 +10,7 @@
 然后使用 Nginx 代理 `/var/www` 下的静态文件，
 最后使用 Nginx 绑定域名 `example.com` 向公网提供服务
 
-## 代理 Sanic（Proxied Sanic app)
+## 代理 Sanic(Proxied Sanic app)
 
 被代理的应用应该设置 `FORWARDED_SECRET`（受信任代理的密钥）用于识别真实的客户端 IP 以及其他信息。
 这可以有效的防止网络中发送的伪造标头来隐藏其 IP 地址的请求。
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 测试时在终端运行您的应用程序。
 
-## Nigin 配置（Nginx configuration）
+## Nigin 配置(Nginx configuration)
 
 允许快速透明代理需要相当多的配置，但是在大多数情况下，这些并不需要修改。
 
@@ -80,7 +80,7 @@ server {
 }
 ```
 
-为避免Cookie可见性问题和搜索引擎上的地址不一致的问题，
+为避免 Cookie 可见性问题和搜索引擎上的地址不一致的问题，
 您可以使用以下方法将所有的访问都重定向到真实的域名上。
 以确保始终为 HTTPS 访问：
 
@@ -102,9 +102,9 @@ server {
 }
 ```
 
-上面的配置部分可以放在`/etc/nginx/sites-available/default`中或其他网站配置中（如果您创建了新的配置，请务必将它们链接到`sites-enabled`中）。
+上面的配置部分可以放在 `/etc/nginx/sites-available/default` 中或其他网站配置中（如果您创建了新的配置，请务必将它们链接到 `sites-enabled` 中）。
 
-请确保在主配置中配置了您的SSL证书，或者向每个 `server` 模块添加 `ssl_certificate` 和 `ssl_certificate_key` 配置来进行 SSL 监听。
+请确保在主配置中配置了您的 SSL 证书，或者向每个 `server` 模块添加 `ssl_certificate` 和 `ssl_certificate_key` 配置来进行 SSL 监听。
 
 除此之外，复制并粘贴以下内容到 `nginx/conf.d/forwarded.conf` 中：
 
@@ -159,7 +159,7 @@ sudo nginx -s reload
 任何的 404 以及类似的错误都将交由 Sanic 进行处理。
 静态文件存储在指定的目录下，将由 Nginx 提供访问。
 
-## SSL 证书（SSL certificates）
+## SSL 证书(SSL certificates)
 
 如果您尚未在服务器上配置有效证书，您可以安装 `certbot` 和 `python3-certbot-nginx` 以使用免费的 SSL/TLS 证书，然后运行:
 
@@ -169,7 +169,7 @@ certbot --nginx -d example.com -d www.example.com
 
 相关资料请参考：[使用免费的 SSL/TLS 证书](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
-## 作为服务运行（Running as a service）
+## 作为服务运行(Running as a service)
 
 这部分是针对基于 `systemd` 的 Linux 发行版。 创建一个文件：`/etc/systemd/system/sanicexample.service` 并写入以下内容：
 
