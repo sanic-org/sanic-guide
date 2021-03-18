@@ -17,7 +17,6 @@ app = Sanic("My Hello, world app")
 ## Application context
 ::: new NEW in v21.3
 Most applications will have the need to share/reuse data or objects across different parts of the code base. The most common example is DB connections. 
-:::
 
 ---:1
 In versions of Sanic prior to v21.3, this was commonly done by attaching an attribute to the application instance
@@ -38,6 +37,7 @@ app = Sanic("MyApp")
 app.ctx.db = Database()
 ```
 :---
+:::
 
 ## App Registry
 
