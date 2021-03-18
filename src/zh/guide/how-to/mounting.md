@@ -1,4 +1,4 @@
-# 应用挂载（Application Mounting）
+# 应用挂载(Application Mounting)
 
 > 我该如何将我的应用程序挂载在根目录下的某个路径？
 
@@ -42,10 +42,12 @@ server {
     }
 }
 ```
+
 ```bash
 $ docker-compose up -d
 $ sanic server.app --port=9999 --host=0.0.0.0
 ```
+
 ```bash
 $ curl localhost/api/foo
 URL: http://example.com/api/foo
