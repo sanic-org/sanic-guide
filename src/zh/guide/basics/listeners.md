@@ -3,10 +3,12 @@
 在 Sanic 应用程序的生命周期中 6 个切入点，在这些关键节点上设置监听器可以让您可以完成一些注入操作。
 
 ::: new v21.3 新增
+
 有两 （2） 个切入点 *只* 在您的主进程中触发（即，只会在 `sanic server.app` 中触发一次。）
 
 - `main_process_start`
 - `main_process_stop`
+
 :::
 
 有四（4）个切入点可以让您在服务器启动或者关闭前执行一些初始化或资源回收相关代码。
@@ -79,6 +81,7 @@ async def setup_db(app, loop):
 
 app.register_listener(setup_db, "before_server_start")
 ```
+
 :---
 
 ---:1
@@ -117,14 +120,14 @@ async def setup_db(app, loop):
 
 听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
 
-|                       | 执行阶段 | 执行顺序 |
-| :-------------------: | :------: | :-----: |
-| `main_process_start`  | 主程序启动    | 正向 :smiley: |
-| `before_server_start` | 子程序启动  | 正向 :smiley: |
-| `after_server_start`  | 子程序启动  | 正向 :smiley: |
-| `before_server_stop`  | 子程序关闭 | 反向 :upside_down_face: |
-| `after_server_stop`   | 子程序关闭 | 反向 :upside_down_face: |
-| `main_process_stop`   | 主程序关闭   | 反向 :upside_down_face: |
+|                       | 执行阶段  |          执行顺序       |
+| :-------------------: | :------: | :---------------------: |
+| `main_process_start`  | 主程序启动| 正向 :smiley:           |
+| `before_server_start` | 子程序启动| 正向 :smiley:           |
+| `after_server_start`  | 子程序启动| 正向 :smiley:           |
+| `before_server_stop`  | 子程序关闭| 反向 :upside_down_face: |
+| `after_server_stop`   | 子程序关闭| 反向 :upside_down_face: |
+| `main_process_stop`   | 主程序关闭| 反向 :upside_down_face: |
 
 以下列代码为例，我们在启动两个子程序并执行之后看到的输出内容应该是这样的：
 
