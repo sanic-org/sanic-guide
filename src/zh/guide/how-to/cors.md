@@ -1,14 +1,16 @@
 ---
-title: 跨域资源共享（CORS）
+title: 跨域资源共享(CORS)
 ---
 
 
-# 跨域资源共享 (CORS)
+# 跨域资源共享(CORS)
 
 > 我该如何配置跨域资源共享？
 
 :::: tabs
+
 ::: tab server.py
+
 ```python
 from sanic import Sanic, text
 
@@ -29,8 +31,11 @@ app.register_listener(setup_options, "before_server_start")
 # Fill in CORS headers
 app.register_middleware(add_cors_headers, "response")
 ```
+
 :::
+
 ::: tab cors.py
+
 ```python
 from typing import Iterable
 
@@ -60,8 +65,11 @@ def add_cors_headers(request, response):
         ]
         _add_cors_headers(response, methods)
 ```
+
 :::
+
 ::: tab options.py
+
 ```python
 from collections import defaultdict
 from typing import Dict, FrozenSet
@@ -111,8 +119,11 @@ def setup_options(app: Sanic, _):
         )
     app.router.finalize()
 ```
+
 :::
+
 ::::
+
 ```
 $ curl localhost:9999/ -i
 HTTP/1.1 200 OK
