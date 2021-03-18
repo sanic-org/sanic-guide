@@ -16,10 +16,10 @@ The job of the handler is to respond to an endpoint and do something. This is wh
 :--:1
 ```python
 def i_am_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 
 async def i_am_ALSO_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 ```
 :---
 
