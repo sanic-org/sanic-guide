@@ -32,7 +32,7 @@ Note over Worker: Deliver response
 
 ---:1
 
-This should probably look familar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`.
+This should probably look familiar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`.
 :--:1
 ```python
 async def extract_user(request):
@@ -139,7 +139,7 @@ $ curl localhost:9999/foo-bar-baz
 foo_bar_baz
 ```
 :---
-## Resonding early
+## Responding early
 
 ---:1
 

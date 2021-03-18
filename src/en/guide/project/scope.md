@@ -34,7 +34,7 @@ _The SCO asks its users to participate in the project and community as much as p
 
 User contributions enable the project team to ensure that they are satisfying the needs of those users. Common user contributions include (but are not limited to):
 
-*   evangelising about the project (e.g. a link on a website and word-of-mouth awareness raising)
+*   evangelizing about the project (e.g. a link on a website and word-of-mouth awareness raising)
 *   informing developers of strengths and weaknesses from a new user perspective
 *   providing moral support (a ‘thank you’ goes a long way)
 *   providing financial support (the software is open source, but its developers need to eat)
@@ -93,7 +93,7 @@ New core developers can be **nominated by any existing core developer** at any t
 
 Once the vote has been held, the aggregated voting results are published on the Community Forums. The nominee is entitled to request an explanation of any override against them. A nominee that fails to be admitted as a core developer may be nominated again in the future.
 
-It is important to recognise that being a core developer is a privilege, not a right. That privilege must be earned and once earned it can be removed by the Steering Council (see next section) in extreme circumstances. However, under normal circumstances the core developer title exists for as long as the individual wishes to continue engaging with the project and community.
+It is important to recognize that being a core developer is a privilege, not a right. That privilege must be earned and once earned it can be removed by the Steering Council (see next section) in extreme circumstances. However, under normal circumstances the core developer title exists for as long as the individual wishes to continue engaging with the project and community.
 
 A committer who shows an above-average level of contribution to the project, particularly with respect to its strategic direction and long-term health, may be nominated to become a member of the Steering Council, or a Release Manager. This role is described below.
 
@@ -209,7 +209,7 @@ While the specifics of how to operate are beyond the scope of the Policy, it is 
 Support
 -------
 
-All participants in the community are encouraged to provide support for users within the project management infrastructure. This support is provided as a way of growing the community. Those seeking support should recognise that all support activity within the project is voluntary and is therefore provided as and when time allows. A user requiring guaranteed response times or results should therefore seek to purchase a support contract from a community member. However, for those willing to engage with the project on its own terms, and willing to help support other users, the community support channels are ideal.
+All participants in the community are encouraged to provide support for users within the project management infrastructure. This support is provided as a way of growing the community. Those seeking support should recognize that all support activity within the project is voluntary and is therefore provided as and when time allows. A user requiring guaranteed response times or results should therefore seek to purchase a support contract from a community member. However, for those willing to engage with the project on its own terms, and willing to help support other users, the community support channels are ideal.
 
 Decision making process
 -----------------------
@@ -245,7 +245,7 @@ Any community member can make a proposal for consideration by the community. In 
 
 The goal of this review and discussion is to gain approval for the contribution. Since most people in the project community have a shared vision, there is often little need for discussion in order to reach consensus.
 
-In general, as long as nobody explicitly opposes a proposal or patch, it is recognised as having the support of the community. This is called lazy consensus; that is, those who have not stated their opinion explicitly have implicitly agreed to the implementation of the proposal.
+In general, as long as nobody explicitly opposes a proposal or patch, it is recognized as having the support of the community. This is called lazy consensus; that is, those who have not stated their opinion explicitly have implicitly agreed to the implementation of the proposal.
 
 Lazy consensus is a very important concept within the SCO. It is this process that allows a large group of people to efficiently reach consensus, as someone with no objections to a proposal need not spend time stating their position, and others need not spend time reading such messages.
 

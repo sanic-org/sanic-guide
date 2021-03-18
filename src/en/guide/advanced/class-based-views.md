@@ -38,7 +38,7 @@ async def bar(request):
 
 ### The solution
 
-Class-based views are simply classes that implement response behaviour to requests. They provide a way to compartmentalise handling of different HTTP request types at the same endpoint.
+Class-based views are simply classes that implement response behavior to requests. They provide a way to compartmentalize handling of different HTTP request types at the same endpoint.
 :--:1
 ```python
 from sanic.views import HTTPMethodView
@@ -119,7 +119,7 @@ app.add_route(NameView.as_view(), "/<name>")
 
 ## Decorators
 
-As discussed in [the decorators section](/guide/best-practices/decorators.md), oftern you will need to add funcitonality to endpoints with the use of decorators. You have two options with CBV:
+As discussed in [the decorators section](/guide/best-practices/decorators.md), often you will need to add functionality to endpoints with the use of decorators. You have two options with CBV:
 
 1. Apply to _all_ HTTP methods in the view
 2. Apply individually to HTTP methods in the view

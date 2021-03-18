@@ -65,7 +65,7 @@ There are three loggers used in sanic, and must be defined if you want to create
 
 | **Logger Name** | **Use Case**                  |
 |-----------------|-------------------------------|
-| `sanic.root`    | Used to log inernal messages. |
+| `sanic.root`    | Used to log internal messages. |
 | `sanic.error`   | Used to log error logs.       |
 | `sanic.access`  | Used to log access logs.      |
 :--:1

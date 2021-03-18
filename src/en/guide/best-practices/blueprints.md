@@ -285,7 +285,7 @@ metrics = Blueprint("metrics", url_prefix="/metrics")
 
 group = Blueprint.group([auth, metrics], version="v1")
 
-# This will provide APIS prefixed with the following URL path
+# This will provide APIs prefixed with the following URL path
 # /v1/auth/ and /v1/metrics
 ```
 :---

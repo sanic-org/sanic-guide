@@ -40,7 +40,7 @@ Response cookies can be set like dictionary values and have the following parame
 - `domain: str` - Specifies the domain for which the cookie is valid. An explicitly specified domain must always start with a dot.
 - `max-age: int` - Number of seconds the cookie should live for.
 - `secure: bool` - Specifies whether the cookie will only be sent via HTTPS.
-- `httponly: bool` - Specifies whether the cookie cannot be read by Javascript.
+- `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
 - `samesite: str` - Default is browser dependent, specification states (Lax, Strict, and None) are valid values.
 
 ## Deleting

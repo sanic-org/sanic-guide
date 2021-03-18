@@ -166,7 +166,7 @@ async def tag_handler(request, tag):
 
 ## Arguments
 
-There are two attibutes on the `request` instance to get query parameters:
+There are two attributes on the `request` instance to get query parameters:
 
 - `request.args`
 - `request.query_args`

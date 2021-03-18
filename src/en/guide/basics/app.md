@@ -3,7 +3,7 @@
 ## Instance
 
 ---:1
-The most basic building block is the `Sanic()` instance. It is not required, but the custom is to instatiate this in a file called `server.py`.
+The most basic building block is the `Sanic()` instance. It is not required, but the custom is to instantiate this in a file called `server.py`.
 :--:1
 ```python
 # /path/to/server.py
