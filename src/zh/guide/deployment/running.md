@@ -1,12 +1,13 @@
-# 运行Sanic (Running Sanic)
+# 运行 Sanic(Running Sanic)
 
-Sanic 自带了一个Web服务器。在大多数情况下，推荐使用该服务器来部署您的 Sanic 应用。除此之外，您还可以使用支持 ASGI 应用的服务器来部署 Sanic，或者使用 Gunicorn。
+Sanic 自带了一个 Web 服务器。在大多数情况下，推荐使用该服务器来部署您的 Sanic 应用。除此之外，您还可以使用支持 ASGI 应用的服务器来部署 Sanic，或者使用 Gunicorn。
 
-## Sanic 服务器 (Sanic Server)
+## Sanic 服务器(Sanic Server)
 
 当定义了 `sanic.Sanic` 实例后，我们可以调用其 `run` 方法，该方法支持以下几个关键字参数：
 
 ---:1
+
 - **host** (default `”127.0.0.1”`): 服务器监听的地址。
 - **port** (default `8000`): 服务器监听的端口。
 - **unix** (default `None`): Unix套接字文件（不是TCP）。
@@ -17,6 +18,7 @@ Sanic 自带了一个Web服务器。在大多数情况下，推荐使用该服�
 - **loop** (default `None`): 一个兼容 asyncio 的事件循环。如果没有指定，Sanic 会创建自己的事件循环。
 - **protocol** (default `HttpProtocol`): asyncio.protocol 子类。
 - **access_log** (default `True`): 启用请求访问日志（显著降低服务器速度）。
+
 :--:1
 
 ```python
@@ -24,30 +26,39 @@ Sanic 自带了一个Web服务器。在大多数情况下，推荐使用该服�
 app = Sanic("My App")
 app.run(host='0.0.0.0', port=1337, access_log=False)
 ```
+
 :---
 
 在该样例中，我们关闭输出访问日志来提升性能。
 
 ---:1
+
 现在，执行包含 `app.run(...)` 代码的 Python 脚本。
+
 :--:1
 
 ```bash
 python server.py
 ```
+
 :---
 
-### 子程序 (Workers)
+### 子程序(Workers)
 
 ---:1
+
 在默认情况下，Sanic 在主进程中只占用一个 CPU 核心进行服务的监听。要想增加并发，只需在运行参数中指定 workers 的数量即可。
+
 :--:1
+
 ```python
 app.run(host='0.0.0.0', port=1337, workers=4)
 ```
+
 :---
 
-::: tip
+::: tip 小提示
+
 Sanic 会自动管理多个进程，并在它们之间进行负载均衡。我们建议将子程序数量设置的和您机器的 CPU 核心数量一样。
 
 在基于 Linux 的操作系统上，有一个通用的方式来检查 CPU 核心数量：
@@ -63,25 +74,33 @@ import multiprocessing
 workers = multiprocessing.cpu_count()
 app.run(..., workers=workers)
 ```
+
 :::
 
-### 通过命令行运行 (Running via command)
+### 通过命令行运行(Running via command)
 
-#### Sanic 命令行界面 (Sanic CLI)
+#### Sanic 命令行界面(Sanic CLI)
 
 ---:1
+
 Sanic 也提供一个简单的命令行界面，来帮助您通过命令行启动。
 
 比如，如果您在 `server.py` 文件中初始化了一个 Sanic 应用，您可以使用右侧命令运行程序：
+
 :--:1
+
 ```bash
 sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 ```
+
 :---
 
 ---:1
+
 您还可以使用 `sanic --help` 来查看所有选项。
+
 :--:1
+
 ```bash
 $ sanic --help
 usage: sanic [-h] [--host HOST] [--port PORT] [--unix UNIX] [--cert CERT] [--key KEY] [--workers WORKERS] [--debug] module
@@ -100,20 +119,26 @@ optional arguments:
   --debug
 
 ```
+
 :---
 
 #### 作为模块运行 (As a module)
 
 ---:1
+
 Sanic 也可以被当做模板直接调用。
+
 :--:1
+
 ```bash
 python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 ```
+
 :---
 
 ::: tip 小提示
-无论使用哪种方法 （ CLI 或模块），都再不需要在 Python 文件中调用 `app.run()`。如果您想调用该方法，请确认将其包装起来，使他只有在使用解释器运行文件时才会被执行。
+
+无论使用哪种方法(CLI 或模块），都再不需要在 Python 文件中调用 `app.run()`。如果您想调用该方法，请确认将其包装起来，使它只有在使用解释器运行文件时才会被执行。
 
 ```python
 if __name__ == '__main__':
@@ -164,25 +189,35 @@ gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class sanic.worker.GunicornWorke
 查看 [Gunicorn 文档](http://docs.gunicorn.org/en/latest/settings.html#max-requests) 来获取更多信息。
 
 ::: warning
+
 当通过 `gunicorn` 运行Sanic时，您将失去 `async/await` 带来的诸多性能优势。对于该种部署方式，请三思而后行。的确，Gunicorn 提供了很多配置选项，但它不是可以让 Sanic 全速运行的最佳坏境。
+
 :::
 
 ## 性能方面的考虑 (Performance considerations)
 
 ---:1
+
 当部署在生产环境时，请确保 `debug` 模式处于关闭状态。
+
 :--:1
+
 ```python
 app.run(..., debug=False)
 ```
+
 :---
 
 ---:1
+
 如果您选择关闭了 `access_log` ，Sanic 将会全速运行。
 
-如果您的确需要请求访问日志，又想获得更好的性能，可以考虑使用 [Nginx作为代理](./nginx.md) ，让 Nginx 来处理您的访问日志。这种方式要比用 Python 处理快得多得多。
+如果您的确需要请求访问日志，又想获得更好的性能，可以考虑使用 [Nginx](./nginx.md) 作为代理，让 Nginx 来处理您的访问日志。这种方式要比用 Python 处理快得多得多。
+
 :--:1
+
 ```python
 app.run(..., access_log=False)
 ```
+
 :---
