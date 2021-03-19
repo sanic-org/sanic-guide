@@ -6,18 +6,22 @@ Sanic 自带了一个 Web 服务器。在大多数情况下，推荐使用该服
 
 当定义了 `sanic.Sanic` 实例后，我们可以调用其 `run` 方法，该方法支持以下几个关键字参数：
 
+|     参数名称     |     默认值     |                              参数说明                              |
+| :-------------: | :------------: | :---------------------------------------------------------------: |
+|  **host**       | `"127.0.0.1"`  | 服务器监听的地址。                                                  |
+|  **port**       | `8000`         | 服务器监听的端口。                                                  |
+|  **unix**       | `None`         | Unix套接字文件（不是TCP）。                                         |
+|  **debug**      | `False`        | 开启 DEBUG 输出 （降低服务器性能）。                                 |
+|  **ssl**        | `None`         | SSLContext，子进程用于 SSL 加密。                                   |
+|  **sock**       | `None`         | 服务器接受连接的套接字。                                            |
+|  **workers**    | `1`            | 要生成的子进程数量。                                                |
+|  **loop**       | `None`         | 一个兼容 asyncio 的事件循环。如果没有指定，Sanic 会创建自己的事件循环。|
+|  **protocol**   | `HttpProtocol` | asyncio.protocol 子类。                                            |
+|  **access_log** | `True`         | 启用请求访问日志（显著降低服务器速度）。                              |
+
 ---:1
 
-- **host** (default `”127.0.0.1”`): 服务器监听的地址。
-- **port** (default `8000`): 服务器监听的端口。
-- **unix** (default `None`): Unix套接字文件（不是TCP）。
-- **debug** (default `False`): 开启 DEBUG 输出 （降低服务器性能）。
-- **ssl** (default `None`): SSLContext，子程序用于 SSL 加密。
-- **sock** (default `None`): 服务器接受连接的套接字。
-- **workers** (default `1`): 要生成的子进程数量。
-- **loop** (default `None`): 一个兼容 asyncio 的事件循环。如果没有指定，Sanic 会创建自己的事件循环。
-- **protocol** (default `HttpProtocol`): asyncio.protocol 子类。
-- **access_log** (default `True`): 启用请求访问日志（显著降低服务器速度）。
+在该样例中，我们关闭输出访问日志来提升性能。
 
 :--:1
 
@@ -28,8 +32,6 @@ app.run(host='0.0.0.0', port=1337, access_log=False)
 ```
 
 :---
-
-在该样例中，我们关闭输出访问日志来提升性能。
 
 ---:1
 
@@ -43,7 +45,7 @@ python server.py
 
 :---
 
-### 子程序(Workers)
+### 子进程(Workers)
 
 ---:1
 
@@ -59,7 +61,7 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 
 ::: tip 小提示
 
-Sanic 会自动管理多个进程，并在它们之间进行负载均衡。我们建议将子程序数量设置的和您机器的 CPU 核心数量一样。
+Sanic 会自动管理多个进程，并在它们之间进行负载均衡。我们建议将子进程数量设置的和您机器的 CPU 核心数量一样。
 
 在基于 Linux 的操作系统上，有一个通用的方式来检查 CPU 核心数量：
 
@@ -184,13 +186,13 @@ hypercorn -k trio myapp:app
 gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class sanic.worker.GunicornWorker
 ```
 
-如果您的应用有内存泄漏的困扰，您可以通过配置 Gunicorn 使子程序在处理了一定数量的请求后平滑重启。这种方法可以很方便得减少内存泄漏带来的影响。
+如果您的应用有内存泄漏的困扰，您可以通过配置 Gunicorn 使子进程在处理了一定数量的请求后平滑重启。这种方法可以很方便得减少内存泄漏带来的影响。
 
 查看 [Gunicorn 文档](http://docs.gunicorn.org/en/latest/settings.html#max-requests) 来获取更多信息。
 
 ::: warning
 
-当通过 `gunicorn` 运行Sanic时，您将失去 `async/await` 带来的诸多性能优势。对于该种部署方式，请三思而后行。的确，Gunicorn 提供了很多配置选项，但它不是可以让 Sanic 全速运行的最佳坏境。
+当通过 `gunicorn` 运行Sanic时，您将失去 `async/await` 带来的诸多性能优势。对于该种部署方式，请三思而后行。的确，Gunicorn 提供了很多配置选项，但它不是让 Sanic 全速运行的最佳坏境。
 
 :::
 

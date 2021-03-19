@@ -6,33 +6,43 @@ Sanic ships with its own internal web server. Under most circumstances, this is 
 
 After defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
 
+|    Parameter    |     Default    |                                           Description                                     |
+| :-------------: | :------------: | :---------------------------------------------------------------------------------------: |
+|  **host**       | `"127.0.0.1"`  | Address to host the server on.                                                            |
+|  **port**       | `8000`         | Port to host the server on.                                                               |
+|  **unix**       | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
+|  **debug**      | `False`        | Enables debug output (slows server).                                                      |
+|  **ssl**        | `None`         | SSLContext for SSL encryption of worker(s).                                               |
+|  **sock**       | `None`         | Socket for the server to accept connections from.                                         |
+|  **workers**    | `1`            | Number of worker processes to spawn.                                                      |
+|  **loop**       | `None`         | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
+|  **protocol**   | `HttpProtocol` | Subclass of asyncio.protocol.                                                             |
+|  **access_log** | `True`         | Enables log on handling requests (significantly slows server).                            |
+
 ---:1
-- **host** (default `”127.0.0.1”`): Address to host the server on.
-- **port** (default `8000`): Port to host the server on.
-- **unix** (default `None`): Unix socket name to host the server on (instead of TCP).
-- **debug** (default `False`): Enables debug output (slows server).
-- **ssl** (default `None`): SSLContext for SSL encryption of worker(s).
-- **sock** (default `None`): Socket for the server to accept connections from.
-- **workers** (default `1`): Number of worker processes to spawn.
-- **loop** (default `None`): An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop.
-- **protocol** (default `HttpProtocol`): Subclass of asyncio.protocol.
-- **access_log** (default `True`): Enables log on handling requests (significantly slows server).
+
+In the above example, we decided to turn off the access log in order to increase performance.
+
 :--:1
+
 ```python
 # server.py
 app = Sanic("My App")
 app.run(host='0.0.0.0', port=1337, access_log=False)
 ```
+
 :---
 
-In the above example, we decided to turn off the access log in order to increase performance.
-
 ---:1
+
 Now, just execute the python script that has `app.run(...)`
+
 :--:1
+
 ```bash
 python server.py
 ```
+
 :---
 
 ### Workers

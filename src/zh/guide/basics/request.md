@@ -20,6 +20,7 @@ $ curl localhost:8000 -d '{"foo": "bar"}'
 >>> print(request.json)
 {'foo': 'bar'}
 ```
+
 :::
 
 ::: tab Raw
@@ -105,6 +106,8 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 
 ## 环境(Context)
 
+### 请求环境(Request context)
+
 `request.ctx` 对象是存储请求相关信息的地方。
 
 这里通常被用来存储服务端通过某些验证后需要临时存储的身份认证信息以及专有变量等内容。更多的具体内容我们将在 [中间件](/zh/guide/advanced/middleware.md) 这一章节进行更多的描述，下面是一个简单的例子。
@@ -122,6 +125,47 @@ async def hi_my_name_is(request):
 最典型的用法就是将从数据库获取的用户对象存储在 `request.ctx` 中。所有该中间件之后的其他中间件以及请求期间的处理程序都可以对此进行访问。
 
 自定义环境是为了应用程序和拓展插件而保留的，Sanic 本身并不使用它。
+
+### 连接环境(Connection context)
+
+---:1
+
+::: new v21.3 新增
+
+通常情况下，您的应用程序需要向同一个客户端提供多个并发（或连续）的请求。这种情况通常发生在需要查询多个端点来获取数据的渐进式网络应用程序中。
+
+在 HTTP 协议要求通过 [keep alive](../deployment/configuration.md#keep-alive-timeout) 请求头来减少频繁连接所造成的时间浪费。
+
+当多个请求共享一个连接时，Sanic 提供一个环境对象来允许这些请求共享状态。
+
+:::
+
+:--:1
+
+```python
+@app.on_request
+async def increment_foo(request):
+    if not hasattr(request.conn_info.ctx, "foo"):
+        request.conn_info.ctx.foo = 0
+    request.conn_info.ctx.foo += 1
+
+@app.get("/")
+async def count_foo(request):
+    return text(f"{request.conn_info.ctx.foo}")
+```
+
+```bash
+$ curl localhost:8000 localhost:8000 localhost:8000
+request.conn_info.ctx.foo=1
+request.conn_info.ctx.foo=2
+request.conn_info.ctx.foo=3
+```
+
+:---
+
+::: warning 警告
+连接环境目前只是一个实验特性，这将在 v21.6 版本中最终确定是否保留。
+:::
 
 ## 路由参数(Parameter)
 
