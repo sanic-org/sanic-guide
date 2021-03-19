@@ -20,6 +20,44 @@ app = Sanic("My Hello, world app")
 
 :---
 
+## 应用上下文(Application context)
+
+::: new v21.3 新增
+
+大多数应用程序都需要跨代码库的不同部分共享/重用数据或对象。最常见的例子是数据库连接。
+
+---:1
+
+在 21.3 版之前的 Sanic 版本中，这通常是通过将属性附加到应用程序上来实现的。
+
+:--:1
+
+```python
+# Raises a warning as deprecated feature in 21.3
+app = Sanic("MyApp")
+app.db = Database()
+```
+
+:---
+
+---:1
+
+因为这可能会产生名称冲突的潜在问题，并与[请求上下文]保持一致。/request.md#context)对象，v21.3引入了应用层上下文对象。
+
+在 v21.3 版本中，我们引入了应用级的环境对象，且使用方法与 [请求环境](./request.md#context) 一致， 这有效的避免了命名冲突可能导致的潜在问题。
+
+:--:1
+
+```python
+# Correct way to attach objects to the application
+app = Sanic("MyApp")
+app.ctx.db = Database()
+```
+
+:---
+
+:::
+
 ## App 注册表(App Registry)
 
 ---:1

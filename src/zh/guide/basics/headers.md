@@ -96,7 +96,7 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new
+::: new v21.3 新增
 
 您可能会想要为响应也添加 `X-Request-ID` 头信息，通常，您可以添加一个 [中间件](middleware.md)。
 
