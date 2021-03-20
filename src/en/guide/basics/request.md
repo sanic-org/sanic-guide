@@ -136,7 +136,7 @@ async def increment_foo(request):
 
 @app.get("/")
 async def count_foo(request):
-    return text(f"{request.conn_info.ctx.foo}")
+    return text(f"request.conn_info.ctx.foo={request.conn_info.ctx.foo}")
 ```
 
 ```bash
