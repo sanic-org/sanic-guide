@@ -303,6 +303,25 @@ async def handler(request, foo: str):
 
 :::
 
+::: tab ymd
+
+```python
+@app.route("/path/to/<foo:ymd>")
+async def handler(request, foo: datetime.date):
+    ...
+```
+::: new v21.3 新增
+
+**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
+
+**转换类型**: `datetime.date`  
+
+**匹配示例**:
+
+- `/path/to/2021-03-28`
+
+:::
+
 ::: tab uuid
 
 ```python
