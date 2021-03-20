@@ -380,12 +380,12 @@ let zh_locales = {
         ],
       },
       {
-        title: "Release Notes",
+        title: "发行记录",
         sidebarDepth: 1,
         children: ["/zh/guide/release-notes/v21.3.md"],
       },
       {
-        title: "Organization",
+        title: "组织",
         sidebarDepth: 1,
         children: [
           "/zh/guide/project/policies.md",

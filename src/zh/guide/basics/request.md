@@ -104,9 +104,9 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 
 ::::
 
-## 环境(Context)
+## 上下文(Context)
 
-### 请求环境(Request context)
+### 请求上下文(Request context)
 
 `request.ctx` 对象是存储请求相关信息的地方。
 
@@ -124,9 +124,9 @@ async def hi_my_name_is(request):
 
 最典型的用法就是将从数据库获取的用户对象存储在 `request.ctx` 中。所有该中间件之后的其他中间件以及请求期间的处理程序都可以对此进行访问。
 
-自定义环境是为了应用程序和拓展插件而保留的，Sanic 本身并不使用它。
+自定义上下文是为了应用程序和拓展插件而保留的，Sanic 本身并不使用它。
 
-### 连接环境(Connection context)
+### 连接上下文(Connection context)
 
 ---:1
 
@@ -136,7 +136,7 @@ async def hi_my_name_is(request):
 
 在 HTTP 协议要求通过 [keep alive](../deployment/configuration.md#keep-alive-timeout) 请求头来减少频繁连接所造成的时间浪费。
 
-当多个请求共享一个连接时，Sanic 提供一个环境对象来允许这些请求共享状态。
+当多个请求共享一个连接时，Sanic 将提供一个上下文对象来允许这些请求共享状态。
 
 :::
 
@@ -164,7 +164,7 @@ request.conn_info.ctx.foo=3
 :---
 
 ::: warning 警告
-连接环境目前只是一个实验特性，这将在 v21.6 版本中最终确定是否保留。
+连接上下文目前只是一个实验特性，这将在 v21.6 版本中最终确定是否保留。
 :::
 
 ## 路由参数(Parameter)
