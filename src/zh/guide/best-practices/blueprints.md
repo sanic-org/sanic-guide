@@ -301,7 +301,7 @@ auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 
 ---:1
 
-当我们将蓝图注册到APP上时，`/v1/auth` 和 `/v1/auth` 路由将指向两个不同的蓝图，这就允许您为每个 API 版本创建子路由。
+当我们将蓝图注册到APP上时，`/v1/auth` 和 `/v2/auth` 路由将指向两个不同的蓝图，这就允许您为每个 API 版本创建子路由。
 
 :--:1
 

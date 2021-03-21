@@ -303,6 +303,25 @@ async def handler(request, foo: str):
 
 :::
 
+::: tab ymd
+
+```python
+@app.route("/path/to/<foo:ymd>")
+async def handler(request, foo: datetime.date):
+    ...
+```
+::: new v21.3 新增
+
+**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
+
+**转换类型**: `datetime.date`  
+
+**匹配示例**:
+
+- `/path/to/2021-03-28`
+
+:::
+
 ::: tab uuid
 
 ```python
@@ -547,20 +566,13 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 
 ---:1
 
-为了确保 Sanic 可以正确渲染静态文件，请使用  `app.static()` 方法进行路由分配。
+为了确保 Sanic 可以正确代理静态文件，请使用  `app.static()` 方法进行路由分配。
 
 在这里，参数的顺序十分重要
 
 第一个参数是静态文件所需要匹配的路由
 
 第二个参数是渲染文件所在的文件(夹)路径
-
-In order to serve static files from Sanic, use `app.static()`.
-
-The order of arguments is important:
-
-1. Route the files will be served from
-2. Path to the files on the server
 
 更多详细用法请参考  [API docs]() 
 

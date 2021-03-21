@@ -80,9 +80,9 @@ def sync_handler(request):
 
 ---:1
 
-当我们使用异步解决方案时，性能将会得到极大的提升，你会看道一组惊人的数据​ :rocket:。
+当我们使用异步解决方案时，性能将会得到极大的提升，您会看道一组惊人的数据​ :rocket:。
 
-同样使用 4 个工作进程和一个通用基准工具再次进行性能测试，得到以下数据:
+同样使用 4 个子进程和一个相同的基准工具再次进行性能测试，得到以下数据:
 
 -   在 30.10 秒内，共进行了 **115,590** 次请求
 -   平均每秒响应 **3843.17** 次请求
@@ -110,13 +110,13 @@ async def async_handler(request):
 
 请尽可能的使用异步工具来避免发生阻塞。您的服务器将感谢您。在 [Awesome Sanic](https://github.com/mekicha/awesome-sanic) 中有许多性能优秀的 Sanic 异步工具，您可以在那里找到合适自己的异步工具。
 
-在内部实现中，Sanic 充分的发挥了 `httpx` 的性能:wink:。
+Sanic 的测试套件 (sanic-testing) 充分的发挥了 [httpx](https://www.python-httpx.org/) 的性能 :wink:。
 
 :::
 
 ---
 
-## 完全带注释的响应函数(A fully annotated handler)
+## 带完整注释的响应函数(A fully annotated handler)
 
 Sanic 支持使用类型注解，下面的例子送给喜欢使用类型注解的人…
 

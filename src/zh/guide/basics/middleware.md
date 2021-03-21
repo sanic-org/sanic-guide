@@ -11,11 +11,11 @@ participant 子程序
 participant 中间件
 participant 中间件响应函数
 participant 路由响应函数
-Note over 子程序: 收到的HTTP请求
+Note over 子程序: 收到的 HTTP 请求
 loop
     子程序->>中间件: @app.on_request
     中间件->>中间件响应函数: 调用中间件响应函数
-    中间件响应函数-->>子程序: 返回响应 （可选）
+    中间件响应函数-->>子程序: 返回响应（可选）
 end
 rect rgba(255, 13, 104, .1)
 子程序->>路由响应函数: 调用路由响应函数
@@ -24,7 +24,7 @@ end
 loop
     子程序->>中间件: @app.on_response
     中间件->>中间件响应函数: 调用中间件响应函数
-    中间件响应函数-->>子程序: 返回响应 （可选）
+    中间件响应函数-->>子程序: 返回响应（可选）
 end
 Note over 子程序: 返回响应
 ```
@@ -33,7 +33,7 @@ Note over 子程序: 返回响应
 
 ---:1
 
-这看起来和之前的流程没有什么不同，您需要做的就是完成响应函数的构建，并将其挂载到 `request ` 或  `response`  上
+这看起来和之前的流程没有什么不同，您需要做的就是完成响应函数的构建，并将其挂载到 `request` 或  `response`  上
 
 :--:1
 
@@ -43,6 +43,7 @@ async def extract_user(request):
 
 app.register_middleware(extract_user, "request")
 ```
+
 :---
 
 ---:1
@@ -70,6 +71,7 @@ async def extract_user(request):
 async def prevent_xss(request, response):
     response.headers["x-xss-protection"] = "1; mode=block"
 ```
+
 :---
 
 ---:1

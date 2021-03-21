@@ -97,7 +97,7 @@ If a client supports HTTP/1.1, Sanic will use [chunked transfer encoding](https:
 :::
 
 ---:1
-::: new
+::: new NEW in v21.3
 Starting in v21.3, there is first-class support in the `HTTPResponse` object for streaming. Therefore, the coroutine callback pattern using `stream` is not needed. Indeed, it is merely a convenience method for backwards compatibility.
 
 You now are able to stream the response directly in the handler.
