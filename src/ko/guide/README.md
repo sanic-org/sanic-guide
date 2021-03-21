@@ -48,11 +48,11 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 
 [자세히 보기](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
 
-저희의 스폰서에게 감사합니다. [open collective](https://opencollective.com/sanic-org)를 확인하여 Sanic 자금 지원에 대해 자세히 알아보십시오.
+저희의 스폰서에게 감사합니다. [오픈 콜렉티브](https://opencollective.com/sanic-org)를 확인하여 Sanic 자금 지원에 대해 자세히 알아보십시오.
 
 ## 커뮤니티에 참가
 
-토론을위한 메인 채널은 [community forums](https://community.sanicframework.org/)입니다. 또한 [Discord Server](https://discord.gg/FARQzAEMAA) 에서 실시간 토론및 채팅이 가능합니다.
+토론을위한 메인 채널은 [커뮤니티 포럼](https://community.sanicframework.org/)입니다. 또한 [디스코드 서버](https://discord.gg/FARQzAEMAA)에서 실시간 토론및 채팅이 가능합니다.
 
 Stackoverflow의 `[sanic]` 태그는 프로젝트 유지보수자들에 의해 [적극적으로 모니터링](https://stackoverflow.com/questions/tagged/sanic)되고 있습니다.
 
