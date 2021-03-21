@@ -4,6 +4,7 @@ const path = require("path");
 ----------------------------------------------------------------------------------------------------------------
     please add language base config here, after that, please add it to locales.
     请在此处声明语言基础配置, 声明完成之后, 请将其添加到 locales 配置中。
+    여기에 언어 기반 구성을 추가 한 후 로케일에 추가하십시오
 ----------------------------------------------------------------------------------------------------------------
 */
 
@@ -21,10 +22,18 @@ let zh = {
     "Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。",
 };
 
+let ko = {
+  lang: "ko-KR",
+  title: "Sanic 프레임워크",
+  description:
+    "Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프레임 워크입니다. Python 3.5에 추가된 async / await 구문을 사용할 수 있으므로 코드가 차단(Blocking)되지 않고 빠릅니다.",
+};
+
 /*
 ----------------------------------------------------------------------------------------------------------------
     please add language detailed config here, after that, please add it to site_config.themeConfig.locales .
     请在此处声明语言基础配置, 声明完成之后, 请将其添加到 site_config.themeConfig.locales 配置中。
+    여기에 언어 세부 구성을 추가 한 후 site_config.themeConfig.locales에 추가하십시오.
 ----------------------------------------------------------------------------------------------------------------
 */
 
@@ -396,10 +405,196 @@ let zh_locales = {
   },
 };
 
+let ko_locales = {
+  selectText: "언어",
+  label: "한국어",
+  editLinkText: "GitHub에서 이 페이지를 수정",
+  algolia: {},
+  nav: [
+    {
+      text: "홈",
+      link: "/ko/",
+    },
+    // { text: "Announcements", link: "/announcements" },
+    {
+      text: "문서",
+      items: [
+        {
+          text: "유저 가이드",
+          items: [
+            {
+              text: "일반",
+              link: "/ko/guide/getting-started.md",
+            },
+            {
+              text: "기초",
+              link: "/ko/guide/basics/app.md",
+            },
+            {
+              text: "고급",
+              link: "/ko/guide/advanced/class-based-views.md",
+            },
+            {
+              text: "모범 사례",
+              link: "/ko/guide/best-practices/blueprints.md",
+            },
+            {
+              text: "실행 및 배포",
+              link: "/ko/guide/deployment/configuration.md",
+            },
+            {
+              text: "이거 어떻게 하나요...",
+              link: "/ko/guide/how-to/toc.md",
+            },
+          ],
+        },
+        {
+          text: "API 문서",
+          items: [
+            {
+              text: "API 문서 보기",
+              link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "조직 문서",
+          items: [
+            {
+              text: "정책",
+              link: "/en/guide/project/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/en/guide/project/scope.md",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      text: "커뮤니티",
+      items: [
+        {
+          text: "포럼",
+          link: "https://community.sanicframework.org/",
+        },
+        {
+          text: "디스코드",
+          link: "https://discord.gg/FARQzAEMAA",
+        },
+        {
+          text: "트위터",
+          link: "https://twitter.com/sanicframework",
+        },
+        {
+          text: "스폰서쉽",
+          link: "https://opencollective.com/sanic-org/",
+        },
+      ],
+    },
+  ],
+  sidebar: {
+    "/ko/guide/": [
+      {
+        title: "일반",
+        sidebarDepth: 1,
+        children: ["/ko/guide/", "/ko/guide/getting-started.md"],
+      },
+      {
+        title: "기초",
+        sidebarDepth: 1,
+        children: [
+          "/ko/guide/basics/app.md",
+          "/ko/guide/basics/handlers.md",
+          "/ko/guide/basics/request.md",
+          "/ko/guide/basics/response.md",
+          "/ko/guide/basics/routing.md",
+          "/ko/guide/basics/listeners.md",
+          "/ko/guide/basics/middleware.md",
+          "/ko/guide/basics/headers.md",
+          "/ko/guide/basics/cookies.md",
+          "/ko/guide/basics/tasks.md",
+        ],
+      },
+      {
+        title: "고급",
+        sidebarDepth: 1,
+        children: [
+          "/ko/guide/advanced/class-based-views.md",
+          "/ko/guide/advanced/proxy-headers.md",
+          "/ko/guide/advanced/streaming.md",
+          "/ko/guide/advanced/websockets.md",
+          "/ko/guide/advanced/versioning.md",
+          "/ko/guide/advanced/signals.md",
+        ],
+      },
+      {
+        title: "모범 사례",
+        sidebarDepth: 1,
+        children: [
+          "/ko/guide/best-practices/blueprints.md",
+          "/ko/guide/best-practices/exceptions.md",
+          "/ko/guide/best-practices/decorators.md",
+          "/ko/guide/best-practices/logging.md",
+          "/ko/guide/best-practices/testing.md",
+        ],
+      },
+      {
+        title: "실행 및 배포",
+        sidebarDepth: 2,
+        children: [
+          "/ko/guide/deployment/configuration.md",
+          "/ko/guide/deployment/development.md",
+          "/ko/guide/deployment/running.md",
+          // "/guide/deployment/server-choice.md",
+          "/ko/guide/deployment/nginx.md",
+          // "/guide/deployment/docker.md",
+          // "/guide/deployment/kubernetes.md",
+        ],
+      },
+      {
+        title: "이거 어떻게 하나요...",
+        sidebarDepth: 1,
+        children: [
+          "/ko/guide/how-to/toc.md",
+          "/ko/guide/how-to/mounting.md",
+          "/ko/guide/how-to/authentication.md",
+          "/ko/guide/how-to/autodiscovery.md",
+          "/ko/guide/how-to/cors.md",
+          // "/guide/how-to/db.md",
+          // "/guide/how-to/decorators.md",
+          // "/guide/how-to/validation.md",
+          // "/guide/how-to/csrf.md",
+          // "/guide/how-to/serialization.md",
+          // "/guide/how-to/task-queue.md",
+          "/ko/guide/how-to/tls.md",
+          // "/guide/how-to/websocket-feed.md",
+          // "/guide/how-to/server-sent-events.md",
+        ],
+      },
+      {
+        title: "릴리즈 노트",
+        sidebarDepth: 1,
+        children: ["/ko/guide/release-notes/v21.3.md"],
+      },
+      {
+        title: "조직",
+        sidebarDepth: 1,
+        children: [
+          "/ko/guide/project/policies.md",
+          "/ko/guide/project/scope.md",
+        ],
+      },
+    ],
+  },
+};
+
 /*
 ----------------------------------------------------------------------------------------------------------------
     here is site_config
     站点配置
+    여기는 site_config 입니다.
 ----------------------------------------------------------------------------------------------------------------
 */
 
@@ -442,6 +637,7 @@ let site_config = {
   locales: {
     "/en/": en,
     "/zh/": zh,
+    "/ko/": ko
   },
 
   markdown: {
@@ -488,6 +684,7 @@ let site_config = {
         defaultTitle: {
           "/en/": "NEW",
           "/zh/": "新的",
+          "/ko/": "새로운"
         },
       },
     ],
@@ -526,6 +723,7 @@ let site_config = {
     locales: {
       "/en/": en_locales,
       "/zh/": zh_locales,
+      "/ko/": ko_locales,
     },
     author: {
       name: "Sanic Community Organization",
