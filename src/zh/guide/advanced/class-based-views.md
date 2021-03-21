@@ -1,6 +1,6 @@
 # 基于类的视图(Class Based Views)
 
-## 为什么要使用它?(Why use them?)
+## 为什么要使用它？(Why use them?)
 
 ---:1
 
@@ -34,13 +34,14 @@ async def bar(request):
     elif request.method == "PATCH":
         ...
 ```
+
 :---
 
 ---:1
 
 ### 破局(The solution)
 
-基于类的视图是一种实现了响应请求行为的类， 该类提供了一种在同一路由上分隔处理不同HTTP请求类型的方法。 
+基于类的视图是一种实现了响应请求行为的类，该类提供了一种在同一路由上分隔处理不同 HTTP 请求类型的方法。 
 
 :--:1
 
@@ -59,6 +60,7 @@ class FooBar(HTTPMethodView):
 
 app.add_route(FooBar.as_view(), "/foobar)
 ```
+
 :---
 
 ## 定义视图(Defining a view)
@@ -105,6 +107,7 @@ class SimpleView(HTTPMethodView):
 
 app.add_route(SimpleView.as_view(), "/")
 ```
+
 :---
 
 ## 路由参数(Path parameters)
@@ -123,11 +126,12 @@ class NameView(HTTPMethodView):
 
 app.add_route(NameView.as_view(), "/<name>")
 ```
+
 :---
 
 ## 装饰器(Decorators)
 
-就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应程序添加额外的功能，基于类的视图给出了两种方式来添加装饰器：
+就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应函数添加额外的功能，基于类的视图给出了两种方式来添加装饰器：
 
 1.  应用于视图中的 *所有*  HTTP 方法
 2.  独自应用于视图中的 *指定*  HTTP 方法
@@ -158,7 +162,7 @@ app.add_route(ViewWithDecorator.as_view(), "/url")
 
 ### 应用于单个方法(Apply to individual methods)
 
-但是，如果您只是想装饰一些方法，而不是所有的方法，你可以这样使用：
+但是，如果您只是想装饰一些方法，而不是所有的方法，您可以这样使用：
 
 :--:1
 
@@ -201,13 +205,14 @@ class SpecialClassView(HTTPMethodView):
 
 app.add_route(SpecialClassView.as_view(), "/special_class_view")
 ```
+
 :---
 
 ## 合成视图(Composition view)
 
 作为 `HTTPMethodView` 的替代方法，可以使用 `CompositionView` 将处理程序函数移至视图类之外。
 
-每个支持的 HTTP 方法的响应程序都在源代码的其他地方定义，然后使用 `CompositionView.add` 方法添加到视图中来。 第一个参数是要处理的 HTTP 方法的列表（例如 `[“ GET”，“ POST”]` ），第二个参数是处理函数。
+每个支持的 HTTP 方法的响应函数都在源代码的其他地方定义，然后使用 `CompositionView.add` 方法添加到视图中来。 第一个参数是要处理的 HTTP 方法的列表（例如 `[“ GET”，“ POST”]`），第二个参数是响应函数。
 
 ```python
 from sanic.views import CompositionView

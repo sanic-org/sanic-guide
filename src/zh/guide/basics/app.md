@@ -1,10 +1,10 @@
-# Sanic 应用
+# Sanic 应用(Sanic Application)
 
 ## 实例(Instance)
 
 ---:1
 
-`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不必须叫做 `server.py` , 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic
+`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不是必须的, 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic
 对象。
 
 :--:1
@@ -20,11 +20,47 @@ app = Sanic("My Hello, world app")
 
 :---
 
+## 应用上下文(Application context)
+
+::: new v21.3 新增
+
+大多数应用程序都需要跨代码库的不同部分共享/重用数据或对象。最常见的例子是数据库连接。
+
+---:1
+
+在 21.3 版之前的 Sanic 版本中，这通常是通过将属性附加到应用程序上来实现的。
+
+:--:1
+
+```python
+# Raises a warning as deprecated feature in 21.3
+app = Sanic("MyApp")
+app.db = Database()
+```
+
+:---
+
+---:1
+
+在 v21.3 版本中，我们引入了应用级的上下文对象，且使用方法与 [请求上下文](./request.md#context) 一致， 这有效的避免了命名冲突可能导致的潜在问题。
+
+:--:1
+
+```python
+# Correct way to attach objects to the application
+app = Sanic("MyApp")
+app.ctx.db = Database()
+```
+
+:---
+
+:::
+
 ## App 注册表(App Registry)
 
 ---:1
 
-当您实例化一个 Sanic 对象之后， 你就可以随时通过 Sanic 注册表来获取该对象了，尤其是当您在无法通过其他方式来获取 Sanic 对象的时候， 这种方式将对您有非常大的帮助。
+当您实例化一个 Sanic 对象之后， 您就可以随时通过 Sanic 注册表来获取该对象了，尤其是当您在无法通过其他方式来获取 Sanic 对象的时候， 这种方式将对您有非常大的帮助。
 
 :--:1
 
@@ -58,11 +94,23 @@ app = Sanic.get_app(
 
 :---
 
+---:1
+::: new v21.3 新增
+如果 **只有一个** Sanic 实例被注册了，那么调用 `Sanic.get_app()` 时如果不传入任何参数则将返回该实例。
+:::
+:--:1
+```python
+Sanic("My only app")
+
+app = Sanic.get_app()
+```
+:---
+
 ## 配置(Configuration)
 
 ---:1
 
-Sanic 将配置保存在 Sanic 对象的 `config` 属性中。可以使用**属性操作**或**字典操作**的方式来修改配置。
+Sanic 将配置保存在 Sanic 对象的 `config` 属性中。可以使用 **属性操作** 或 **字典操作** 的方式来修改配置。
 
 :--:1
 
@@ -93,10 +141,10 @@ app.config.bad = "boo"
 
 :::
 
-后面还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节
+之后还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节。
 
 <!-- ## Methods
 
-### 运行
+### 运行(Run)
 
-### 停止 -->
+### 停止(Stop) -->

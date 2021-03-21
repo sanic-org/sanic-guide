@@ -11,14 +11,14 @@ let en = {
   lang: "en-US",
   title: "Sanic Framework",
   description:
-    "Sanic is a Python 3.6+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.",
+    "Sanic is a Python 3.7+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.",
 };
 
 let zh = {
   lang: "zh-hans",
   title: "Sanic 框架",
   description:
-    "Sanic 是 Python 3.6+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。",
+    "Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。",
 };
 
 /*
@@ -36,7 +36,7 @@ let en_locales = {
   nav: [
     {
       text: "Home",
-      link: "/",
+      link: "/en/",
     },
     // { text: "Announcements", link: "/announcements" },
     {
@@ -47,23 +47,27 @@ let en_locales = {
           items: [
             {
               text: "General",
-              link: "/guide/getting-started.md",
+              link: "/en/guide/getting-started.md",
             },
             {
               text: "Basics",
-              link: "/guide/basics/app.md",
+              link: "/en/guide/basics/app.md",
             },
             {
               text: "Advanced",
-              link: "/guide/advanced/class-based-views.md",
+              link: "/en/guide/advanced/class-based-views.md",
             },
             {
               text: "Best Practices",
-              link: "/guide/best-practices/blueprints.md",
+              link: "/en/guide/best-practices/blueprints.md",
             },
             {
               text: "Running & Deploying",
-              link: "/guide/deployment/configuration.md",
+              link: "/en/guide/deployment/configuration.md",
+            },
+            {
+              text: "How to...",
+              link: "/en/guide/how-to/toc.md",
             },
           ],
         },
@@ -71,8 +75,21 @@ let en_locales = {
           text: "API Docs",
           items: [
             {
-              text: "Legacy Docs",
+              text: "View API Docs",
               link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "Org Docs",
+          items: [
+            {
+              text: "Policies",
+              link: "/en/guide/project/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/en/guide/project/scope.md",
             },
           ],
         },
@@ -86,8 +103,8 @@ let en_locales = {
           link: "https://community.sanicframework.org/",
         },
         {
-          text: "Gitter",
-          link: "https://gitter.im/sanic-python/Lobby",
+          text: "Discord",
+          link: "https://discord.gg/FARQzAEMAA",
         },
         {
           text: "Twitter",
@@ -101,59 +118,60 @@ let en_locales = {
     },
   ],
   sidebar: {
-    "/guide/": [
+    "/en/guide/": [
       {
         title: "General",
         sidebarDepth: 1,
-        children: ["/guide/", "/guide/getting-started.md"],
+        children: ["/en/guide/", "/en/guide/getting-started.md"],
       },
       {
         title: "Basics",
         sidebarDepth: 1,
         children: [
-          "/guide/basics/app.md",
-          "/guide/basics/handlers.md",
-          "/guide/basics/request.md",
-          "/guide/basics/response.md",
-          "/guide/basics/routing.md",
-          "/guide/basics/listeners.md",
-          "/guide/basics/middleware.md",
-          "/guide/basics/headers.md",
-          "/guide/basics/cookies.md",
-          "/guide/basics/tasks.md",
+          "/en/guide/basics/app.md",
+          "/en/guide/basics/handlers.md",
+          "/en/guide/basics/request.md",
+          "/en/guide/basics/response.md",
+          "/en/guide/basics/routing.md",
+          "/en/guide/basics/listeners.md",
+          "/en/guide/basics/middleware.md",
+          "/en/guide/basics/headers.md",
+          "/en/guide/basics/cookies.md",
+          "/en/guide/basics/tasks.md",
         ],
       },
       {
         title: "Advanced",
         sidebarDepth: 1,
         children: [
-          "/guide/advanced/class-based-views.md",
-          "/guide/advanced/proxy-headers.md",
-          "/guide/advanced/streaming.md",
-          "/guide/advanced/websockets.md",
-          "/guide/advanced/versioning.md",
+          "/en/guide/advanced/class-based-views.md",
+          "/en/guide/advanced/proxy-headers.md",
+          "/en/guide/advanced/streaming.md",
+          "/en/guide/advanced/websockets.md",
+          "/en/guide/advanced/versioning.md",
+          "/en/guide/advanced/signals.md",
         ],
       },
       {
         title: "Best Practices",
         sidebarDepth: 1,
         children: [
-          "/guide/best-practices/blueprints.md",
-          "/guide/best-practices/exceptions.md",
-          "/guide/best-practices/decorators.md",
-          "/guide/best-practices/logging.md",
-          "/guide/best-practices/testing.md",
+          "/en/guide/best-practices/blueprints.md",
+          "/en/guide/best-practices/exceptions.md",
+          "/en/guide/best-practices/decorators.md",
+          "/en/guide/best-practices/logging.md",
+          "/en/guide/best-practices/testing.md",
         ],
       },
       {
         title: "Running & Deploying",
         sidebarDepth: 2,
         children: [
-          "/guide/deployment/configuration.md",
-          "/guide/deployment/development.md",
+          "/en/guide/deployment/configuration.md",
+          "/en/guide/deployment/development.md",
+          "/en/guide/deployment/running.md",
           // "/guide/deployment/server-choice.md",
-          // "/guide/deployment/asgi.md",
-          "/guide/deployment/nginx.md",
+          "/en/guide/deployment/nginx.md",
           // "/guide/deployment/docker.md",
           // "/guide/deployment/kubernetes.md",
         ],
@@ -162,17 +180,33 @@ let en_locales = {
         title: "How to...",
         sidebarDepth: 1,
         children: [
+          "/en/guide/how-to/toc.md",
+          "/en/guide/how-to/mounting.md",
+          "/en/guide/how-to/authentication.md",
+          "/en/guide/how-to/autodiscovery.md",
+          "/en/guide/how-to/cors.md",
           // "/guide/how-to/db.md",
           // "/guide/how-to/decorators.md",
           // "/guide/how-to/validation.md",
-          // "/guide/how-to/authentication.md",
-          // "/guide/how-to/cors.md",
           // "/guide/how-to/csrf.md",
-          // "/guide/how-to/autodiscovery.md",
           // "/guide/how-to/serialization.md",
           // "/guide/how-to/task-queue.md",
+          "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",
           // "/guide/how-to/server-sent-events.md",
+        ],
+      },
+      {
+        title: "Release Notes",
+        sidebarDepth: 1,
+        children: ["/en/guide/release-notes/v21.3.md"],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: [
+          "/en/guide/project/policies.md",
+          "/en/guide/project/scope.md",
         ],
       },
     ],
@@ -223,8 +257,21 @@ let zh_locales = {
           text: "API 文档",
           items: [
             {
-              text: "Legacy Docs",
+              text: "查看API文档",
               link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "Org 文档",
+          items: [
+            {
+              text: "Policies",
+              link: "/zh/guide/project/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/zh/guide/project/scope.md",
             },
           ],
         },
@@ -284,6 +331,7 @@ let zh_locales = {
           "/zh/guide/advanced/streaming.md",
           "/zh/guide/advanced/websockets.md",
           "/zh/guide/advanced/versioning.md",
+          "/zh/guide/advanced/signals.md",
         ],
       },
       {
@@ -303,6 +351,7 @@ let zh_locales = {
         children: [
           "/zh/guide/deployment/configuration.md",
           "/zh/guide/deployment/development.md",
+          "/zh/guide/deployment/running.md",
           // "/zh/guide/deployment/server-choice.md",
           // "/zh/guide/deployment/asgi.md",
           "/zh/guide/deployment/nginx.md",
@@ -314,17 +363,33 @@ let zh_locales = {
         title: "如何...",
         sidebarDepth: 1,
         children: [
+          "/zh/guide/how-to/toc.md",
+          "/zh/guide/how-to/mounting.md",
+          "/zh/guide/how-to/authentication.md",
+          "/zh/guide/how-to/autodiscovery.md",
+          "/zh/guide/how-to/cors.md",
           // "/zh/guide/how-to/db.md",
           // "/zh/guide/how-to/decorators.md",
           // "/zh/guide/how-to/validation.md",
-          // "/zh/guide/how-to/authentication.md",
-          // "/zh/guide/how-to/cors.md",
           // "/zh/guide/how-to/csrf.md",
-          // "/zh/guide/how-to/autodiscovery.md",
           // "/zh/guide/how-to/serialization.md",
           // "/zh/guide/how-to/task-queue.md",
+          "/zh/guide/how-to/tls.md",
           // "/zh/guide/how-to/websocket-feed.md",
           // "/zh/guide/how-to/server-sent-events.md",
+        ],
+      },
+      {
+        title: "发行记录",
+        sidebarDepth: 1,
+        children: ["/zh/guide/release-notes/v21.3.md"],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        children: [
+          "/zh/guide/project/policies.md",
+          "/zh/guide/project/scope.md",
         ],
       },
     ],
@@ -339,8 +404,43 @@ let zh_locales = {
 */
 
 let site_config = {
+  head: [
+    [
+      "link",
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/apple-touch-icon.png",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+    ],
+    [
+      "link",
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+    ],
+    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    [
+      "link",
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68" },
+    ],
+    ["meta", { name: "msapplication-TileColor", content: "#444444" }],
+    ["meta", { name: "theme-color", content: "#fd0d68" }],
+  ],
   locales: {
-    "/": en,
+    "/en/": en,
     "/zh/": zh,
   },
 
@@ -349,8 +449,6 @@ let site_config = {
       permalink: true,
     },
     extendMarkdown: (md) => {
-      // use more markdown-it plugins!
-      // md.use(require('markdown-it-multicolumn'))
       md.use(require("markdown-it-multicolumn").default);
     },
   },
@@ -360,12 +458,41 @@ let site_config = {
     "@vuepress/back-to-top",
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
+    "vuepress-plugin-mermaidjs",
+    [
+      "seo",
+      {
+        image: () =>
+          "/images/sanic-framework-social-media-preview-1280x640.png",
+      },
+    ],
+    ["sitemap", { hostname: "https://sanicframework.org" }],
     [
       "umami",
       {
         trackerUrl: "https://analytics.sanicframework.org",
         siteId: "0131e426-4d6d-476b-a84b-34a45e0be6de",
       },
+    ],
+    [
+      "vuepress-plugin-container",
+      {
+        type: "new",
+        defaultTitle: {
+          "/en/": "NEW",
+          "/zh/": "新的",
+        },
+      },
+    ],
+    [
+      "vuepress-plugin-redirect",
+      {
+        locales: true,
+      },
+    ],
+    [
+      "vuepress-plugin-code-copy",
+      { color: "#ff0d68", backgroundTransition: false },
     ],
   ],
 
@@ -388,10 +515,14 @@ let site_config = {
     prevLinks: true,
     lastUpdated: "Last Updated",
     logo:
-      "https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
+      "https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
     locales: {
-      "/": en_locales,
+      "/en/": en_locales,
       "/zh/": zh_locales,
+    },
+    author: {
+      name: "Sanic Community Organization",
+      twitter: "@sanicframework",
     },
   },
 };

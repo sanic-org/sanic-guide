@@ -1,6 +1,6 @@
 # 响应(Response)
 
-所有的 [响应程序](/zh/guide/basics/handlers.md) 都必须返回一个 response 对象，[中间件](/zh/guide/basics/middleware.md) 可以自由选择是否返回 response 对象。
+所有的 [响应函数](/zh/guide/basics/handlers.md) 都必须返回一个 response 对象，[中间件](/zh/guide/basics/middleware.md) 可以自由选择是否返回 response 对象。
 
 ## 响应方式(Methods)
 
@@ -54,12 +54,23 @@ async def handler(request):
     return json({"foo": "bar"})
 ```
 
-在默认情况下， Sanic 使用 [`ujson`](https://github.com/ultrajson/ultrajson) 作为JSON 编码器， 更改此配置非常简单，只需如下操作：
+在默认情况下， Sanic 使用 [`ujson`](https://github.com/ultrajson/ultrajson) 作为 JSON 编码器， 更改此配置非常简单，只需如下操作：
 
 ```python
 from orjson import dumps
 
 json({"foo": "bar"}, dumps=dumps)
+```
+
+如果没有安装 `ujson` ， 它就会使用 Python 自带的 `json` 模块。
+
+::: new v21.3 新增
+您可以在应用初始化时申明全局的 Json 序列化函数：
+
+```python
+from orjson import dumps
+
+app = Sanic(..., dumps=dumps)
 ```
 
 :::

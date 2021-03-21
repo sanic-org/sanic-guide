@@ -1,6 +1,6 @@
 # 日志(Logging)
 
-Sanic 允许您根据请求进行不同类型的记录（访问日志、错误日志）[Python 日志 API](https://docs.python.org/3/howto/logging.html)。如果您想创建一个新的配置，您应该有一些关于Python logging 的基础知识。
+Sanic 允许您根据请求进行不同类型的记录（访问日志、错误日志）[Python 日志 API](https://docs.python.org/3/howto/logging.html)。如果您想创建一个新的配置，您应该有一些关于 Python logging 的基础知识。
 
 ## 快速开始(Quick Start)
 
@@ -25,6 +25,7 @@ async def test(request):
 if __name__ == "__main__":
   app.run(debug=True, access_log=True)
 ```
+
 :---
 
 在服务器运行后，您应该看到以下的日志信息：
@@ -43,7 +44,7 @@ if __name__ == "__main__":
 
 ## 自定义日志(Changing Sanic loggers)
 
-如果要使用自己的日志配置，只需使用`logging.config.dictConfig`，或者在初始化Sanic app时传递`log_config` 即可。
+如果要使用自己的日志配置，只需使用 `logging.config.dictConfig`，或者在初始化 Sanic app 时传递 `log_config` 即可。
 
 ```python
 app = Sanic('logging_example', log_config=LOGGING_CONFIG)
@@ -62,7 +63,7 @@ if __name__ == "__main__":
 
 :::
 
-## 配置（Configuration）
+## 配置(Configuration)
 
 Sanic 的默认认知配置为：`sanic.log.LOGGING_CONFIG_DEFAULTS`。
 

@@ -1,9 +1,14 @@
 matrix:
 - name: Check English
   sources:
-  - src/en/**/*.md
+  # - src/en/**/*.md
+    - src/en/**/*.md
   aspell:
     lang: en
     d: en_US
+  dictionary:
+    wordlists:
+    - dictionary/en/wordlist.txt
+    output: dictionary/en/en.dic
   pipeline:
-  - pyspelling.parsers.markdown_parser:
+    - pyspelling.filters.markdown:

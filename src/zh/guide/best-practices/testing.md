@@ -1,3 +1,3 @@
-# Testing
+# 测试(Testing)
 
-See [sanic-test](https://github.com/sanic-org/sanic-test)
+详见[sanic-test](https://github.com/sanic-org/sanic-test)

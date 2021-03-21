@@ -26,7 +26,7 @@
 
 ---:1
 
-将响应程序进行挂载的最基本方式就是使用 `app.add_route()`，具体的细节请查看 [API文档]()
+将响应函数进行挂载的最基本方式就是使用 `app.add_route()`，具体的细节请查看 [API文档]()
 
 :--:1
 
@@ -42,7 +42,7 @@ app.add_route(handler, "/test")
 
 ---:1
 
-默认的情况下，路由会绑定监听 HTTP `GET` 请求方式， 你可以通过修改 `methods` 参数，从而达到使用一个响应函数响应 HTTP 的多种请求方式。
+默认的情况下，路由会绑定监听 HTTP `GET` 请求方式， 您可以通过修改 `methods` 参数，从而达到使用一个响应函数响应 HTTP 的多种请求方式。
 
 :--:1
 
@@ -58,7 +58,7 @@ app.add_route(
 
 ---:1
 
-你也可以使用装饰器来进行路由绑定，下面是使用装饰器的方式进行路由绑定的例子，实现的效果和上一个例子相同。
+您也可以使用装饰器来进行路由绑定，下面是使用装饰器的方式进行路由绑定的例子，实现的效果和上一个例子相同。
 
 :--:1
 
@@ -72,7 +72,7 @@ async def handler(request):
 
 ## HTTP方法(HTTP methods)
 
-每一个标准的HTTP请求方式都对应封装了一个简单易用的装饰器：
+每一个标准的 HTTP 请求方式都对应封装了一个简单易用的装饰器：
 
 :::: tabs
 
@@ -166,7 +166,7 @@ async def handler(request):
 
 ---:1
 
-Sanic允许模式匹配，并从URL中提取值。然后将这些参数作为关键字参数传递到响应程序中。
+Sanic 允许模式匹配，并从 URL 中提取值。然后将这些参数作为关键字参数传递到响应函数中。
 
 :--:1
 
@@ -180,7 +180,7 @@ async def tag_handler(request, tag):
 
 ---:1
 
-你可以为路由参数指定类型，它将在匹配时进行强制类型转换。
+您可以为路由参数指定类型，它将在匹配时进行强制类型转换。
 
 :--:1
 
@@ -299,7 +299,26 @@ async def handler(request, foo: str):
 
 ::: warning
 
-因为这将从 `/`开始进行匹配，所以您应该小心使用，并测试您的正则表达式是否正确，以免匹配错误而调用了错误的响应程序。
+因为这将从 `/` 开始进行匹配，所以您应该小心使用，并测试您的正则表达式是否正确，以免匹配错误而调用了错误的响应函数。
+
+:::
+
+::: tab ymd
+
+```python
+@app.route("/path/to/<foo:ymd>")
+async def handler(request, foo: datetime.date):
+    ...
+```
+::: new v21.3 新增
+
+**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
+
+**转换类型**: `datetime.date`  
+
+**匹配示例**:
+
+- `/path/to/2021-03-28`
 
 :::
 
@@ -347,7 +366,7 @@ async def handler(request, foo: str):
 
 ---:1
 
-Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，你只需要函数名称即可实现响应程序之间的处理权力的移交。在你不希望将 url 进行硬编码或希望响应程序之间具有层级关系的时候，这将非常有用。它的使用方法如下：
+Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，您只需要函数名称即可实现响应函数之间的处理权力的移交。在您不希望将 url 进行硬编码或希望响应函数之间具有层级关系的时候，这将非常有用。它的使用方法如下：
 
 :--:1
 
@@ -405,7 +424,7 @@ async def post_handler(request, post_id):
 
 ### 特殊关键字参数(Special keyword arguments)
 
-你可以在 [API Docs]() 查看更多详细信息。
+您可以在 [API Docs]() 查看更多详细信息。
 
 ```python
 >> > app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
@@ -443,7 +462,7 @@ def handler(request):
 
 ---:1
 
-现在，你可以通过自定义的名称进行路由匹配。
+现在，您可以通过自定义的名称进行路由匹配。
 
 :--:1
 
@@ -498,9 +517,12 @@ async def handler(request, ws):
 
 ---:1
 
-Sanic 可以按需开启或关闭路由的严格匹配模式，开启后路由将会严格按照 `/` 作为分隔来进行路由匹配，你可以在以下几种方法中进行匹配，它们的优先级遵循：
+Sanic 可以按需开启或关闭路由的严格匹配模式，开启后路由将会严格按照 `/` 作为分隔来进行路由匹配，您可以在以下几种方法中进行匹配，它们的优先级遵循：
 
-`Route`  >  `Blueprint`  >  `Application`
+1. 路由（Route）
+2. 蓝图（Blueprint)
+3. 蓝图组（BlueprintGroup）
+4. 应用（Application）
 
 :--:1
 
@@ -526,26 +548,31 @@ def handler(request):
     return text("OK")
 ```
 
+```python
+bp1 = Blueprint(name="bp1", url_prefix="/bp1")
+bp2 = Blueprint(
+    name="bp1",
+    url_prefix="/bp2",
+    strict_slashes=False,
+)
+# This will enforce strict slashes check on the routes
+# under bp1 but ignore bp2 as that has an explicitly
+# set the strict slashes check to false
+group = Blueprint.group([bp1, bp2], strict_slashes=True)
+```
 :---
 
 ## 静态文件(Static files)
 
 ---:1
 
-为了确保 Sanic 可以正确渲染静态文件，请使用  `app.static()` 方法进行路由分配。
+为了确保 Sanic 可以正确代理静态文件，请使用  `app.static()` 方法进行路由分配。
 
 在这里，参数的顺序十分重要
 
 第一个参数是静态文件所需要匹配的路由
 
 第二个参数是渲染文件所在的文件(夹)路径
-
-In order to serve static files from Sanic, use `app.static()`.
-
-The order of arguments is important:
-
-1. Route the files will be served from
-2. Path to the files on the server
 
 更多详细用法请参考  [API docs]() 
 
@@ -587,7 +614,7 @@ app.static(
 
 ---:1
 
-检索 URL 的流程和响应程序类似，但是当您需要特定的文件的时候，可以通过添加 `filename` 参数来达到效果。
+检索 URL 的流程和响应函数类似，但是当您需要特定的文件的时候，可以通过添加 `filename` 参数来达到效果。
 
 :--:1
 

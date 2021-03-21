@@ -2,7 +2,7 @@
 
 ## 使用 Sanic 预置异常(Using Sanic exceptions)
 
-Sanic 预置了许多标准异常。它们每个都会在您的响应中自动触发适当的 HTTP 状态代码。查看[接口文档](https://sanic.readthedocs.io/en/latest/)了解更多详细信息。
+Sanic 预置了许多标准异常。它们每个都会在您的响应中自动触发适当的 HTTP 状态代码。查看 [接口文档](https://sanic.readthedocs.io/en/latest/) 了解更多详细信息。
 
 ---:1
 
@@ -28,13 +28,14 @@ async def login(request):
         )
     ...
 ```
+
 :---
 
 ## 终止(Abort)
 
 ---:1
 
-有时候, 您只需要 Sanic 终止执行一个响应程序, 并返回一个状态代码, 您可以使用 `abort()`
+有时候, 您只需要 Sanic 终止执行一个响应函数, 并返回一个状态代码, 您可以使用 `abort()`
 
 :--:1
 
@@ -53,7 +54,7 @@ async def no_no(request):
 ## 处理(Handling)
 
 
-当您的响应程序遇到异常时，您应该主动处理它。Sanic为此提供了一种方法。但是，如果您选择不处理，Sanic 也同样提供了一个后备选项。
+当您的响应函数遇到异常时，您应该主动处理它。Sanic 为此提供了一种方法。但是，如果您选择不处理，Sanic 也同样提供了一个后备选项。
 
 这不仅适用于 Sanic 标准异常，也适用于您的应用程序可能引发的任何异常。
 
@@ -71,6 +72,7 @@ from sanic.exceptions import NotFound
 async def ignore_404s(request, exception):
     return text("Yep, I totally found the page: {}".format(request.url))
 ```
+
 :---
 
 ---:1
@@ -79,12 +81,12 @@ async def ignore_404s(request, exception):
 
 :--:1
 
-
 ```python
 @app.exception(Exception)
 async def catch_anything(request, exception):
     ...
 ```
+
 :---
 
 ---:1
@@ -99,6 +101,7 @@ async def server_error_handler(request, exception):
 
 app.error_handler.add(Exception, server_error_handler)
 ```
+
 :---
 
 ## 自定义异常处理(Custom error handling)
@@ -133,6 +136,7 @@ Sanic 自带了三种异常格式。
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "html"
 ```
+
 ---:1
 
 ```python
@@ -281,7 +285,7 @@ content-type: application/json
 
 ### Auto
 
-Sanic 还提供了一个选项，用于猜测使用哪种异常格式。该功能依旧处于**试验阶段**。
+Sanic 还提供了一个选项，用于猜测使用哪种异常格式。该功能依旧处于 **试验阶段**。
 
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"

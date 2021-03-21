@@ -1,23 +1,14 @@
 <template>
   <div>
     <Page v-bind="$attrs" />
-    <footer class="page-footer">
-      MIT Licensed | Copyright © 2018-present Sanic Community Organization
-    </footer>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Page from "@parent-theme/components/Page.vue";
+import Footer from "@theme/components/Footer.vue";
 export default {
-  components: { Page },
+  components: { Page, Footer },
 };
 </script>
-
-<style lang="stylus">
-footer.page-footer
-    margin-bottom: 7rem;
-    text-align: center;
-    font-size: 0.85rem;
-    color: #999;
-</style>
