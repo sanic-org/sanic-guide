@@ -2,7 +2,19 @@
 
 ## Using Sanic exceptions
 
-Sanic provides a number of standard exceptions. They each automatically will raise the appropriate HTTP status code in your response. [Check the API docs](https://sanic.readthedocs.io/en/latest/) for more details. 
+Sometimes you just need to tell Sanic to halt execution of a handler and send back a status code response. You can raise a `SanicException` for this and Sanic will do the rest for you.
+
+You can pass an optional "status_code" argument. By default, a SanicException will return an internal server error 500 response.
+
+```python
+from sanic.exceptions import SanicException
+
+@app.route("/youshallnotpass")
+async def no_no(request):
+        raise SanicException("Something went wrong.", status_code=501)
+```
+
+Sanic provides a number of standard exceptions. They each automatically will raise the appropriate HTTP status code in your response. [Check the API reference](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions) for more details. 
 
 
 ---:1
@@ -29,28 +41,11 @@ async def login(request):
 ```
 :---
 
-## Abort
-
----:1
-
-Sometimes you just need to tell Sanic to halt execution of a handler and send back a status code response. You can use `abort()` for this.
-:--:1
-```python
-from sanic.exceptions import abort
-
-@app.route("/youshallnotpass")
-async def no_no(request):
-        abort(401)
-        # this won't happen
-        text("OK")
-```
-:---
-
 ## Handling
 
-When your application encounters an exception, you _should_ handle it. Sanic provides a method for doing that. But, if you do not, it also provides a fallback option.
+Sanic handles exceptions automatically by rendering an error page, so in many cases you don't need to handle them yourself. However, if you would like more control on what to do when an exception is raised, you can implement a handler yourself.
 
-This applies to not only the Sanic standard exceptions, but *any* exception that your application might throw.
+Sanic provides a decorator for this, which applies to not only the Sanic standard exceptions, but *any* exception that your application might throw.
 
 ---:1
 
