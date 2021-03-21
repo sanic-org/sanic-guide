@@ -456,17 +456,24 @@ let site_config = {
   plugins: [
     "tabs",
     "@vuepress/back-to-top",
-    "@vuepress/last-updated",
+    [
+      "@vuepress/last-updated",
+      {
+        transformer: (timestamp, lang) => {
+          return new Date(timestamp).toUTCString();
+        },
+      },
+    ],
     "@vuepress/active-header-links",
     "vuepress-plugin-mermaidjs",
-    // [
-    //   "seo",
-    //   {
-    //     image: () =>
-    //       "/images/sanic-framework-social-media-preview-1280x640.png",
-    //   },
-    // ],
-    // ["sitemap", { hostname: "https://sanicframework.org" }],
+    [
+      "seo",
+      {
+        image: () =>
+          "/images/sanic-framework-social-media-preview-1280x640.png",
+      },
+    ],
+    ["sitemap", { hostname: "https://sanicframework.org" }],
     [
       "umami",
       {
