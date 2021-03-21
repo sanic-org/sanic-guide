@@ -459,13 +459,13 @@ let site_config = {
     "@vuepress/last-updated",
     "@vuepress/active-header-links",
     "vuepress-plugin-mermaidjs",
-    [
-      "seo",
-      {
-        image: () =>
-          "/images/sanic-framework-social-media-preview-1280x640.png",
-      },
-    ],
+    // [
+    //   "seo",
+    //   {
+    //     image: () =>
+    //       "/images/sanic-framework-social-media-preview-1280x640.png",
+    //   },
+    // ],
     ["sitemap", { hostname: "https://sanicframework.org" }],
     [
       "umami",
