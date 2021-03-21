@@ -100,7 +100,7 @@ Don't do this! You need to ping a website. What do you use? `pip install your-fa
 
 Instead, try using a client that is `async/await` capable. Your server will thank you. Avoid using blocking tools, and favor those that play well in the asynchronous ecosystem. If you need recommendations, check out [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
 
-Internally, Sanic makes good use of [httpx](https://www.python-httpx.org/) :wink:.
+Sanic uses [httpx](https://www.python-httpx.org/) inside of its testing package (sanic-testing) :wink:.
 
 :::
 
