@@ -21,3 +21,16 @@
 
     .custom-block-title
         color: #7A551E
+
+.sidebar-links
+    &>li>a
+        position: relative
+
+        &:before
+            content: '- '
+            position: absolute
+            left: 1rem
+
+.sidebar-sub-headers
+    a.sidebar-link
+        color: #777
