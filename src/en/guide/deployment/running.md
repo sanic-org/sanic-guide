@@ -56,7 +56,7 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 :---
 
 ::: tip
-Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processes.
+Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
 A common way to check this on Linux based operating systems:
 
