@@ -14,7 +14,7 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 | Support | [![Forums][]][8] [![Discord][]][9] [![Awesome Sanic List]][10]                                                          |
 | Stats   | [![Downloads][]][11] [![Downloads][12]][11]                                                                             |
 
-## 이게 뭐야?
+## 이게 뭔가요?
 
 먼저 시작하기 전에 Sanic이 다른 프레임워크와 다르다는 것을 알아야합니다.
 
@@ -56,7 +56,7 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 
 Stackoverflow의 `[sanic]` 태그는 프로젝트 유지보수자들에 의해 [적극적으로 모니터링](https://stackoverflow.com/questions/tagged/sanic)되고 있습니다.
 
-## Contribution
+## 기여
 
 우리는 항상 새로운 기여를 받게되어 행복합니다. 저희는 [시작하려는 모든 사용자에게 유용하도록 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
 
