@@ -515,14 +515,14 @@ let site_config = {
     repo: "sanic-org/sanic",
     docsRepo: "sanic-org/sanic-guide",
     docsDir: "src",
-    docsBranch: "master",
+    docsBranch: "main",
     editLinks: true,
     smoothScroll: true,
     nextLinks: true,
     prevLinks: true,
     lastUpdated: "Last Updated",
     logo:
-      "https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
+      "https://raw.githubusercontent.com/sanic-org/sanic-assets/main/png/sanic-framework-logo-simple-400x97.png",
     locales: {
       "/en/": en_locales,
       "/zh/": zh_locales,
