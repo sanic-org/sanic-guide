@@ -28,9 +28,14 @@ from sanic.response import text
 
 app = Sanic("My Hello, world app")
 
+
 @app.get("/")
 async def hello_world(request):
     return text("Hello, world.")
+
+
+if __name__ == "__main__":
+    app.run()
 ```
 
 :---
@@ -49,6 +54,9 @@ Let's save the above file as `server.py`. And launch it.
 ```bash
 sanic server.app
 ```
+
+In your browser open [http://localhost:8000](http://localhost:8000).
+
 :---
 
 ::: tip 
