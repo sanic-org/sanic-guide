@@ -31,6 +31,10 @@ app = Sanic("My Hello, world app")
 @app.get("/")
 async def hello_world(request):
     return text("Hello, world.")
+
+
+if __name__ == "__main__":
+    app.run() 
 ```
 
 :---
@@ -54,6 +58,8 @@ async def hello_world(request):
 ```bash
 sanic server.app
 ```
+
+在浏览器中打开 [http://localhost:8080](http://localhost:8080)
 
 :---
 
