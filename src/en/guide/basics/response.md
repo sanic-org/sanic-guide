@@ -77,7 +77,7 @@ from sanic.response import file
 
 @app.route("/")
 async def handler(request):
-    return file("/path/to/whatever.png")
+    return await file("/path/to/whatever.png")
 ```
 
 Sanic will examine the file, and try and guess its mime type and use an appropriate value for the content type. You could be explicit, if you would like:
