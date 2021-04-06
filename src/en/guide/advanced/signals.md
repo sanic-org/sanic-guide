@@ -173,7 +173,7 @@ Sometimes you may find the need to pass extra information into the signal handle
 :--:1
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(
