@@ -16,10 +16,10 @@
 
 ```python
 def i_am_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 
 async def i_am_ALSO_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 ```
 
 :---
