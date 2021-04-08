@@ -150,4 +150,6 @@ curl --location --request GET 'http://127.0.0.1:8000/user/1'
 ```
 
 
-> If you are using 1.3 version of SQLAlchemy, we suggest [GINO](https://github.com/python-gino/gino) 
+> If you are using 1.3 version of SQLAlchemy, we suggest [GINO](https://github.com/python-gino/gino).
+
+> There are some other good ORM frameworks like [Tortoise ORM](https://tortoise-orm.readthedocs.io/en/latest/examples/sanic.html), which has a Django-ORM-like api, can be used with Sanic too.

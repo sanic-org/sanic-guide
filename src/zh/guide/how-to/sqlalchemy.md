@@ -149,4 +149,6 @@ curl --location --request GET 'http://127.0.0.1:8000/user/1'
 ```
 
 
-> 如果您还在使用 1.3 版本的 SQLAlchemy，建议您使用 [GINO](https://github.com/python-gino/gino) 
+> 如果您还在使用 1.3 版本的 SQLAlchemy，建议您使用 [GINO](https://github.com/python-gino/gino) 。
+
+> 还有一些其他优秀的 ORM 框架，如拥有和 Django ORM 类似 API 的 [tortoise-orm](https://tortoise-orm.readthedocs.io/en/latest/examples/sanic.html) 也可以在 Sanic 应用中使用。
