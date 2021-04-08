@@ -18,4 +18,4 @@ We have compiled fully working examples to answer common questions and user case
 | Task queues                           | *Coming soon* |
 | [TLS/SSL/HTTPS](./tls.md)             | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
 | Websocket feeds                       | *Coming soon* |
-
+| [SQLAlchemy](./sqlalchemy)            | ... use SQLAlchemy with Sanic? |

@@ -194,6 +194,7 @@ let en_locales = {
           "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",
           // "/guide/how-to/server-sent-events.md",
+          "/en/guide/how-to/sqlalchemy.md"
         ],
       },
       {
@@ -377,6 +378,7 @@ let zh_locales = {
           "/zh/guide/how-to/tls.md",
           // "/zh/guide/how-to/websocket-feed.md",
           // "/zh/guide/how-to/server-sent-events.md",
+          "/zh/guide/how-to/sqlalchemy.md"
         ],
       },
       {

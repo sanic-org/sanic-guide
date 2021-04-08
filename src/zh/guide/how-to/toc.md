@@ -18,4 +18,5 @@
 | Task queues                           | *Coming soon*                                          |
 | [TLS/SSL/HTTPS](./tls.md)             | ... 在 HTTPS 下运行 Sanic ？... 将 HTTP 重定向到 HTTPS ？|
 | Websocket feeds                       | *Coming soon*                                          |
+| [SQLAlchemy](./sqlalchemy)            | ... 与 SQLAlchemy 集成                                  |
 
