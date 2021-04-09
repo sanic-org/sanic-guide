@@ -77,7 +77,7 @@ Note over 进程: 退出
 
 ```python
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
 ```
@@ -93,7 +93,7 @@ app.register_listener(setup_db, "before_server_start")
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 
 :---
@@ -111,7 +111,7 @@ async def setup_db(app, loop):
 ```python
 @app.before_server_start
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 
 :---
