@@ -190,11 +190,11 @@ let en_locales = {
           // "/guide/how-to/validation.md",
           // "/guide/how-to/csrf.md",
           // "/guide/how-to/serialization.md",
+          "/en/guide/how-to/sqlalchemy.md"
           // "/guide/how-to/task-queue.md",
           "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",
           // "/guide/how-to/server-sent-events.md",
-          "/en/guide/how-to/sqlalchemy.md"
         ],
       },
       {
@@ -374,11 +374,11 @@ let zh_locales = {
           // "/zh/guide/how-to/validation.md",
           // "/zh/guide/how-to/csrf.md",
           // "/zh/guide/how-to/serialization.md",
+          "/zh/guide/how-to/sqlalchemy.md"
           // "/zh/guide/how-to/task-queue.md",
           "/zh/guide/how-to/tls.md",
           // "/zh/guide/how-to/websocket-feed.md",
           // "/zh/guide/how-to/server-sent-events.md",
-          "/zh/guide/how-to/sqlalchemy.md"
         ],
       },
       {
