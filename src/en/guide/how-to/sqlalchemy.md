@@ -79,6 +79,9 @@ Thread-safe variable `_base_model_session_ctx` helps you to use the session obje
 # ./server.py
 from contextvars import ContextVar 
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import sessionmaker
+
 _base_model_session_ctx = ContextVar("session")
 
 @app.middleware("request")
