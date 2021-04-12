@@ -109,8 +109,11 @@ According to sqlalchemy official docs, `session.query` will be legacy in 2.0, an
 
 ```python
 # ./server.py
-from models import Car, Person
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from sanic.response import json
+
+from models import Car, Person
 
 
 @app.post("/user")
