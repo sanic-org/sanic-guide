@@ -78,6 +78,9 @@ bind = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost/tes
 # ./server.py
 from contextvars import ContextVar 
 
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import sessionmaker
+
 _base_model_session_ctx = ContextVar("session")
 
 @app.middleware("request")
@@ -105,8 +108,11 @@ async def close_session(request, response):
 
 ```python
 # ./server.py
-from models import Car, Person
+from sqlalchemy import select
 from sqlalchemy.orm import selectinload
+from sanic.response import json
+
+from models import Car, Person
 
 
 @app.post("/user")
