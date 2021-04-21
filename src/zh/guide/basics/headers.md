@@ -36,6 +36,33 @@ $ curl localhost:8000 \
     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 ```
+
+:---
+
+#### 其他标头(Other headers)
+
+Sanic 支持您对请求头进行操作，请求头或响应头中的键名将会在解析过程中被转换为小写，Headers 中不考虑大写键名。
+您可以像操作字典对象一样操作请求头。
+
+:--:1
+
+```python
+@app.route("/")
+async def handler(request):
+    print(request.headers["user-agent"])
+    print(request.headers.items())
+    return json(dict(request.headers))
+```
+
+```bash
+$ curl localhost:8000 
+```
+
+```bash
+$ curl localhost:8000 
+{"host":"localhost:8000","user-agent":"curl/7.64.1","accept":"*/*"}
+```
+
 :---
 
 #### 代理头(Proxy headers)
@@ -43,6 +70,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
 
 ---:1
+
 #### Request ID
 
 ::: new v21.3 新增
