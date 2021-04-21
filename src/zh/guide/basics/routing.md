@@ -424,7 +424,7 @@ async def post_handler(request, post_id):
 
 ### 特殊关键字参数(Special keyword arguments)
 
-您可以在 [API Docs]() 查看更多详细信息。
+您可以在 [API Docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) 查看更多详细信息。
 
 ```python
 >> > app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")

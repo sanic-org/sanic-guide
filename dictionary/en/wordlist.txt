@@ -141,7 +141,6 @@ httpd
 HTTPMethodView
 httponly
 HttpProtocol
-HTTPResonse
 HTTPResponse
 https
 httpx

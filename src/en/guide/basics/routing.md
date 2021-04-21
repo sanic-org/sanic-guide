@@ -24,7 +24,7 @@ But what is it? And how do we use it?
 
 The most basic way to wire up a handler to an endpoint is with `app.add_route()`.
 
-See [API docs]() for more details.
+See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) for more details.
 :--:1
 ```python
 async def handler(request):

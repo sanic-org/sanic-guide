@@ -86,7 +86,7 @@ from sanic.response import file
 
 @app.route("/")
 async def handler(request):
-    return file("/path/to/whatever.png")
+    return await file("/path/to/whatever.png")
 ```
 
 Sanic 将会自动检查文件，并猜测其可能的 mine 类型，并且为响应类型设置合适的值。
