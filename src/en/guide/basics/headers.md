@@ -48,29 +48,68 @@ Sanic has special handling for proxy headers. See the [proxy headers](/guide/adv
 
 #### Other headers
 
-Sanic support you operate headers, Header keys are converted to *lowercase* when parsed. Capitalization is not considered for headers.
-You can operate it like dict.
+All request headers are available on the request object, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
 
 :--:1
 
 ```python
 @app.route("/")
 async def handler(request):
-    print(request.headers["user-agent"])
-    print(request.headers.items())
-    return json(dict(request.headers))
+    return json(
+        {
+            "foo_weakref": request.headers["foo"],
+            "foo_get": request.headers.get("Foo"),
+            "foo_getone": request.headers.getone("FOO"),
+            "foo_getall": request.headers.getall("fOo"),
+            "all": list(request.headers.items()),
+        }
+    )
 ```
 
 ```bash
-$ curl localhost:8000 
-```
-
-```bash
-$ curl localhost:8000 
-{"host":"localhost:8000","user-agent":"curl/7.64.1","accept":"*/*"}
+$ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
+{
+  "foo_weakref": "one",
+  "foo_get": "one",
+  "foo_getone": "one",
+  "foo_getall": [
+    "one",
+    "two"
+  ],
+  "all": [
+    [
+      "host",
+      "localhost:9999"
+    ],
+    [
+      "user-agent",
+      "curl/7.76.1"
+    ],
+    [
+      "accept",
+      "*/*"
+    ],
+    [
+      "foo",
+      "one"
+    ],
+    [
+      "foo",
+      "two"
+    ]
+  ]
+}
 ```
 
 :---
+
+::: tip FYI 
+
+💡 The request.headers object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
+
+Most of the time you will want to use the .get() or .getone() method can be used to access the first element and not a list. If you do want a list of all items, you can user .getall(). 
+
+:::
 
 #### Request ID
 
