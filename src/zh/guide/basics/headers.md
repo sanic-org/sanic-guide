@@ -113,6 +113,8 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 #### Request ID
 
+---:1
+
 ::: new v21.3 新增
 
 通常无论是出于必须还是为了方便，会使用 `X-Request-ID` 中的值来追踪某个请求。您可以直接通过 `request.id` 来获取该值。
