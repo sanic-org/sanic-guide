@@ -72,7 +72,7 @@ The two injected arguments are the currently running `Sanic()` instance, and the
 :--:1
 ```python
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
 ```
@@ -85,7 +85,7 @@ The `Sanic` app instance also has a convenience decorator.
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 :---
 
@@ -97,7 +97,7 @@ You can shorten the decorator even further. This is helpful if you have an IDE w
 ```python
 @app.before_server_start
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 :---
 

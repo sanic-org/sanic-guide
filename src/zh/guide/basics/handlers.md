@@ -16,10 +16,10 @@
 
 ```python
 def i_am_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 
 async def i_am_ALSO_a_handler(request):
-    return HTTPResonse()
+    return HTTPResponse()
 ```
 
 :---
@@ -80,7 +80,7 @@ def sync_handler(request):
 
 ---:1
 
-当我们使用异步解决方案时，性能将会得到极大的提升，您会看道一组惊人的数据​ :rocket:。
+当我们使用异步解决方案时，性能将会得到极大的提升，您会看到一组惊人的数据​ :rocket:。
 
 同样使用 4 个子进程和一个相同的基准工具再次进行性能测试，得到以下数据:
 

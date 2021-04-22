@@ -18,7 +18,7 @@
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     await send_email(context["email"], template="registration")
 
 @app.post("/register")
@@ -219,7 +219,7 @@ thing=baz
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(

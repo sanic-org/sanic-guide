@@ -15,7 +15,7 @@ Signals provide a way for one part of your application to tell another part that
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     await send_email(context["email"], template="registration")
 
 @app.post("/register")
@@ -173,7 +173,7 @@ Sometimes you may find the need to pass extra information into the signal handle
 :--:1
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(
