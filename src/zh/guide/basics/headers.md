@@ -39,6 +39,12 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 :---
 
+#### 代理头(Proxy headers)
+
+Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
+
+---:1
+
 #### 其他标头(Other headers)
 
 您可以在请求对象中使用所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
@@ -104,11 +110,6 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :::
 
-#### 代理头(Proxy headers)
-
-Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
-
----:1
 
 #### Request ID
 
