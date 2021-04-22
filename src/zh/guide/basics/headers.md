@@ -41,29 +41,68 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 #### 其他标头(Other headers)
 
-Sanic 支持您对请求头进行操作，请求头或响应头中的键名将会在解析过程中被转换为小写，Headers 中不考虑大写键名。
-您可以像操作字典对象一样操作请求头。
+您可以在请求对象中使用所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
 
 :--:1
 
 ```python
 @app.route("/")
 async def handler(request):
-    print(request.headers["user-agent"])
-    print(request.headers.items())
-    return json(dict(request.headers))
+    return json(
+        {
+            "foo_weakref": request.headers["foo"],
+            "foo_get": request.headers.get("Foo"),
+            "foo_getone": request.headers.getone("FOO"),
+            "foo_getall": request.headers.getall("fOo"),
+            "all": list(request.headers.items()),
+        }
+    )
 ```
 
 ```bash
-$ curl localhost:8000 
-```
-
-```bash
-$ curl localhost:8000 
-{"host":"localhost:8000","user-agent":"curl/7.64.1","accept":"*/*"}
+$ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
+{
+  "foo_weakref": "one",
+  "foo_get": "one",
+  "foo_getone": "one",
+  "foo_getall": [
+    "one",
+    "two"
+  ],
+  "all": [
+    [
+      "host",
+      "localhost:9999"
+    ],
+    [
+      "user-agent",
+      "curl/7.76.1"
+    ],
+    [
+      "accept",
+      "*/*"
+    ],
+    [
+      "foo",
+      "one"
+    ],
+    [
+      "foo",
+      "two"
+    ]
+  ]
+}
 ```
 
 :---
+
+::: tip 小提示
+
+💡 request.headers 对象是少数几个字典类型之一，每个值都是一个列表。这是因为HTTP允许重用一个键来发送多个值。
+
+大多数情况下，您会希望使用 .get()或 .getone()方法访问第一个元素，而不是列表。如果您想要所有项目的列表，您可以使用 .getall() 方法。
+
+:::
 
 #### 代理头(Proxy headers)
 
