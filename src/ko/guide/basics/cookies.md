@@ -1,6 +1,6 @@
-# 쿠키
+# 쿠키(Cookies)
 
-## 읽기
+## 읽기(Reading)
 
 ---:1
 
@@ -17,7 +17,7 @@ async def test(request):
 
 :---
 
-## 쓰기
+## 쓰기(Writing)
 
 ---:1
 
@@ -48,7 +48,7 @@ async def test(request):
 - `httponly: bool` - JavaScript에서 쿠키를 읽을 수 없는지 여부를 지정합니다.
 - `samesite: str` - 기본값은 브라우저에 따라 다르며 사양 상태 (Lax, Strict 및 None)는 유효한 값입니다.
 
-## 지우기
+## 지우기(Deleting)
 
 ---:1
 
@@ -79,6 +79,6 @@ async def test(request):
 
 :---
 
-## 먹기
+## 먹기(Eating)
 
 저는 쿠키를 좋아합니다 :cookie:
