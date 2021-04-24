@@ -108,7 +108,7 @@ async def async_handler(request):
 
 이러지 마세요! 웹 사이트를 ping해야 합니다. 뭘 쓰시나요? `pip install your-fav-request-library` :see_no_evil:
 
-대신 `async / await` 가 가능한 클라이언트를 사용해보세요. 귀하의 서버가 고마워할것입니다. 차단(Blocking) 도구를 사용하지 말고 비동기 생태계에서 잘 작동하는 도구를 선호하십시오. 추천이 필요한 경우 [Awesome Sanic](https://github.com/mekicha/awesome-sanic)을 확인하세요.
+대신 `async / await` 가 가능한 클라이언트를 사용해보세요. 당신의 서버가 고마워할것입니다. 차단(Blocking) 도구를 사용하지 말고 비동기 생태계에서 잘 작동하는 도구를 선호하십시오. 추천이 필요한 경우 [Awesome Sanic](https://github.com/mekicha/awesome-sanic)을 확인하세요.
 
 Sanic은 테스트 패키지 (sanic-testing) 내에서 [httpx](https://www.python-httpx.org/)를 사용합니다. :wink:.
 
