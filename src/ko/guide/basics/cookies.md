@@ -4,7 +4,7 @@
 
 ---:1
 
-쿠키는 `Request` 객체의 `cookies` 사전(딕셔너리)을 통해 액세스 할 수 있습니다.
+쿠키는 `Request` 객체의 `cookies` 사전(dict)을 통해 액세스 할 수 있습니다.
 
 :--:1
 
@@ -21,7 +21,7 @@ async def test(request):
 
 ---:1
 
-응답을 반환 할 때 `Response`개체 인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(딕셔너리)인 `CookieJar`의 인스턴스입니다.
+응답을 반환할 때 `Response`개체인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(dict)인 `CookieJar`의 인스턴스입니다.
 
 :--:1
 
@@ -37,16 +37,16 @@ async def test(request):
 
 :---
 
-응답 쿠키는 사전 값과 같이 설정될 수 있으며 다음 매개 변수를 사용할 수 있습니다.:
+응답 쿠키는 사전 값과 같이 설정할 수 있으며 다음 매개변수들을 사용할 수 있습니다.:
 
 - `expires: datetime` - 클라이언트의 브라우저에서 쿠키가 만료되는 시간입니다.
 - `path: str` - 이 쿠키가 적용되는 URL의 하위 집합입니다. 기본값은 `/`입니다.
 - `comment: str` - 주석(메타데이터)입니다.
 - `domain: str` - 쿠키가 유효한 도메인을 지정합니다. 명시적으로 지정된 도메인은 항상 점으로 시작해야 합니다.
-- `max-age: int` - 쿠키가 유지되어야하는 시간 (초)입니다.
-- `secure: bool` - 쿠키가 HTTPS를 통해서만 전송되는지 여부를 지정합니다
-- `httponly: bool` - JavaScript에서 쿠키를 읽을 수 없는지 여부를 지정합니다.
-- `samesite: str` - 기본값은 브라우저에 따라 다르며 사양 상태 (Lax, Strict 및 None)는 유효한 값입니다.
+- `max-age: int` - 쿠키가 유지될 시간(초) 입니다.
+- `secure: bool` - 쿠키가 HTTPS를 통해서만 전송될지 지정합니다
+- `httponly: bool` - JavaScript에서 쿠키를 읽을 수 없는지 지정합니다.
+- `samesite: str` - 기본값은 브라우저에 따라 다르며, 사양 상태 (Lax, Strict 및 None)는 유효한 값입니다.
 
 ## 지우기(Deleting)
 
