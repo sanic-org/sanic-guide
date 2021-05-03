@@ -283,15 +283,15 @@ async def handler(request, foo: str):
 
 ---:1
 
-Sanic provides a method to generate URLs based on the handler method name: `app.url_for()`. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name.
+Sanic은 핸들러 메서드 `app.url_for()`을 기반으로 하는 URL을 생성하는 메서드를 제공합니다. 이것은 당신의 앱에서 url 경로를 하드코딩하는 것을 방지하기에 유용할 것입니다.
 :--:1
 ```python
 @app.route('/')
 async def index(request):
-    # generate a URL for the endpoint `post_handler`
+    # `post_handler` 엔드포인트를 위한 URL을 생성합니다.
     url = app.url_for('post_handler', post_id=5)
     
-    # Redirect to `/posts/5`
+    # `/posts/5` 로 리다이렉트
     return redirect(url)
 
 @app.route('/posts/<post_id>')
@@ -302,7 +302,7 @@ async def post_handler(request, post_id):
 
 ---:1
 
-You can pass any arbitrary number of keyword arguments. Anything that is _not_ a request parameter will be implemented as a part of the query string.
+임의의 수의 키워드 인수를 전달할 수 있습니다. 요청 매개변수가 _아닌_ 모든 것들은 편리하게 쿼리스트링의 일부가 됩니다.
 :--:1
 ```python
 >>> app.url_for(
@@ -317,7 +317,7 @@ You can pass any arbitrary number of keyword arguments. Anything that is _not_ a
 
 ---:1
 
-Also supported is passing multiple values for a single query key.
+또한, 단일 쿼리 키가 여러 값을 가지게 하는 것도 지원합니다.
 :--:1
 ```python
 >>> app.url_for(
@@ -329,9 +329,9 @@ Also supported is passing multiple values for a single query key.
 ```
 :---
 
-### Special keyword arguments
+### 특수 키워드 인자
 
-See [API Docs]() for more details.
+자세한 내용은 [API 문서]() 를 참고하세요.
 
 ```python
 >>> app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
