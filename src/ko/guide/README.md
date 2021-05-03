@@ -4,7 +4,7 @@ pageClass: intro
 
 # 소개
 
-Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프레임워크입니다. Python 3.5에 추가된 async / await 구문을 사용할 수 있으므로 코드가 차단(Blocking)되지 않고 빠릅니다.
+Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프레임워크입니다. Python 3.5에 추가된 async / await 구문을 사용할 수 있어 코드가 차단(Blocking)되지 않고 빠릅니다.
 
 |         |                                                                                                                         |
 | ------- | ----------------------------------------------------------------------------------------------------------------------- |
@@ -16,9 +16,9 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 
 ## 이게 뭔가요?
 
-먼저 시작하기 전에 Sanic이 다른 프레임워크와 다르다는 것을 알아야합니다.
+Sanic에 뛰어들기 전에, Sanic이 다른 프레임워크들과 다르다는 것을 알아야합니다.
 
-바로 그 처음말한 첫번째 문장에 큰 실수가 있습니다. 왜냐하면 Sanic은 **프레임워크**와 **웹 서버**입니다. 배포 섹션에서 이에 대해 조금 더 이야기 할 것입니다.
+바로 저 첫 번째 문장에 큰 실수가 있었습니다. 왜냐하면 Sanic은 **프레임워크**이자 **웹 서버**입니다. 배포 섹션에서 이에 대해 조금 더 이야기 할 것입니다.
 
 그러나 기본적으로 Sanic은 프로덕션 등급의 웹 애플리케이션을 작성, 배포 및 확장하는 데 필요한 모든 것을 제공합니다. :rocket:
 
@@ -52,13 +52,13 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 
 ## 커뮤니티에 참가
 
-토론을위한 메인 채널은 [커뮤니티 포럼](https://community.sanicframework.org/)입니다. 또한 [디스코드 서버](https://discord.gg/FARQzAEMAA)에서 실시간 토론및 채팅이 가능합니다.
+토론을 위한 메인 채널은 [커뮤니티 포럼](https://community.sanicframework.org/)입니다. 또한 [디스코드 서버](https://discord.gg/FARQzAEMAA)에서 실시간 토론 및 채팅이 가능합니다.
 
 Stackoverflow의 `[sanic]` 태그는 프로젝트 유지보수자들에 의해 [적극적으로 모니터링](https://stackoverflow.com/questions/tagged/sanic)되고 있습니다.
 
 ## 기여
 
-우리는 항상 새로운 기여를 받게되어 행복합니다. 저희는 [시작하려는 모든 사용자에게 유용하도록 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
+우리는 새로운 기여를 받을 때마다 항상 행복합니다. 저희는 [시작하려는 모든 사용자에게 유용하도록 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
 
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
