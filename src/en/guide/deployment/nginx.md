@@ -64,21 +64,21 @@ instead of `YOUR SECRET` use the secret you chose for your app.
 
 ```nginx
 upstream example.com {
-    keepalive 100;
-    server 127.0.0.1:8000;
-    #server unix:/tmp/sanic.sock;
+  keepalive 100;
+  server 127.0.0.1:8000;
+  #server unix:/tmp/sanic.sock;
 }
 
 server {
-    server_name example.com;
-    listen 443 ssl http2 default_server;
-    listen [::]:443 ssl http2 default_server;
-    # Serve static files if found, otherwise proxy to Sanic
-    location / {
+  server_name example.com;
+  listen 443 ssl http2 default_server;
+  listen [::]:443 ssl http2 default_server;
+  # Serve static files if found, otherwise proxy to Sanic
+  location / {
     root /var/www;
     try_files $uri @sanic;
-    }
-    location @sanic {
+  }
+  location @sanic {
     proxy_pass http://$server_name;
     # Allow fast streaming HTTP/1.1 pipes (keep-alive, unbuffered)
     proxy_http_version 1.1;
@@ -86,10 +86,10 @@ server {
     proxy_buffering off;
     # Proxy forwarding (password configured in app.config.FORWARDED_SECRET)
     proxy_set_header forwarded "$proxy_forwarded;secret=\"YOUR SECRET\"";
-    # Allow websockets
+    # Allow websockets and keep-alive (avoid connection: close)
     proxy_set_header connection "upgrade";
     proxy_set_header upgrade $http_upgrade;
-    }
+  }
 }
 ```
 
@@ -100,18 +100,18 @@ HTTPS:
 ```nginx
 # Redirect all HTTP to HTTPS with no-WWW
 server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-    server_name ~^(?:www\.)?(.*)$;
-    return 301 https://$1$request_uri;
+  listen 80 default_server;
+  listen [::]:80 default_server;
+  server_name ~^(?:www\.)?(.*)$;
+  return 301 https://$1$request_uri;
 }
 
 # Redirect WWW to no-WWW
 server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name ~^www\.(.*)$;
-    return 301 $scheme://$1$request_uri;
+  listen 443 ssl http2;
+  listen [::]:443 ssl http2;
+  server_name ~^www\.(.*)$;
+  return 301 $scheme://$1$request_uri;
 }
 ```
 
@@ -138,39 +138,39 @@ Additionally, copy&paste all of this into `nginx/conf.d/forwarded.conf`:
 
 # Provide the full proxy chain in $proxy_forwarded
 map $proxy_add_forwarded $proxy_forwarded {
-    default "$proxy_add_forwarded;by=\"_$hostname\";proto=$scheme;host=\"$http_host\";path=\"$request_uri\"";
+  default "$proxy_add_forwarded;by=\"_$hostname\";proto=$scheme;host=\"$http_host\";path=\"$request_uri\"";
 }
 
 # The following mappings are based on
 # https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/
 
 map $remote_addr $proxy_forwarded_elem {
-    # IPv4 addresses can be sent as-is
-    ~^[0-9.]+$          "for=$remote_addr";
+  # IPv4 addresses can be sent as-is
+  ~^[0-9.]+$          "for=$remote_addr";
 
-    # IPv6 addresses need to be bracketed and quoted
-    ~^[0-9A-Fa-f:.]+$   "for=\"[$remote_addr]\"";
+  # IPv6 addresses need to be bracketed and quoted
+  ~^[0-9A-Fa-f:.]+$   "for=\"[$remote_addr]\"";
 
-    # Unix domain socket names cannot be represented in RFC 7239 syntax
-    default             "for=unknown";
+  # Unix domain socket names cannot be represented in RFC 7239 syntax
+  default             "for=unknown";
 }
 
 map $http_forwarded $proxy_add_forwarded {
-    # If the incoming Forwarded header is syntactically valid, append to it
-    "~^(,[ \\t]*)*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*([ \\t]*,([ \\t]*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*)?)*$" "$http_forwarded, $proxy_forwarded_elem";
+  # If the incoming Forwarded header is syntactically valid, append to it
+  "~^(,[ \\t]*)*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*([ \\t]*,([ \\t]*([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?(;([!#$%&'*+.^_`|~0-9A-Za-z-]+=([!#$%&'*+.^_`|~0-9A-Za-z-]+|\"([\\t \\x21\\x23-\\x5B\\x5D-\\x7E\\x80-\\xFF]|\\\\[\\t \\x21-\\x7E\\x80-\\xFF])*\"))?)*)?)*$" "$http_forwarded, $proxy_forwarded_elem";
 
-    # Otherwise, replace it
-    default "$proxy_forwarded_elem";
+  # Otherwise, replace it
+  default "$proxy_forwarded_elem";
 }
 ```
 
-For installs that don't use `conf.d` and `sites-available`, all of the above
+> **❕ NOTE:** For installs that don't use `conf.d` and `sites-available`, all of the above
 configs may also be placed inside the `http` section of the main `nginx.conf`.
 
 Reload Nginx config after changes:
 
 ```bash
-$ sudo nginx -s reload
+sudo nginx -s reload
 ```
 
 Now you should be able to connect your app on `https://example.com/`. Any 404
@@ -183,7 +183,7 @@ If you haven't already configured valid certificates on your server, now is a
 good time to do so. Install `certbot` and `python3-certbot-nginx`, then run
 
 ```bash
-$ certbot --nginx -d example.com -d www.example.com
+certbot --nginx -d example.com -d www.example.com
 ```
 
 `<https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/>`_
@@ -210,7 +210,7 @@ WantedBy=multi-user.target
 Then reload service files, start your service and enable it on boot:
 
 ```bash
-$ sudo systemctl daemon-reload
-$ sudo systemctl start sanicexample
-$ sudo systemctl enable sanicexample
+sudo systemctl daemon-reload
+sudo systemctl start sanicexample
+sudo systemctl enable sanicexample
 ```
