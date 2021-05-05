@@ -164,8 +164,10 @@ map $http_forwarded $proxy_add_forwarded {
 }
 ```
 
-> **❕ NOTE:** For installs that don't use `conf.d` and `sites-available`, all of the above
+::: tip Note
+For installs that don't use `conf.d` and `sites-available`, all of the above
 configs may also be placed inside the `http` section of the main `nginx.conf`.
+:::
 
 Reload Nginx config after changes:
 
