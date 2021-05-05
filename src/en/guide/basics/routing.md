@@ -250,6 +250,7 @@ async def handler(request, foo: datetime.date):
 **Example matches**:
 - `/path/to/2021-03-28`
 :::
+
 ::: tab uuid
 
 ```python
@@ -261,11 +262,13 @@ async def handler(request, foo: UUID):
 **Cast type**: `UUID`  
 **Example matches**:
 - `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
+
 :::
+
 ::: tab regex
 
 ```python
-@app.route("/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
+@app.route(r"/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
 async def handler(request, foo: str):
     ...
 ```
@@ -277,7 +280,43 @@ async def handler(request, foo: str):
 This gives you the freedom to define specific matching patterns for your use case. 
 
 In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
+
+::: tip Advanced
+
+But for complex routing, the above example is still too simple.
+
+Sometimes you want to match on a part of a path segment:
+
+```text
+/image/123456789.jpg
+```
+
+If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun:
+
+```python
+app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
+```
+
+Further, these should all be acceptable:
+
+```python
+@app.get(r"/<foo:[a-z]{3}.txt>")                # matching on the full pattern
+@app.get(r"/<foo:([a-z]{3}).txt>")              # defining a single matching group
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       # defining a single named matching group
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
+```
+
+1. matching on the full pattern
+2. defining a single matching group
+3. defining a single named matching group
+4. defining a single named matching group, with one or more non-matching groups
+
+Also, if using a named matching group, it must be the same as the segment label.
+
+For more regular usage methods, please refer to [Regular expression operations](https://docs.python.org/3/library/re.html)
+
 :::
+
 ::::
 ## Generating a URL
 
