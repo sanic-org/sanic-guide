@@ -147,8 +147,10 @@ map $http_forwarded $proxy_add_forwarded {
 }
 ```
 
-::: tip 注意
-如果您的 Nginx 不使用 `conf.d` 和 `sites-available`，以上全部配置也可以放在 `nginx.conf` 的 `http` 模块中。
+::: tip 小提示
+
+如果您的 Nginx 中不使用 `conf.d` 和 `sites-available`，以上配置也可以放在 `nginx.conf` 的 `http` 中。
+
 :::
 
 保存修改之后，重新启动 Nginx 服务：
