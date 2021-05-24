@@ -144,6 +144,8 @@ foo_bar_baz
 ---:1
 
 If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+
+However, if a middleware returns a type that is not `HTTPResponse`, processing will continue as normal. This can be useful when using early return to avoid processing requests.
 :--:1
 ```python
 @app.middleware("request")
