@@ -183,6 +183,10 @@ async def halt_response(request, response):
     return text("I halted the response")
 ```
 
+::: tip
+您可以返回 `None` 值来跳过某个中间件的执行，如果这样的话将不影响后续中间件的执行。您可以将这个特性用于在提前响应中中间件的选择性执行。
+:::
+
 :---
 
 #### 执行顺序(Order of execution)
