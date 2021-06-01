@@ -146,6 +146,8 @@ Sanic will automatically set the following response headers (when appropriate) f
 - `connection`
 - `transfer-encoding`
 
+In most circumstances, you should never need to worry about setting these headers.
+
 ---:1
 
 Any other header that you would like to set can be done either in the route handler, or a response middleware.
