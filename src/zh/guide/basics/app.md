@@ -80,7 +80,7 @@ app = Sanic.get_app("my_awesome_server")
 
 ---:1
 
-如果您希望使用 `Sanic.get_app（"non-existing"）` 来获取不存在的 Sanic 对象， 您应该通过添加 `force_creat` 参数，此参数意味着如果要获取的 Sanic 对象不存在，则主动创建一个同名的
+如果您希望使用 `Sanic.get_app（"non-existing"）` 来获取不存在的 Sanic 对象， 您应该通过添加 `force_create` 参数，此参数意味着如果要获取的 Sanic 对象不存在，则主动创建一个同名的
 Sanic 对象并返回。如果不设置该参数，那么默认情况下将会抛出 `SanicException` 异常。
 
 :--:1
