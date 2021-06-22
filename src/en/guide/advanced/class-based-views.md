@@ -124,6 +124,7 @@ As discussed in [the decorators section](/guide/best-practices/decorators.md), o
 1. Apply to _all_ HTTP methods in the view
 2. Apply individually to HTTP methods in the view
 
+Let's see what the options look like:
 
 ---:1
 
