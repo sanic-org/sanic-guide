@@ -196,5 +196,5 @@ key1=val1&key2=val2&key1=val3
 ::: tip FYI
 :bulb: The `request.args` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
 
-Most of the time you will want to use the `.get()` be used to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
