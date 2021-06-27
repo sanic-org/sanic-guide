@@ -38,7 +38,7 @@ def handle_request(request):
 You can also pass a version number to the blueprint, which will apply to all routes in that blueprint.
 :--:1
 ```python
-bp = Blueprint("test", url_prefix="/foo" version=1)
+bp = Blueprint("test", url_prefix="/foo", version=1)
 
 # /v1/foo/text
 @bp.route("/html")

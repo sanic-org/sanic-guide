@@ -146,11 +146,9 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 :---
 
 ::: tip FYI
-
 💡 The request.headers object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
 
-Most of the time you will want to use the .get() or .getone() method can be used to access the first element and not a list. If you do want a list of all items, you can user .getall().
-
+Most of the time you will want to use the .get() or .getone() methods to access the first element and not a list. If you do want a list of all items, you can use .getall(). 
 :::
 
 #### Request ID
@@ -187,6 +185,8 @@ Sanic will automatically set the following response headers (when appropriate) f
 - `content-type`
 - `connection`
 - `transfer-encoding`
+
+In most circumstances, you should never need to worry about setting these headers.
 
 ---:1
 

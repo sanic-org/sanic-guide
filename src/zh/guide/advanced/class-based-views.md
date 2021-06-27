@@ -58,7 +58,7 @@ class FooBar(HTTPMethodView):
     async def put(self, request):
         ...
 
-app.add_route(FooBar.as_view(), "/foobar)
+app.add_route(FooBar.as_view(), "/foobar")
 ```
 
 :---
