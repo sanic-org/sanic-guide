@@ -115,11 +115,7 @@ Most of the time you will want to use the .get() or .getone() method can be used
 
 ---:1
 
-::: new
-
-New in v21.3, often it is convenient or necessary to track a request by its `X-Request-ID` header. You can easily access that as: `request.id`.
-
-:::
+Often it is convenient or necessary to track a request by its `X-Request-ID` header. You can easily access that as: `request.id`.
 
 :--:1
 
@@ -168,13 +164,9 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new
-
 A common [middleware](middleware.md) you might want is to add a `X-Request-ID` header to every response. As stated above: `request.id` will provide the ID from the incoming request. But, even if no ID was supplied in the request headers, one will be automatically supplied for you.
 
 [See API docs for more details](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
-
-:::
 
 :--:1
 

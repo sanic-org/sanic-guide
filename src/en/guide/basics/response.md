@@ -57,7 +57,6 @@ json({"foo": "bar"}, dumps=dumps)
 
 If `ujson` is not installed, it will fall back to the standard library `json` module.
 
-::: new NEW in v21.3
 You may additionally declare which implementation to use globally across your application at initialization:
 
 ```python
