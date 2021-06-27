@@ -463,7 +463,7 @@ def handler(request):
 ```python
 bp1 = Blueprint(name="bp1", url_prefix="/bp1")
 bp2 = Blueprint(
-    name="bp1",
+    name="bp2",
     url_prefix="/bp2",
     strict_slashes=False,
 )
