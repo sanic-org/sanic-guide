@@ -40,15 +40,57 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 :---
 
+---:1
+
 #### Proxy headers
 
 Sanic has special handling for proxy headers. See the [proxy headers](/guide/advanced/proxy-headers.md) section for more details.
 
----:1
+#### Host header and dynamic URL construction
 
+The *effective host* is available via `request.host`. This is not necessarily the same as the host header, as it prefers proxy-forwarded host and can be forced by the server name setting.
+
+Webapps should generally use this accessor so that they can function the same no matter how they are deployed. The actual host header, if needed, can be found via `request.headers`
+
+The effective host is also used in dynamic URL construction via `request.url_for`, which uses the request to determine the external address of a handler.
+
+::: tip Be wary of malicious clients
+These URLs can be manipulated by sending misleading host headers. `app.url_for` should be used instead if this is a concern.
+:::
+
+:--:1
+
+```python
+app.config.SERVER_NAME = "https://example.com"
+
+@app.route("/hosts", name="foo")
+async def handler(request):
+    return json(
+        {
+            "effective host": request.host,
+            "host header": request.headers.get("host"),
+            "forwarded host": request.forwarded.get("host"),
+            "you are here": request.url_for("foo"),
+        }
+    )
+```
+
+```bash
+$ curl localhost:8000/hosts
+{
+  "effective host": "example.com",
+  "host header": "localhost:8000",
+  "forwarded host": null,
+  "you are here": "https://example.com/hosts"
+}
+```
+
+:---
+
+---:1
 #### Other headers
 
-All request headers are available on the request object, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
+All request headers are available on `request.headers`, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
 
 :--:1
 
@@ -103,12 +145,10 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :---
 
-::: tip FYI 
-
+::: tip FYI
 💡 The request.headers object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
 
 Most of the time you will want to use the .get() or .getone() methods to access the first element and not a list. If you do want a list of all items, you can use .getall(). 
-
 :::
 
 #### Request ID
