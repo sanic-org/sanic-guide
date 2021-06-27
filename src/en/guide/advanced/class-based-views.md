@@ -213,3 +213,7 @@ app.add_route(view, "/")
 ::: warning
 Currently you cannot build a URL for a `CompositionView` using `url_for`.
 :::
+
+::: warning Deprecated v21.6
+`CompositionView` has been deprecated and will be removed from Sanic in v21.12.
+:::

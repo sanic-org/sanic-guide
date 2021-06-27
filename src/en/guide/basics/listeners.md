@@ -2,12 +2,10 @@
 
 Sanic provides you with six (6) opportunities to inject an operation into the life cycle of your application. 
 
-::: new NEW in v21.3
 There are two (2) that run **only** on your main Sanic process (ie, once per call to `sanic server.app`.)
 
 - `main_process_start`
 - `main_process_stop`
-:::
 
 There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
 
@@ -90,9 +88,9 @@ async def setup_db(app, loop):
 :---
 
 ---:1
-::: new NEW in v21.3
+
 You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
-:::
+
 :--:1
 ```python
 @app.before_server_start

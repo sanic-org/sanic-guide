@@ -66,9 +66,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-::: new NEW in v21.3
 You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
-:::
 :--:1
 ```python
 @app.on_request
@@ -120,9 +118,7 @@ async def index(request):
 
 
 ---:1
-::: new NEW in v21.3
 You can modify the `request.match_info`. A useful feature that could be used, for example, in middleware to convert `a-slug` to `a_slug`.
-:::
 :--:1
 ```python
 @app.on_request

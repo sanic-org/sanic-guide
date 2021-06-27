@@ -4,13 +4,11 @@ It is standard practice in API building to add versions to your endpoints. This 
 
 Adding a version will add a `/v{version}` url prefix to your endpoints.
 
-::: new NEW in v21.3
 The version can be a `int`, `float`, or `str`. Acceptable values:
 
 - `1`, `2`, `3`
 - `1.1`, `2.25`, `3.0`
 - `"1"`, `"v1"`, `"v1.1"`
-:::
 
 ## Per route
 
@@ -100,3 +98,60 @@ async def handle_endpoint_2_bp2(request):
     return json({"Source": "blueprint-2/endpoint-2"})
 ```
 :---
+
+## Version prefix
+::: new NEW in v21.3
+
+As seen above, the `version` that is applied to a route is **always** the first segment in the generated URI path. Therefore, to make it possible to add path segments before the version, every place that a `version` argument is passed, you can also pass `version_prefix`. 
+
+The `version_prefix` argument is can be defined in:
+
+- `app.route` and `bp.route` decorators (and all the convenience decorators also)
+- `Blueprint` instantiation
+- `Blueprint.group` constructor
+- `BlueprintGroup` instantiation
+- `app.blueprint` registration
+
+If there are definitions in multiple places, a more specific definition overrides a more general. This list provides that hierarchy.
+
+The default value of `version_prefix` is `/v`.
+
+---:1
+An often requested feature is to be able to mount versioned routes on `/api`. This can easily be accomplished with `version_prefix`.
+:--:1
+```python
+# /v1/my/path
+app.route("/my/path", version=1, version_prefix="/api/v")
+```
+:---
+
+---:1
+Perhaps a more compelling usage is to load all `/api` routes into a single `BlueprintGroup`.
+:--:1
+```python
+# /v1/my/path
+app = Sanic(__name__)
+v2ip = Blueprint("v2ip", url_prefix="/ip", version=2)
+api = Blueprint.group(v2ip, version_prefix="/api/version")
+
+# /api/version2/ip
+@v2ip.get("/")
+async def handler(request):
+    return text(request.ip)
+
+app.blueprint(api)
+```
+:---
+
+We can therefore learn that a route's URI is:
+
+```
+version_prefix + version + url_prefix + URI definition
+```
+
+::: tip
+Just like with `url_prefix`, it is possible to define path parameters inside a `version_prefix`. It is perfectly legitimate to do this. Just remember that every route will have that parameter injected into the handler.
+
+```python
+version_prefix="/<foo:str>/v"
+:::

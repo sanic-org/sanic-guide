@@ -119,13 +119,13 @@ Custom context is reserved for applications and extensions. Sanic itself makes n
 ### Connection context
 
 ---:1
-::: new NEW in v21.3
+
 Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
 
 The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
 
 When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
-:::
+
 :--:1
 ```python
 @app.on_request
@@ -146,10 +146,6 @@ request.conn_info.ctx.foo=2
 request.conn_info.ctx.foo=3
 ```
 :---
-
-::: warning
-Connection level context is an experimental feature, and should be finalized in v21.6.
-:::
 
 ## Parameters
 
