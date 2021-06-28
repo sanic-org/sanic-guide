@@ -1,6 +1,7 @@
 # Background tasks
 
-It is often desirable and very convenient to make usage of [tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) in async Python. Sanic provides a convenient method to add tasks to the currently running loop. It is somewhat similar to `asyncio.create_task`.
+## Creating Tasks
+It is often desirable and very convenient to make usage of [tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) in async Python. Sanic provides a convenient method to add tasks to the currently **running** loop. It is somewhat similar to `asyncio.create_task`. For adding tasks before the 'App' loop is running, see next section.
 
 ```python
 async def notify_server_started_after_five_seconds():
@@ -35,3 +36,25 @@ async def explicit_inject(app):
 app.add_task(explicit_inject(app))
 ```
 :---
+
+## Adding tasks before `app.run`
+
+It is possible to add background tasks before the App is run ie. before `app.run`. To add a task before the App is run, it is recommended to not pass the coroutine object (ie. one created by calling the `async` callable), but instead just pass the callable and Sanic will create the coroutine object on **each worker**. Note: the tasks that are added such are run as `before_server_start` jobs and thus run on every worker (and not in the main process). This has certain consequences, please read [this comment](https://github.com/sanic-org/sanic/issues/2139#issuecomment-868993668) on [this issue](https://github.com/sanic-org/sanic/issues/2139) for further details.
+
+To add work on the main process, consider adding work to [`@app.main_process_start`](./listeners.md). Note: the workers won't start until this work is completed.
+
+---:1
+
+Example to add a task before `app.run`
+:---:1
+```python
+async def slow_work(...):
+   ...
+
+app = Sanic(...)
+app.add_task(slow_work) # Note: we are passing the callable and not coroutine object `slow_work(...)`
+app.run(...)
+```
+::: tip
+To pass parameters to `slow_work` above, `functools.partial` can be used.
+:::
