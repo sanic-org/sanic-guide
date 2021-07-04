@@ -136,6 +136,8 @@ app.add_route(NameView.as_view(), "/<name>")
 1.  应用于视图中的 *所有*  HTTP 方法
 2.  独自应用于视图中的 *指定*  HTTP 方法
 
+让我们分别来看看他们的用法：
+
 ---:1
 
 ### 用于所有方法(Apply to all methods)
