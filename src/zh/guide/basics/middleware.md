@@ -76,11 +76,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-::: new v21.3 新增
-
 您可以进一步缩短该装饰器的调用代码。如果您的 IDE 有自动补全应该会有很有用。
-
-:::
 
 :--:1
 
@@ -140,11 +136,7 @@ async def index(request):
 
 ---:1
 
-::: new v21.3 新增
-
 您可以修改 `request.match_info`。这个功能可能很有用，比如下面这个例子中，在中间件里将 `a-slug` 改变为 `a_slug`。
-
-:::
 
 :--:1
 

@@ -115,12 +115,6 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 ---:1
 
-::: new v21.3 新增
-
-通常无论是出于必须还是为了方便，会使用 `X-Request-ID` 中的值来追踪某个请求。您可以直接通过 `request.id` 来获取该值。
-
-:::
-
 :--:1
 
 ```python
@@ -168,15 +162,11 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new v21.3 新增
-
 您可能会想要为响应也添加 `X-Request-ID` 头信息，通常，您可以添加一个 [中间件](middleware.md)。
 
 如上所述。`request.id` 可以从请求头中获取请求 ID。并且如果在请求中没有 `X-Request-ID` 头，也会自动为您创建一个。
 
 [查看API文档来获取更多信息](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
-
-:::
 
 :--:1
 

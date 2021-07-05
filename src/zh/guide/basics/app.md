@@ -22,8 +22,6 @@ app = Sanic("My Hello, world app")
 
 ## 应用上下文(Application context)
 
-::: new v21.3 新增
-
 大多数应用程序都需要跨代码库的不同部分共享/重用数据或对象。最常见的例子是数据库连接。
 
 ---:1
@@ -53,9 +51,6 @@ app.ctx.db = Database()
 ```
 
 :---
-
-:::
-
 ## App 注册表(App Registry)
 
 ---:1
@@ -95,10 +90,11 @@ app = Sanic.get_app(
 :---
 
 ---:1
-::: new v21.3 新增
+
 如果 **只有一个** Sanic 实例被注册了，那么调用 `Sanic.get_app()` 时如果不传入任何参数则将返回该实例。
-:::
+
 :--:1
+
 ```python
 Sanic("My only app")
 
@@ -143,8 +139,155 @@ app.config.bad = "boo"
 
 之后还有更多关于 [配置](/zh/guide/deployment/configuration.md) 的细节。
 
-<!-- ## Methods
+## 自定义(Customization)
 
-### 运行(Run)
+Sanic 应用在实例化时可以根据你的需求以多种方式进行定制。
+### 自定义配置(Custom configuration)
 
-### 停止(Stop) -->
+---:1
+
+::: new v21.6 新增
+
+自定义配置最简单的方式，就是将您自己的配置对象直接传递到 Sanic 实例中
+
+如果您使用了自定义配置对象类，*强烈建议* 您将自定义类继承 Sanic 的 `Config` 类，以保持与父类行为一致。这样，您就可以调用父类方法来添加属性。当然，您也可以自己实现一套类似的逻辑。
+
+:::
+
+:--:1
+
+```python
+from sanic.config import Config
+
+class MyConfig(Config):
+    FOO = "bar"
+
+app = Sanic(..., config=MyConfig())
+```
+:---
+
+---:1
+
+如果您想使用一个与[通用配置](../deployment/configuration.md#使用通用方法加载-using-sanic-update-config)格式不一样的配置文件时会比较有用。
+
+:--:1
+
+```python
+from sanic import Sanic, text
+from sanic.config import Config
+
+class TomlConfig(Config):
+    def __init__(self, *args, path: str, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        with open(path, "r") as f:
+            self.apply(toml.load(f))
+
+    def apply(self, config):
+        self.update(self._to_uppercase(config))
+
+    def _to_uppercase(self, obj: Dict[str, Any]) -> Dict[str, Any]:
+        retval: Dict[str, Any] = {}
+        for key, value in obj.items():
+            upper_key = key.upper()
+            if isinstance(value, list):
+                retval[upper_key] = [
+                    self._to_uppercase(item) for item in value
+                ]
+            elif isinstance(value, dict):
+                retval[upper_key] = self._to_uppercase(value)
+            else:
+                retval[upper_key] = value
+        return retval
+
+toml_config = TomlConfig(path="/path/to/config.toml")
+app = Sanic(toml_config.APP_NAME, config=toml_config)
+```
+
+:---
+
+### 自定义上下文(Custom context)
+
+---:1
+
+::: new v21.6 新增
+
+在默认情况下，应用程序上下文是一个 [`SimpleNamespace`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) 实例，它允许您在上面设置任何您想要的属性。然而，您也可以选择使用其他对象来代替。
+
+:::
+
+:--:1
+
+```python
+app = Sanic(..., ctx=1)
+```
+
+```python
+app = Sanic(..., ctx={})
+```
+
+```python
+class MyContext:
+    ...
+
+app = Sanic(..., ctx=MyContext())
+```
+
+:---
+
+### 自定义请求(Custom requests)
+
+---:1
+
+有时，自定义一个 `Request` 类显得很重要。举一个简单的例子，设置自定义的 `request.id` 属性。
+
+::: tip 重要
+
+记住，您应该传入 *类* 对象作为参数，而不是该类的实例。
+
+:::
+
+:--:1
+
+```python
+import time
+
+from sanic import Request, Sanic, text
+
+
+class NanoSecondRequest(Request):
+    @classmethod
+    def generate_id(*_):
+        return time.time_ns()
+
+
+app = Sanic(..., request_class=NanoSecondRequest)
+
+
+@app.get("/")
+async def handler(request):
+    return text(str(request.id))
+```
+:---
+
+### 自定义错误响应函数(Custom error handler)
+
+---:1
+
+详见 [exception handling](../best-practices/exceptions.md#自定义异常处理-custom-error-handling)
+
+:--:1
+
+```python
+from sanic.handlers import ErrorHandler
+
+class CustomErrorHandler(ErrorHandler):
+    def default(self, request, exception):
+        ''' handles errors that have no error handlers assigned '''
+        # You custom error handling logic...
+        return super().default(request, exception)
+
+app = Sanic(..., error_handler=CustomErrorHandler())
+```
+
+:---

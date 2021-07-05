@@ -196,10 +196,10 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab string
+::: tab "str 🌟"
 
 ```python
-@app.route("/path/to/<foo:string>")
+@app.route("/path/to/<foo:str>")
 async def handler(request, foo: str):
     ...
 ```
@@ -212,6 +212,11 @@ async def handler(request, foo: str):
 
 - `/path/to/Bob`
 - `/path/to/Python%203`
+
+
+::: new v21.6 新增
+
+在之前版本中，您应该这样写 `<foo:string>`。这种写法将在 v21.12 中被弃用
 
 :::
 
@@ -237,10 +242,10 @@ async def handler(request, foo: int):
 
 :::
 
-::: tab number
+::: tab "float 🌟"
 
 ```python
-@app.route("/path/to/<foo:number>")
+@app.route("/path/to/<foo:float>")
 async def handler(request, foo: float):
     ...
 ```
@@ -254,6 +259,11 @@ async def handler(request, foo: float):
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
+
+
+::: new NEW in v21.6
+
+在之前版本中，您应该这样写 `<foo:number>`。这种写法将在 v21.12 中被弃用
 
 :::
 
@@ -275,7 +285,29 @@ async def handler(request, foo: str):
 
 - `/path/to/Python`
 
-  无法匹配数字，空格以及其他特殊字符。
+*无法匹配数字，空格以及其他特殊字符。*
+
+:::
+
+::: tab "slug 🌟"
+
+::: new v21.6 新增
+
+```python
+@app.route("/path/to/<article:slug>")
+async def handler(request, article: str):
+    ...
+```
+
+**使用的正则表达式**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
+
+**类型转换**: `str`  
+
+**匹配示例**:
+
+- `/path/to/some-news-story`
+- `/path/to/or-has-digits-123`
+
 
 :::
 
@@ -310,7 +342,6 @@ async def handler(request, foo: str):
 async def handler(request, foo: datetime.date):
     ...
 ```
-::: new v21.3 新增
 
 **使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
 
