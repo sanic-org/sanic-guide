@@ -114,15 +114,7 @@ async def index(request):
 
 ---:1
 
-::: new v21.3 新增
-
-从 v21.3 版本开始，`HTTPResponse` 对象提供了新的方法来支持流式传输。因此不需要定义协程作为回调再传入 `stream` 方法里面了。事实上，上面的方法仅仅只是为了方便做向下兼容了。
-
-您现在可在响应函数中直接进行流式传输了。
-
-_小提示：这个新的流式传输的 API 还处于 BETA 阶段，未来可能会有变动。_
-
-:::
+使用协程 + 回调的方式来进行流式传输已经是*明日黄花*。您应该使用新的方式来进行串流。新方式的好处是允许您以自然的语序来编写处理串流的响应函数代码（非回调）。
 
 :--:1
 
@@ -132,11 +124,18 @@ async def test(request):
     response = await request.respond(content_type="text/csv")
     await response.send("foo,")
     await response.send("bar")
-    await response.send("", True)
+    await response.eof()
     return response
 ```
 
 :---
+
+::: new v21.6 新增
+
+在上述例子中调用 `await response.eof()` 方法可以替代之前的 `await response.send("", True)` 方法。为客户端传输完数据*后*，您应该在响应函数内调用**一次**该方法。
+
+:::
+
 
 ## 文件流(File streaming)
 

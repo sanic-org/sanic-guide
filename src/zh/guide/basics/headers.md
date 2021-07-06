@@ -39,15 +39,59 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 :---
 
+---:1
+
 #### 代理头(Proxy headers)
 
 Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
+#### 主机标头和动态URL的构建(Host header and dynamic URL construction)
+
+The *effective host* is available via `request.host`. This is not necessarily the same as the host header, as it prefers proxy-forwarded host and can be forced by the server name setting.
+
+Webapps should generally use this accessor so that they can function the same no matter how they are deployed. The actual host header, if needed, can be found via `request.headers`
+
+The effective host is also used in dynamic URL construction via `request.url_for`, which uses the request to determine the external address of a handler.
+
+::: tip Be wary of malicious clients
+
+These URLs can be manipulated by sending misleading host headers. `app.url_for` should be used instead if this is a concern.
+
+:::
+
+:--:1
+
+```python
+app.config.SERVER_NAME = "https://example.com"
+
+@app.route("/hosts", name="foo")
+async def handler(request):
+    return json(
+        {
+            "effective host": request.host,
+            "host header": request.headers.get("host"),
+            "forwarded host": request.forwarded.get("host"),
+            "you are here": request.url_for("foo"),
+        }
+    )
+```
+
+```bash
+$ curl localhost:8000/hosts
+{
+  "effective host": "example.com",
+  "host header": "localhost:8000",
+  "forwarded host": null,
+  "you are here": "https://example.com/hosts"
+}
+```
+
+:---
 
 ---:1
 
 #### 其他标头(Other headers)
 
-您可以在请求对象中使用所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
+您可以在请求对象的 `request.headers` 属性中获取所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
 
 :--:1
 

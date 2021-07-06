@@ -235,3 +235,10 @@ app.add_route(view, "/")
 目前为止，Sanic 暂时不支持您使用 `url_for` 来为 `CompositionView` 生成 URL
 
 :::
+
+::: warning 在 v21.6 弃用
+
+`CompositionView` 已经被弃用并且将在 v21.12 版本中删除。
+
+:::
+

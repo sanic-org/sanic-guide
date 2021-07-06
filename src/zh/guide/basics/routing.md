@@ -668,3 +668,13 @@ app.static(
 ```
 
 :---
+
+::: tip
+
+If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+
+```python
+app.static("/user/uploads", "/path/to/uploads", name="uploads")
+app.static("/user/profile", "/path/to/profile", name="profile_pics")
+
+```
