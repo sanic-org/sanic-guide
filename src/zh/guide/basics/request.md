@@ -130,15 +130,11 @@ async def hi_my_name_is(request):
 
 ---:1
 
-::: new v21.3 新增
-
 通常情况下，您的应用程序需要向同一个客户端提供多个并发（或连续）的请求。这种情况通常发生在需要查询多个端点来获取数据的渐进式网络应用程序中。
 
 在 HTTP 协议要求通过 [keep alive](../deployment/configuration.md#keep-alive-timeout) 请求头来减少频繁连接所造成的时间浪费。
 
 当多个请求共享一个连接时，Sanic 将提供一个上下文对象来允许这些请求共享状态。
-
-:::
 
 :--:1
 
@@ -162,10 +158,6 @@ request.conn_info.ctx.foo=3
 ```
 
 :---
-
-::: warning 警告
-连接上下文目前只是一个实验特性，这将在 v21.6 版本中被完善。
-:::
 
 ## 路由参数(Parameter)
 

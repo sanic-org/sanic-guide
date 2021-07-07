@@ -39,15 +39,60 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 :---
 
+---:1
+
 #### 代理头(Proxy headers)
 
 Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
+
+#### 主机标头和动态URL的构建(Host header and dynamic URL construction)
+
+您可以通过 `request.host` 属性来获取有效主机名。该值不一定与头信息中的主机一致，因为它更倾向于保存反向代理的主机信息，并且可以通过服务器名称强行设置。
+
+在通常情况下，Web 应用应该去设置并使用这个属性，这样能保证在任何部署方式下都能提供同样的功能。如果需要的话 `request.headers` 可以获取真实的主机头信息。
+
+有效的主机名称也可以与 `request.url_for` 方法一起使用，它可以确定响应函数所对应的外部地址。
+
+::: tip 警惕恶意客户端
+
+由于头信息中的主机信息可能会被客户端恶意替换，为了生成正确的 URL，您应该考虑使用 `app.url_for` 方法。
+
+:::
+
+:--:1
+
+```python
+app.config.SERVER_NAME = "https://example.com"
+
+@app.route("/hosts", name="foo")
+async def handler(request):
+    return json(
+        {
+            "effective host": request.host,
+            "host header": request.headers.get("host"),
+            "forwarded host": request.forwarded.get("host"),
+            "you are here": request.url_for("foo"),
+        }
+    )
+```
+
+```bash
+$ curl localhost:8000/hosts
+{
+  "effective host": "example.com",
+  "host header": "localhost:8000",
+  "forwarded host": null,
+  "you are here": "https://example.com/hosts"
+}
+```
+
+:---
 
 ---:1
 
 #### 其他标头(Other headers)
 
-您可以在请求对象中使用所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
+您可以在请求对象的 `request.headers` 属性中获取所有的请求头，并且可以通过字典的方式来进行访问。Headers 的键名不考虑大小写，可以通过大写或小写键名来进行访问。
 
 :--:1
 
@@ -115,12 +160,6 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 ---:1
 
-::: new v21.3 新增
-
-通常无论是出于必须还是为了方便，会使用 `X-Request-ID` 中的值来追踪某个请求。您可以直接通过 `request.id` 来获取该值。
-
-:::
-
 :--:1
 
 ```python
@@ -168,15 +207,11 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new v21.3 新增
-
 您可能会想要为响应也添加 `X-Request-ID` 头信息，通常，您可以添加一个 [中间件](middleware.md)。
 
 如上所述。`request.id` 可以从请求头中获取请求 ID。并且如果在请求中没有 `X-Request-ID` 头，也会自动为您创建一个。
 
 [查看API文档来获取更多信息](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
-
-:::
 
 :--:1
 

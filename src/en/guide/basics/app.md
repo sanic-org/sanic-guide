@@ -204,13 +204,13 @@ import time
 from sanic import Request, Sanic, text
 
 
-class NanoSeconRequest(Request):
+class NanoSecondRequest(Request):
     @classmethod
     def generate_id(*_):
         return time.time_ns()
 
 
-app = Sanic(..., request_class=NanoSeconRequest)
+app = Sanic(..., request_class=NanoSecondRequest)
 
 
 @app.get("/")
