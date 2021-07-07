@@ -671,7 +671,7 @@ app.static(
 
 ::: tip
 
-If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+如果您想要设置多个静态文件路由，我们*强烈建议*您手动为 `static()` 加上 `name` 参数。可以确定的是，这样做可以减少一些潜在且隐蔽的 bug。
 
 ```python
 app.static("/user/uploads", "/path/to/uploads", name="uploads")

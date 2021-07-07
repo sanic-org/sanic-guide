@@ -44,17 +44,18 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 #### 代理头(Proxy headers)
 
 Sanic 对代理头也有着特殊的处理，具体的细节请参考 [代理头](/zh/guide/advanced/proxy-headers.md) 章节的解释
+
 #### 主机标头和动态URL的构建(Host header and dynamic URL construction)
 
-The *effective host* is available via `request.host`. This is not necessarily the same as the host header, as it prefers proxy-forwarded host and can be forced by the server name setting.
+您可以通过 `request.host` 属性来获取有效主机名。该值不一定与头信息中的主机一致，因为它更倾向于保存反向代理的主机信息，并且可以通过服务器名称强行设置。
 
-Webapps should generally use this accessor so that they can function the same no matter how they are deployed. The actual host header, if needed, can be found via `request.headers`
+在通常情况下，Web 应用应该去设置并使用这个属性，这样能保证在任何部署方式下都能提供同样的功能。如果需要的话 `request.headers` 可以获取真实的主机头信息。
 
-The effective host is also used in dynamic URL construction via `request.url_for`, which uses the request to determine the external address of a handler.
+有效的主机名称也可以与 `request.url_for` 方法一起使用，它可以确定响应函数所对应的外部地址。
 
-::: tip Be wary of malicious clients
+::: tip 警惕恶意客户端
 
-These URLs can be manipulated by sending misleading host headers. `app.url_for` should be used instead if this is a concern.
+由于头信息中的主机信息可能会被客户端恶意替换，为了生成正确的 URL，您应该考虑使用 `app.url_for` 方法。
 
 :::
 

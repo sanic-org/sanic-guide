@@ -333,14 +333,18 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 :---
 
-## Composable
+## 组合(Composable)
 
-::: new NEW in v21.3
-A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limiteless possibility `Blueprint` composition.
+::: new NEW in v21.6
+
+一个蓝图对象可以被多个蓝图组注册，且蓝图组之间可以进行嵌套注册。这样就消除了蓝图之间组合的限制。
 
 ---:1
-Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes.
+
+请看下面的例子，看看两个响应函数是如何被注册到不同的五个路由上的。
+
 :--:1
+
 ```python
 app = Sanic(__name__)
 blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
@@ -378,7 +382,9 @@ app.blueprint(blueprint_1)
 # /bp1
 
 ```
+
 :---
+
 :::
 
 ## URL 生成(Generating a URL)
