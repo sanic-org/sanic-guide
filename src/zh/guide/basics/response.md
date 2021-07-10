@@ -64,7 +64,6 @@ json({"foo": "bar"}, dumps=dumps)
 
 如果没有安装 `ujson` ， 它就会使用 Python 自带的 `json` 模块。
 
-::: new v21.3 新增
 您可以在应用初始化时申明全局的 Json 序列化函数：
 
 ```python

@@ -44,7 +44,7 @@ def handle_request(request):
 :--:1
 
 ```python
-bp = Blueprint("test", url_prefix="/foo" version=1)
+bp = Blueprint("test", url_prefix="/foo", version=1)
 
 # /v1/foo/text
 @bp.route("/html")
@@ -102,3 +102,70 @@ async def handle_endpoint_2_bp2(request):
 ```
 
 :---
+## 版本前缀(Version prefix)
+
+::: new v21.6 新增
+
+如上所述，路由的 `version` 参数 **总是** 会再在生成的 URI 路径最前面添加版本信息。为了在版本信息之前还能够增加其他路径信息，在接受 `version` 参数的函数中，您也可以传递 `version_prefix` 参数。
+
+`version_prefix` 参数可以这么使用：
+
+- 使用 `app.route` 和 `bp.route` 装饰器（以及所有其他装饰器）时
+- 创建 `Blueprint` 对象时
+- 调用 `Blueprint.group` 函数时
+- 创建 `BlueprintGroup` 对象时
+- 使用 `app.blueprint` 注册蓝图
+
+如果在多个地方都有定义该参数了。根据上述列表顺序（从上至下），更加具体的定义将覆盖比之宽泛的定义。
+
+`version_prefix` 的默认值时 `/v`。
+
+---:1
+
+一个常见的场景就是在 `/api` 的前置后再添加 API 的版本信息。使用 `version_prefix` 可以轻松实现。
+
+:--:1
+
+```python
+# /v1/my/path
+app.route("/my/path", version=1, version_prefix="/api/v")
+```
+:---
+
+---:1
+
+也许更好用法是将所有的 `/api` 开头路由添加到同一个 `BlueprintGroup` 中。
+
+:--:1
+
+```python
+# /v1/my/path
+app = Sanic(__name__)
+v2ip = Blueprint("v2ip", url_prefix="/ip", version=2)
+api = Blueprint.group(v2ip, version_prefix="/api/version")
+
+# /api/version2/ip
+@v2ip.get("/")
+async def handler(request):
+    return text(request.ip)
+
+app.blueprint(api)
+```
+
+:---
+
+URI 拼接的规则如下：
+
+```
+version_prefix + version + url_prefix + URI definition
+```
+
+::: tip
+
+就像 `url_prefix` 一样，您也可以在 `version_prefix` 中定义路径参数。这样做完全没问题。只要记住，每个路由对应的响应函数都会被传入该参数。
+
+```python
+version_prefix="/<foo:str>/v"
+```
+
+:::
