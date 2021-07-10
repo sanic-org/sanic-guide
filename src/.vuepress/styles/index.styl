@@ -56,3 +56,15 @@ div[class*="language-"]
             width: 0
             flex: 1 1 0 !important
             overflow: auto
+
+
+// Hack for fixing page scroll when switching tabs
+// https://github.com/pskordilakis/vuepress-plugin-tabs/issues/21
+section.tabs-component-panel::before {
+    content: '';
+    display: block;
+    position: relative;
+    width: 0;
+    height: 10em;
+    margin-top: -10em;
+}
