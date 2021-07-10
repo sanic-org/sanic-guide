@@ -64,7 +64,6 @@ json({"foo": "bar"}, dumps=dumps)
 
 如果没有安装 `ujson` ， 它就会使用 Python 自带的 `json` 模块。
 
-::: new v21.3 新增
 您可以在应用初始化时申明全局的 Json 序列化函数：
 
 ```python
@@ -86,7 +85,7 @@ from sanic.response import file
 
 @app.route("/")
 async def handler(request):
-    return file("/path/to/whatever.png")
+    return await file("/path/to/whatever.png")
 ```
 
 Sanic 将会自动检查文件，并猜测其可能的 mine 类型，并且为响应类型设置合适的值。

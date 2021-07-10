@@ -1,12 +1,8 @@
 # Signals
 
-::: new NEW in v21.3
-This is a new API being introduced.
-:::
+::: warning This feature is still in BETA
 
-::: warning This feature is released in BETA. 
-
-That means that the API is subject to change, although it is unlikely that it will. It is being released now so that developers may start making use of the feature, and we can continue to refine it towards its final release (currently scheduled for v21.6). Any breaking change from this API will only be done _if necessary_.
+That means that the API is subject to change, although it is unlikely that it will. It is released so that developers may start making use of the feature, and we can continue to refine it towards its final release. Any breaking change from this API will only be done _if necessary_.
 
 Eventually, it will provide access to plug into the request/response lifecycle.
 :::
@@ -15,7 +11,7 @@ Signals provide a way for one part of your application to tell another part that
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     await send_email(context["email"], template="registration")
 
 @app.post("/register")
@@ -173,7 +169,7 @@ Sometimes you may find the need to pass extra information into the signal handle
 :--:1
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(

@@ -1,14 +1,8 @@
 # 信号(Signals)
 
-::: new v21.3 新增
-
-即将介绍的是全新的 API。
-
-:::
-
 ::: warning 该功能还处于 BETA 阶段
 
-由于是 BETA 版本，该 API 可能发生改动，且在非必要的情况下，不会大改。现在发布是为了让开发者可以尽早开始使用该功能，并且我们会在最终版本（目前计划是v21.6）之前继续完善它。
+由于是 BETA 版本，该 API 可能发生改动，且在非必要的情况下，不会大改。现在已经发布是为了让开发者可以尽早开始使用该功能，并且我们会在最终版本之前继续完善它。
 
 最终，信号将提供注入请求/响应生命周期的能力。
 
@@ -18,7 +12,7 @@
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     await send_email(context["email"], template="registration")
 
 @app.post("/register")
@@ -219,7 +213,7 @@ thing=baz
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(

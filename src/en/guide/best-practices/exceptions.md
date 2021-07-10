@@ -2,8 +2,19 @@
 
 ## Using Sanic exceptions
 
-Sanic provides a number of standard exceptions. They each automatically will raise the appropriate HTTP status code in your response. [Check the API docs](https://sanic.readthedocs.io/en/latest/) for more details. 
+Sometimes you just need to tell Sanic to halt execution of a handler and send back a status code response. You can raise a `SanicException` for this and Sanic will do the rest for you.
 
+You can pass an optional `status_code` argument. By default, a SanicException will return an internal server error 500 response.
+
+```python
+from sanic.exceptions import SanicException
+
+@app.route("/youshallnotpass")
+async def no_no(request):
+        raise SanicException("Something went wrong.", status_code=501)
+```
+
+Sanic provides a number of standard exceptions. They each automatically will raise the appropriate HTTP status code in your response. [Check the API reference](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions) for more details. 
 
 ---:1
 
@@ -14,7 +25,9 @@ The more common exceptions you _should_ implement yourself include:
 - `Forbidden` (403)
 - `NotFound` (404)
 - `ServerError` (500)
+
 :--:1
+
 ```python
 from sanic import exceptions
 
@@ -27,35 +40,21 @@ async def login(request):
         )
     ...
 ```
-:---
 
-## Abort
-
----:1
-
-Sometimes you just need to tell Sanic to halt execution of a handler and send back a status code response. You can use `abort()` for this.
-:--:1
-```python
-from sanic.exceptions import abort
-
-@app.route("/youshallnotpass")
-async def no_no(request):
-        abort(401)
-        # this won't happen
-        text("OK")
-```
 :---
 
 ## Handling
 
-When your application encounters an exception, you _should_ handle it. Sanic provides a method for doing that. But, if you do not, it also provides a fallback option.
+Sanic handles exceptions automatically by rendering an error page, so in many cases you don't need to handle them yourself. However, if you would like more control on what to do when an exception is raised, you can implement a handler yourself.
 
-This applies to not only the Sanic standard exceptions, but *any* exception that your application might throw.
+Sanic provides a decorator for this, which applies to not only the Sanic standard exceptions, but **any** exception that your application might throw.
 
 ---:1
 
 The easiest method to add a handler is to use `@app.exception()` and pass it one or more exceptions.
+
 :--:1
+
 ```python
 from sanic.exceptions import NotFound
 
@@ -63,29 +62,36 @@ from sanic.exceptions import NotFound
 async def ignore_404s(request, exception):
     return text("Yep, I totally found the page: {}".format(request.url))
 ```
+
 :---
 
 ---:1
 
 You can also create a catchall handler by catching `Exception`.
+
 :--:1
+
 ```python
 @app.exception(Exception)
 async def catch_anything(request, exception):
     ...
 ```
+
 :---
 
 ---:1
 
 You can also use `app.error_handler.add()` to add error handlers.
+
 :--:1
+
 ```python
 async def server_error_handler(request, exception):
     return text("Oops, server error", status=500)
 
 app.error_handler.add(Exception, server_error_handler)
 ```
+
 :---
 
 ## Custom error handling
@@ -119,17 +125,23 @@ These handlers present differing levels of detail depending upon whether your ap
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "html"
 ```
+
 ---:1
 
 ```python
 app.config.DEBUG = True
 ```
+
 ![Error](~@assets/images/error-html-debug.png)
+
 :--:1
+
 ```python
 app.config.DEBUG = False
 ```
+
 ![Error](~@assets/images/error-html-no-debug.png)
+
 :---
 
 ### Text
@@ -137,11 +149,13 @@ app.config.DEBUG = False
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "text"
 ```
+
 ---:1
 
 ```python
 app.config.DEBUG = True
 ```
+
 ```bash
 $ curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
@@ -163,10 +177,13 @@ Traceback of __BASE__ (most recent call last):
     File /path/to/server.py, line 222, in exc
     raise ServerError(
 ```
+
 :--:1
+
 ```python
 app.config.DEBUG = False
 ```
+
 ```bash
 $ curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
@@ -178,6 +195,7 @@ content-type: text/plain; charset=utf-8
 ==============================
 That time when that thing broke that other thing? That happened.
 ```
+
 :---
 
 ### JSON
@@ -185,11 +203,13 @@ That time when that thing broke that other thing? That happened.
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "json"
 ```
+
 ---:1
 
 ```python
 app.config.DEBUG = True
 ```
+
 ```bash
 $ curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
@@ -227,10 +247,13 @@ content-type: application/json
 
 
 ```
+
 :--:1
+
 ```python
 app.config.DEBUG = False
 ```
+
 ```bash
 $ curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
@@ -245,11 +268,13 @@ content-type: application/json
 }
 
 ```
+
 :---
 
 ### Auto
 
 Sanic also provides an option for guessing which fallback option to use. This is still an **experimental feature**.
+
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
 ```

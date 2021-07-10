@@ -24,7 +24,7 @@ When returning a response, cookies can be set on the `Response` object: `respons
 ```python
 @app.route("/cookie")
 async def test(request):
-    response = text("There"s a cookie up in this response")
+    response = text("There's a cookie up in this response")
     response.cookies["test"] = "It worked!"
     response.cookies["test"]["domain"] = ".yummy-yummy-cookie.com"
     response.cookies["test"]["httponly"] = True
