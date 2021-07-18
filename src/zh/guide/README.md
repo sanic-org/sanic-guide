@@ -43,11 +43,7 @@ Sanic 是 Python3.7+ Web 服务器和 Web 框架，旨在提高性能。它允�
 
 ## 赞助商(Sponsor)
 
-[![Try CodeStream][]][99]
-
-CodeStream 能在您的 IDE 中展示完整的提交信息，让您更方便地管理提交请求和进行代码审阅！在任何一行代码里都可以添加评论，这样您再也不用只看文件差异对比。除此之外您还可以使用自定义跳转、您最喜欢的快捷键设定和智能代码来丰富您的工作流程。[了解更多](https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner)
-
-感谢我们的赞助商。请查看 [open collective](https://opencollective.com/sanic-org) 来了解更多关于资助 Sanic 的信息。
+请查看 [open collective](https://opencollective.com/sanic-org) 来了解更多关于资助 Sanic 的信息。
 
 ## 加入社区(Join the Community)
 
@@ -84,5 +80,3 @@ Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframe
 [Downloads]: https://pepy.tech/badge/sanic/month
 [11]: https://pepy.tech/project/sanic
 [12]: https://pepy.tech/badge/sanic/week
-[Try CodeStream]: https://alt-images.codestream.com/codestream_logo_sanicorg.png
-[99]: https://codestream.com/?utm_source=github&amp;utm_campaign=sanicorg&amp;utm_medium=banner
