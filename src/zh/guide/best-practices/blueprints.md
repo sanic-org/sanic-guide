@@ -333,6 +333,60 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 :---
 
+## 组合(Composable)
+
+::: new NEW in v21.6
+
+一个蓝图对象可以被多个蓝图组注册，且蓝图组之间可以进行嵌套注册。这样就消除了蓝图之间组合的限制。
+
+---:1
+
+请看下面的例子，看看两个响应函数是如何被注册到不同的五个路由上的。
+
+:--:1
+
+```python
+app = Sanic(__name__)
+blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
+blueprint_2 = Blueprint("blueprint_2", url_prefix="/bp2")
+group = Blueprint.group(
+    blueprint_1,
+    blueprint_2,
+    version=1,
+    version_prefix="/api/v",
+    url_prefix="/grouped",
+    strict_slashes=True,
+)
+primary = Blueprint.group(group, url_prefix="/primary")
+
+
+@blueprint_1.route("/")
+def blueprint_1_default_route(request):
+    return text("BP1_OK")
+
+
+@blueprint_2.route("/")
+def blueprint_2_default_route(request):
+    return text("BP2_OK")
+
+
+app.blueprint(group)
+app.blueprint(primary)
+app.blueprint(blueprint_1)
+
+# The mounted paths:
+# /api/v1/grouped/bp1/
+# /api/v1/grouped/bp2/
+# /api/v1/primary/grouped/bp1
+# /api/v1/primary/grouped/bp2
+# /bp1
+
+```
+
+:---
+
+:::
+
 ## URL 生成(Generating a URL)
 
 当使用 `url_for()` 来生成 URL 时，端点的名称将以以下格式来组织：

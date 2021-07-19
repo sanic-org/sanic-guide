@@ -163,10 +163,10 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab string
+::: tab "str 🌟"
 
 ```python
-@app.route("/path/to/<foo:string>")
+@app.route("/path/to/<foo:str>")
 async def handler(request, foo: str):
     ...
 ```
@@ -175,6 +175,9 @@ async def handler(request, foo: str):
 **Example matches**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
+
+::: new NEW in v21.6
+In previous versions of Sanic, this was `<foo:string>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab  int
 
@@ -191,10 +194,10 @@ async def handler(request, foo: int):
 
 _Does not match float, hex, octal, etc_
 :::
-::: tab number
+::: tab "float 🌟"
 
 ```python
-@app.route("/path/to/<foo:number>")
+@app.route("/path/to/<foo:float>")
 async def handler(request, foo: float):
     ...
 ```
@@ -204,6 +207,9 @@ async def handler(request, foo: float):
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
+
+::: new NEW in v21.6
+In previous versions of Sanic, this was `<foo:number>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab alpha
 
@@ -219,6 +225,21 @@ async def handler(request, foo: str):
 - `/path/to/Python`
 
 _Does not match a digit, or a space or other special character_
+:::
+::: tab "slug 🌟"
+
+::: new NEW in v21.6
+```python
+@app.route("/path/to/<article:slug>")
+async def handler(request, article: str):
+    ...
+```
+**Regular expression applied**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
+**Cast type**: `str`  
+**Example matches**:
+- `/path/to/some-news-story`
+- `/path/to/or-has-digits-123`
+
 :::
 ::: tab path
 
@@ -244,7 +265,6 @@ Because this will match on `/`, you should be careful and thoroughly test your p
 async def handler(request, foo: datetime.date):
     ...
 ```
-::: new NEW in v21.3
 **Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
 **Cast type**: `datetime.date`  
 **Example matches**:
@@ -482,7 +502,7 @@ def handler(request):
 ```python
 bp1 = Blueprint(name="bp1", url_prefix="/bp1")
 bp2 = Blueprint(
-    name="bp1",
+    name="bp2",
     url_prefix="/bp2",
     strict_slashes=False,
 )
@@ -556,3 +576,11 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 
 ```
 :---
+
+::: tip
+If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+
+```python
+app.static("/user/uploads", "/path/to/uploads", name="uploads")
+app.static("/user/profile", "/path/to/profile", name="profile_pics")
+```

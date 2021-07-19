@@ -40,15 +40,57 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 :---
 
+---:1
+
 #### Proxy headers
 
 Sanic has special handling for proxy headers. See the [proxy headers](/guide/advanced/proxy-headers.md) section for more details.
 
----:1
+#### Host header and dynamic URL construction
 
+The *effective host* is available via `request.host`. This is not necessarily the same as the host header, as it prefers proxy-forwarded host and can be forced by the server name setting.
+
+Webapps should generally use this accessor so that they can function the same no matter how they are deployed. The actual host header, if needed, can be found via `request.headers`
+
+The effective host is also used in dynamic URL construction via `request.url_for`, which uses the request to determine the external address of a handler.
+
+::: tip Be wary of malicious clients
+These URLs can be manipulated by sending misleading host headers. `app.url_for` should be used instead if this is a concern.
+:::
+
+:--:1
+
+```python
+app.config.SERVER_NAME = "https://example.com"
+
+@app.route("/hosts", name="foo")
+async def handler(request):
+    return json(
+        {
+            "effective host": request.host,
+            "host header": request.headers.get("host"),
+            "forwarded host": request.forwarded.get("host"),
+            "you are here": request.url_for("foo"),
+        }
+    )
+```
+
+```bash
+$ curl localhost:8000/hosts
+{
+  "effective host": "example.com",
+  "host header": "localhost:8000",
+  "forwarded host": null,
+  "you are here": "https://example.com/hosts"
+}
+```
+
+:---
+
+---:1
 #### Other headers
 
-All request headers are available on the request object, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
+All request headers are available on `request.headers`, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
 
 :--:1
 
@@ -103,23 +145,17 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :---
 
-::: tip FYI 
-
+::: tip FYI
 💡 The request.headers object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
 
-Most of the time you will want to use the .get() or .getone() method can be used to access the first element and not a list. If you do want a list of all items, you can user .getall(). 
-
+Most of the time you will want to use the .get() or .getone() methods to access the first element and not a list. If you do want a list of all items, you can use .getall(). 
 :::
 
 #### Request ID
 
 ---:1
 
-::: new
-
-New in v21.3, often it is convenient or necessary to track a request by its `X-Request-ID` header. You can easily access that as: `request.id`.
-
-:::
+Often it is convenient or necessary to track a request by its `X-Request-ID` header. You can easily access that as: `request.id`.
 
 :--:1
 
@@ -146,6 +182,8 @@ Sanic will automatically set the following response headers (when appropriate) f
 - `connection`
 - `transfer-encoding`
 
+In most circumstances, you should never need to worry about setting these headers.
+
 ---:1
 
 Any other header that you would like to set can be done either in the route handler, or a response middleware.
@@ -166,13 +204,9 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new
-
 A common [middleware](middleware.md) you might want is to add a `X-Request-ID` header to every response. As stated above: `request.id` will provide the ID from the incoming request. But, even if no ID was supplied in the request headers, one will be automatically supplied for you.
 
 [See API docs for more details](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
-
-:::
 
 :--:1
 

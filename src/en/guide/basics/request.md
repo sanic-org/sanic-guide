@@ -61,7 +61,7 @@ bar
 ::: tip FYI
 :bulb: The `request.form` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
 
 ::: tab Uploaded
@@ -89,7 +89,7 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 ::: tip FYI
 :bulb: The `request.files` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
 
 ::::
@@ -119,13 +119,13 @@ Custom context is reserved for applications and extensions. Sanic itself makes n
 ### Connection context
 
 ---:1
-::: new NEW in v21.3
+
 Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
 
 The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
 
 When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
-:::
+
 :--:1
 ```python
 @app.on_request
@@ -146,10 +146,6 @@ request.conn_info.ctx.foo=2
 request.conn_info.ctx.foo=3
 ```
 :---
-
-::: warning
-Connection level context is an experimental feature, and should be finalized in v21.6.
-:::
 
 ## Parameters
 
@@ -196,5 +192,5 @@ key1=val1&key2=val2&key1=val3
 ::: tip FYI
 :bulb: The `request.args` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::

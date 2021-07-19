@@ -70,7 +70,7 @@ bind = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost/tes
 
 在这里，请求中间件为我们创建了一个可用的 `AsyncSession` 对象并且将其绑定至 `request.ctx` 中，而 `_base_model_session_ctx` 也会在这是被赋予可用的值，如果您需要在其他地方使用 session 对象（而非从 `request.ctx` 中取值）,该全局变量或许能帮助您（它是线程安全的）。
 
-响应中间件会将创建的 `AsyncSession` 关闭，并充值 `_base_model_session_ctx` 的值，进而释放资源。
+响应中间件会将创建的 `AsyncSession` 关闭，并重置 `_base_model_session_ctx` 的值，进而释放资源。
 
 :--:1
 
