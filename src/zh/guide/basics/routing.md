@@ -389,9 +389,11 @@ async def handler(request, foo: str):
 
 该方法允许您使用自定义的匹配模式，在上面的示例中，我们通过指定的正则表达式，来匹配符合 `YYYY-MM-DD` 格式的路由参数。
 
-::: tip 进阶用法
+::::
 
-更多时候，相对于复杂的路由，以上示例还是过于简单了。
+### 正则匹配(Regex Matching)
+
+更多时候，相对于复杂的路由，以上示例还是过于简单了，由我们使用了和以前完全不同的路由匹配模式，所以在这里我们要详细的说明一下正则的进阶用法。
 
 有时，您希望匹配路由中的某一部分：
 
@@ -399,7 +401,7 @@ async def handler(request, foo: str):
 /image/123456789.jpg
 ```
 
-如果您想匹配文件模式，但只捕获数字部分，您需要做一些正则表达式的适配:
+如果您想匹配文件模式，但只捕获数字部分，您需要做一些正则表达式的适配, 来体会编写正则表达式的乐趣 😄 :
 
 ```python
 app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
@@ -408,24 +410,20 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 更进一步，下面的这些匹配方式都是支持的：
 
 ```python
-@app.get(r"/<foo:[a-z]{3}.txt>")                
-@app.get(r"/<foo:([a-z]{3}).txt>")              
-@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       
-@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   
+@app.get(r"/image/<foo:\d{9}.jpg>")                 # 完全匹配           
+@app.get(r"/image/<foo:(\d+).jpg>")                 # 定义单个的匹配组            
+@app.get(r"/image/<foo:(?P<foo>\d+).jpg>")          # 定义单个命名的匹配组       
+@app.get(r"/image/<foo:(?P<foo>\d+).(?:jpg|png)>)") # 定义一个命名的匹配组，以及一个或者多个不匹配的组 
 ```
-
-1. 完全匹配
-2. 定义单个的匹配组
-3. 定义单个命名的匹配组
-4. 定义一个命名的匹配组，以及一个或者多个不匹配的组
 
 值得注意的是，如果您使用了命名的匹配组，它的名称必须与 `label` 相同
 
+```python
+@app.get(r"/<foo:(?P<foo>\d+).jpg>")  # 正确示例
+@app.get(r"/<foo:(?P<bar>\d+).jpg>")  # 错误示例
+```
+
 更多的用方法请参考：[正则表达式操作](https://docs.python.org/zh-cn/3/library/re.html)
-
-:::
-
-::::
 
 ## 动态访问(Generating a URL)
 

@@ -301,17 +301,21 @@ This gives you the freedom to define specific matching patterns for your use cas
 
 In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
 
-::: tip Advanced
+::::
 
-But for complex routing, the above example is still too simple.
+### Regex Matching
 
-Sometimes you want to match on a part of a path segment:
+
+
+More often than not, compared with complex routing, the above example is too simple, and we use a completely different routing matching pattern, so here we will explain the advanced usage of regex matching in detail.
+
+Sometimes, you want to match a part of a route:
 
 ```text
 /image/123456789.jpg
 ```
 
-If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun:
+If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun 😄:
 
 ```python
 app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
@@ -326,18 +330,15 @@ Further, these should all be acceptable:
 @app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
 ```
 
-1. matching on the full pattern
-2. defining a single matching group
-3. defining a single named matching group
-4. defining a single named matching group, with one or more non-matching groups
-
 Also, if using a named matching group, it must be the same as the segment label.
+
+```python
+@app.get(r"/<foo:(?P<foo>\d+).jpg>")  # OK
+@app.get(r"/<foo:(?P<bar>\d+).jpg>")  # NOT OK
+```
 
 For more regular usage methods, please refer to [Regular expression operations](https://docs.python.org/3/library/re.html)
 
-:::
-
-::::
 ## Generating a URL
 
 ---:1
