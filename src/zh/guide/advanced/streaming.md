@@ -165,7 +165,7 @@ async def handler_file_stream(request):
 
 ---:1
 
-如果您想添加 `Content-Length` 响应头，您可以停用分块传输编码并且以下面这种形式手动添加。
+如果您想手动添加 `Content-Length` 响应头，参考下面的代码。并且如果您添加了该头，则会自动禁用分块传输编码。
 
 :--:1
 
@@ -183,7 +183,6 @@ async def index(request):
     return await file_stream(
         file_path,
         headers=headers,
-        chunked=False,
     )
 ```
 
