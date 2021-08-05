@@ -142,7 +142,8 @@ async def handler_file_stream(request):
 
 ---:1
 
-If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually.
+If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually simply by adding the `Content-Length` header.
+
 :--:1
 ```python
 from aiofiles import os as async_os
@@ -158,7 +159,6 @@ async def index(request):
     return await file_stream(
         file_path,
         headers=headers,
-        chunked=False,
     )
 ```
 :---
