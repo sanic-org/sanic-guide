@@ -72,6 +72,19 @@ let en_locales = {
           ],
         },
         {
+          text: "Official Plugins",
+          items: [
+            {
+              text: "Sanic Extensions",
+              link: "/en/plugins/sanic-ext/getting-started.md",
+            },
+            {
+              text: "Sanic Testing",
+              link: "/en/plugins/sanic-testing/testing.md",
+            },
+          ],
+        },
+        {
           text: "API Docs",
           items: [
             {
@@ -199,12 +212,67 @@ let en_locales = {
         ],
       },
       {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
         title: "Release Notes",
         sidebarDepth: 1,
         children: [
           "/en/guide/release-notes/v21.6.md",
           "/en/guide/release-notes/v21.3.md",
         ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: [
+          "/en/guide/project/policies.md",
+          "/en/guide/project/scope.md",
+        ],
+      },
+    ],
+
+    "/en/plugins/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
+        children: [
+          ["/en/guide/", "General"],
+          ["/en/guide/basics/app.md", "Basics"],
+          ["/en/guide/advanced/class-based-views.md", "Advanced"],
+          ["/en/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/en/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/en/guide/how-to/toc.md", "How to..."],
+        ],
+      },
+      {
+        title: "Sanic Extensions",
+        sidebarDepth: 1,
+        children: [
+          "/en/plugins/sanic-ext/getting-started.md",
+          // ["/en/plugins/sanic-ext/http/methods.md", "HTTP Extended"],
+          {
+            title: "HTTP goodies",
+            children: [
+              "/en/plugins/sanic-ext/http/methods.md",
+              "/en/plugins/sanic-ext/http/cors.md",
+            ],
+          },
+          "/en/plugins/sanic-ext/convenience.md",
+          "/en/plugins/sanic-ext/injection.md",
+          "/en/plugins/sanic-ext/openapi.md",
+          "/en/plugins/sanic-ext/configuration.md",
+        ],
+      },
+      {
+        title: "Sanic Testing",
+        sidebarDepth: 1,
+        children: ["/en/plugins/sanic-testing/testing.md"],
       },
       {
         title: "Organization",
@@ -390,8 +458,8 @@ let zh_locales = {
         title: "发行记录",
         sidebarDepth: 1,
         children: [
-            "/zh/guide/release-notes/v21.6.md",
-            "/zh/guide/release-notes/v21.3.md"
+          "/zh/guide/release-notes/v21.6.md",
+          "/zh/guide/release-notes/v21.3.md",
         ],
       },
       {
