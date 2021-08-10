@@ -26,7 +26,7 @@ If you are coming from Flask or another framework, there are a few important thi
 from sanic import Sanic
 from sanic.response import text
 
-app = Sanic("My Hello, world app")
+app = Sanic("MyHelloWorldApp")
 
 @app.get("/")
 async def hello_world(request):
