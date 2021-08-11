@@ -266,6 +266,7 @@ let en_locales = {
           "/en/plugins/sanic-ext/injection.md",
           {
             title: "OpenAPI",
+            sidebarDepth: 2,
             children: [
               "/en/plugins/sanic-ext/openapi/basic.md",
               "/en/plugins/sanic-ext/openapi/ui.md",
