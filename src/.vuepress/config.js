@@ -255,7 +255,6 @@ let en_locales = {
         sidebarDepth: 1,
         children: [
           "/en/plugins/sanic-ext/getting-started.md",
-          // ["/en/plugins/sanic-ext/http/methods.md", "HTTP Extended"],
           {
             title: "HTTP goodies",
             children: [
@@ -265,7 +264,17 @@ let en_locales = {
           },
           "/en/plugins/sanic-ext/convenience.md",
           "/en/plugins/sanic-ext/injection.md",
-          "/en/plugins/sanic-ext/openapi.md",
+          {
+            title: "OpenAPI",
+            children: [
+              "/en/plugins/sanic-ext/openapi/basic.md",
+              "/en/plugins/sanic-ext/openapi/ui.md",
+              "/en/plugins/sanic-ext/openapi/decorators.md",
+              "/en/plugins/sanic-ext/openapi/advanced.md",
+              "/en/plugins/sanic-ext/openapi/autodoc.md",
+              "/en/plugins/sanic-ext/openapi/validation.md",
+            ],
+          },
           "/en/plugins/sanic-ext/configuration.md",
         ],
       },
