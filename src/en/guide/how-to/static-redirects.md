@@ -103,7 +103,7 @@ body {
 :::
 
 ::: tab files/lake.jpg
-![](./images/lake.jpg)
+![](./assets/images/lake.jpg)
 :::
 ::::
 
