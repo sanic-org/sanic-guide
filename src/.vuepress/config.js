@@ -212,14 +212,6 @@ let en_locales = {
         ],
       },
       {
-        title: "Plugins",
-        sidebarDepth: 1,
-        children: [
-          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
-        ],
-      },
-      {
         title: "Release Notes",
         sidebarDepth: 1,
         children: [
@@ -228,12 +220,17 @@ let en_locales = {
         ],
       },
       {
-        title: "Organization",
+        title: "Plugins",
         sidebarDepth: 1,
         children: [
-          "/en/guide/project/policies.md",
-          "/en/guide/project/scope.md",
+          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
         ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
       },
     ],
 
@@ -287,10 +284,36 @@ let en_locales = {
       {
         title: "Organization",
         sidebarDepth: 1,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
+      },
+    ],
+
+    "/en/org/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
         children: [
-          "/en/guide/project/policies.md",
-          "/en/guide/project/scope.md",
+          ["/en/guide/", "General"],
+          ["/en/guide/basics/app.md", "Basics"],
+          ["/en/guide/advanced/class-based-views.md", "Advanced"],
+          ["/en/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/en/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/en/guide/how-to/toc.md", "How to..."],
         ],
+      },
+      {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        collapsable: false,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
       },
     ],
   },
@@ -482,14 +505,6 @@ let zh_locales = {
         ],
       },
       {
-        title: "插件",
-        sidebarDepth: 1,
-        children: [
-          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic 拓展"],
-          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
-        ],
-      },
-      {
         title: "发行记录",
         sidebarDepth: 1,
         children: [
@@ -498,12 +513,17 @@ let zh_locales = {
         ],
       },
       {
-        title: "组织",
+        title: "插件",
         sidebarDepth: 1,
         children: [
-          "/zh/guide/project/policies.md",
-          "/zh/guide/project/scope.md",
+          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic 拓展"],
+          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
         ],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
       },
     ],
 
@@ -557,10 +577,35 @@ let zh_locales = {
       {
         title: "组织",
         sidebarDepth: 1,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
+      },
+    ],
+    "/zh/org/": [
+      {
+        title: "组织",
+        sidebarDepth: 1,
         children: [
-          "/zh/guide/project/policies.md",
-          "/zh/guide/project/scope.md",
+          ["/zh/guide/", "概览"],
+          ["/zh/guide/basics/app.md", "入门"],
+          ["/zh/guide/advanced/class-based-views.md", "进阶"],
+          ["/zh/guide/best-practices/blueprints.md", "最佳实践"],
+          ["/zh/guide/deployment/configuration.md", "运行和部署"],
+          ["/zh/guide/how-to/toc.md", "如何..."],
         ],
+      },
+      {
+        title: "插件",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        collapsable: false,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
       },
     ],
   },
