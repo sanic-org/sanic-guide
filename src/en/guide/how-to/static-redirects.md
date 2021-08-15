@@ -23,7 +23,7 @@ REDIRECTS = {
 # This function will return another function
 # that will return the configured value
 # regardless of the arguments passed to it.
-def get_static_function(value:object) -> typing.Callable[..., object]:
+def get_static_function(value:typing.Any) -> typing.Callable[..., typing.Any]:
     return lambda *_, **__: value
 
 ### ROUTING ###
