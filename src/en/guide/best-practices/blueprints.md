@@ -292,7 +292,6 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 ## Composable
 
-::: new NEW in v21.6
 A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
 
 ---:1
@@ -336,7 +335,6 @@ app.blueprint(blueprint_1)
 
 ```
 :---
-:::
 
 
 ## Generating a URL

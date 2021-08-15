@@ -146,7 +146,6 @@ if __name__ == '__main__':
 :::
 
 
-::: new NEW in v21.6
 #### Sanic Simple Server
 
 ---:1
@@ -164,7 +163,6 @@ This could also be paired with auto-reloading.
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
-:::
 
 ## ASGI
 
