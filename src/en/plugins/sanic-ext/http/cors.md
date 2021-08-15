@@ -4,7 +4,7 @@ Cross-Origin Resource Sharing (aka CORS) is a *huge* topic by itself. The docume
 
 In super brief terms, CORS protection is a framework that browsers use to facilitate how and when a web page can access information from another domain. It is extremely relevant to anyone building a single-page application. Often times your frontend might be on a domain like `https://portal.myapp.com`, but it needs to access the backend from `https://api.myapp.com`.
 
-The implementation here is heavily inspired by [`sanic-cors`](https://github.com/ashleysommer/sanic-cors), which is in turn based upon [`flask-cors`](https://github.com/corydolphin/flask-cors). It is therefore very likely that you can achieve a near drop-in replacement of `sanic-cors` with `sanic-ext`. The main difference is that Sanic Extensions applies CORS protection to an entire application and cannot be limited to specific resources or routes.
+The implementation here is heavily inspired by [`sanic-cors`](https://github.com/ashleysommer/sanic-cors), which is in turn based upon [`flask-cors`](https://github.com/corydolphin/flask-cors). It is therefore very likely that you can achieve a near drop-in replacement of `sanic-cors` with `sanic-ext`.
 
 ## Basic implementation
 
