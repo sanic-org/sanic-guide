@@ -98,11 +98,11 @@ let en_locales = {
           items: [
             {
               text: "Policies",
-              link: "/en/guide/project/policies.md",
+              link: "/en/org/policies.md",
             },
             {
               text: "S.C.O.P.E.",
-              link: "/en/guide/project/scope.md",
+              link: "/en/org/scope.md",
             },
           ],
         },
@@ -390,11 +390,11 @@ let zh_locales = {
           items: [
             {
               text: "政策",
-              link: "/zh/guide/project/policies.md",
+              link: "/zh/org/policies.md",
             },
             {
               text: "S.C.O.P.E.",
-              link: "/zh/guide/project/scope.md",
+              link: "/zh/org/scope.md",
             },
           ],
         },
