@@ -16,7 +16,7 @@ We have compiled fully working examples to answer common questions and user case
 | Serialization                          | *Coming soon* |
 | Server Sent Events                     | *Coming soon* |
 | [SQLAlchemy](./sqlalchemy)             | ... use SQLAlchemy with Sanic? |
+| [Static redirects](./static-redirects) | ... configure static redirects? |
 | Task queues                            | *Coming soon* |
 | [TLS/SSL/HTTPS](./tls.md)              | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
 | Websocket feeds                        | *Coming soon* |
-| [Static redirects](./static-redirects) | ... configure static redirects? |
