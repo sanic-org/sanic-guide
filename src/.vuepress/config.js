@@ -334,6 +334,23 @@ let zh_locales = {
               text: "运行和部署",
               link: "/zh/guide/deployment/configuration.md",
             },
+            {
+              text: "如何...",
+              link: "/zh/guide/how-to/toc.md",
+            },
+          ],
+        },
+        {
+          text: "官方插件",
+          items: [
+            {
+              text: "Sanic Extensions",
+              link: "/zh/plugins/sanic-ext/getting-started.md",
+            },
+            {
+              text: "Sanic Testing",
+              link: "/zh/plugins/sanic-testing/testing.md",
+            },
           ],
         },
         {
@@ -349,7 +366,7 @@ let zh_locales = {
           text: "Org 文档",
           items: [
             {
-              text: "Policies",
+              text: "政策",
               link: "/zh/guide/project/policies.md",
             },
             {
@@ -465,6 +482,14 @@ let zh_locales = {
         ],
       },
       {
+        title: "插件",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic 拓展"],
+          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
         title: "发行记录",
         sidebarDepth: 1,
         children: [
@@ -481,9 +506,65 @@ let zh_locales = {
         ],
       },
     ],
+
+    "/zh/plugins/": [
+      {
+        title: "用户指南",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/guide/", "概览"],
+          ["/zh/guide/basics/app.md", "入门"],
+          ["/zh/guide/advanced/class-based-views.md", "进阶"],
+          ["/zh/guide/best-practices/blueprints.md", "最佳实践"],
+          ["/zh/guide/deployment/configuration.md", "运行和部署"],
+          ["/zh/guide/how-to/toc.md", "如何..."],
+        ],
+      },
+      {
+        title: "Sanic 拓展",
+        sidebarDepth: 1,
+        children: [
+          "/zh/plugins/sanic-ext/getting-started.md",
+          {
+            title: "HTTP goodies",
+            children: [
+              "/zh/plugins/sanic-ext/http/methods.md",
+              "/zh/plugins/sanic-ext/http/cors.md",
+            ],
+          },
+          "/zh/plugins/sanic-ext/convenience.md",
+          "/zh/plugins/sanic-ext/injection.md",
+          {
+            title: "OpenAPI",
+            sidebarDepth: 2,
+            children: [
+              "/zh/plugins/sanic-ext/openapi/basic.md",
+              "/zh/plugins/sanic-ext/openapi/ui.md",
+              "/zh/plugins/sanic-ext/openapi/decorators.md",
+              "/zh/plugins/sanic-ext/openapi/advanced.md",
+              "/zh/plugins/sanic-ext/openapi/autodoc.md",
+              "/zh/plugins/sanic-ext/openapi/validation.md",
+            ],
+          },
+          "/zh/plugins/sanic-ext/configuration.md",
+        ],
+      },
+      {
+        title: "Sanic Testing",
+        sidebarDepth: 1,
+        children: ["/zh/plugins/sanic-testing/testing.md"],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        children: [
+          "/zh/guide/project/policies.md",
+          "/zh/guide/project/scope.md",
+        ],
+      },
+    ],
   },
 };
-
 /*
 ----------------------------------------------------------------------------------------------------------------
     here is site_config
