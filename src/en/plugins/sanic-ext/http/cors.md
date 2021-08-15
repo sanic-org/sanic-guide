@@ -12,6 +12,8 @@ The implementation here is heavily inspired by [`sanic-cors`](https://github.com
 
 As shown in the example in the [auto-endpoints example](methods.md#options), Sanic Extensions will automatically enable CORS protection without further action. But, it does not offer too much out of the box.
 
+At a *bare minimum*, it is **highly** recommended that you set `config.CORS_ORIGINS` to the intended origin(s) that will be accessing the application.
+
 :--:1
 ```python
 from sanic import Sanic, text
