@@ -4,18 +4,19 @@ We have compiled fully working examples to answer common questions and user case
 
 | Page | How do I ... |
 |:-----|:------------|
-| [Application mounting](./mounting.md) | ... mount my application at some path above the root? |
-| [Authentication](./authentication.md) | ... control authentication and authorization? |
-| [Autodiscovery](./autodiscovery.md)   | ... autodiscover the components I am using to build my application? |
-| [CORS](./cors.md)                     | ... configure my application for CORS? |
-| CSRF                                  | *Coming soon* |
-| Databases                             | *Coming soon* |
-| IPv6                                  | *Coming soon* |
-| Request ID Logging                    | *Coming soon* |
-| Request validation                    | *Coming soon* |
-| Serialization                         | *Coming soon* |
-| Server Sent Events                    | *Coming soon* |
-| [SQLAlchemy](./sqlalchemy)            | ... use SQLAlchemy with Sanic? |
-| Task queues                           | *Coming soon* |
-| [TLS/SSL/HTTPS](./tls.md)             | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
-| Websocket feeds                       | *Coming soon* |
+| [Application mounting](./mounting.md)  | ... mount my application at some path above the root? |
+| [Authentication](./authentication.md)  | ... control authentication and authorization? |
+| [Autodiscovery](./autodiscovery.md)    | ... autodiscover the components I am using to build my application? |
+| [CORS](./cors.md)                      | ... configure my application for CORS? |
+| CSRF                                   | *Coming soon* |
+| Databases                              | *Coming soon* |
+| IPv6                                   | *Coming soon* |
+| Request ID Logging                     | *Coming soon* |
+| Request validation                     | *Coming soon* |
+| Serialization                          | *Coming soon* |
+| Server Sent Events                     | *Coming soon* |
+| [SQLAlchemy](./sqlalchemy)             | ... use SQLAlchemy with Sanic? |
+| [Static redirects](./static-redirects) | ... configure static redirects? |
+| Task queues                            | *Coming soon* |
+| [TLS/SSL/HTTPS](./tls.md)              | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
+| Websocket feeds                        | *Coming soon* |
