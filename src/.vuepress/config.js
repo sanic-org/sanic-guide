@@ -580,9 +580,10 @@ let zh_locales = {
         children: ["/zh/org/policies.md", "/zh/org/scope.md"],
       },
     ],
+
     "/zh/org/": [
       {
-        title: "组织",
+        title: "用户指南",
         sidebarDepth: 1,
         children: [
           ["/zh/guide/", "概览"],
@@ -645,13 +646,13 @@ let site_config = {
         href: "/favicon-16x16.png",
       },
     ],
-    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    ["link", {rel: "manifest", href: "/site.webmanifest"}],
     [
       "link",
-      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68" },
+      {rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68"},
     ],
-    ["meta", { name: "msapplication-TileColor", content: "#444444" }],
-    ["meta", { name: "theme-color", content: "#fd0d68" }],
+    ["meta", {name: "msapplication-TileColor", content: "#444444"}],
+    ["meta", {name: "theme-color", content: "#fd0d68"}],
   ],
   locales: {
     "/en/": en,
@@ -687,7 +688,7 @@ let site_config = {
           "/images/sanic-framework-social-media-preview-1280x640.png",
       },
     ],
-    ["sitemap", { hostname: "https://sanicframework.org" }],
+    ["sitemap", {hostname: "https://sanicframework.org"}],
     [
       "umami",
       {
@@ -713,7 +714,7 @@ let site_config = {
     ],
     [
       "vuepress-plugin-code-copy",
-      { color: "#ff0d68", backgroundTransition: false },
+      {color: "#ff0d68", backgroundTransition: false},
     ],
   ],
 
