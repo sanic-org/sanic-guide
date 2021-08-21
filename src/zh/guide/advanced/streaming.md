@@ -15,6 +15,7 @@ Sanic 允许您以串流的形式接收并响应由客户端发送来的数据�
 ```python
 from sanic.views import stream
 
+
 class SimpleView(HTTPMethodView):
     @stream
     async def post(self, request):
@@ -38,9 +39,9 @@ class SimpleView(HTTPMethodView):
 ```python
 @app.post("/stream", stream=True)
 async def handler(request):
-        ...
-        body = await request.stream.read()
-        ...
+    ...
+    body = await request.stream.read()
+    ...
 ```
 
 :---
@@ -80,6 +81,7 @@ Sanic 中的 `StreamingHTTPResponse` 对象允许您将响应的内容串流给�
 
 ```python
 from sanic.response import stream
+
 
 @app.route("/")
 async def test(request):
@@ -130,18 +132,14 @@ async def test(request):
 
 :---
 
-::: new v21.6 新增
-
 在上述例子中调用 `await response.eof()` 方法可以替代之前的 `await response.send("", True)` 方法。为客户端传输完数据*后*，您应该在响应函数内调用**一次**该方法。
-
-:::
-
 
 ## 文件流(File streaming)
 
 ---:1
 
-Sanic 提供了 `sanic.response.file_stream` 函数来处理发送大文件的场景。该函数会返回一个 `StreamingHTTPResponse` 对象，并且默认使用分块传输编码；因此 Sanic 不会为该响应添加 `Content-Length` 响应头。
+Sanic 提供了 `sanic.response.file_stream` 函数来处理发送大文件的场景。该函数会返回一个 `StreamingHTTPResponse` 对象，并且默认使用分块传输编码；因此 Sanic
+不会为该响应添加 `Content-Length` 响应头。
 
 通常，我们可能为客户端串流一个视频文件。
 
@@ -172,6 +170,7 @@ async def handler_file_stream(request):
 ```python
 from aiofiles import os as async_os
 from sanic.response import file_stream
+
 
 @app.route("/")
 async def index(request):
