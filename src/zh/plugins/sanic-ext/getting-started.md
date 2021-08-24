@@ -22,7 +22,7 @@ Sanic Extensions 是一个由 SCO *官方开发和维护的* 插件。这个项�
 pip install sanic-ext
 ```
 
-## 拓展你的应用程序（Extend your application）
+## 拓展您的应用程序（Extend your application）
 
 ---:1
 

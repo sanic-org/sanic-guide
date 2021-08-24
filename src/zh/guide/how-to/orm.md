@@ -6,7 +6,7 @@ Sanic 可以与所有的 ORM 工具一起使用，但是非异步的 ORM 框架�
 
 [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)  [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
-只知道有这些工具但不会用？不用担心，接下来我们以 mysql 为例， 手把手教你使用两种 orm
+只知道有这些工具但不会用？不用担心，接下来我们以 mysql 为例， 手把手教您使用两种 orm
 
 ## SQLAlchemy
 

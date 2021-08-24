@@ -142,7 +142,7 @@ app.config.bad = "boo"
 
 ## 自定义(Customization)
 
-Sanic 应用在实例化时可以根据你的需求以多种方式进行定制。
+Sanic 应用在实例化时可以根据您的需求以多种方式进行定制。
 
 ### 自定义配置(Custom configuration)
 
