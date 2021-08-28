@@ -1,15 +1,20 @@
 # Decorators
 
-The primary mechanism for adding content to your schema is by decorating your endpoints. If you have used `sanic-openapi` in the past, this should be familiar to you. The decorators and their arguments match closely the [OAS v3.0 specification](https://swagger.io/specification/).
+The primary mechanism for adding content to your schema is by decorating your endpoints. If you have
+used `sanic-openapi` in the past, this should be familiar to you. The decorators and their arguments match closely
+the [OAS v3.0 specification](https://swagger.io/specification/).
 
 ---:1
 
-All of the examples show will wrap around a route definition. When you are creating these, you should make sure that your Sanic route decorator (`@app.route`, `@app.get`, etc) is the outermost decorator. That is to say that you should put that first and then one or more of the below decorators after.
+All of the examples show will wrap around a route definition. When you are creating these, you should make sure that
+your Sanic route decorator (`@app.route`, `@app.get`, etc) is the outermost decorator. That is to say that you should
+put that first and then one or more of the below decorators after.
 
 :--:1
 
 ```python
 from sanic_ext import openapi
+
 
 @app.get("/path/to/<something>")
 @openapi.summary("This is a summary")
@@ -17,11 +22,14 @@ from sanic_ext import openapi
 async def handler(request, somethind: str):
     ...
 ```
+
 :---
 
 ---:1
 
-You will also see a lot of the below examples reference a model object. For the sake of simplicity, the examples will use `UserProfile` that will look like this. The point is that it can be any well-typed class. You could easily imagine this being a `dataclass` or some other kind of model object.
+You will also see a lot of the below examples reference a model object. For the sake of simplicity, the examples will
+use `UserProfile` that will look like this. The point is that it can be any well-typed class. You could easily imagine
+this being a `dataclass` or some other kind of model object.
 
 :--:1
 
@@ -31,30 +39,33 @@ class UserProfile:
     age: int
     email: str
 ```
+
 :---
 
 ## Definition decorator
 
 ### `@opanepi.definition`
 
-The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using multiple field-specific decorators or a single decorator is a style choice for you the developer.
+The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums
+decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using
+multiple field-specific decorators or a single decorator is a style choice for you the developer.
 
 The fields are purposely permissive in accepting multiple types to make it easiest for you to define your operation.
 
 **Arguments**
 
-| Field | Type |
-|--|--|
-| `body` |**dict, RequestBody, *YourModel***|
-| `deprecated` |**bool**|
-| `description` | **str**|
-| `document` |**str, ExternalDocumentation**|
-| `exclude` | **bool**|
-| `operation` | **str**|
-| `parameter` |**dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**|
-| `response` |**dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**|
-| `summary` | **str**|
-| `tag` |**str, Tag, [str], [Tag]**|
+| Field         | Type                                                                      |
+| ------------- | --------------------------------------------------------------------------|
+| `body`        | **dict, RequestBody, *YourModel***                                        |
+| `deprecated`  | **bool**                                                                  |
+| `description` | **str**                                                                   |
+| `document`    | **str, ExternalDocumentation**                                            | 
+| `exclude`     | **bool**                                                                  |
+| `operation`   | **str**                                                                   |
+| `parameter`   | **dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**      |
+| `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
+| `summary`     | **str**                                                                   |
+| `tag`         | **str, Tag, [str], [Tag]**                                                |
 
 **Examples**
 
@@ -73,16 +84,21 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-*See below examples for more examples. Any of the values for the below decorators can be used in the corresponding keyword argument.*
+*See below examples for more examples. Any of the values for the below decorators can be used in the corresponding
+keyword argument.*
 
 ## Field-specific decorators
 
-### `@opanepi.body`
+All the following decorators are based on `@openapi`
+
+::::tabs
+
+:::tab body
 
 **Arguments**
 
-| Field | Type |
-|--|--|
+| Field       | Type                               |
+| ----------- | ---------------------------------- |
 | **content** | ***YourModel*, dict, RequestBody** |
 
 **Examples**
@@ -113,8 +129,9 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
+:::
 
-### `@opanepi.deprecated`
+:::tab deprecated
 
 **Arguments**
 
@@ -130,19 +147,20 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :--:1
 
-
 ```python
 @openapi.deprecated
 ```
 
 :---
 
-### `@opanepi.description`
+:::
+
+:::tab description
 
 **Arguments**
 
-| Field | Type |
-|--|--|
+| Field  | Type    |
+| ------ | ------- |
 | `text` | **str** |
 
 **Examples**
@@ -166,13 +184,15 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-### `@opanepi.document`
+:::
+
+:::tab document
 
 **Arguments**
 
-| Field | Type |
-|--|--|
-| `url` | **str** |
+| Field         | Type    |
+| ------------- | ------- |
+| `url`         | **str** |
 | `description` | **str** |
 
 **Examples**
@@ -191,16 +211,18 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-### `@opanepi.exclude`
+:::
+
+:::tab exclude
 
 Can be used on route definitions like all of the other decorators, or can be called on a Blueprint
 
 **Arguments**
 
-| Field | Type | Default |
-|--|--|--|
-| `flag` | **bool** | **True** |
-| `bp` | **Blueprint** |  |
+| Field  | Type          | Default  |
+| ------ | ------------- | -------- |
+| `flag` | **bool**      | **True** |
+| `bp`   | **Blueprint** |          |
 
 **Examples**
 
@@ -218,14 +240,16 @@ openapi.exclude(bp=some_blueprint)
 
 :---
 
-### `@opanepi.operation`
+:::
+
+:::tab operation
 
 Sets the operation ID.
 
 **Arguments**
 
-| Field | Type |
-|--|--|
+| Field  | Type    |
+| ------ | ------- |
 | `name` | **str** |
 
 **Examples**
@@ -240,15 +264,17 @@ Sets the operation ID.
 
 :---
 
-### `@opanepi.parameter`
+:::
+
+:::tab parameter
 
 **Arguments**
 
-| Field | Type | Default
-|--|--|--|
-| `name` | **str** |  |
-| `schema` | ***type*** | **str** |
-| `location` | **"query", "header", "path" or "cookie"** |  **"query"** |
+| Field      | Type                                      | Default     |
+| ---------- | ----------------------------------------- | ----------- |
+| `name`     | **str**                                   |             |
+| `schema`   | ***type***                                | **str**     |
+| `location` | **"query", "header", "path" or "cookie"** | **"query"** |
 
 **Examples**
 
@@ -274,18 +300,20 @@ Sets the operation ID.
 
 :---
 
-### `@opanepi.response`
+:::
+
+:::tab response
 
 **Arguments**
 
 If using a `Response` object, you should not pass any other arguments.
 
-| Field | Type |
-|--|--|
-| `status` | **int** |
-| `content` | ***type*, *YourModel*, dict** |
-| `description` | **str** |
-| `response` | **Response** |
+| Field         | Type                          |
+| ------------- | ----------------------------- |
+| `status`      | **int**                       |
+| `content`     | ***type*, *YourModel*, dict** |
+| `description` | **str**                       |
+| `response`    | **Response**                  |
 
 **Examples**
 
@@ -333,14 +361,15 @@ If using a `Response` object, you should not pass any other arguments.
 
 :---
 
+:::
 
-### `@opanepi.summary`
+:::tab summary
 
 **Arguments**
 
-| Field | Type |
-|--|--|
-|`text`| **str** |
+| Field  | Type    |
+| ------ | ------- |
+| `text` | **str** |
 
 **Examples**
 
@@ -354,13 +383,15 @@ If using a `Response` object, you should not pass any other arguments.
 
 :---
 
-### `@opanepi.tag`
+:::
+
+:::tab tag
 
 **Arguments**
 
-| Field | Type |
-|--|--|
-|`*args`| **str, Tag**|
+| Field   | Type         |
+| ------- | ------------ |
+| `*args` | **str, Tag** |
 
 **Examples**
 
@@ -377,3 +408,5 @@ If using a `Response` object, you should not pass any other arguments.
 ```
 
 :---
+
+::::

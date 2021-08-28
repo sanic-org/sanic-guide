@@ -1,15 +1,16 @@
-# Decorators
+# 装饰器（Decorators）
 
-The primary mechanism for adding content to your schema is by decorating your endpoints. If you have used `sanic-openapi` in the past, this should be familiar to you. The decorators and their arguments match closely the [OAS v3.0 specification](https://swagger.io/specification/).
+向架构添加内容的主要机制是装饰端点。 如果您过去使用过`sanic-openapi`，那么您应该很熟悉。 装饰器名称及其参数与 [OAS v3.0 规范](https://swagger.io/specification/) 完全一致。
 
 ---:1
 
-All of the examples show will wrap around a route definition. When you are creating these, you should make sure that your Sanic route decorator (`@app.route`, `@app.get`, etc) is the outermost decorator. That is to say that you should put that first and then one or more of the below decorators after.
+以下的所有示例都将围绕一个路由展开。 当您创建它们时，您应该确保您的 Sanic 路由装饰器（`@app.route`、`@app.get` 等）是最外层的装饰器。 也就是说，您应该先放路由装饰器，然后再放下面示例中的一个或多个装饰器。
 
 :--:1
 
 ```python
 from sanic_ext import openapi
+
 
 @app.get("/path/to/<something>")
 @openapi.summary("This is a summary")
@@ -17,11 +18,12 @@ from sanic_ext import openapi
 async def handler(request, somethind: str):
     ...
 ```
+
 :---
 
 ---:1
 
-You will also see a lot of the below examples reference a model object. For the sake of simplicity, the examples will use `UserProfile` that will look like this. The point is that it can be any well-typed class. You could easily imagine this being a `dataclass` or some other kind of model object.
+您还将看到以下许多示例都引用了模型对象。 为简单起见，示例将使用如下所示的 `UserProfile`。 这是一个非常简单的模型类。您可以轻易的将其联想到 `数据类` 或其他的任何类型的模型对象。
 
 :--:1
 
@@ -31,32 +33,33 @@ class UserProfile:
     age: int
     email: str
 ```
+
 :---
 
-## Definition decorator
+## 多功能装饰器（Definition decorator）
 
 ### `@opanepi.definition`
 
-The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using multiple field-specific decorators or a single decorator is a style choice for you the developer.
+`@openapi.definition` 装饰器允许您一次性定义文档中要展示的所有部分。 它是一个多功能装饰器，因为它具有与其他装饰器相同的定义功能。 使用多个特定字段的装饰器还是使用单个多功能装饰器取决于您自己的使用偏好。
 
-The fields are purposely permissive in accepting multiple types to make it easiest for you to define your operation.
+这些字段特意允许接受多种类型，使您可以最轻松的定义您的文档。
 
-**Arguments**
+**参数：**
 
-| Field | Type |
-|--|--|
-| `body` |**dict, RequestBody, *YourModel***|
-| `deprecated` |**bool**|
-| `description` | **str**|
-| `document` |**str, ExternalDocumentation**|
-| `exclude` | **bool**|
-| `operation` | **str**|
-| `parameter` |**dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**|
-| `response` |**dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**|
-| `summary` | **str**|
-| `tag` |**str, Tag, [str], [Tag]**|
+| 参数名称        |                                参数类型                              |
+|:--------------|:-------------------------------------------------------------------:|
+| `body`        |                     **dict, RequestBody, *YourModel***              |
+| `deprecated`  |                              **bool**                               |
+| `description` |                               **str**                               |
+| `document`    |                     **str, ExternalDocumentation**                  |
+| `exclude`     |                               **bool**                              |
+| `operation`   |                                **str**                              |
+| `parameter`   |**dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]** |
+| `response`    |**dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**   |
+| `summary`     |                                **str**                              |
+| `tag`         |                        **str, Tag, [str], [Tag]**                   |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -73,19 +76,23 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-*See below examples for more examples. Any of the values for the below decorators can be used in the corresponding keyword argument.*
+*有关更多示例，请参见以下示例。 以下装饰器的任何值都可以在相应的关键字参数中使用。*
 
-## Field-specific decorators
+## 特定字段装饰器（Field-specific decorators）
 
-### `@opanepi.body`
+以下所有的装饰器都是以 `@openapi` 为基础展开的
 
-**Arguments**
+:::: tabs
 
-| Field | Type |
-|--|--|
+::: tab body
+
+**参数：**
+
+|   参数名称    |             参数类型                | 
+|-------------|------------------------------------| 
 | **content** | ***YourModel*, dict, RequestBody** |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -113,14 +120,15 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
+:::
 
-### `@opanepi.deprecated`
+::: tab deprecated
 
-**Arguments**
+**参数：**
 
 *None*
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -130,19 +138,20 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :--:1
 
-
 ```python
 @openapi.deprecated
 ```
 
 :---
 
-### `@opanepi.description`
+:::
+
+::: tab description
 
 **Arguments**
 
-| Field | Type |
-|--|--|
+| 参数名称 | 参数名称 |
+|--------|---------|
 | `text` | **str** |
 
 **Examples**
@@ -166,16 +175,18 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-### `@opanepi.document`
+:::
 
-**Arguments**
+::: tab document
 
-| Field | Type |
-|--|--|
-| `url` | **str** |
+**参数：**
+
+|    参数名称    |  参数类型 | 
+|---------------|---------| 
+|      `url`    | **str** | 
 | `description` | **str** |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -191,18 +202,20 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-### `@opanepi.exclude`
+:::
 
-Can be used on route definitions like all of the other decorators, or can be called on a Blueprint
+::: tab exclude
 
-**Arguments**
+可以像其他所有装饰器一样用在响应函数上，也可以作用在蓝图上
 
-| Field | Type | Default |
-|--|--|--|
-| `flag` | **bool** | **True** |
-| `bp` | **Blueprint** |  |
+**参数：**
 
-**Examples**
+| 参数名称 |     参数类型   |  默认值   |
+|--------|---------------|----------| 
+| `flag` |   **bool**    | **True** |
+|  `bp`  | **Blueprint** |          |
+
+**示例：**
 
 ---:1
 
@@ -218,17 +231,19 @@ openapi.exclude(bp=some_blueprint)
 
 :---
 
-### `@opanepi.operation`
+:::
 
-Sets the operation ID.
+::: tab operation
 
-**Arguments**
+设置操作 ID。
 
-| Field | Type |
-|--|--|
+**参数：**
+
+| 参数名称 | 参数类型 | 
+|--------|---------| 
 | `name` | **str** |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -240,17 +255,19 @@ Sets the operation ID.
 
 :---
 
-### `@opanepi.parameter`
+:::
 
-**Arguments**
+::: tab parameter
 
-| Field | Type | Default
-|--|--|--|
-| `name` | **str** |  |
-| `schema` | ***type*** | **str** |
+**参数：**
+
+|   参数名称   |                   参数类型                 | 默认值
+|------------|-------------------------------------------|--------------| 
+|   `name`   |                   **str**                 |              |
+|  `schema`  |                ***type***                 | **str**      | 
 | `location` | **"query", "header", "path" or "cookie"** |  **"query"** |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -274,20 +291,22 @@ Sets the operation ID.
 
 :---
 
-### `@opanepi.response`
+:::
 
-**Arguments**
+::: tab response
 
-If using a `Response` object, you should not pass any other arguments.
+**参数：**
 
-| Field | Type |
-|--|--|
-| `status` | **int** |
-| `content` | ***type*, *YourModel*, dict** |
-| `description` | **str** |
-| `response` | **Response** |
+如果使用 `Response` 对象，则不应传递任何其他参数。
 
-**Examples**
+|    参数名称     |             参数类型           | 
+|---------------|-------------------------------|
+|    `status`   |              **int**          | 
+|   `content`   | ***type*, *YourModel*, dict** | 
+| `description` |              **str**          | 
+|   `response`  |            **Response**       |
+
+**示例：**
 
 ---:1
 
@@ -333,16 +352,17 @@ If using a `Response` object, you should not pass any other arguments.
 
 :---
 
+:::
 
-### `@opanepi.summary`
+::: tab summary
 
-**Arguments**
+**参数名称：**
 
-| Field | Type |
-|--|--|
-|`text`| **str** |
+| 参数名称 | 参数类型  |
+|---------|---------|
+| `text`  | **str** |
 
-**Examples**
+**示例：**
 
 ---:1
 
@@ -354,15 +374,17 @@ If using a `Response` object, you should not pass any other arguments.
 
 :---
 
-### `@opanepi.tag`
+:::
 
-**Arguments**
+::: tab tag
 
-| Field | Type |
-|--|--|
-|`*args`| **str, Tag**|
+**参数：**
 
-**Examples**
+| 参数名称 |    参数类型    |
+|---------|--------------|
+| `*args` | **str, Tag** |
+
+**示例：**
 
 ---:1
 
@@ -377,3 +399,7 @@ If using a `Response` object, you should not pass any other arguments.
 ```
 
 :---
+
+:::
+
+::::
