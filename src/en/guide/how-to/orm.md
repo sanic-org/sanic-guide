@@ -14,7 +14,7 @@ Integration in to your Sanic application is fairly simple:
 
 ## SQLAlchemy
 
-Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has native support for asyncio, Sanic finally work well with sqlalchemy.
+Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has addednative support for asyncio, Sanic can finally work well with sqlalchemy. Be aware that this functionality is still considered *beta* by the SQLAlchemy project.
 
 
 ---:1
