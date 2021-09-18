@@ -2,8 +2,8 @@
 
 >  How do I use SQLAlchemy with Sanic ?
 
-All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance. 
-There are some orm packages who support 
+All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
+There are some orm packages who support
 
 At present, there are many ORMs that support asynchrony, among which the better ones are：
 
@@ -21,13 +21,13 @@ Yeah, as you see, [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/c
 
 ### Dependencies
 
-First of all, we need to install dependencies. In the past, the dependencies we installed were `sqlalchemy' and `pymysql`, but now we need `sqlalchemy' and `aiomysql`.
+First of all, we need to install dependencies. In the past, the dependencies we installed were `sqlalchemy` and `pymysql`, but now we need `sqlalchemy' and `aiomysql`.
 
 :--:1
 
 ```shell
 pip install -U sqlalchemy
-pip install -U aiomysql 
+pip install -U aiomysql
 ```
 
 :---
@@ -97,7 +97,7 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 ```python
 # ./server.py
-from contextvars import ContextVar 
+from contextvars import ContextVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -121,7 +121,7 @@ async def close_session(request, response):
 
 ### Register Middlewares
 
-The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`. 
+The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
 
 Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
 
