@@ -14,14 +14,14 @@ Don't know how to integrate it into sanic ?  don't worry, there is a simple usag
 
 ## SQLAlchemy
 
-Yeah, as you see, [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has native support for asyncio, Sanic finally can play happily with sqlalchemy.
+Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has native support for asyncio, Sanic finally work well with sqlalchemy.
 
 
 ---:1
 
 ### Dependencies
 
-First of all, we need to install dependencies. In the past, the dependencies we installed were `sqlalchemy` and `pymysql`, but now we need `sqlalchemy' and `aiomysql`.
+First of all, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
 
 :--:1
 
@@ -68,7 +68,7 @@ class Car(BaseModel):
 
 ### Define ORM Model
 
-You can still create ORM models as before.
+ORM model creation remains the same.
 
 :---
 
@@ -132,7 +132,7 @@ Thread-safe variable `_base_model_session_ctx` helps you to use the session obje
 
 ### Register Routes
 
-According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and a 2.0's way to query ORM object is using `select`.
+According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and the 2.0 way to query an ORM object is using `select`.
 
 :--:1
 
@@ -182,8 +182,6 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
 ```
-
-
 
 
 ## Tortoise-ORM
