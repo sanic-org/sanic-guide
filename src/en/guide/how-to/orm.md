@@ -5,12 +5,12 @@
 All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
 There are some orm packages who support
 
-At present, there are many ORMs that support asynchrony, among which the better ones are：
+At present, there are many ORMs that support asynchronicity. Two of the more common libraries are：
 
-[SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)  [tortoise-orm](https://github.com/tortoise/tortoise-orm)
+- [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
+- [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
-Don't know how to integrate it into sanic ?  don't worry, there is a simple usage:
-
+Integration in to your Sanic application is fairly simple:
 
 ## SQLAlchemy
 
@@ -21,7 +21,7 @@ Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_1
 
 ### Dependencies
 
-First of all, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
+First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
 
 :--:1
 
