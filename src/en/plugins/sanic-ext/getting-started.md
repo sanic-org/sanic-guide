@@ -13,7 +13,7 @@ Sanic Extensions is an *officially supported* plugin developed, and maintained b
 
 ## Minimum requirements
 
-- **Python**: 3.7+
+- **Python**: 3.8+
 - **Sanic**: 21.9+
 
 ## Install
