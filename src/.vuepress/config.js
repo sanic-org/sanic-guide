@@ -205,6 +205,7 @@ let en_locales = {
           // "/guide/how-to/serialization.md",
           // "/en/guide/how-to/sqlalchemy.md",
           "/en/guide/how-to/orm.md",
+          "/en/guide/how-to/static-redirects.md",
           // "/guide/how-to/task-queue.md",
           "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",

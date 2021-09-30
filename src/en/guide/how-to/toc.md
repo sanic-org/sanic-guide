@@ -15,7 +15,7 @@ We have compiled fully working examples to answer common questions and user case
 | Request validation                    | *Coming soon* |
 | Serialization                         | *Coming soon* |
 | Server Sent Events                    | *Coming soon* |
-| [ORM](./orm)            | ... use an ORM with Sanic? |
+| [ORM](./orm)                          | ... use an ORM with Sanic? |
 | Task queues                           | *Coming soon* |
 | [TLS/SSL/HTTPS](./tls.md)             | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
 | Websocket feeds                       | *Coming soon* |

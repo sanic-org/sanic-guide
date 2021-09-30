@@ -1,45 +1,44 @@
 # ORM
 
->  How do I use an ORM with Sanic ?
+>  How do I use SQLAlchemy with Sanic ?
 
-All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance. 
+All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
+There are some orm packages who support
 
-At present, there are many ORMs that support asynchronous execution. From anecdotal evidence, it seems the most commonly used in the Sanic community are: [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) and [tortoise-orm](https://github.com/tortoise/tortoise-orm).
+At present, there are many ORMs that support asynchronicity. Two of the more common libraries are：
 
-Not sure how to integrate them into Sanic?  Don't worry, follow one of the below patterns:
+- [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
+- [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
+Integration in to your Sanic application is fairly simple:
 
 ## SQLAlchemy
 
-As of version 1.4, [SQLAlchemy](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has native support for asyncio; Sanic finally can play happily with SQLalchemy.
+Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has added native support for `asyncio`, Sanic can finally work well with SQLAlchemy. Be aware that this functionality is still considered *beta* by the SQLAlchemy project.
 
-
-### Dependencies
 
 ---:1
 
-First of all, we need to install dependencies. In the past, the dependencies we installed were `sqlalchemy` and (`pymysql` or `psycopg2`, but now we need `sqlalchemy` and (`aiomysql` or `asyncpg`).
+### Dependencies
+
+First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
 
 :--:1
 
 ```shell
-pip install sqlalchemy, aiomysql 
-```
-OR
-```shell
-pip install sqlalchemy, asyncpg 
+pip install -U sqlalchemy
+pip install -U aiomysql
 ```
 
 :---
 
-### Define ORM Model
-
 ---:1
 
-You can still create ORM models as before.
+### Define ORM Model
+
+ORM model creation remains the same.
 
 :--:1
-
 
 ```python
 # ./models.py
@@ -73,9 +72,9 @@ class Car(BaseModel):
 
 :---
 
-### Create Sanic App and Async Engine
-
 ---:1
+
+### Create Sanic App and Async Engine
 
 Here we use mysql as the database, and you can also choose PostgreSQL/SQLite. Pay attention to changing the driver from `aiomysql` to `asyncpg`/`aiosqlite`.
 :--:1
@@ -93,19 +92,20 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 :---
 
-### Register Middlewares
-
 ---:1
 
-The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`. 
+### Register Middlewares
+
+The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
 
 Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
+
 
 :--:1
 
 ```python
 # ./server.py
-from contextvars import ContextVar 
+from contextvars import ContextVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -127,11 +127,11 @@ async def close_session(request, response):
 
 :---
 
-### Register Routes
-
 ---:1
 
-According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and a 2.0's way to query ORM object is using `select`.
+### Register Routes
+
+According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and the 2.0 way to query an ORM object is using `select`.
 
 :--:1
 
@@ -172,9 +172,6 @@ async def get_user(request, pk):
 
 ### Send Requests
 
----:1
-:--:1
-
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
@@ -184,30 +181,27 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
 ```
-:---
-
-
 
 
 ## Tortoise-ORM
 
-### Dependencies
-
 ---:1
 
-The Tortoise dependency is very simple, you just need install `tortoise-orm`.
+### Dependencies
+
+tortoise-orm's dependency is very simple, you just need install tortoise-orm.
 
 :--:1
 
 ```shell
-pip install tortoise-orm
+pip install -U tortoise-orm
 ```
 
 :---
 
-### Define ORM Model
-
 ---:1
+
+### Define ORM Model
 
 If you are familiar with Django, you should find this part very familiar.
 
@@ -229,9 +223,9 @@ class Users(Model):
 :---
 
 
-### Create Sanic App and Async Engine
-
 ---:1
+
+### Create Sanic App and Async Engine
 
 Tortoise-orm provides a set of registration interface, which is convenient for users, and you can use it to create database connection easily.
 
@@ -254,9 +248,10 @@ register_tortoise(
 
 :---
 
+---:1
+
 ### Register Routes
 
----:1
 :--:1
 
 ```python
@@ -279,15 +274,12 @@ async def get_user(request, pk):
     return response.json({"user": str(user)})
 
 if __name__ == "__main__":
-    app.run()
+    app.run(port=5000)
 ```
 
 :---
 
 ### Send Requests
-
----:1
-:--:1
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
@@ -298,5 +290,3 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"user": "I am foo"}
 ```
-
-:---
