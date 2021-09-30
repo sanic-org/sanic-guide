@@ -163,7 +163,7 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab "str 🌟"
+::: tab str
 
 ```python
 @app.route("/path/to/<foo:str>")
@@ -176,7 +176,7 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
-::: new NEW in v21.6
+
 In previous versions of Sanic, this was `<foo:string>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab  int
@@ -194,7 +194,7 @@ async def handler(request, foo: int):
 
 _Does not match float, hex, octal, etc_
 :::
-::: tab "float 🌟"
+::: tab float
 
 ```python
 @app.route("/path/to/<foo:float>")
@@ -208,7 +208,6 @@ async def handler(request, foo: float):
 - `/path/to/-10`
 - `/path/to/1.5`
 
-::: new NEW in v21.6
 In previous versions of Sanic, this was `<foo:number>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab alpha
@@ -226,9 +225,8 @@ async def handler(request, foo: str):
 
 _Does not match a digit, or a space or other special character_
 :::
-::: tab "slug 🌟"
+::: tab slug
 
-::: new NEW in v21.6
 ```python
 @app.route("/path/to/<article:slug>")
 async def handler(request, article: str):

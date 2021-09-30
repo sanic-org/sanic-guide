@@ -2,16 +2,16 @@
 
 > 我该如何在 Sanic 中集成 ORM ？
 
-Sanic 可以与所有的 ORM 工具一起使用，但是非异步的 ORM 框架将会拖累 Sanic 的性能。
-目前已经支持异步的 orm 有很多， 比较好用的有：
+Sanic 可以与所有的 ORM 工具一起使用，但是非异步的 ORM 框架将会拖累 Sanic 的性能。 目前已经支持异步的 orm 有很多， 比较好用的有：
 
 [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)  [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
-只知道有这些工具但不会用？不用担心，接下来我们以 mysql 为例， 手把手教你使用两种 orm
+只知道有这些工具但不会用？不用担心，接下来我们以 mysql 为例， 手把手教您使用两种 orm
 
 ## SQLAlchemy
 
-是的，您没有听错，在 [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) 版本中，添加了对 asyncio 的原生支持，至此，Sanic 终于可以和 ORM 界的老前辈愉快的玩耍了。
+是的，您没有听错，在 [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) 版本中，添加了对 asyncio
+的原生支持，至此，Sanic 终于可以和 ORM 界的老前辈愉快的玩耍了。
 
 ---:1
 
@@ -22,13 +22,24 @@ Sanic 可以与所有的 ORM 工具一起使用，但是非异步的 ORM 框架�
 :--:1
 
 ```shell
-pip install -U sqlalchemy
-pip install -U aiomysql 
+pip install sqlalchemy, aiomysql 
+```
+
+或者
+
+```shell
+pip install sqlalchemy, asyncpg 
 ```
 
 :---
 
 ---:1
+
+### 定义 ORM 模型
+
+您依旧可以按照以前的方式来创建 ORM 模型
+
+:--:1
 
 ```python
 # ./models.py
@@ -60,12 +71,6 @@ class Car(BaseModel):
     user = relationship("Person", back_populates="cars")
 ```
 
-:--:1
-
-### 定义 ORM 模型
-
-您依旧可以按照以前的方式来创建 ORM 模型
-
 :---
 
 ---:1
@@ -75,7 +80,6 @@ class Car(BaseModel):
 这里我们使用 mysql 作为数据库，您也可以选择 PostgreSQL / SQLite，注意要将驱动从 `aiomysql` 换为 `asyncpg` / `aiosqlite`
 
 :--:1
-
 
 ```python
 # ./server.py
@@ -91,15 +95,24 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 ---:1
 
+### 注册中间件
+
+在这里，请求中间件为我们创建了一个可用的 `AsyncSession` 对象并且将其绑定至 `request.ctx` 中，而 `_base_model_session_ctx` 也会在这是被赋予可用的值，如果您需要在其他地方使用
+session 对象（而非从 `request.ctx` 中取值）,该全局变量或许能帮助您（它是线程安全的）。
+
+响应中间件会将创建的 `AsyncSession` 关闭，并重置 `_base_model_session_ctx` 的值，进而释放资源。
+
+:--:1
 
 ```python
 # ./server.py
-from contextvars import ContextVar 
+from contextvars import ContextVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 _base_model_session_ctx = ContextVar("session")
+
 
 @app.middleware("request")
 async def inject_session(request):
@@ -114,19 +127,11 @@ async def close_session(request, response):
         await request.ctx.session.close()
 ```
 
-:--:1
-
-### 注册中间件
-
-在这里，请求中间件为我们创建了一个可用的 `AsyncSession` 对象并且将其绑定至 `request.ctx` 中，而 `_base_model_session_ctx` 也会在这是被赋予可用的值，如果您需要在其他地方使用 session 对象（而非从 `request.ctx` 中取值）,该全局变量或许能帮助您（它是线程安全的）。
-
-响应中间件会将创建的 `AsyncSession` 关闭，并重置 `_base_model_session_ctx` 的值，进而释放资源。
-
 :---
 
 ---:1
 
-### Register routes
+### 注册路由
 
 根据 SQLAlchemy 的官方文档，`session.query` 将在 2.0 版本中被淘汰，取而代之的是使用 `select` 查询 ORM 对象。
 
@@ -167,7 +172,11 @@ async def get_user(request, pk):
 
 :---
 
-### 启动服务并发送请求：
+---:1
+
+### 发送请求
+
+:--:1
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
@@ -179,8 +188,7 @@ curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
 ```
 
-
-
+:---
 
 ## Tortoise-ORM
 
@@ -193,12 +201,18 @@ tortoise-orm 的依赖非常简单，您只需要安装它即可。
 :--:1
 
 ```shell
-pip install -U tortoise-orm
+pip install tortoise-orm
 ```
 
 :---
 
 ---:1
+
+### 定义 ORM 模型
+
+如果您熟悉 Django 那您应该会觉得这一部分非常熟悉，是的，它就是仿照 Django 来的。
+
+:--:1
 
 ```python
 # ./models.py
@@ -213,14 +227,7 @@ class Users(Model):
         return f"I am {self.name}"
 ```
 
-:--:1
-
-### 定义 ORM 模型
-
-如果您熟悉 Django 那您应该会觉得这一部分非常熟悉，是的，它就是仿照 Django 来的。
-
 :---
-
 
 ---:1
 
@@ -238,7 +245,6 @@ from tortoise.contrib.sanic import register_tortoise
 
 app = Sanic(__name__)
 
-
 register_tortoise(
     app, db_url="mysql://root:root@localhost/test", modules={"models": ["models"]}, generate_schemas=True
 )
@@ -249,6 +255,11 @@ register_tortoise(
 
 ---:1
 
+### 注册路由
+
+直接按照 Django ORM 的操作方式进行操作就可以了
+
+:--:1
 
 ```python
 
@@ -269,20 +280,18 @@ async def get_user(request, pk):
     user = await Users.query(pk=pk)
     return response.json({"user": str(user)})
 
+
 if __name__ == "__main__":
     app.run(port=5000)
 ```
 
-
-:--:1
-
-### 注册路由
-
-直接按照 Django ORM 的操作方式进行操作就可以了
-
 :---
 
+---:1
+
 ### 启动服务并发送请求：
+
+:--:1
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
@@ -293,3 +302,5 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"user": "I am foo"}
 ```
+
+:---

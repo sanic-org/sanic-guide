@@ -4,8 +4,7 @@
 
 ---:1
 
-`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不是必须的, 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic
-对象。
+`Sanic()` 是最基础的组成部分，通常我们会在一个名为 `server.py` 的文件中将其实例化，当然文件名称并不是必须的, 但是我们还是推荐使用 `server.py` 做为文件名称来实例化 Sanic 对象。
 
 :--:1
 
@@ -51,6 +50,7 @@ app.ctx.db = Database()
 ```
 
 :---
+
 ## App 注册表(App Registry)
 
 ---:1
@@ -100,6 +100,7 @@ Sanic("My only app")
 
 app = Sanic.get_app()
 ```
+
 :---
 
 ## 配置(Configuration)
@@ -141,29 +142,29 @@ app.config.bad = "boo"
 
 ## 自定义(Customization)
 
-Sanic 应用在实例化时可以根据你的需求以多种方式进行定制。
+Sanic 应用在实例化时可以根据您的需求以多种方式进行定制。
+
 ### 自定义配置(Custom configuration)
 
 ---:1
 
-::: new v21.6 新增
-
 自定义配置最简单的方式，就是将您自己的配置对象直接传递到 Sanic 实例中
 
 如果您使用了自定义配置对象类，*强烈建议* 您将自定义类继承 Sanic 的 `Config` 类，以保持与父类行为一致。这样，您就可以调用父类方法来添加属性。当然，您也可以自己实现一套类似的逻辑。
-
-:::
 
 :--:1
 
 ```python
 from sanic.config import Config
 
+
 class MyConfig(Config):
     FOO = "bar"
 
+
 app = Sanic(..., config=MyConfig())
 ```
+
 :---
 
 ---:1
@@ -175,6 +176,7 @@ app = Sanic(..., config=MyConfig())
 ```python
 from sanic import Sanic, text
 from sanic.config import Config
+
 
 class TomlConfig(Config):
     def __init__(self, *args, path: str, **kwargs):
@@ -200,6 +202,7 @@ class TomlConfig(Config):
                 retval[upper_key] = value
         return retval
 
+
 toml_config = TomlConfig(path="/path/to/config.toml")
 app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
@@ -210,11 +213,8 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 
 ---:1
 
-::: new v21.6 新增
-
-在默认情况下，应用程序上下文是一个 [`SimpleNamespace`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) 实例，它允许您在上面设置任何您想要的属性。然而，您也可以选择使用其他对象来代替。
-
-:::
+在默认情况下，应用程序上下文是一个 [`SimpleNamespace`](https://docs.python.org/3/library/types.html#types.SimpleNamespace)
+实例，它允许您在上面设置任何您想要的属性。然而，您也可以选择使用其他对象来代替。
 
 :--:1
 
@@ -229,6 +229,7 @@ app = Sanic(..., ctx={})
 ```python
 class MyContext:
     ...
+
 
 app = Sanic(..., ctx=MyContext())
 ```
@@ -268,6 +269,7 @@ app = Sanic(..., request_class=NanoSecondRequest)
 async def handler(request):
     return text(str(request.id))
 ```
+
 :---
 
 ### 自定义错误响应函数(Custom error handler)
@@ -281,11 +283,13 @@ async def handler(request):
 ```python
 from sanic.handlers import ErrorHandler
 
+
 class CustomErrorHandler(ErrorHandler):
     def default(self, request, exception):
         ''' handles errors that have no error handlers assigned '''
         # You custom error handling logic...
         return super().default(request, exception)
+
 
 app = Sanic(..., error_handler=CustomErrorHandler())
 ```

@@ -34,6 +34,12 @@ pip install -U aiomysql
 
 ---:1
 
+### Define ORM Model
+
+ORM model creation remains the same.
+
+:--:1
+
 ```python
 # ./models.py
 from sqlalchemy import INTEGER, Column, ForeignKey, String
@@ -64,12 +70,6 @@ class Car(BaseModel):
     user = relationship("Person", back_populates="cars")
 ```
 
-:--:1
-
-### Define ORM Model
-
-ORM model creation remains the same.
-
 :---
 
 ---:1
@@ -94,6 +94,14 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 ---:1
 
+### Register Middlewares
+
+The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
+
+Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
+
+
+:--:1
 
 ```python
 # ./server.py
@@ -116,15 +124,6 @@ async def close_session(request, response):
         _base_model_session_ctx.reset(request.ctx.session_ctx_token)
         await request.ctx.session.close()
 ```
-
-:--:1
-
-### Register Middlewares
-
-The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
-
-Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
-
 
 :---
 
@@ -202,6 +201,12 @@ pip install -U tortoise-orm
 
 ---:1
 
+### Define ORM Model
+
+If you are familiar with Django, you should find this part very familiar.
+
+:--:1
+
 ```python
 # ./models.py
 from tortoise import Model, fields
@@ -214,12 +219,6 @@ class Users(Model):
     def __str__(self):
         return f"I am {self.name}"
 ```
-
-:--:1
-
-### Define ORM Model
-
-If you are familiar with Django, you should find this part very familiar.
 
 :---
 
@@ -251,6 +250,9 @@ register_tortoise(
 
 ---:1
 
+### Register Routes
+
+:--:1
 
 ```python
 
@@ -274,11 +276,6 @@ async def get_user(request, pk):
 if __name__ == "__main__":
     app.run(port=5000)
 ```
-
-
-:--:1
-
-### Register Routes
 
 :---
 

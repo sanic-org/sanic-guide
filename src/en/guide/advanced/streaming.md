@@ -112,9 +112,7 @@ async def test(request):
 ```
 :---
 
-::: new NEW in v21.6
 In the example above `await response.eof()` is called as a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client.
-:::
 
 
 ## File streaming

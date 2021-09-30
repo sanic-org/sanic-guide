@@ -315,7 +315,7 @@ $ curl localhost:8000/fwd \
 
 ##### 例七(Example 7)
 
-测试包含转译字符的（如果你看到有人实现了引号对，请修改这一点）：
+测试包含转译字符的（如果您看到有人实现了引号对，请修改这一点）：
 
 ```python
 app.config.PROXIES_COUNT = 1
