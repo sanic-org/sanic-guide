@@ -101,7 +101,7 @@ Person(person_id=PersonID(person_id=123), name='noname', age=111)
 Sometimes you may want to extract details from the request and preprocess them. You could, for example, cast the request JSON to a Python object, and then add some additional logic based upon DB queries.
 
 ::: warning
-If you plan to use this method, you should note that the injection actually happens *before* Sanic has had a chance to read the request body. The headers should already have been consumer. So, if you do want access to the body, you will need to manually consume as seen in this example.
+If you plan to use this method, you should note that the injection actually happens *before* Sanic has had a chance to read the request body. The headers should already have been consumed. So, if you do want access to the body, you will need to manually consume as seen in this example.
 
 ```python
 await request.receive_body()

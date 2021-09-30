@@ -94,6 +94,28 @@ app.error_handler.add(Exception, server_error_handler)
 
 :---
 
+## Built-in error handling
+
+Sanic ships with three formats for exceptions: HTML, JSON, and text. You can see examples of them below in the [Fallback handler](#fallback-handler) section.
+
+---:1
+
+::: new NEW in v21.9
+You can control _per route_ which format to use with the `error_format` keyword argument.
+
+:::
+
+:--:1
+
+```python
+@app.request("/", error_format="text")
+async def handler(request):
+    ...
+```
+
+:---
+
+
 ## Custom error handling
 
 In some cases, you might want to add some more error handling functionality to what is provided by default. In that case, you can subclass Sanic's default error handler as such:

@@ -215,6 +215,7 @@ let en_locales = {
         title: "Release Notes",
         sidebarDepth: 1,
         children: [
+          "/en/guide/release-notes/v21.9.md",
           "/en/guide/release-notes/v21.6.md",
           "/en/guide/release-notes/v21.3.md",
         ],
@@ -270,9 +271,9 @@ let en_locales = {
               "/en/plugins/sanic-ext/openapi/decorators.md",
               "/en/plugins/sanic-ext/openapi/advanced.md",
               "/en/plugins/sanic-ext/openapi/autodoc.md",
-              "/en/plugins/sanic-ext/openapi/validation.md",
             ],
           },
+          "/en/plugins/sanic-ext/validation.md",
           "/en/plugins/sanic-ext/configuration.md",
         ],
       },
@@ -508,6 +509,7 @@ let zh_locales = {
         title: "发行记录",
         sidebarDepth: 1,
         children: [
+          "/en/guide/release-notes/v21.9.md",
           "/zh/guide/release-notes/v21.6.md",
           "/zh/guide/release-notes/v21.3.md",
         ],

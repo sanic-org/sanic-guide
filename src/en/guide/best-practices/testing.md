@@ -1,3 +1,3 @@
 # Testing
 
-See [sanic-test](https://github.com/sanic-org/sanic-test)
+See [sanic-testing](../../plugins/sanic-testing/testing.md)
