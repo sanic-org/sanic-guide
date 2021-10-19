@@ -60,7 +60,12 @@ app.run(host="0.0.0.0", port=8443, ssl=context)
 ---:1
 A list of multiple certificates may be provided, in which case Sanic chooses the one matching the hostname the user is connecting to. This occurs so early in the TLS handshake that Sanic has not sent any packets to the client yet.
 
-If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though it will likely fail with an SSL error on the client browser. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list.
+If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though on the client browser it will likely fail with a TLS error due to name mismatch. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list.
+
+::: tip
+You may also use `None` in front of a single certificate if you do not wish to reveal your certificate and true hostname to anyone connecting to the IP address.
+:::
+
 :--:1
 ```python
 ssl = ["certs/example.com/", "certs/bigcorp.test/"]
