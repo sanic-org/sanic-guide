@@ -42,7 +42,7 @@ app.run(host="0.0.0.0", port=8443, ssl=ssl)
 :---
 
 ---:1
-Alternatively, [`ssl.SSLContext`](https://docs.python.org/3/library/ssl.html) may be passed, if you need full control over details such as which crypto algorithms are permitted. By default Sanic only permits secure algorithms, which may restrict access from very old devices.
+Alternatively, [`ssl.SSLContext`](https://docs.python.org/3/library/ssl.html) may be passed, if you need full control over details such as which crypto algorithms are permitted. By default Sanic only allows secure algorithms, which may restrict access from very old devices.
 :--:1
 ```python
 import ssl
@@ -63,7 +63,7 @@ A list of multiple certificates may be provided, in which case Sanic chooses the
 If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though on the client browser it will likely fail with a TLS error due to name mismatch. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list.
 
 ::: tip
-You may also use `None` in front of a single certificate if you do not wish to reveal your certificate and true hostname to anyone connecting to the IP address.
+You may also use `None` in front of a single certificate if you do not wish to reveal your certificate, true hostname or site content to anyone connecting to the IP address.
 :::
 
 :--:1
@@ -91,6 +91,14 @@ ssl = [
 app.run(host="0.0.0.0", port=8443, ssl=ssl)
 ```
 :---
+
+> Accessing TLS information in handlers via `request.conn_info` fields
+
+* `.ssl` - is the connection secure (bool)
+* `.cert` - certificate info and dict fields of the currently active cert (dict)
+* `.server_name` - the SNI sent by the client (str, may be empty)
+
+Do note that all `conn_info` fields are per connection, where there may be many requests over time. If a proxy is used in front of your server, these requests on the same pipe may even come from different users.
 
 > How do I redirect HTTP to HTTPS?
 
