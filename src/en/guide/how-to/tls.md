@@ -103,7 +103,7 @@ def handler(request, path):
 http = Sanic("HTTP")
 
 @http.get("/<path:path>")
-def handler(request, path=""):
+def handler(request, path):
     return response.redirect(f"https://{request.server_name}/{path}")
 
 http_server = Process(target=lambda: http.run("0.0.0.0", 80))
