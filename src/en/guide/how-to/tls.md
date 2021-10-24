@@ -1,28 +1,19 @@
 # TLS/SSL/HTTPS
 
-> Get certificates for your domain names
-
-You can get free certificates from [Let's Encrypt](https://letsencrypt.org/). Install [certbot](https://certbot.eff.org/) via your package manager, and request a certificate:
-
-```sh
-sudo certbot certonly --key-type ecdsa --preferred-chain "ISRG Root X1" -d example.com -d www.example.com
-```
-
-Multiple domain names may be added by further `-d` arguments, all stored into a single certificate which gets saved to `/etc/letsencrypt/live/example.com/` as per **the first domain** that you list here.
-
-The key type and preferred chain options are necessary for getting a minimal size certificate file, essential for making your server run as *fast* as possible. The chain will still contain one RSA certificate until when Let's Encrypt gets their new EC chain trusted in all major browsers, possibly around 2023.
-
 > How do I run Sanic via HTTPS? 
 
+If you do not have TLS certificates yet, see the end of this page.
+
 ---:1
-Let Sanic automatically load your certificate files, which need to be named `fullchain.pem` and `privkey.pem`.
+Let Sanic automatically load your certificate files, which need to be named `fullchain.pem` and `privkey.pem` in the given folder:
 
 :--:1
+```sh
+sudo sanic myserver:app -H :: -p 443 \
+  --tls /etc/letsencrypt/live/example.com/
+```
 ```python
-app.run(
-    host="0.0.0.0", port=443,
-    ssl="/etc/letsencrypt/live/example.com/"
-)
+app.run("::", 443, ssl="/etc/letsencrypt/live/example.com/")
 ```
 :---
 
@@ -60,7 +51,7 @@ app.run(host="0.0.0.0", port=8443, ssl=context)
 ---:1
 A list of multiple certificates may be provided, in which case Sanic chooses the one matching the hostname the user is connecting to. This occurs so early in the TLS handshake that Sanic has not sent any packets to the client yet.
 
-If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though on the client browser it will likely fail with a TLS error due to name mismatch. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list.
+If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though on the client browser it will likely fail with a TLS error due to name mismatch. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list. `--tls-strict-host` is the equivalent CLI option.
 
 ::: tip
 You may also use `None` in front of a single certificate if you do not wish to reveal your certificate, true hostname or site content to anyone connecting to the IP address instead of the proper DNS name.
@@ -70,6 +61,12 @@ You may also use `None` in front of a single certificate if you do not wish to r
 ```python
 ssl = ["certs/example.com/", "certs/bigcorp.test/"]
 app.run(host="0.0.0.0", port=8443, ssl=ssl)
+```
+```sh
+sanic myserver:app
+    --tls certs/example.com/
+    --tls certs/bigcorp.test/
+    --tls-strict-host
 ```
 :---
 
@@ -100,27 +97,39 @@ app.run(host="0.0.0.0", port=8443, ssl=ssl)
 
 Do note that all `conn_info` fields are per connection, where there may be many requests over time. If a proxy is used in front of your server, these requests on the same pipe may even come from different users.
 
-> How do I redirect HTTP to HTTPS?
+> Redirect HTTP to HTTPS, with certificate requests still over HTTP
 
-In addition to your normal `app` server running HTTPS, run another server in parallel for redirection:
+In addition to your normal server(s) running HTTPS, run another server for redirection, `http_redir.py`:
 ```python
-from sanic import Sanic, response
-from multiprocessing import Process
+from sanic import Sanic, exceptions, response
 
-app = Sanic("My App")
+app = Sanic("http_redir")
 
-@app.get("/<path:path>")
-def handler(request, path):
-    return response.text(f"Secure connection to {path}")
+# Serve ACME/certbot files without HTTPS, for certificate renewals
+app.static("/.well-known", "/var/www/.well-known", resource_type="dir")
 
-http = Sanic("HTTP")
-
-@http.get("/<path:path>")
-def handler(request, path):
-    return response.redirect(f"https://{request.server_name}/{path}")
-
-http_server = Process(target=lambda: http.run("0.0.0.0", 80))
-http_server.start()
-app.run("0.0.0.0", 443, ssl="/etc/letsencrypt/live/example.com")
-http_server.join()
+@app.exception(exceptions.NotFound, exceptions.MethodNotSupported)
+def redirect_everything_else(request, exception):
+    server, path = request.server_name, request.path
+    if not server or not path.startswith('/'):
+        return response.text('Bad Request. Please use HTTPS!', status=400)
+    return response.redirect(f"https://{server}{path}", status=308)
 ```
+
+It is best to setup this as a systemd unit separate of your HTTPS servers. You may need to run HTTP while initially requesting your certificates, while you cannot run the HTTPS server yet. Start for IPv4 and IPv6:
+```
+sanic http_redir:app -H 0.0.0.0 -p 80
+sanic http_redir:app -H :: -p 80
+```
+
+> Get certificates for your domain names
+
+You can get free certificates from [Let's Encrypt](https://letsencrypt.org/). Install [certbot](https://certbot.eff.org/) via your package manager, and request a certificate:
+
+```sh
+sudo certbot certonly --key-type ecdsa --preferred-chain "ISRG Root X1" -d example.com -d www.example.com
+```
+
+Multiple domain names may be added by further `-d` arguments, all stored into a single certificate which gets saved to `/etc/letsencrypt/live/example.com/` as per **the first domain** that you list here.
+
+The key type and preferred chain options are necessary for getting a minimal size certificate file, essential for making your server run as *fast* as possible. The chain will still contain one RSA certificate until when Let's Encrypt gets their new EC chain trusted in all major browsers, possibly around 2023.
