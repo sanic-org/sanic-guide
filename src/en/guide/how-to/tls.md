@@ -111,9 +111,9 @@ app.static("/.well-known", "/var/www/.well-known", resource_type="dir")
 @app.exception(exceptions.NotFound, exceptions.MethodNotSupported)
 def redirect_everything_else(request, exception):
     server, path = request.server_name, request.path
-    if not server or not path.startswith('/'):
-        return response.text('Bad Request. Please use HTTPS!', status=400)
-    return response.redirect(f"https://{server}{path}", status=308)
+    if server and path.startswith("/"):
+        return response.redirect(f"https://{server}{path}", status=308)
+    return response.text("Bad Request. Please use HTTPS!", status=400)
 ```
 
 It is best to setup this as a systemd unit separate of your HTTPS servers. You may need to run HTTP while initially requesting your certificates, while you cannot run the HTTPS server yet. Start for IPv4 and IPv6:
