@@ -141,7 +141,7 @@ from sanic.response import file_stream
 
 @app.route("/")
 async def handler(request):
-    return file_stream("/path/to/whatever.mp4")
+    return await file_stream("/path/to/whatever.mp4")
 ```
 
 和 `file()` 一样，`file_stream()` 也将主动确定您的 mine 类型，并为响应类型进行自动设置。
