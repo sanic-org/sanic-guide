@@ -510,7 +510,7 @@ let zh_locales = {
         title: "发行记录",
         sidebarDepth: 1,
         children: [
-          "/en/guide/release-notes/v21.9.md",
+          "/zh/guide/release-notes/v21.9.md",
           "/zh/guide/release-notes/v21.6.md",
           "/zh/guide/release-notes/v21.3.md",
         ],
