@@ -2,7 +2,7 @@
 
 The next important building block are your _handlers_. These are also sometimes called "views".
 
-In Sanic, a handler is any callable that takes at least a `Request` instance as an argument, and returns either an `HTTPResonse` instance, or a coroutine that does the same.
+In Sanic, a handler is any callable that takes at least a `Request` instance as an argument, and returns either an `HTTPResponse` instance, or a coroutine that does the same.
 
 
 

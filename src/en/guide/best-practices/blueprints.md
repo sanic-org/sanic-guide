@@ -41,6 +41,39 @@ app.blueprint(bp)
 
 Blueprints also have the same `websocket()` decorator and `add_websocket_route` method for implementing websockets.
 
+## Copying
+
+---:1
+
+::: new NEW in v21.9
+Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint.
+
+:::
+
+:--:1
+
+```python
+v1 = Blueprint("Version1", version=1)
+
+@v1.route("/something")
+def something(request):
+    pass
+
+v2 = v1.copy("Version2", version=2)
+
+app.blueprint(v1)
+app.blueprint(v2)
+```
+
+```
+Available routes:
+/v1/something
+/v2/something
+
+```
+
+:---
+
 ## Blueprint groups
 
 Blueprints may also be registered as part of a list or tuple, where the registrar will recursively cycle through any sub-sequences of blueprints and register them accordingly. The Blueprint.group method is provided to simplify this process, allowing a ‘mock’ backend directory structure mimicking what’s seen from the front end. Consider this (quite contrived) example:
@@ -289,6 +322,53 @@ group = Blueprint.group([auth, metrics], version="v1")
 # /v1/auth/ and /v1/metrics
 ```
 :---
+
+## Composable
+
+A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
+
+---:1
+Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes.
+:--:1
+```python
+app = Sanic(__name__)
+blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
+blueprint_2 = Blueprint("blueprint_2", url_prefix="/bp2")
+group = Blueprint.group(
+    blueprint_1,
+    blueprint_2,
+    version=1,
+    version_prefix="/api/v",
+    url_prefix="/grouped",
+    strict_slashes=True,
+)
+primary = Blueprint.group(group, url_prefix="/primary")
+
+
+@blueprint_1.route("/")
+def blueprint_1_default_route(request):
+    return text("BP1_OK")
+
+
+@blueprint_2.route("/")
+def blueprint_2_default_route(request):
+    return text("BP2_OK")
+
+
+app.blueprint(group)
+app.blueprint(primary)
+app.blueprint(blueprint_1)
+
+# The mounted paths:
+# /api/v1/grouped/bp1/
+# /api/v1/grouped/bp2/
+# /api/v1/primary/grouped/bp1
+# /api/v1/primary/grouped/bp2
+# /bp1
+
+```
+:---
+
 
 ## Generating a URL
 

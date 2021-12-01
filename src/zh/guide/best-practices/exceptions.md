@@ -2,7 +2,19 @@
 
 ## 使用 Sanic 预置异常(Using Sanic exceptions)
 
-Sanic 预置了许多标准异常。它们每个都会在您的响应中自动触发适当的 HTTP 状态代码。查看 [接口文档](https://sanic.readthedocs.io/en/latest/) 了解更多详细信息。
+有时，您只需要告诉 Sanic 终止执行响应函数，并返回一个状态码。此时，您可以抛出 `SanicException` 异常，之后，Sanic 将为您自动完成剩下的工作。
+
+您可以选择传递一个参数 `status_code`。默认情况下，如果您不传递该参数，SanicException 将会返回一个 HTTP 500 内部服务错误的响应
+
+```python
+from sanic.exceptions import SanicException
+
+@app.route("/youshallnotpass")
+async def no_no(request):
+        raise SanicException("Something went wrong.", status_code=501)
+```
+
+Sanic 预置了许多标准异常。它们每个都会在您的响应中自动触发适当的 HTTP 状态代码。查看 [接口文档](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions) 了解更多详细信息。
 
 ---:1
 
@@ -31,33 +43,11 @@ async def login(request):
 
 :---
 
-## 终止(Abort)
-
----:1
-
-有时候, 您只需要 Sanic 终止执行一个响应函数, 并返回一个状态代码, 您可以使用 `abort()`
-
-:--:1
-
-```python
-from sanic.exceptions import abort
-
-@app.route("/youshallnotpass")
-async def no_no(request):
-        abort(401)
-        # this won't happen
-        text("OK")
-```
-
-:---
-
 ## 处理(Handling)
 
+Sanic 通过呈现错误页面来自动处理异常，因此在许多情况下，您不需要自己处理它们。但是，如果您希望在引发异常时更多地控制该做什么，您同样可以自己实现一个处理程序。
 
-当您的响应函数遇到异常时，您应该主动处理它。Sanic 为此提供了一种方法。但是，如果您选择不处理，Sanic 也同样提供了一个后备选项。
-
-这不仅适用于 Sanic 标准异常，也适用于您的应用程序可能引发的任何异常。
-
+Sanic 为此提供了一个装饰器，它不仅适用于 Sanic 标准异常，还适用于您的应用程序可能抛出的**任何**异常。
 
 ---:1
 

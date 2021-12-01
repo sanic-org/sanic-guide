@@ -81,6 +81,19 @@ let en_locales = {
           ],
         },
         {
+          text: "Official Plugins",
+          items: [
+            {
+              text: "Sanic Extensions",
+              link: "/en/plugins/sanic-ext/getting-started.md",
+            },
+            {
+              text: "Sanic Testing",
+              link: "/en/plugins/sanic-testing/testing.md",
+            },
+          ],
+        },
+        {
           text: "API Docs",
           items: [
             {
@@ -94,11 +107,11 @@ let en_locales = {
           items: [
             {
               text: "Policies",
-              link: "/en/guide/project/policies.md",
+              link: "/en/org/policies.md",
             },
             {
               text: "S.C.O.P.E.",
-              link: "/en/guide/project/scope.md",
+              link: "/en/org/scope.md",
             },
           ],
         },
@@ -199,6 +212,9 @@ let en_locales = {
           // "/guide/how-to/validation.md",
           // "/guide/how-to/csrf.md",
           // "/guide/how-to/serialization.md",
+          // "/en/guide/how-to/sqlalchemy.md",
+          "/en/guide/how-to/orm.md",
+          "/en/guide/how-to/static-redirects.md",
           // "/guide/how-to/task-queue.md",
           "/en/guide/how-to/tls.md",
           // "/guide/how-to/websocket-feed.md",
@@ -208,15 +224,107 @@ let en_locales = {
       {
         title: "Release Notes",
         sidebarDepth: 1,
-        children: ["/en/guide/release-notes/v21.3.md"],
+        children: [
+          "/en/guide/release-notes/v21.9.md",
+          "/en/guide/release-notes/v21.6.md",
+          "/en/guide/release-notes/v21.3.md",
+        ],
+      },
+      {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
       },
       {
         title: "Organization",
         sidebarDepth: 1,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
+      },
+    ],
+
+    "/en/plugins/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
         children: [
-          "/en/guide/project/policies.md",
-          "/en/guide/project/scope.md",
+          ["/en/guide/", "General"],
+          ["/en/guide/basics/app.md", "Basics"],
+          ["/en/guide/advanced/class-based-views.md", "Advanced"],
+          ["/en/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/en/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/en/guide/how-to/toc.md", "How to..."],
         ],
+      },
+      {
+        title: "Sanic Extensions",
+        sidebarDepth: 1,
+        children: [
+          "/en/plugins/sanic-ext/getting-started.md",
+          {
+            title: "HTTP goodies",
+            children: [
+              "/en/plugins/sanic-ext/http/methods.md",
+              "/en/plugins/sanic-ext/http/cors.md",
+            ],
+          },
+          "/en/plugins/sanic-ext/convenience.md",
+          "/en/plugins/sanic-ext/injection.md",
+          {
+            title: "OpenAPI",
+            sidebarDepth: 2,
+            children: [
+              "/en/plugins/sanic-ext/openapi/basic.md",
+              "/en/plugins/sanic-ext/openapi/ui.md",
+              "/en/plugins/sanic-ext/openapi/decorators.md",
+              "/en/plugins/sanic-ext/openapi/advanced.md",
+              "/en/plugins/sanic-ext/openapi/autodoc.md",
+            ],
+          },
+          "/en/plugins/sanic-ext/validation.md",
+          "/en/plugins/sanic-ext/configuration.md",
+        ],
+      },
+      {
+        title: "Sanic Testing",
+        sidebarDepth: 1,
+        children: ["/en/plugins/sanic-testing/testing.md"],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
+      },
+    ],
+
+    "/en/org/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
+        children: [
+          ["/en/guide/", "General"],
+          ["/en/guide/basics/app.md", "Basics"],
+          ["/en/guide/advanced/class-based-views.md", "Advanced"],
+          ["/en/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/en/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/en/guide/how-to/toc.md", "How to..."],
+        ],
+      },
+      {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        collapsable: false,
+        children: ["/en/org/policies.md", "/en/org/scope.md"],
       },
     ],
   },
@@ -260,6 +368,23 @@ let zh_locales = {
               text: "运行和部署",
               link: "/zh/guide/deployment/configuration.md",
             },
+            {
+              text: "如何...",
+              link: "/zh/guide/how-to/toc.md",
+            },
+          ],
+        },
+        {
+          text: "官方插件",
+          items: [
+            {
+              text: "Sanic Extensions",
+              link: "/zh/plugins/sanic-ext/getting-started.md",
+            },
+            {
+              text: "Sanic Testing",
+              link: "/zh/plugins/sanic-testing/testing.md",
+            },
           ],
         },
         {
@@ -275,12 +400,12 @@ let zh_locales = {
           text: "Org 文档",
           items: [
             {
-              text: "Policies",
-              link: "/zh/guide/project/policies.md",
+              text: "政策",
+              link: "/zh/org/policies.md",
             },
             {
               text: "S.C.O.P.E.",
-              link: "/zh/guide/project/scope.md",
+              link: "/zh/org/scope.md",
             },
           ],
         },
@@ -382,6 +507,8 @@ let zh_locales = {
           // "/zh/guide/how-to/validation.md",
           // "/zh/guide/how-to/csrf.md",
           // "/zh/guide/how-to/serialization.md",
+          // "/zh/guide/how-to/sqlalchemy.md",
+          "/zh/guide/how-to/orm.md",
           // "/zh/guide/how-to/task-queue.md",
           "/zh/guide/how-to/tls.md",
           // "/zh/guide/how-to/websocket-feed.md",
@@ -391,15 +518,107 @@ let zh_locales = {
       {
         title: "发行记录",
         sidebarDepth: 1,
-        children: ["/zh/guide/release-notes/v21.3.md"],
+        children: [
+          "/zh/guide/release-notes/v21.9.md",
+          "/zh/guide/release-notes/v21.6.md",
+          "/zh/guide/release-notes/v21.3.md",
+        ],
+      },
+      {
+        title: "插件",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic 拓展"],
+          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
       },
       {
         title: "组织",
         sidebarDepth: 1,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
+      },
+    ],
+
+    "/zh/plugins/": [
+      {
+        title: "用户指南",
+        sidebarDepth: 1,
         children: [
-          "/zh/guide/project/policies.md",
-          "/zh/guide/project/scope.md",
+          ["/zh/guide/", "概览"],
+          ["/zh/guide/basics/app.md", "入门"],
+          ["/zh/guide/advanced/class-based-views.md", "进阶"],
+          ["/zh/guide/best-practices/blueprints.md", "最佳实践"],
+          ["/zh/guide/deployment/configuration.md", "运行和部署"],
+          ["/zh/guide/how-to/toc.md", "如何..."],
         ],
+      },
+      {
+        title: "Sanic 拓展",
+        sidebarDepth: 1,
+        children: [
+          "/zh/plugins/sanic-ext/getting-started.md",
+          {
+            title: "HTTP goodies",
+            children: [
+              "/zh/plugins/sanic-ext/http/methods.md",
+              "/zh/plugins/sanic-ext/http/cors.md",
+            ],
+          },
+          "/zh/plugins/sanic-ext/convenience.md",
+          "/zh/plugins/sanic-ext/injection.md",
+          {
+            title: "OpenAPI",
+            sidebarDepth: 2,
+            children: [
+              "/zh/plugins/sanic-ext/openapi/basic.md",
+              "/zh/plugins/sanic-ext/openapi/ui.md",
+              "/zh/plugins/sanic-ext/openapi/decorators.md",
+              "/zh/plugins/sanic-ext/openapi/advanced.md",
+              "/zh/plugins/sanic-ext/openapi/autodoc.md",
+              "/zh/plugins/sanic-ext/openapi/validation.md",
+            ],
+          },
+          "/zh/plugins/sanic-ext/configuration.md",
+        ],
+      },
+      {
+        title: "Sanic Testing",
+        sidebarDepth: 1,
+        children: ["/zh/plugins/sanic-testing/testing.md"],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
+      },
+    ],
+
+    "/zh/org/": [
+      {
+        title: "用户指南",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/guide/", "概览"],
+          ["/zh/guide/basics/app.md", "入门"],
+          ["/zh/guide/advanced/class-based-views.md", "进阶"],
+          ["/zh/guide/best-practices/blueprints.md", "最佳实践"],
+          ["/zh/guide/deployment/configuration.md", "运行和部署"],
+          ["/zh/guide/how-to/toc.md", "如何..."],
+        ],
+      },
+      {
+        title: "插件",
+        sidebarDepth: 1,
+        children: [
+          ["/zh/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/zh/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "组织",
+        sidebarDepth: 1,
+        collapsable: false,
+        children: ["/zh/org/policies.md", "/zh/org/scope.md"],
       },
     ],
   },
@@ -712,14 +931,14 @@ let site_config = {
     repo: "sanic-org/sanic",
     docsRepo: "sanic-org/sanic-guide",
     docsDir: "src",
-    docsBranch: "master",
+    docsBranch: "main",
     editLinks: true,
     smoothScroll: true,
     nextLinks: true,
     prevLinks: true,
     lastUpdated: "Last Updated",
     logo:
-      "https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png",
+      "https://raw.githubusercontent.com/sanic-org/sanic-assets/main/png/sanic-framework-logo-simple-400x97.png",
     locales: {
       "/en/": en_locales,
       "/zh/": zh_locales,

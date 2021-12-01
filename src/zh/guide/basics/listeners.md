@@ -2,14 +2,10 @@
 
 在 Sanic 应用程序的生命周期中 6 个切入点，在这些关键节点上设置监听器可以让您可以完成一些注入操作。
 
-::: new v21.3 新增
-
 有两 （2） 个切入点 *只* 在您的主进程中触发（即，只会在 `sanic server.app` 中触发一次。）
 
 - `main_process_start`
 - `main_process_stop`
-
-:::
 
 有四（4）个切入点可以让您在服务器启动或者关闭前执行一些初始化或资源回收相关代码。
 
@@ -77,7 +73,7 @@ Note over 进程: 退出
 
 ```python
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
 ```
@@ -93,32 +89,28 @@ app.register_listener(setup_db, "before_server_start")
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 
 :---
 
 ---:1
 
-::: new v21.3 新增
-
 您可以进一步缩短该装饰器的调用代码。如果您的 IDE 有自动补全应该会有很有用。
-
-:::
 
 :--:1
 
 ```python
 @app.before_server_start
 async def setup_db(app, loop):
-    app.db = await db_setup()
+    app.ctx.db = await db_setup()
 ```
 
 :---
 
 ## 执行顺序(Order of execution)
 
-听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
+监听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
 
 |                       | 执行阶段  |          执行顺序       |
 | :-------------------: | :------: | :---------------------: |

@@ -7,7 +7,7 @@ Sanic ships with its own internal web server. Under most circumstances, this is 
 After defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
 
 |    Parameter    |     Default    |                                           Description                                     |
-| :-------------: | :------------: | :---------------------------------------------------------------------------------------: |
+| :-------------: | :------------: | :---------------------------------------------------------------------------------------- |
 |  **host**       | `"127.0.0.1"`  | Address to host the server on.                                                            |
 |  **port**       | `8000`         | Port to host the server on.                                                               |
 |  **unix**       | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
@@ -56,7 +56,7 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 :---
 
 ::: tip
-Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processes.
+Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
 A common way to check this on Linux based operating systems:
 
@@ -87,28 +87,45 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 ```
 :---
 
----:1
+
 Use `sanic --help` to see all the options.
-:--:1
-```bash
+```text
 $ sanic --help
-usage: sanic [-h] [--host HOST] [--port PORT] [--unix UNIX] [--cert CERT] [--key KEY] [--workers WORKERS] [--debug] module
+usage: sanic [-h] [-v] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX]
+             [--cert CERT] [--key KEY] [--access-logs | --no-access-logs]
+             [-w WORKERS] [-d] [-r] [-R PATH]
+             module
+
+                 Sanic
+         Build Fast. Run Fast.
 
 positional arguments:
-  module
+  module                         Path to your Sanic app. Example: path.to.server:app
+                                 If running a Simple Server, path to directory to serve. Example: ./
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --host HOST
-  --port PORT
-  --unix UNIX
-  --cert CERT        location of certificate for SSL
-  --key KEY          location of keyfile for SSL.
-  --workers WORKERS
-  --debug
-
+  -h, --help                     show this help message and exit
+  -v, --version                  show program's version number and exit
+  --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
+  -s, --simple                   Run Sanic as a Simple Server (module arg should be a path)
+                                  
+  -H HOST, --host HOST           Host address [default 127.0.0.1]
+  -p PORT, --port PORT           Port to serve on [default 8000]
+  -u UNIX, --unix UNIX           location of unix socket
+                                  
+  --cert CERT                    Location of certificate for SSL
+  --key KEY                      location of keyfile for SSL
+                                  
+  --access-logs                  display access logs
+  --no-access-logs               no display access logs
+                                  
+  -w WORKERS, --workers WORKERS  number of worker processes [default 1]
+                                  
+  -d, --debug
+  -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
+  -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
+                                  
 ```
-:---
 
 #### As a module
 
@@ -121,12 +138,31 @@ python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 :---
 
 ::: tip FYI
-With either method (CLI or module), it is not necessary to invoke `app.run()` in your Python file. If you do, make sure you wrap it so that it only executes when directly run by the interpreter.
+With either method (CLI or module), you shoud *not* invoke `app.run()` in your Python file. If you do, make sure you wrap it so that it only executes when directly run by the interpreter.
 ```python
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1337, workers=4)
 ```
 :::
+
+
+#### Sanic Simple Server
+
+---:1
+Sometimes you just have a directory of static files that need to be served. This especially can be handy for quickly standing up a localhost server. Sanic ships with a Simple Server, where you only need to point it at a directory.
+:--:1
+```bash
+sanic ./path/to/dir --simple
+```
+:---
+
+---:1
+This could also be paired with auto-reloading.
+:--:1
+```bash
+sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
+```
+:---
 
 ## ASGI
 

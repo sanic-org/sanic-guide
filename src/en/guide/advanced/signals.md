@@ -1,21 +1,10 @@
 # Signals
 
-::: new NEW in v21.3
-This is a new API being introduced.
-:::
-
-::: warning This feature is released in BETA. 
-
-That means that the API is subject to change, although it is unlikely that it will. It is being released now so that developers may start making use of the feature, and we can continue to refine it towards its final release (currently scheduled for v21.6). Any breaking change from this API will only be done _if necessary_.
-
-Eventually, it will provide access to plug into the request/response lifecycle.
-:::
-
 Signals provide a way for one part of your application to tell another part that something happened.
 
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     await send_email(context["email"], template="registration")
 
 @app.post("/register")
@@ -62,6 +51,53 @@ async def my_signal_handler():
 ```
 :---
 
+## Built-in signals
+
+::: new NEW in v21.9
+In addition to creating a new signal, there are a number of built-in signals that are dispatched from Sanic itself. These signals exist to provide developers with more opportunities to add functionality into the request and server lifecycles.
+:::
+
+---:1
+
+
+You can attach them just like any other signal to an application or blueprint instance.
+
+:--:1
+
+```python
+@app.signal("http.lifecycle.complete")
+async def my_signal_handler(conn_info):
+    print("Connection has been closed")
+```
+
+:---
+
+These signals are the signals that are available, along with the arguments that the handlers take, and the conditions that attach (if any).
+
+
+| Event name                 | Arguments                       | Conditions                                                |
+| -------------------------- | ------------------------------- | --------------------------------------------------------- |
+| `http.routing.before`      | request                         |                                                           |
+| `http.routing.after`       | request, route, kwargs, handler |                                                           |
+| `http.lifecycle.begin`     | conn_info                       |                                                           |
+| `http.lifecycle.read_head` | head                            |                                                           |
+| `http.lifecycle.request`   | request                         |                                                           |
+| `http.lifecycle.handle`    | request                         |                                                           |
+| `http.lifecycle.read_body` | body                            |                                                           |
+| `http.lifecycle.exception` | request, exception              |                                                           |
+| `http.lifecycle.response`  | request, response               |                                                           |
+| `http.lifecycle.send`      | data                            |                                                           |
+| `http.lifecycle.complete`  | conn_info                       |                                                           |
+| `http.middleware.before`   | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
+| `http.middleware.after`    | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
+| `server.init.before`       | app, loop                       |                                                           |
+| `server.init.after`        | app, loop                       |                                                           |
+| `server.shutdown.before`   | app, loop                       |                                                           |
+| `server.shutdown.after`    | app, loop                       |                                                           |
+
+::: warning
+This is still an experimental feature. Full support will not be finalized until v21.12
+:::
 
 ## Events
 
@@ -173,7 +209,7 @@ Sometimes you may find the need to pass extra information into the signal handle
 :--:1
 ```python
 @app.signal("user.registration.created")
-async def send_registration_email(context):
+async def send_registration_email(**context):
     print(context)
 
 await app.dispatch(

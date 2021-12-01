@@ -26,7 +26,7 @@ pip install sanic
 from sanic import Sanic
 from sanic.response import text
 
-app = Sanic("My Hello, world app")
+app = Sanic("MyHelloWorldApp")
 
 @app.get("/")
 async def hello_world(request):
@@ -47,7 +47,7 @@ async def hello_world(request):
 
 ---:1
 
-让我们将上面写好的文件保存为 `sanic.py`， 然后运行它。
+让我们将上面写好的文件保存为 `server.py`， 然后运行它。
 
 :--:1
 

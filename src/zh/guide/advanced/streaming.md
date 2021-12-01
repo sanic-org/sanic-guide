@@ -15,6 +15,7 @@ Sanic 允许您以串流的形式接收并响应由客户端发送来的数据�
 ```python
 from sanic.views import stream
 
+
 class SimpleView(HTTPMethodView):
     @stream
     async def post(self, request):
@@ -38,9 +39,9 @@ class SimpleView(HTTPMethodView):
 ```python
 @app.post("/stream", stream=True)
 async def handler(request):
-        ...
-        body = await request.stream.read()
-        ...
+    ...
+    body = await request.stream.read()
+    ...
 ```
 
 :---
@@ -81,6 +82,7 @@ Sanic 中的 `StreamingHTTPResponse` 对象允许您将响应的内容串流给�
 ```python
 from sanic.response import stream
 
+
 @app.route("/")
 async def test(request):
     async def sample_streaming_fn(response):
@@ -114,15 +116,7 @@ async def index(request):
 
 ---:1
 
-::: new v21.3 新增
-
-从 v21.3 版本开始，`HTTPResponse` 对象提供了新的方法来支持流式传输。因此不需要定义协程作为回调再传入 `stream` 方法里面了。事实上，上面的方法仅仅只是为了方便做向下兼容了。
-
-您现在可在响应函数中直接进行流式传输了。
-
-_小提示：这个新的流式传输的 API 还处于 BETA 阶段，未来可能会有变动。_
-
-:::
+使用协程 + 回调的方式来进行流式传输已经是*明日黄花*。您应该使用新的方式来进行串流。新方式的好处是允许您以自然的语序来编写处理串流的响应函数代码（非回调）。
 
 :--:1
 
@@ -132,17 +126,20 @@ async def test(request):
     response = await request.respond(content_type="text/csv")
     await response.send("foo,")
     await response.send("bar")
-    await response.send("", True)
+    await response.eof()
     return response
 ```
 
 :---
 
+在上述例子中调用 `await response.eof()` 方法可以替代之前的 `await response.send("", True)` 方法。为客户端传输完数据*后*，您应该在响应函数内调用**一次**该方法。
+
 ## 文件流(File streaming)
 
 ---:1
 
-Sanic 提供了 `sanic.response.file_stream` 函数来处理发送大文件的场景。该函数会返回一个 `StreamingHTTPResponse` 对象，并且默认使用分块传输编码；因此 Sanic 不会为该响应添加 `Content-Length` 响应头。
+Sanic 提供了 `sanic.response.file_stream` 函数来处理发送大文件的场景。该函数会返回一个 `StreamingHTTPResponse` 对象，并且默认使用分块传输编码；因此 Sanic
+不会为该响应添加 `Content-Length` 响应头。
 
 通常，我们可能为客户端串流一个视频文件。
 
@@ -166,13 +163,14 @@ async def handler_file_stream(request):
 
 ---:1
 
-如果您想添加 `Content-Length` 响应头，您可以停用分块传输编码并且以下面这种形式手动添加。
+如果您想手动添加 `Content-Length` 响应头，参考下面的代码。并且如果您添加了该头，则会自动禁用分块传输编码。
 
 :--:1
 
 ```python
 from aiofiles import os as async_os
 from sanic.response import file_stream
+
 
 @app.route("/")
 async def index(request):
@@ -184,7 +182,6 @@ async def index(request):
     return await file_stream(
         file_path,
         headers=headers,
-        chunked=False,
     )
 ```
 

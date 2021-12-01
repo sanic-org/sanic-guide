@@ -8,14 +8,20 @@
 
 ```python
 @app.route("/stairway")
+
+
 ...
 
 
 @app.get("/to")
+
+
 ...
 
 
 @app.post("/heaven")
+
+
 ...
 
 ```
@@ -48,9 +54,9 @@ app.add_route(handler, "/test")
 
 ```python
 app.add_route(
-        handler,
-        '/test',
-        methods=["POST", "PUT"],
+    handler,
+    '/test',
+    methods=["POST", "PUT"],
 )
 ```
 
@@ -196,10 +202,10 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab string
+::: tab "str"
 
 ```python
-@app.route("/path/to/<foo:string>")
+@app.route("/path/to/<foo:str>")
 async def handler(request, foo: str):
     ...
 ```
@@ -212,6 +218,8 @@ async def handler(request, foo: str):
 
 - `/path/to/Bob`
 - `/path/to/Python%203`
+
+在之前版本中，您应该这样写 `<foo:string>`。这种写法将在 v21.12 中被弃用
 
 :::
 
@@ -237,10 +245,10 @@ async def handler(request, foo: int):
 
 :::
 
-::: tab number
+::: tab "float"
 
 ```python
-@app.route("/path/to/<foo:number>")
+@app.route("/path/to/<foo:float>")
 async def handler(request, foo: float):
     ...
 ```
@@ -254,6 +262,8 @@ async def handler(request, foo: float):
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
+
+在之前版本中，您应该这样写 `<foo:number>`。这种写法将在 v21.12 中被弃用
 
 :::
 
@@ -275,7 +285,26 @@ async def handler(request, foo: str):
 
 - `/path/to/Python`
 
-  无法匹配数字，空格以及其他特殊字符。
+*无法匹配数字，空格以及其他特殊字符。*
+
+:::
+
+::: tab "slug"
+
+```python
+@app.route("/path/to/<article:slug>")
+async def handler(request, article: str):
+    ...
+```
+
+**使用的正则表达式**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`
+
+**类型转换**: `str`
+
+**匹配示例**:
+
+- `/path/to/some-news-story`
+- `/path/to/or-has-digits-123`
 
 :::
 
@@ -310,11 +339,10 @@ async def handler(request, foo: str):
 async def handler(request, foo: datetime.date):
     ...
 ```
-::: new v21.3 新增
 
-**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
+**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`
 
-**转换类型**: `datetime.date`  
+**转换类型**: `datetime.date`
 
 **匹配示例**:
 
@@ -358,15 +386,48 @@ async def handler(request, foo: str):
 
 该方法允许您使用自定义的匹配模式，在上面的示例中，我们通过指定的正则表达式，来匹配符合 `YYYY-MM-DD` 格式的路由参数。
 
-:::
-
 ::::
+
+### 正则匹配(Regex Matching)
+
+更多时候，相对于复杂的路由，以上示例还是过于简单了，由我们使用了和以前完全不同的路由匹配模式，所以在这里我们要详细的说明一下正则的进阶用法。
+
+有时，您希望匹配路由中的某一部分：
+
+```text
+/image/123456789.jpg
+```
+
+如果您想匹配文件模式，但只捕获数字部分，您需要做一些正则表达式的适配, 来体会编写正则表达式的乐趣 😄 :
+
+```python
+app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
+```
+
+更进一步，下面的这些匹配方式都是支持的：
+
+```python
+@app.get(r"/image/<foo:\d{9}.jpg>")  # 完全匹配           
+@app.get(r"/image/<foo:(\d+).jpg>")  # 定义单个的匹配组            
+@app.get(r"/image/<foo:(?P<foo>\d+).jpg>")  # 定义单个命名的匹配组       
+@app.get(r"/image/<foo:(?P<foo>\d+).(?:jpg|png)>)")  # 定义一个命名的匹配组，以及一个或者多个不匹配的组 
+```
+
+值得注意的是，如果您使用了命名的匹配组，它的名称必须与 `label` 相同
+
+```python
+@app.get(r"/<foo:(?P<foo>\d+).jpg>")  # 正确示例
+@app.get(r"/<foo:(?P<bar>\d+).jpg>")  # 错误示例
+```
+
+更多的用方法请参考：[正则表达式操作](https://docs.python.org/zh-cn/3/library/re.html)
 
 ## 动态访问(Generating a URL)
 
 ---:1
 
-Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，您只需要函数名称即可实现响应函数之间的处理权力的移交。在您不希望将 url 进行硬编码或希望响应函数之间具有层级关系的时候，这将非常有用。它的使用方法如下：
+Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，您只需要函数名称即可实现响应函数之间的处理权力的移交。在您不希望将 url
+进行硬编码或希望响应函数之间具有层级关系的时候，这将非常有用。它的使用方法如下：
 
 :--:1
 
@@ -375,7 +436,7 @@ Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_
 async def index(request):
     # generate a URL for the endpoint `post_handler`
     url = app.url_for('post_handler', post_id=5)
-    
+
     # Redirect to `/posts/5`
     return redirect(url)
 
@@ -395,10 +456,10 @@ async def post_handler(request, post_id):
 
 ```python
 >> > app.url_for(
-        "post_handler",
-        post_id=5,
-        arg_one="one",
-        arg_two="two",
+    "post_handler",
+    post_id=5,
+    arg_one="one",
+    arg_two="two",
 )
 '/posts/5?arg_one=one&arg_two=two'
 ```
@@ -413,9 +474,9 @@ async def post_handler(request, post_id):
 
 ```python
 >> > app.url_for(
-        "post_handler",
-        post_id=5,
-        arg_one=["one", "two"],
+    "post_handler",
+    post_id=5,
+    arg_one=["one", "two"],
 )
 '/posts/5?arg_one=one&arg_one=two'
 ```
@@ -424,7 +485,7 @@ async def post_handler(request, post_id):
 
 ### 特殊关键字参数(Special keyword arguments)
 
-您可以在 [API Docs]() 查看更多详细信息。
+您可以在 [API Docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) 查看更多详细信息。
 
 ```python
 >> > app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
@@ -560,6 +621,7 @@ bp2 = Blueprint(
 # set the strict slashes check to false
 group = Blueprint.group([bp1, bp2], strict_slashes=True)
 ```
+
 :---
 
 ## 静态文件(Static files)
@@ -574,7 +636,7 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 
 第二个参数是渲染文件所在的文件(夹)路径
 
-更多详细用法请参考  [API docs]() 
+更多详细用法请参考  [API docs]()
 
 :--:1
 
@@ -604,9 +666,9 @@ app.static("/", "/path/to/index.html")
 
 ```python
 app.static(
-        "/user/uploads",
-        "/path/to/uploads",
-        name="uploads",
+    "/user/uploads",
+    "/path/to/uploads",
+    name="uploads",
 )
 ```
 
@@ -620,20 +682,30 @@ app.static(
 
 ```python
 >> > app.url_for(
-        "static",
-        name="static",
-        filename="file.txt",
+    "static",
+    name="static",
+    filename="file.txt",
 )
 '/static/file.txt'
 
 ​```python
 >> > app.url_for(
-        "static",
-        name="uploads",
-        filename="image.png",
+    "static",
+    name="uploads",
+    filename="image.png",
 )
 '/user/uploads/image.png'
 
 ```
 
 :---
+
+::: tip
+
+如果您想要设置多个静态文件路由，我们*强烈建议*您手动为 `static()` 加上 `name` 参数。可以确定的是，这样做可以减少一些潜在且隐蔽的 bug。
+
+```python
+app.static("/user/uploads", "/path/to/uploads", name="uploads")
+app.static("/user/profile", "/path/to/profile", name="profile_pics")
+
+```

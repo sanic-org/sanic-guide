@@ -7,7 +7,7 @@ Sanic 自带了一个 Web 服务器。在大多数情况下，推荐使用该服
 当定义了 `sanic.Sanic` 实例后，我们可以调用其 `run` 方法，该方法支持以下几个关键字参数：
 
 |     参数名称     |     默认值     |                              参数说明                              |
-| :-------------: | :------------: | :---------------------------------------------------------------: |
+| :-------------: | :------------: | :--------------------------------------------------------------- |
 |  **host**       | `"127.0.0.1"`  | 服务器监听的地址。                                                  |
 |  **port**       | `8000`         | 服务器监听的端口。                                                  |
 |  **unix**       | `None`         | Unix套接字文件（不是TCP）。                                         |
@@ -97,32 +97,45 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 
 :---
 
----:1
-
 您还可以使用 `sanic --help` 来查看所有选项。
 
-:--:1
-
-```bash
+```text
 $ sanic --help
-usage: sanic [-h] [--host HOST] [--port PORT] [--unix UNIX] [--cert CERT] [--key KEY] [--workers WORKERS] [--debug] module
+usage: sanic [-h] [-v] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX]
+             [--cert CERT] [--key KEY] [--access-logs | --no-access-logs]
+             [-w WORKERS] [-d] [-r] [-R PATH]
+             module
+
+                 Sanic
+         Build Fast. Run Fast.
 
 positional arguments:
-  module
+  module                         Path to your Sanic app. Example: path.to.server:app
+                                 If running a Simple Server, path to directory to serve. Example: ./
 
 optional arguments:
-  -h, --help         show this help message and exit
-  --host HOST
-  --port PORT
-  --unix UNIX
-  --cert CERT        location of certificate for SSL
-  --key KEY          location of keyfile for SSL.
-  --workers WORKERS
-  --debug
-
+  -h, --help                     show this help message and exit
+  -v, --version                  show program's version number and exit
+  --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
+  -s, --simple                   Run Sanic as a Simple Server (module arg should be a path)
+                                  
+  -H HOST, --host HOST           Host address [default 127.0.0.1]
+  -p PORT, --port PORT           Port to serve on [default 8000]
+  -u UNIX, --unix UNIX           location of unix socket
+                                  
+  --cert CERT                    Location of certificate for SSL
+  --key KEY                      location of keyfile for SSL
+                                  
+  --access-logs                  display access logs
+  --no-access-logs               no display access logs
+                                  
+  -w WORKERS, --workers WORKERS  number of worker processes [default 1]
+                                  
+  -d, --debug
+  -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
+  -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
+ 
 ```
-
-:---
 
 #### 作为模块运行 (As a module)
 
@@ -140,13 +153,39 @@ python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 
 ::: tip 小提示
 
-无论使用哪种方法(CLI 或模块），都再不需要在 Python 文件中调用 `app.run()`。如果您想调用该方法，请确认将其包装起来，使它只有在使用解释器运行文件时才会被执行。
+无论使用哪种方法(CLI 或模块），都再不应该在 Python 文件中调用 `app.run()`。如果您想调用该方法，请确认将其包装起来，使它只有在使用解释器运行文件时才会被执行。
 
 ```python
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1337, workers=4)
 ```
 :::
+
+#### Sanic 简易服务器
+
+---:1
+
+有时，您为了快速搭建一个本地环境，只需要代理一些静态文件。现在，只要指定一个特定的目录，Sanic 就能为您搭建一个简易的静态文件服务器。
+
+:--:1
+
+```bash
+sanic ./path/to/dir --simple
+```
+
+:---
+
+---:1
+
+这也可以和自动重启功能一起使用。
+
+:--:1
+
+```bash
+sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
+```
+
+:---
 
 ## ASGI
 

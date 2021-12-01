@@ -57,7 +57,6 @@ json({"foo": "bar"}, dumps=dumps)
 
 If `ujson` is not installed, it will fall back to the standard library `json` module.
 
-::: new NEW in v21.3
 You may additionally declare which implementation to use globally across your application at initialization:
 
 ```python
@@ -77,7 +76,7 @@ from sanic.response import file
 
 @app.route("/")
 async def handler(request):
-    return file("/path/to/whatever.png")
+    return await file("/path/to/whatever.png")
 ```
 
 Sanic will examine the file, and try and guess its mime type and use an appropriate value for the content type. You could be explicit, if you would like:
@@ -124,7 +123,7 @@ from sanic.response import file_stream
 
 @app.route("/")
 async def handler(request):
-    return file_stream("/path/to/whatever.mp4")
+    return await file_stream("/path/to/whatever.mp4")
 ```
 
 Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file.

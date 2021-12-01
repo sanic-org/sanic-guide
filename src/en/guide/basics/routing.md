@@ -24,7 +24,7 @@ But what is it? And how do we use it?
 
 The most basic way to wire up a handler to an endpoint is with `app.add_route()`.
 
-See [API docs]() for more details.
+See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) for more details.
 :--:1
 ```python
 async def handler(request):
@@ -163,10 +163,10 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab string
+::: tab str
 
 ```python
-@app.route("/path/to/<foo:string>")
+@app.route("/path/to/<foo:str>")
 async def handler(request, foo: str):
     ...
 ```
@@ -175,6 +175,9 @@ async def handler(request, foo: str):
 **Example matches**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
+
+
+In previous versions of Sanic, this was `<foo:string>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab  int
 
@@ -191,10 +194,10 @@ async def handler(request, foo: int):
 
 _Does not match float, hex, octal, etc_
 :::
-::: tab number
+::: tab float
 
 ```python
-@app.route("/path/to/<foo:number>")
+@app.route("/path/to/<foo:float>")
 async def handler(request, foo: float):
     ...
 ```
@@ -204,6 +207,8 @@ async def handler(request, foo: float):
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
+
+In previous versions of Sanic, this was `<foo:number>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab alpha
 
@@ -219,6 +224,20 @@ async def handler(request, foo: str):
 - `/path/to/Python`
 
 _Does not match a digit, or a space or other special character_
+:::
+::: tab slug
+
+```python
+@app.route("/path/to/<article:slug>")
+async def handler(request, article: str):
+    ...
+```
+**Regular expression applied**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
+**Cast type**: `str`  
+**Example matches**:
+- `/path/to/some-news-story`
+- `/path/to/or-has-digits-123`
+
 :::
 ::: tab path
 
@@ -244,12 +263,12 @@ Because this will match on `/`, you should be careful and thoroughly test your p
 async def handler(request, foo: datetime.date):
     ...
 ```
-::: new NEW in v21.3
 **Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
 **Cast type**: `datetime.date`  
 **Example matches**:
 - `/path/to/2021-03-28`
 :::
+
 ::: tab uuid
 
 ```python
@@ -261,11 +280,13 @@ async def handler(request, foo: UUID):
 **Cast type**: `UUID`  
 **Example matches**:
 - `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
+
 :::
+
 ::: tab regex
 
 ```python
-@app.route("/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
+@app.route(r"/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
 async def handler(request, foo: str):
     ...
 ```
@@ -277,8 +298,45 @@ async def handler(request, foo: str):
 This gives you the freedom to define specific matching patterns for your use case. 
 
 In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
-:::
+
 ::::
+
+### Regex Matching
+
+
+
+More often than not, compared with complex routing, the above example is too simple, and we use a completely different routing matching pattern, so here we will explain the advanced usage of regex matching in detail.
+
+Sometimes, you want to match a part of a route:
+
+```text
+/image/123456789.jpg
+```
+
+If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun 😄:
+
+```python
+app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
+```
+
+Further, these should all be acceptable:
+
+```python
+@app.get(r"/<foo:[a-z]{3}.txt>")                # matching on the full pattern
+@app.get(r"/<foo:([a-z]{3}).txt>")              # defining a single matching group
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       # defining a single named matching group
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
+```
+
+Also, if using a named matching group, it must be the same as the segment label.
+
+```python
+@app.get(r"/<foo:(?P<foo>\d+).jpg>")  # OK
+@app.get(r"/<foo:(?P<bar>\d+).jpg>")  # NOT OK
+```
+
+For more regular usage methods, please refer to [Regular expression operations](https://docs.python.org/3/library/re.html)
+
 ## Generating a URL
 
 ---:1
@@ -443,7 +501,7 @@ def handler(request):
 ```python
 bp1 = Blueprint(name="bp1", url_prefix="/bp1")
 bp2 = Blueprint(
-    name="bp1",
+    name="bp2",
     url_prefix="/bp2",
     strict_slashes=False,
 )
@@ -517,3 +575,11 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 
 ```
 :---
+
+::: tip
+If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+
+```python
+app.static("/user/uploads", "/path/to/uploads", name="uploads")
+app.static("/user/profile", "/path/to/profile", name="profile_pics")
+```

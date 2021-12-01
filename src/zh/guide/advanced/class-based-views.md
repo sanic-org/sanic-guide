@@ -58,7 +58,7 @@ class FooBar(HTTPMethodView):
     async def put(self, request):
         ...
 
-app.add_route(FooBar.as_view(), "/foobar)
+app.add_route(FooBar.as_view(), "/foobar")
 ```
 
 :---
@@ -135,6 +135,8 @@ app.add_route(NameView.as_view(), "/<name>")
 
 1.  应用于视图中的 *所有*  HTTP 方法
 2.  独自应用于视图中的 *指定*  HTTP 方法
+
+让我们分别来看看他们的用法：
 
 ---:1
 
@@ -233,3 +235,10 @@ app.add_route(view, "/")
 目前为止，Sanic 暂时不支持您使用 `url_for` 来为 `CompositionView` 生成 URL
 
 :::
+
+::: warning 在 v21.6 弃用
+
+`CompositionView` 已经被弃用并且将在 v21.12 版本中删除。
+
+:::
+

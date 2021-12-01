@@ -97,13 +97,8 @@ If a client supports HTTP/1.1, Sanic will use [chunked transfer encoding](https:
 :::
 
 ---:1
-::: new NEW in v21.3
-Starting in v21.3, there is first-class support in the `HTTPResponse` object for streaming. Therefore, the coroutine callback pattern using `stream` is not needed. Indeed, it is merely a convenience method for backwards compatibility.
 
-You now are able to stream the response directly in the handler.
-
-_FYI: This new style streaming API is still in BETA, and might change slightly._
-:::
+The coroutine callback pattern using `stream` is not needed. It is the *old style* of streaming, and should be replaced with the newer inline streaming. You now are able to stream the response directly in the handler.
 
 :--:1
 ```python
@@ -112,10 +107,12 @@ async def test(request):
     response = await request.respond(content_type="text/csv")
     await response.send("foo,")
     await response.send("bar")
-    await response.send("", True)
+    await response.eof()
     return response
 ```
 :---
+
+In the example above `await response.eof()` is called as a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client.
 
 
 ## File streaming
@@ -143,7 +140,8 @@ async def handler_file_stream(request):
 
 ---:1
 
-If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually.
+If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually simply by adding the `Content-Length` header.
+
 :--:1
 ```python
 from aiofiles import os as async_os
@@ -159,7 +157,6 @@ async def index(request):
     return await file_stream(
         file_path,
         headers=headers,
-        chunked=False,
     )
 ```
 :---

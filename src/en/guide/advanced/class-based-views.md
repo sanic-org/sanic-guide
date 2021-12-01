@@ -53,7 +53,7 @@ class FooBar(HTTPMethodView):
     async def put(self, request):
         ...
 
-app.add_route(FooBar.as_view(), "/foobar)
+app.add_route(FooBar.as_view(), "/foobar")
 ```
 :---
 
@@ -124,6 +124,7 @@ As discussed in [the decorators section](/guide/best-practices/decorators.md), o
 1. Apply to _all_ HTTP methods in the view
 2. Apply individually to HTTP methods in the view
 
+Let's see what the options look like:
 
 ---:1
 
@@ -211,4 +212,8 @@ app.add_route(view, "/")
 
 ::: warning
 Currently you cannot build a URL for a `CompositionView` using `url_for`.
+:::
+
+::: warning Deprecated v21.6
+`CompositionView` has been deprecated and will be removed from Sanic in v21.12.
 :::

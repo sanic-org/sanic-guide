@@ -29,6 +29,9 @@ Sanic releases a long term support release (aka "LTS") once a year in December. 
 
 | Version | LTS           | Supported               |
 | ------- | ------------- | ----------------------- |
+| 21.9    |               | :white_check_mark:      |
+| 21.6    |               | :x:                     |
+| 21.3    |               | :x:                     |
 | 20.12   | until 2022-12 | :white_check_mark:      |
 | 20.9    |               | :x:                     |
 | 20.6    |               | :x:                     |
