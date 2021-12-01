@@ -1,14 +1,14 @@
 # Request
 
-The `Request` instance contains **a lot** of helpful information available on its parameters. Refer to the [API documentation](https://sanic.readthedocs.io/) for full details.
+`Request` 인스턴스에는 해당 매개변수에서 사용할 수 있는 **많은** 유용한 정보가 포함되어 있습니다. 자세한 내용은 [API Docs](https://sanic.readthedocs.io/)를 참조하세요.
 
 ## Body
 
 :::: tabs
 ::: tab JSON
 
-**Parameter**: `request.json`  
-**Description**: The parsed JSON object
+**매개변수**: `request.json`  
+**설명**: 구문 분석된 JSON 객체
 
 ```bash
 $ curl localhost:8000 -d '{"foo": "bar"}'
@@ -22,8 +22,8 @@ $ curl localhost:8000 -d '{"foo": "bar"}'
 
 ::: tab Raw
 
-**Parameter**: `request.body`  
-**Description**: The raw bytes from the request body
+**매개변수**: `request.body`  
+**설명**: 요청 본문의 원시 바이트
 
 ```bash
 $ curl localhost:8000 -d '{"foo": "bar"}'
@@ -37,8 +37,8 @@ b'{"foo": "bar"}'
 
 ::: tab Form
 
-**Parameter**: `request.form`  
-**Description**: The form data
+**매개변수**: `request.form`  
+**설명**: 폼 데이터
 
 ```bash
 $ curl localhost:8000 -d 'foo=bar'
@@ -59,15 +59,16 @@ bar
 ```
 
 ::: tip FYI
-:bulb: The `request.form` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+:bulb: `request.form` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
+
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
 :::
 
 ::: tab Uploaded
 
-**Parameter**: `request.files`  
-**Description**: The files uploaded to the server
+**매개변수**: `request.files`  
+**설명**: 서버에 업로드된 파일
 
 ```bash
 $ curl -F 'my_file=@/path/to/TEST' http://localhost:8000
@@ -87,20 +88,20 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 [File(type='application/octet-stream', body=b'hello\n', name='TEST')]
 ```
 ::: tip FYI
-:bulb: The `request.files` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
+:bulb: `request.files` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
 :::
 
 ::::
 
-## Context
+## 컨텍스트 (Context)
 
-### Request context
+### 요청 컨텍스트 (Request context)
 
-The `request.ctx` object is your playground to store whatever information you need to about the request.
+`request.ctx` 객체는 요청에 대해 필요한 모든 정보를 저장하는 놀이터입니다.
 
-This is often used to store items like authenticated user details. We will get more into [middleware](./middleware.md) later, but here is a simple example.
+인증된 사용자 세부 정보와 같은 항목을 저장하는 데 자주 사용됩니다. 나중에 [middleware](./middleware.md)에 대해 더 자세히 다루겠지만 여기에 간단한 예가 있습니다.
 
 ```python
 @app.on_request
@@ -112,20 +113,20 @@ async def hi_my_name_is(request):
     return text("Hi, my name is {}".format(request.ctx.user.name))
 ```
 
-A typical use case would be to store the user object acquired from database in an authentication middleware. Keys added are accessible to all later middleware as well as the handler over the duration of the request.
+일반적인 사용 사례는 인증 미들웨어에 데이터베이스에서 얻은 사용자 개체를 저장하는 것입니다. 추가된 키는 이후의 모든 미들웨어와 요청 기간 동안 처리기에 액세스할 수 있습니다.
 
-Custom context is reserved for applications and extensions. Sanic itself makes no use of it.
+사용자 정의 컨텍스트는 애플리케이션 및 확장을 위해 예약되어 있습니다. Sanic 자체는 그것을 사용하지 않습니다.
 
-### Connection context
+### 연결 컨텍스트(Connection context)
 
 ---:1
-::: new NEW in v21.3
-Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
 
-The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
+종종 API는 동일한 클라이언트에 여러 동시(또는 연속) 요청을 제공해야 합니다. 예를 들어, 이는 데이터를 얻기 위해 여러 엔드포인트를 쿼리해야 하는 점진적 웹 앱에서 매우 자주 발생합니다.
 
-When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
-:::
+HTTP 프로토콜은 [keep live headers](../deployment/configuration.md#keep-alive-timeout)를 사용하여 연결로 인한 오버헤드 시간의 완화를 요청합니다
+
+여러 요청이 단일 연결을 공유할 때 Sanic은 해당 요청이 상태를 공유할 수 있도록 컨텍스트 개체를 제공합니다.
+
 :--:1
 ```python
 @app.on_request
@@ -147,14 +148,10 @@ request.conn_info.ctx.foo=3
 ```
 :---
 
-::: warning
-Connection level context is an experimental feature, and should be finalized in v21.6.
-:::
-
-## Parameters
+## 매개변수 (Parameters)
 
 ---:1
-Values that are extracted from the path are injected into the handler as parameters, or more specifically as keyword arguments. There is much more detail about this in the [Routing section](./routing.md).
+경로에서 추출된 값은 핸들러에 매개변수로, 더 구체적으로는 키워드 인수로 주입됩니다. [Routing section](./routing.md)에 이에 대한 자세한 내용이 있습니다.
 :--:1
 ```python
 @app.route('/tag/<tag>')
@@ -164,9 +161,9 @@ async def tag_handler(request, tag):
 :---
 
 
-## Arguments
+## 인수 (Arguments)
 
-There are two attributes on the `request` instance to get query parameters:
+쿼리 매개변수를 가져오기 위한 `request` 인스턴스에는 두 가지 속성이 있습니다.
 
 - `request.args`
 - `request.query_args`
@@ -194,7 +191,7 @@ key1=val1&key2=val2&key1=val3
 ```
 
 ::: tip FYI
-:bulb: The `request.args` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
+:bulb: `request.args` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
 
-Most of the time you will want to use the `.get()` method can be used to access the first element and not a list. If you do want a list of all items, you can user `.getlist()`.
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
 :::

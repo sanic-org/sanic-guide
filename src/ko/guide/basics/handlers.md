@@ -87,7 +87,7 @@ def sync_handler(request):
 
 :flushed:
 
-이건 말도 안되게 과장된 결과이며, 여러분이 보는 모든 벤치마크도 기본적으로 매우 편향되어 있습니다. 이 예는 웹 세계에서 `async/wait`의 이점을 과장되게 보여주기 위한 것입니다. 결과는 확실히 다를 것입니다. Sanic 및 기타 비동기 Python 라이브러리와 같은 도구는 코드를 총알처럼 빠르게 만드는 마법이 아닙니다. 코드를 더 _효율적으로_ 만드는 것입니다.
+좋아... 이건 말도 안되게 과장된 결과이며, 여러분이 보는 모든 벤치마크도 기본적으로 매우 편향되어 있습니다. 이 예는 웹 세계에서 `async/wait`의 이점을 과장되게 보여주기 위한 것입니다. 결과는 확실히 다를 것입니다. Sanic 및 기타 비동기 Python 라이브러리와 같은 도구는 코드를 총알처럼 빠르게 만드는 마법이 아닙니다. 코드를 더 _효율적으로_ 만드는 것입니다.
 
 이 예에서는 비동기 버전이 훨씬 더 낫습니다. 한 요청이 기다리는 동안 다른 요청을 할 수 있고, 또 다른 요청을 할 수 있고, 또 다른 요청을 할 수 있고, 또 다른 요청을 할 수 있기 때문입니다.
 
@@ -104,7 +104,7 @@ async def async_handler(request):
 
 :---
 
-::: 경고! 일반적인 실수입니다!
+::: warning 일반적인 실수입니다!
 
 이러지 마세요! 웹 사이트를 ping해야 할 때, 뭘 쓰시나요? `pip install your-fav-request-library` :see_no_evil:
 
@@ -118,7 +118,7 @@ Sanic은 테스트 패키지(sanic-testing) 내에서 [httpx](https://www.python
 
 ## 완전히 주석이 달린 핸들러(A fully annotated handler)
 
-주석 유형(type annotations)을 사용하는 경우...
+타입 어노테이션(type annotations)을 사용하는 경우...
 
 ```python
 from sanic.response import HTTPResponse, text

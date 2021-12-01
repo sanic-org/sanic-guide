@@ -1,6 +1,6 @@
-# Middleware
+# 미들웨어(Middleware)
 
-Whereas listeners allow you to attach functionality to the lifecycle of a worker process, middleware allows you to attach functionality to the lifecycle of an HTTP stream.
+리스너를 사용하면 작업자 프로세스의 수명 주기에 기능을 연결할 수 있지만 미들웨어를 사용하면 HTTP 스트림의 수명 주기에 기능을 연결할 수 있습니다.
 
 You can execute middleware either _before_ the handler is executed, or _after_.
 
@@ -28,11 +28,12 @@ loop
 end
 Note over Worker: Deliver response
 ```
-## Attaching middleware
+## 미들웨어 연결(Attaching middleware)
 
 ---:1
 
-This should probably look familiar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`.
+이것은 아마 지금쯤 친숙해 보일 것입니다. 당신이 해야 할 일은 미들웨어가 실행되기를 원하는 때를 선언하는 것뿐입니다: `request` 또는 `response`.
+
 :--:1
 ```python
 async def extract_user(request):
@@ -44,7 +45,8 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-Again, the `Sanic` app instance also has a convenience decorator.
+다시 말하지만, `Sanic` 앱 인스턴스에는 편리한 데코레이터도 있습니다.
+
 :--:1
 ```python
 @app.middleware("request")
@@ -55,7 +57,8 @@ async def extract_user(request):
 
 ---:1
 
-Response middleware receives both the `request` and `response` arguments.
+응답 미들웨어는 `request` 및 `response` 인수를 모두 받습니다.
+
 :--:1
 ```python
 @app.middleware('response')
@@ -66,8 +69,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-::: new NEW in v21.3
-You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
+데코레이터를 더 줄일 수 있습니다. 이는 자동 완성 기능이 있는 IDE가 있는 경우에 유용합니다.
 :::
 :--:1
 ```python
@@ -81,18 +83,20 @@ async def prevent_xss(request, response):
 ```
 :---
 
-## Modification
+## 수정(Modification)
 
 ---:1
 
-Middleware can modify the request or response parameter it is given, _as long as it does not return it_.
+미들웨어는 _반환하지 않는 한_ 제공된 요청 또는 응답 매개변수를 수정할 수 있습니다.
 
-#### Order of execution
+#### 실행 순서(Order of execution)
 
-1. Request middleware: `add_key`
-2. Route handler: `index`
-3. Response middleware: `prevent_xss`
-4. Response middleware: `custom_banner`
+
+1. 미들웨어 요청: `add_key`
+2. 라우트 핸들러: `index`
+3. 응답 미들웨어: `prevent_xss`
+4. 응답 미들웨어: `custom_banner`
+   
 :--:1
 ```python
 @app.middleware("request")
@@ -120,8 +124,9 @@ async def index(request):
 
 
 ---:1
-::: new NEW in v21.3
-You can modify the `request.match_info`. A useful feature that could be used, for example, in middleware to convert `a-slug` to `a_slug`.
+
+`request.match_info`를 수정할 수 있습니다. 예를 들어 미들웨어에서 `a-slug`를 `a_slug`로 변환하는 데 사용할 수 있는 유용한 기능입니다.
+
 :::
 :--:1
 ```python
@@ -139,11 +144,12 @@ $ curl localhost:9999/foo-bar-baz
 foo_bar_baz
 ```
 :---
-## Responding early
+## 일찍 응답하기(Responding early)
 
 ---:1
 
-If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+미들웨어가 `HTTPResponse` 객체를 반환하면 요청 처리가 중지되고 응답이 반환됩니다. 라우트 핸들러에 도달하기 전에 요청에 이 문제가 발생하면 핸들러가 호출되지 **않습니다**. 응답을 반환하면 더 이상 미들웨어가 실행되지 않습니다.
+
 :--:1
 ```python
 @app.middleware("request")
@@ -156,11 +162,12 @@ async def halt_response(request, response):
 ```
 :---
 
-#### Order of execution
+#### 실행 순서(Order of execution)
 
-Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
 
-Given the following setup, we should expect to see this in the console.
+요청 미들웨어는 선언된 순서대로 실행됩니다. 응답 미들웨어는 **역순**으로 실행됩니다.
+
+다음 설정이 주어지면 콘솔에서 이를 볼 수 있을 것으로 예상해야 합니다
 
 ---:1
 

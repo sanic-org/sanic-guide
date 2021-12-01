@@ -18,7 +18,6 @@ app = Sanic("My Hello, world app")
 
 ## 애플리케이션 컨텍스트(Application context)
 
-::: new NEW in v21.3
 대부분의 애플리케이션은 코드베이스의 여러 부분에서 데이터 또는 개체를 공유/재사용 해야 할 것입니다. 가장 흔한 예로는 DB 연결이 있습니다.
 
 ---:1
@@ -83,8 +82,7 @@ app = Sanic.get_app(
 :---
 
 ---:1
-::: new NEW in v21.3
-Sanic 인스턴스가 `하나만` 등록된 경우 인수 없이 `Sanic.get_app()`을 호출하면 해당 인스턴스가 반환됩니다.
+Sanic 인스턴스가 **하나만** 등록된 경우 인수 없이 `Sanic.get_app()`을 호출하면 해당 인스턴스가 반환됩니다.
 :::
 :--:1
 
@@ -133,7 +131,133 @@ app.config.bad = "boo"
 
 나중에 [구성에 대한 자세한 내용](/guide/deployment/configuration.md)에서 자세히 소개됩니다.
 
-<!-- ## Methods
+## 커스터마이징(Customization)
 
-### 실행(Run)
-### 정지(Stop) -->
+Sanic 애플리케이션 인스턴스는 인스턴스화 시 다양한 방식으로 애플리케이션 요구사항에 맞게 사용자 정의할 수 있습니다.
+
+### 사용자 정의 구성(Custom configuration)
+
+---:1
+
+이 가장 간단한 형태의 사용자 지정 구성은 Sanic 응용 프로그램 인스턴스에 직접 개체를 전달하는 것입니다.
+
+사용자 지정 구성 개체를 생성하는 경우 Sanic `Config` 옵션을 하위 클래스로 지정하여 해당 동작을 상속하는 것이 *매우* 권장됩니다. 속성을 추가하거나 고유한 사용자 정의 로직을 추가하는 데 이 옵션을 사용할 수 있습니다.
+
+:--:1
+```python
+from sanic.config import Config
+
+class MyConfig(Config):
+    FOO = "bar"
+
+app = Sanic(..., config=MyConfig())
+```
+:---
+
+---:1
+이 기능의 유용한 예는 [지원하는](../deployment/configuration.md#using-sanic-update-config)다른 형식으로 구성 파일을 사용하려는 경우입니다.
+:--:1
+```python
+from sanic import Sanic, text
+from sanic.config import Config
+
+class TomlConfig(Config):
+    def __init__(self, *args, path: str, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        with open(path, "r") as f:
+            self.apply(toml.load(f))
+
+    def apply(self, config):
+        self.update(self._to_uppercase(config))
+
+    def _to_uppercase(self, obj: Dict[str, Any]) -> Dict[str, Any]:
+        retval: Dict[str, Any] = {}
+        for key, value in obj.items():
+            upper_key = key.upper()
+            if isinstance(value, list):
+                retval[upper_key] = [
+                    self._to_uppercase(item) for item in value
+                ]
+            elif isinstance(value, dict):
+                retval[upper_key] = self._to_uppercase(value)
+            else:
+                retval[upper_key] = value
+        return retval
+
+toml_config = TomlConfig(path="/path/to/config.toml")
+app = Sanic(toml_config.APP_NAME, config=toml_config)
+```
+:---
+### 사용자 정의 컨텍스트(Custom context)
+---:1
+
+기본적으로 애플리케이션 컨텍스트는 원하는 속성을 설정할 수 있는 [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace)입니다. 그러나 대신 어떤 개체든 전달할 수도 있습니다.
+
+:--:1
+```python
+app = Sanic(..., ctx=1)
+```
+
+```python
+app = Sanic(..., ctx={})
+```
+
+```python
+class MyContext:
+    ...
+
+app = Sanic(..., ctx=MyContext())
+```
+:---
+
+### 사용자 정의 요청(Custom requests)
+
+---:1
+때로는 자신만의 `Request` 클래스를 갖고 Sanic에게 기본값 대신 사용하도록 지시하는 것이 도움이 됩니다. 한 가지 예는 기본 `request.id` 생성기를 수정하려는 경우입니다.
+
+::: tip Important
+
+클래스의 인스턴스가 아닌 *class*를 전달한다는 것을 기억하는 것이 중요합니다.
+
+:::
+:--:1
+```python
+import time
+
+from sanic import Request, Sanic, text
+
+
+class NanoSecondRequest(Request):
+    @classmethod
+    def generate_id(*_):
+        return time.time_ns()
+
+
+app = Sanic(..., request_class=NanoSecondRequest)
+
+
+@app.get("/")
+async def handler(request):
+    return text(str(request.id))
+```
+:---
+
+### 사용자 정의 에러 핸들러(Custom error handler)
+
+---:1
+자세한 내용은 [exception handling](../best-practices/exceptions.md#custom-error-handling)를 참조하세요.
+:--:1
+```python
+from sanic.handlers import ErrorHandler
+
+class CustomErrorHandler(ErrorHandler):
+    def default(self, request, exception):
+        ''' handles errors that have no error handlers assigned '''
+        # You custom error handling logic...
+        return super().default(request, exception)
+
+app = Sanic(..., error_handler=CustomErrorHandler())
+```
+:---
+

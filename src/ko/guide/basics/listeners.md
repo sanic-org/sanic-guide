@@ -2,8 +2,6 @@
 
 Sanic은 애플리케이션의 수명주기에 작업을 삽입 할 수있는 6번의 기회를 제공합니다.
 
-::: new NEW in v21.3
-
 기본 Sanic 프로세스에서 **만** 실행되는 2가지가 있습니다 (즉,`sanic server.app` 호출 당 한 번).
 
 - `main_process_start`
@@ -22,49 +20,49 @@ Sanic은 애플리케이션의 수명주기에 작업을 삽입 할 수있는 6�
 ```mermaid
 sequenceDiagram
 autonumber
-participant 프로세스
-participant 작업자
-participant 리스너
-participant 핸들러
-Note over 프로세스: sanic server.app
+participant Process
+participant Worker
+participant Listener
+participant Handler
+Note over Process: sanic server.app
 loop
-    프로세스->>리스너: @app.main_process_start
-    리스너->>핸들러: Invoke event handler
+    Process->>Listener: @app.main_process_start
+    Listener->>Handler: Invoke event handler
 end
-프로세스->>작업자: Run workers
+Process->>Worker: Run workers
 loop Start each worker
     loop
-        작업자->>리스너: @app.before_server_start
-        리스너->>핸들러: Invoke event handler
+        Worker->>Listener: @app.before_server_start
+        Listener->>Handler: Invoke event handler
     end
-    Note over 작업자: Server status: started
+    Note over Worker: Server status: started
     loop
-        작업자->>리스너: @app.after_server_start
-        리스너->>핸들러: Invoke event handler
+        Worker->>Listener: @app.after_server_start
+        Listener->>Handler: Invoke event handler
     end
-    Note over 작업자: Server status: ready
+    Note over Worker: Server status: ready
 end
-프로세스->>작업자: Graceful shutdown
+Process->>Worker: Graceful shutdown
 loop Stop each worker
     loop
-        작업자->>리스너: @app.before_server_stop
-        리스너->>핸들러: Invoke event handler
+        Worker->>Listener: @app.before_server_stop
+        Listener->>Handler: Invoke event handler
     end
-    Note over 작업자: Server status: stopped
+    Note over Worker: Server status: stopped
     loop
-        작업자->>리스너: @app.after_server_stop
-        리스너->>핸들러: Invoke event handler
+        Worker->>Listener: @app.after_server_stop
+        Listener->>Handler: Invoke event handler
     end
-    Note over 작업자: Server status: closed
+    Note over Worker: Server status: closed
 end
 loop
-    프로세스->>리스너: @app.main_process_stop
-    리스너->>핸들러: Invoke event handler
+    Process->>Listener: @app.main_process_stop
+    Listener->>Handler: Invoke event handler
 end
-Note over 프로세스: exit
+Note over Process: exit
 ```
 
-## 리스너 첨부(Attaching a listener)
+## 리스너 연결(Attaching a listener)
 
 ---:1
 
@@ -98,7 +96,7 @@ async def setup_db(app, loop):
 :---
 
 ---:1
-::: new NEW in v21.3
+
 데코레이터를 더 줄일 수 있습니다. 자동 완성 기능이있는 IDE가있는 경우 유용합니다.
 :::
 :--:1
@@ -194,8 +192,8 @@ async def listener_8(app, loop):
 위의 예에서는 세 가지 프로세스가 어떻게 실행 중인지 알아봅니다:
 
 - `pid: 1000000` - The *main* process
-- `pid: 1111111` - 작업자 1
-- `pid: 1222222` - 작업자 2
+- `pid: 1111111` - Worker 1
+- `pid: 1222222` - Worker 2
 
 *이 예제에서는 한 작업자를 모두 그룹화 한 다음 다른 작업자를 모두 그룹화하기 때문에 실제로는 별도의 프로세스에서 실행되기 때문에 프로세스 간의 순서가 보장되지 않습니다. 그러나 한 명의 작업자가 **항상** 순서를 유지할 것임을 확신 할 수 있습니다.*
 :---
