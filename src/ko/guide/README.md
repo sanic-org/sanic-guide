@@ -52,7 +52,7 @@ Stackoverflow의 `[sanic]` 태그는 프로젝트 유지보수자들에 의해 [
 
 ## 기여
 
-우리는 새로운 기여를 받을 때마다 행복합니다. 저희는 [기여하려는 사용자들에게 유용하도록 이슈에 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
+우리는 새로운 기여를 받을 때마다 기쁩니다. 저희는 [기여하려는 사용자들에게 유용하도록 이슈에 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
 
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
