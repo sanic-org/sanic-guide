@@ -113,7 +113,7 @@ async def hi_my_name_is(request):
     return text("Hi, my name is {}".format(request.ctx.user.name))
 ```
 
-일반적인 사용 사례는 인증 미들웨어에 데이터베이스에서 얻은 사용자 개체를 저장하는 것입니다. 추가된 키는 이후의 모든 미들웨어와 요청 기간 동안 처리기에 액세스할 수 있습니다.
+일반적인 사용 사례는 인증 미들웨어에 데이터베이스에서 얻은 사용자 객체를 저장하는 것입니다. 추가된 키는 이후의 모든 미들웨어와 요청 기간 동안 처리기에 액세스할 수 있습니다.
 
 사용자 정의 컨텍스트는 애플리케이션 및 확장을 위해 예약되어 있습니다. Sanic 자체는 그것을 사용하지 않습니다.
 
@@ -125,7 +125,7 @@ async def hi_my_name_is(request):
 
 HTTP 프로토콜은 [keep live headers](../deployment/configuration.md#keep-alive-timeout)를 사용하여 연결로 인한 오버헤드 시간의 완화를 요청합니다
 
-여러 요청이 단일 연결을 공유할 때 Sanic은 해당 요청이 상태를 공유할 수 있도록 컨텍스트 개체를 제공합니다.
+여러 요청이 단일 연결을 공유할 때 Sanic은 해당 요청이 상태를 공유할 수 있도록 컨텍스트 객체를 제공합니다.
 
 :--:1
 ```python

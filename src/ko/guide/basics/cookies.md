@@ -21,7 +21,7 @@ async def test(request):
 
 ---:1
 
-응답을 반환할 때 `Response`개체인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(dict)인 `CookieJar`의 인스턴스입니다.
+응답을 반환할 때 `Response`객체인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(dict)인 `CookieJar`의 인스턴스입니다.
 
 :--:1
 
