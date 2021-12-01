@@ -328,6 +328,299 @@ let en_locales = {
   },
 };
 
+let ja_locales = {
+  selectText: "Languages",
+  label: "Japanese",
+  editLinkText: "Edit this page on GitHub",
+  algolia: {},
+  nav: [
+    {
+      text: "Home",
+      link: "/ja/",
+    },
+    // { text: "Announcements", link: "/announcements" },
+    {
+      text: "Docs",
+      items: [
+        {
+          text: "User Guide",
+          items: [
+            {
+              text: "General",
+              link: "/ja/guide/getting-started.md",
+            },
+            {
+              text: "Basics",
+              link: "/ja/guide/basics/app.md",
+            },
+            {
+              text: "Advanced",
+              link: "/ja/guide/advanced/class-based-views.md",
+            },
+            {
+              text: "Best Practices",
+              link: "/ja/guide/best-practices/blueprints.md",
+            },
+            {
+              text: "Running & Deploying",
+              link: "/ja/guide/deployment/configuration.md",
+            },
+            {
+              text: "How to...",
+              link: "/ja/guide/how-to/toc.md",
+            },
+          ],
+        },
+        {
+          text: "Official Plugins",
+          items: [
+            {
+              text: "Sanic Extensions",
+              link: "/ja/plugins/sanic-ext/getting-started.md",
+            },
+            {
+              text: "Sanic Testing",
+              link: "/ja/plugins/sanic-testing/testing.md",
+            },
+          ],
+        },
+        {
+          text: "API Docs",
+          items: [
+            {
+              text: "View API Docs",
+              link: "https://sanic.readthedocs.io",
+            },
+          ],
+        },
+        {
+          text: "Org Docs",
+          items: [
+            {
+              text: "Policies",
+              link: "/ja/org/policies.md",
+            },
+            {
+              text: "S.C.O.P.E.",
+              link: "/ja/org/scope.md",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      text: "Community",
+      items: [
+        {
+          text: "Forums",
+          link: "https://community.sanicframework.org/",
+        },
+        {
+          text: "Discord",
+          link: "https://discord.gg/FARQzAEMAA",
+        },
+        {
+          text: "Twitter",
+          link: "https://twitter.com/sanicframework",
+        },
+        {
+          text: "Sponsorship",
+          link: "https://opencollective.com/sanic-org/",
+        },
+      ],
+    },
+  ],
+  sidebar: {
+    "/ja/guide/": [
+      {
+        title: "General",
+        sidebarDepth: 1,
+        children: ["/ja/guide/", "/ja/guide/getting-started.md"],
+      },
+      {
+        title: "Basics",
+        sidebarDepth: 1,
+        children: [
+          "/ja/guide/basics/app.md",
+          "/ja/guide/basics/handlers.md",
+          "/ja/guide/basics/request.md",
+          "/ja/guide/basics/response.md",
+          "/ja/guide/basics/routing.md",
+          "/ja/guide/basics/listeners.md",
+          "/ja/guide/basics/middleware.md",
+          "/ja/guide/basics/headers.md",
+          "/ja/guide/basics/cookies.md",
+          "/ja/guide/basics/tasks.md",
+        ],
+      },
+      {
+        title: "Advanced",
+        sidebarDepth: 1,
+        children: [
+          "/ja/guide/advanced/class-based-views.md",
+          "/ja/guide/advanced/proxy-headers.md",
+          "/ja/guide/advanced/streaming.md",
+          "/ja/guide/advanced/websockets.md",
+          "/ja/guide/advanced/versioning.md",
+          "/ja/guide/advanced/signals.md",
+        ],
+      },
+      {
+        title: "Best Practices",
+        sidebarDepth: 1,
+        children: [
+          "/ja/guide/best-practices/blueprints.md",
+          "/ja/guide/best-practices/exceptions.md",
+          "/ja/guide/best-practices/decorators.md",
+          "/ja/guide/best-practices/logging.md",
+          "/ja/guide/best-practices/testing.md",
+        ],
+      },
+      {
+        title: "Running & Deploying",
+        sidebarDepth: 2,
+        children: [
+          "/ja/guide/deployment/configuration.md",
+          "/ja/guide/deployment/development.md",
+          "/ja/guide/deployment/running.md",
+          // "/guide/deployment/server-choice.md",
+          "/ja/guide/deployment/nginx.md",
+          // "/guide/deployment/docker.md",
+          // "/guide/deployment/kubernetes.md",
+        ],
+      },
+      {
+        title: "How to...",
+        sidebarDepth: 1,
+        children: [
+          "/ja/guide/how-to/toc.md",
+          "/ja/guide/how-to/mounting.md",
+          "/ja/guide/how-to/authentication.md",
+          "/ja/guide/how-to/autodiscovery.md",
+          "/ja/guide/how-to/cors.md",
+          // "/guide/how-to/db.md",
+          // "/guide/how-to/decorators.md",
+          // "/guide/how-to/validation.md",
+          // "/guide/how-to/csrf.md",
+          // "/guide/how-to/serialization.md",
+          // "/ja/guide/how-to/sqlalchemy.md",
+          "/ja/guide/how-to/orm.md",
+          "/ja/guide/how-to/static-redirects.md",
+          // "/guide/how-to/task-queue.md",
+          "/ja/guide/how-to/tls.md",
+          // "/guide/how-to/websocket-feed.md",
+          // "/guide/how-to/server-sent-events.md",
+        ],
+      },
+      {
+        title: "Release Notes",
+        sidebarDepth: 1,
+        children: [
+          "/ja/guide/release-notes/v21.9.md",
+          "/ja/guide/release-notes/v21.6.md",
+          "/ja/guide/release-notes/v21.3.md",
+        ],
+      },
+      {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/ja/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: ["/ja/org/policies.md", "/ja/org/scope.md"],
+      },
+    ],
+
+    "/ja/plugins/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
+        children: [
+          ["/ja/guide/", "General"],
+          ["/ja/guide/basics/app.md", "Basics"],
+          ["/ja/guide/advanced/class-based-views.md", "Advanced"],
+          ["/ja/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/ja/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/ja/guide/how-to/toc.md", "How to..."],
+        ],
+      },
+      {
+        title: "Sanic Extensions",
+        sidebarDepth: 1,
+        children: [
+          "/ja/plugins/sanic-ext/getting-started.md",
+          {
+            title: "HTTP goodies",
+            children: [
+              "/ja/plugins/sanic-ext/http/methods.md",
+              "/ja/plugins/sanic-ext/http/cors.md",
+            ],
+          },
+          "/ja/plugins/sanic-ext/convenience.md",
+          "/ja/plugins/sanic-ext/injection.md",
+          {
+            title: "OpenAPI",
+            sidebarDepth: 2,
+            children: [
+              "/ja/plugins/sanic-ext/openapi/basic.md",
+              "/ja/plugins/sanic-ext/openapi/ui.md",
+              "/ja/plugins/sanic-ext/openapi/decorators.md",
+              "/ja/plugins/sanic-ext/openapi/advanced.md",
+              "/ja/plugins/sanic-ext/openapi/autodoc.md",
+            ],
+          },
+          "/ja/plugins/sanic-ext/validation.md",
+          "/ja/plugins/sanic-ext/configuration.md",
+        ],
+      },
+      {
+        title: "Sanic Testing",
+        sidebarDepth: 1,
+        children: ["/ja/plugins/sanic-testing/testing.md"],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        children: ["/ja/org/policies.md", "/ja/org/scope.md"],
+      },
+    ],
+
+    "/ja/org/": [
+      {
+        title: "User Guide",
+        sidebarDepth: 1,
+        children: [
+          ["/ja/guide/", "General"],
+          ["/ja/guide/basics/app.md", "Basics"],
+          ["/ja/guide/advanced/class-based-views.md", "Advanced"],
+          ["/ja/guide/best-practices/blueprints.md", "Best Practices"],
+          ["/ja/guide/deployment/configuration.md", "Running & Deploying"],
+          ["/ja/guide/how-to/toc.md", "How to..."],
+        ],
+      },
+      {
+        title: "Plugins",
+        sidebarDepth: 1,
+        children: [
+          ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+          ["/ja/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ],
+      },
+      {
+        title: "Organization",
+        sidebarDepth: 1,
+        collapsable: false,
+        children: ["/ja/org/policies.md", "/ja/org/scope.md"],
+      },
+    ],
+  },
+};
+
 let zh_locales = {
   selectText: "选择语言",
   label: "简体中文",
@@ -656,17 +949,18 @@ let site_config = {
         href: "/favicon-16x16.png",
       },
     ],
-    ["link", {rel: "manifest", href: "/site.webmanifest"}],
+    ["link", { rel: "manifest", href: "/site.webmanifest" }],
     [
       "link",
-      {rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68"},
+      { rel: "mask-icon", href: "/safari-pinned-tab.svg", color: "#fd0d68" },
     ],
-    ["meta", {name: "msapplication-TileColor", content: "#444444"}],
-    ["meta", {name: "theme-color", content: "#fd0d68"}],
+    ["meta", { name: "msapplication-TileColor", content: "#444444" }],
+    ["meta", { name: "theme-color", content: "#fd0d68" }],
   ],
   locales: {
     "/en/": en,
     "/zh/": zh,
+    "/ja/": ja,
   },
 
   markdown: {
@@ -713,6 +1007,7 @@ let site_config = {
         defaultTitle: {
           "/en/": "NEW",
           "/zh/": "新的",
+          "/ja/": "",
         },
       },
     ],
@@ -751,6 +1046,7 @@ let site_config = {
     locales: {
       "/en/": en_locales,
       "/zh/": zh_locales,
+      "/ja/": ja_locales,
     },
     author: {
       name: "Sanic Community Organization",
