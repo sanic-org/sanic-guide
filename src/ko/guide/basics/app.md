@@ -3,7 +3,7 @@
 ## 인스턴스(Instance)
 
 ---:1
-`Sanic ()`은 가장 기본적인 구성 요소입니다. 꼭 필요한 것은 아니지만 `server.py`라는 파일에서 이를 인스턴스화하는 것이 암묵적인 규칙입니다.
+가장 기본적인 구성 요소는 `Sanic()` 인스턴스입니다. 꼭 필요한 것은 아니지만 `server.py`라는 파일에서 이를 인스턴스화하는 것이 암묵적인 규칙입니다.
 :--:1
 
 ```python
@@ -18,14 +18,14 @@ app = Sanic("My Hello, world app")
 
 ## 애플리케이션 컨텍스트(Application context)
 
-대부분의 애플리케이션은 코드베이스의 여러 부분에서 데이터 또는 개체를 공유/재사용 해야 할 것입니다. 가장 흔한 예로는 DB 연결이 있습니다.
+대부분의 애플리케이션은 코드베이스의 여러 부분에서 데이터 또는 객체를 공유/재사용할 것입니다. 가장 흔한 예로는 DB 연결이 있겠네요.
 
 ---:1
-v21.3 이전의 Sanic 버전에서는 일반적으로 애플리케이션 인스턴스에 속성을 첨부하여 수행했습니다.
+v21.3 이전의 Sanic 버전에서는 일반적으로 애플리케이션 인스턴스에 속성을 추가하는 방식을 사용했습니다.
 :--:1
 
 ```python
-# Raises a warning as deprecated feature in 21.3
+# 21.3에서는 사용하지 않는 기능으로 경고를 발생시킵니다.
 app = Sanic("MyApp")
 app.db = Database()
 ```
@@ -33,18 +33,17 @@ app.db = Database()
 :---
 
 ---:1
-이로 인해 이름 충돌 등의 잠재적인 문제가 발생할 수 있고 [요청 컨텍스트](./request.md#context)개체와 일관성을 유지하기 위해 v21.3에서는 응용 프로그램 수준 컨텍스트 개체를 도입했습니다.
+하지만 이로 인해 이름 충돌 등의 잠재적인 문제가 발생할 수 있고 [요청 컨텍스트](./request.md#context)객체와 일관성을 유지하기 위해 v21.3에서는 응용 프로그램 수준 컨텍스트 객체를 도입했습니다.
 :--:1
 
 ```python
 
-# Correct way to attach objects to the application
+# 객체를 응용프로그램에 추가하는 올바른 방법입니다.
 app = Sanic("MyApp")
 app.ctx.db = Database()
 ```
 
 :---
-:::
 
 ## 앱 레지스트리(App Registry)
 
@@ -69,7 +68,7 @@ app = Sanic.get_app("my_awesome_server")
 
 ---:1
 
-존재하지 않는 앱에서 `Sanic.get_app'("non-existing")`을 호출하면 기본적으로 `SanicException`이 발생합니다. 대신 해당 이름의 새 Sanic 인스턴스를 반환하도록 메소드를 강제할 수 있습니다.
+존재하지 않는 앱에서 `Sanic.get_app'("non-existing")`을 호출하면 기본적으로 `SanicException`이 발생합니다. 대신 메소드가 해당 이름의 새 Sanic 인스턴스를 반환하도록 강제할 수 있습니다.
 :--:1
 
 ```python
@@ -82,8 +81,7 @@ app = Sanic.get_app(
 :---
 
 ---:1
-Sanic 인스턴스가 **하나만** 등록된 경우 인수 없이 `Sanic.get_app()`을 호출하면 해당 인스턴스가 반환됩니다.
-:::
+등록된 Sanic 인스턴스가 **하나만** 있는 경우 인수 없이 `Sanic.get_app()`을 호출하면 해당 인스턴스가 반환됩니다.
 :--:1
 
 ```python
@@ -119,8 +117,8 @@ app.config.update(db_settings)
 
 :---
 
-::: 작은 tip
-구성 키는 _대문자_ 여야 합니다. 하지만 이것은 거의 암묵적인 규칙일 뿐이며 소문자도 대부분의 경우에는 잘 작동할 것입니다.
+::: tip 주의 사항
+구성 키는 _대문자_ 여야 합니다. 하지만 이건 거의 암묵적인 규칙일 뿐이며 소문자도 대부분의 경우에는 잘 작동할 것입니다.
 
 ```py
 app.config.GOOD = "yay!"
@@ -133,15 +131,15 @@ app.config.bad = "boo"
 
 ## 커스터마이징(Customization)
 
-Sanic 애플리케이션 인스턴스는 인스턴스화 시 다양한 방식으로 애플리케이션 요구사항에 맞게 사용자 정의할 수 있습니다.
+Sanic 애플리케이션 인스턴스는 인스턴스화 할 경우 다양한 방식으로 애플리케이션 요구사항에 맞게 사용자 정의할 수 있습니다.
 
 ### 사용자 정의 구성(Custom configuration)
 
 ---:1
 
-이 가장 간단한 형태의 사용자 지정 구성은 Sanic 응용 프로그램 인스턴스에 직접 개체를 전달하는 것입니다.
+이 가장 간단한 형태의 사용자 지정 구성은 Sanic 응용 프로그램 인스턴스에 직접 객체를 전달하는 것입니다.
 
-사용자 지정 구성 개체를 생성하는 경우 Sanic `Config` 옵션을 하위 클래스로 지정하여 해당 동작을 상속하는 것이 *매우* 권장됩니다. 속성을 추가하거나 고유한 사용자 정의 로직을 추가하는 데 이 옵션을 사용할 수 있습니다.
+사용자 지정 구성 객체를 생성하는 경우 Sanic `Config` 옵션을 하위 클래스로 지정하여 해당 동작을 상속하는 것이 *매우* 권장됩니다. 속성을 추가하거나 고유한 사용자 정의 로직을 추가하는 데 이 옵션을 사용할 수 있습니다.
 
 :--:1
 ```python
@@ -192,7 +190,7 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ### 사용자 정의 컨텍스트(Custom context)
 ---:1
 
-기본적으로 애플리케이션 컨텍스트는 원하는 속성을 설정할 수 있는 [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace)입니다. 그러나 대신 어떤 개체든 전달할 수도 있습니다.
+기본적으로 애플리케이션 컨텍스트는 원하는 속성을 설정할 수 있는 [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace)입니다. 그러나 대신 객체를 전달할 수도 있습니다.
 
 :--:1
 ```python
@@ -216,7 +214,7 @@ app = Sanic(..., ctx=MyContext())
 ---:1
 때로는 자신만의 `Request` 클래스를 갖고 Sanic에게 기본값 대신 사용하도록 지시하는 것이 도움이 됩니다. 한 가지 예는 기본 `request.id` 생성기를 수정하려는 경우입니다.
 
-::: tip Important
+::: tip 중요
 
 클래스의 인스턴스가 아닌 *class*를 전달한다는 것을 기억하는 것이 중요합니다.
 
