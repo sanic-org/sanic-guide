@@ -16,9 +16,9 @@ Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프�
 
 ## 이게 뭔가요?
 
-Sanic에 뛰어들기 전에, Sanic이 다른 프레임워크들과 다르다는 것을 알아야합니다.
+Sanic에 뛰어들기 전에, Sanic이 다른 프레임워크들과 다르다는 것을 알아야 합니다.
 
-바로 저 첫 번째 문장에 큰 실수가 있습니다. 왜냐하면 Sanic은 **프레임워크**이자 **웹 서버**입니다. 배포 섹션에서 이에 대해 조금 더 이야기 할 것입니다.
+맨 위의 가장 첫 번째 문장에 큰 실수가 있습니다. 바로 Sanic은 **프레임워크**_이면서_ **웹 서버**이기 때문입니다. 배포 섹션에서 이에 대해 조금 더 이야기 할 것입니다.
 
 그러나 기본적으로 Sanic은 프로덕션 등급의 웹 애플리케이션을 작성, 배포 및 확장하는 데 필요한 모든 것을 제공합니다. :rocket:
 
@@ -42,7 +42,7 @@ Sanic에 뛰어들기 전에, Sanic이 다른 프레임워크들과 다르다는
 
 ## 스폰서
 
-[오픈 콜렉티브](https://opencollective.com/sanic-org)를 확인하여 Sanic 자금 지원에 대해 자세히 알아보십시오.
+[오픈 콜렉티브](https://opencollective.com/sanic-org)를 확인하여 Sanic 자금 지원에 대해 자세히 알아보세요.
 
 ## 커뮤니티에 참가
 
@@ -52,7 +52,7 @@ Stackoverflow의 `[sanic]` 태그는 프로젝트 유지보수자들에 의해 [
 
 ## 기여
 
-우리는 새로운 기여를 받을 때마다 항상 행복합니다. 저희는 [시작하려는 모든 사용자에게 유용하도록 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
+우리는 새로운 기여를 받을 때마다 행복합니다. 저희는 [기여하려는 사용자들에게 유용하도록 이슈에 마크를 해두었습니다](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), 그리고 [포럼에서의 질문/답변/토론](https://community.sanicframework.org/)을 환영합니다. 저희의 [기여 가이드라인](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)을 확인해주세요.
 
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
