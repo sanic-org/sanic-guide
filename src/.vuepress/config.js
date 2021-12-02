@@ -343,61 +343,61 @@ let ja_locales = {
       text: "Docs",
       items: [
         {
-          text: "User Guide",
+          text: "ユーザーガイド",
           items: [
             {
-              text: "General",
+              text: "ジェネラル",
               link: "/ja/guide/getting-started.md",
             },
             {
-              text: "Basics",
+              text: "ベーシック",
               link: "/ja/guide/basics/app.md",
             },
             {
-              text: "Advanced",
+              text: "アドバンス",
               link: "/ja/guide/advanced/class-based-views.md",
             },
             {
-              text: "Best Practices",
+              text: "良い練習",
               link: "/ja/guide/best-practices/blueprints.md",
             },
             {
-              text: "Running & Deploying",
+              text: "実行とデプロイ",
               link: "/ja/guide/deployment/configuration.md",
             },
             {
-              text: "How to...",
+              text: "どうやって。。。",
               link: "/ja/guide/how-to/toc.md",
             },
           ],
         },
         {
-          text: "Official Plugins",
+          text: "公式プラグイン",
           items: [
             {
-              text: "Sanic Extensions",
+              text: "sanic拡張",
               link: "/ja/plugins/sanic-ext/getting-started.md",
             },
             {
-              text: "Sanic Testing",
+              text: "Sanic テスト",
               link: "/ja/plugins/sanic-testing/testing.md",
             },
           ],
         },
         {
-          text: "API Docs",
+          text: "APIドキュメント",
           items: [
             {
-              text: "View API Docs",
+              text: "APIドキュメントを見る",
               link: "https://sanic.readthedocs.io",
             },
           ],
         },
         {
-          text: "Org Docs",
+          text: "非政府組織ドキュメント",
           items: [
             {
-              text: "Policies",
+              text: "ポリシー",
               link: "/ja/org/policies.md",
             },
             {
@@ -409,7 +409,7 @@ let ja_locales = {
       ],
     },
     {
-      text: "Community",
+      text: "コミュニティー",
       items: [
         {
           text: "Forums",
@@ -433,12 +433,12 @@ let ja_locales = {
   sidebar: {
     "/ja/guide/": [
       {
-        title: "General",
+        title: "ジェネラル",
         sidebarDepth: 1,
         children: ["/ja/guide/", "/ja/guide/getting-started.md"],
       },
       {
-        title: "Basics",
+        title: "ベーシック",
         sidebarDepth: 1,
         children: [
           "/ja/guide/basics/app.md",
@@ -454,7 +454,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Advanced",
+        title: "アドバンス",
         sidebarDepth: 1,
         children: [
           "/ja/guide/advanced/class-based-views.md",
@@ -466,7 +466,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Best Practices",
+        title: "いい練習",
         sidebarDepth: 1,
         children: [
           "/ja/guide/best-practices/blueprints.md",
@@ -477,7 +477,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Running & Deploying",
+        title: "実行とデプロイ",
         sidebarDepth: 2,
         children: [
           "/ja/guide/deployment/configuration.md",
@@ -490,7 +490,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "How to...",
+        title: "どうやって。。。",
         sidebarDepth: 1,
         children: [
           "/ja/guide/how-to/toc.md",
@@ -513,7 +513,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Release Notes",
+        title: "リリースノート",
         sidebarDepth: 1,
         children: [
           "/ja/guide/release-notes/v21.9.md",
@@ -522,7 +522,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Plugins",
+        title: "プラグイン",
         sidebarDepth: 1,
         children: [
           ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
@@ -530,7 +530,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Organization",
+        title: "組織",
         sidebarDepth: 1,
         children: ["/ja/org/policies.md", "/ja/org/scope.md"],
       },
@@ -538,7 +538,7 @@ let ja_locales = {
 
     "/ja/plugins/": [
       {
-        title: "User Guide",
+        title: "ユーザーガイド",
         sidebarDepth: 1,
         children: [
           ["/ja/guide/", "General"],
@@ -550,12 +550,12 @@ let ja_locales = {
         ],
       },
       {
-        title: "Sanic Extensions",
+        title: "Sanic拡張",
         sidebarDepth: 1,
         children: [
           "/ja/plugins/sanic-ext/getting-started.md",
           {
-            title: "HTTP goodies",
+            title: "HTTP グッズ",
             children: [
               "/ja/plugins/sanic-ext/http/methods.md",
               "/ja/plugins/sanic-ext/http/cors.md",
@@ -579,12 +579,12 @@ let ja_locales = {
         ],
       },
       {
-        title: "Sanic Testing",
+        title: "Sanic テスト",
         sidebarDepth: 1,
         children: ["/ja/plugins/sanic-testing/testing.md"],
       },
       {
-        title: "Organization",
+        title: "組織",
         sidebarDepth: 1,
         children: ["/ja/org/policies.md", "/ja/org/scope.md"],
       },
@@ -592,7 +592,7 @@ let ja_locales = {
 
     "/ja/org/": [
       {
-        title: "User Guide",
+        title: "ユーザーガイド",
         sidebarDepth: 1,
         children: [
           ["/ja/guide/", "General"],
@@ -604,7 +604,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Plugins",
+        title: "プラグイン",
         sidebarDepth: 1,
         children: [
           ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
@@ -612,7 +612,7 @@ let ja_locales = {
         ],
       },
       {
-        title: "Organization",
+        title: "組織",
         sidebarDepth: 1,
         collapsable: false,
         children: ["/ja/org/policies.md", "/ja/org/scope.md"],
