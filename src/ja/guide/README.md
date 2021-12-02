@@ -2,67 +2,67 @@
 pageClass: intro
 ---
 
-# Introduction
+# 紹介
 
-Sanic is a Python 3.7+ web server and web framework that’s written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.
+Sanicは、Python 3.7以上のWebサーバーとWebフレームワークで、高速に機能するように書かれています。Python 3.5で追加された非同期/待機構文の使用が可能になり、コードがノンブロッキングでスピーディーになります。
 
 |         |                                                                                                                         |
 |---------|-------------------------------------------------------------------------------------------------------------------------|
-| Build   | [![Build Status][]][1] [![AppVeyor Build Status][]][2] [![Codecov]][3]                                                  |
-| Docs    | [![Documentation]][4]                                                                                                   |
-| Package | [![PyPI][]][5] [![PyPI version][]][5] [![PyPI Wheel][]][6] [![Supported implementations][]][6] [![Code style black]][7] |
-| Support | [![Forums][]][8] [![Discord][]][9] [![Awesome Sanic List]][10]          |
-| Stats   | [![Downloads][]][11] [![Downloads][12]][11]                                                                             |
+| 構築   | [![Build Status][]][1] [![AppVeyor Build Status][]][2] [![Codecov]][3]                                                  |
+| ドキュメント    | [![Documentation]][4]                                                                                                   |
+| パッケージ | [![PyPI][]][5] [![PyPI version][]][5] [![PyPI Wheel][]][6] [![Supported implementations][]][6] [![Code style black]][7] |
+| サポート | [![Forums][]][8] [![Discord][]][9] [![Awesome Sanic List]][10]          |
+| ステータス   | [![Downloads][]][11] [![Downloads][12]][11]                                                                             |
 
-## What is it?
+## これは何？
 
-First things first, before you jump in the water, you should know that Sanic is different than other frameworks.
+まず第一に、水に飛び込む前に、サニックは他のフレームワークとは異なることを知っておく必要があります。
 
-Right there in that first sentence there is a huge mistake because Sanic is _both_ a **framework** and a **web server**. In the deployment section we will talk a little bit more about this. 
+その最初の文では、Sanicは**フレームワーク**と**ウェブサーバー**の両方であるため、大きな間違いがあります。展開セクションでは、これについてもう少し話します。
 
-But, remember, out of the box Sanic comes with everything you need to write, deploy, and scale a production grade web application. :rocket:
+しかし、箱から出してすぐにSanicには、本番グレードのWebアプリケーションの作成、展開、拡張に必要なものがすべて付属していることを忘れないでください。:rocket:
 
 ## Goal
 
-> To provide a simple way to get up and running a highly performant HTTP server that is easy to build, to expand, and ultimately to scale.
+> 構築、拡張、最終的に拡張が簡単な高性能HTTPサーバーを起動して実行する簡単な方法を提供する。
 ## Features
 
 ---:1
 
-- Built in _fast_ web server
-- Production ready
-- Highly scalable
-- ASGI compliant
-- Simple and intuitive API design
-- By the community, for the community
+- 速いウェブサーバーを構築する
+- 生産準備完了
+- 非常にスケーラブル
+- ASGI準拠
+- シンプルで直感的なAPIデザイン
+- コミュニティによって、コミュニティのために
 :--:1
 
 :---
 
 
 
-## Sponsor
+## スポンサー
 
-Check out [open collective](https://opencollective.com/sanic-org) to learn more about helping to fund Sanic.
+確認 [open collective](https://opencollective.com/sanic-org) to learn more about helping to fund Sanic.
 
 
-## Join the Community
+## コミュニティーに参加
 
-The main channel for discussion is at the [community forums](https://community.sanicframework.org/). There also is a [Discord Server](https://discord.gg/FARQzAEMAA) for live discussion and chat.
+議論のメインチャンネルは[コミュニティフォーラム](https://community.sanicframework.org/)にあります。ライブディスカッションとチャット用の[Discord Server](https://discord.gg/FARQzAEMAA)もあります。
 
-The Stackoverflow `[sanic]` tag is [actively monitored](https://stackoverflow.com/questions/tagged/sanic) by project maintainers.
+Stackoverflow `[sanic]`タグは、プロジェクトのメンテナによって[積極的に監視](https://stackoverflow.com/questions/tagged/sanic)です。
 
 ## Contribution
 
-We are always happy to have new contributions. We have [marked issues good for anyone looking to get started](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner), and welcome [questions/answers/discussion on the forums](https://community.sanicframework.org/). Please take a look at our [Contribution guidelines](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst).
+私たちは常に新しい貢献を喜んでいます。私たちは[始めるために探している人のために良いマークされた問題](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)、ようこそ[フォーラムの質問/回答/ディスカッション](https://community.sanicframework.org/)。[貢献ガイドライン](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)をご覧ください。
 
-[Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
+[構築ステータス]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
-[AppVeyor Build Status]: https://ci.appveyor.com/api/projects/status/d8pt3ids0ynexi8c/branch/master?svg=true
+[AppVeyorビルドステータス]: https://ci.appveyor.com/api/projects/status/d8pt3ids0ynexi8c/branch/master?svg=true
 [2]: https://ci.appveyor.com/project/sanic-org/sanic
 [Codecov]: https://codecov.io/gh/sanic-org/sanic/branch/master/graph/badge.svg
 [3]: https://codecov.io/gh/sanic-org/sanic
-[Documentation]: https://readthedocs.org/projects/sanic/badge/?version=latest
+[ドキュメンテーション]: https://readthedocs.org/projects/sanic/badge/?version=latest
 [4]: http://sanic.readthedocs.io/en/latest/?badge=latest
 [PyPI]: https://img.shields.io/pypi/v/sanic.svg
 [5]: https://pypi.python.org/pypi/sanic/
