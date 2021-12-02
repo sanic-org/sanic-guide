@@ -59,3 +59,4 @@ app.run(...)
 ```
 ::: tip
 위의 `slow_work`에 매개변수를 전달하려면 `functools.partial`을 사용할 수 있습니다.
+:::

@@ -1,8 +1,8 @@
-# Request
+# 요청 (Request)
 
 `Request` 인스턴스에는 해당 매개변수에서 사용할 수 있는 **많은** 유용한 정보가 포함되어 있습니다. 자세한 내용은 [API Docs](https://sanic.readthedocs.io/)를 참조하세요.
 
-## Body
+## 본문 (Body)
 
 :::: tabs
 ::: tab JSON
