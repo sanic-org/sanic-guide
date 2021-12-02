@@ -1,23 +1,23 @@
 ---
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
-heroText: Build fast. Run fast.
-tagline: Async Python 3.7+ web server/framework
-actionText: Get Started →
-actionLink: /en/guide/
+heroText: 速く構築します。速く走れ。
+tagline: 非同期 Python 3.7+ ウェブサーバー/ウェブフレームワーク
+actionText: さあスタートしよう →
+actionLink: /ja/guide/
 features:
-- title: Simple and lightweight
-  details: Intuitive API with smart defaults and no bloat allows you to get straight to work building your app.
-- title: Unopinionated and flexible
-  details: Build the way you want to build without letting your tooling constrain you.
-- title: Performant and scalable
-  details: Built from the ground up with speed and scalability as a main concern. It is ready to power web applications big and small.
-- title: Production ready
-  details: Out of the box, it comes bundled with a web server ready to power your web applications.
-- title: Trusted by millions
-  details: Sanic is one of the overall most popular frameworks on PyPI, and the top async enabled framework
-- title: Community driven
-  details: The project is maintained and run by the community for the community.
+- title: シンプルで軽量
+  details: スマートデフォルトと肥大化のない直感的なAPIを使用すると、アプリの構築に直接取り掛かることができます。
+- title: 洗練されておらず、柔軟
+  details: ツールに制限をかけずに構築する方法を構築します。
+- title: パフォーマンスとスケーラブル
+  details: 主な関心事として、スピードとスケーラビリティでゼロから構築されています。大小のWebアプリケーションに電力を供給する準備ができています。
+- title: 生産準備完了
+  details: 箱から出してすぐに、それはあなたのウェブアプリケーションに電力を供給する準備ができているウェブサーバーにバンドルされています。
+- title: 何百万人もの人々に信頼されています
+  details: Sanicは、PyPIで全体的に最も人気のあるフレームワークの1つであり、トップの非同期対応フレームワークです
+- title: コミュニティ主導
+  details: このプロジェクトは、コミュニティのためにコミュニティによって維持され、運営されています。
 pageClass: landing-page
 logo: false
 ---
