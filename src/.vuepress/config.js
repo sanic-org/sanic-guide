@@ -1007,7 +1007,7 @@ let site_config = {
         defaultTitle: {
           "/en/": "NEW",
           "/zh/": "新的",
-          "/ja/": "",
+          "/ja/": "新しい",
         },
       },
     ],
