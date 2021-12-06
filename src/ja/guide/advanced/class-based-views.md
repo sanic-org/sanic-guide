@@ -1,14 +1,14 @@
-# Class Based Views
+# クラスベースビュー
 
-## Why use them?
+## なぜ使うのか？
 
 ---:1
 
-### The problem
+### 問題
 
-A common pattern when designing an API is to have multiple functionality on the same endpoint that depends upon the HTTP method.
+APIを設計する際の一般的なパターンは、HTTPメソッドに依存する同じエンドポイントに複数の機能を持つことです。
 
-While both of these options work, they are not good design practices and may be hard to maintain over time as your project grows.
+これらのオプションは両方とも機能しますが、優れた設計慣行ではなく、プロジェクトが成長するにつれて時間の経過とともに維持するのが難しい場合があります。
 :--:1
 ```python
 @app.get("/foo")
@@ -36,9 +36,9 @@ async def bar(request):
 
 ---:1
 
-### The solution
+### 解決策
 
-Class-based views are simply classes that implement response behavior to requests. They provide a way to compartmentalize handling of different HTTP request types at the same endpoint.
+クラスベースのビューは、単に要求に対する応答動作を実装するクラスです。これらは、同じエンドポイントで異なるHTTPリクエストタイプの処理を区分する方法を提供します。
 :--:1
 ```python
 from sanic.views import HTTPMethodView
@@ -57,15 +57,15 @@ app.add_route(FooBar.as_view(), "/foobar")
 ```
 :---
 
-## Defining a view
+## ビューの定義
 
-A class-based view should subclass `HTTPMethodView`. You can then implement class methods with the name of the corresponding HTTP method. If a request is received that has no defined method, a `405: Method not allowed` response will be generated.
+クラスベースのビューは、`HTTPMethodView` をサブクラス化する必要があります。その後、対応するHTTPメソッドの名前でクラスメソッドを実装できます。定義されたメソッドを持たない要求を受信すると、`405: Method not allowed` 応答が生成されます。
 
 ---:1
 
-To register a class-based view on an endpoint, the `app.add_route` method is used. The first argument should be the defined class with the method `as_view` invoked, and the second should be the URL endpoint.
+エンドポイントにクラスベースのビューを登録するには、`app.add_route`メソッドが使用されます。最初の引数は、メソッド `as_view` が呼び出された定義されたクラスで、2 番目の引数は URL エンドポイントである必要があります。
 
-The available methods are:
+利用可能な方法は:
 
 - get
 - post
@@ -101,11 +101,11 @@ app.add_route(SimpleView.as_view(), "/")
 ```
 :---
 
-## Path parameters
+## パスパラメーター
 
 ---:1
 
-You can use path parameters exactly as discussed in [the routing section](/guide/basics/routing.md).
+[ルーティングセクション](/guide/basics/routing.md)で説明されているとおりにパスパラメータを使用できます。
 :--:1
 ```python
 class NameView(HTTPMethodView):
@@ -117,20 +117,20 @@ app.add_route(NameView.as_view(), "/<name>")
 ```
 :---
 
-## Decorators
+## デコレーター
 
-As discussed in [the decorators section](/guide/best-practices/decorators.md), often you will need to add functionality to endpoints with the use of decorators. You have two options with CBV:
+[デコレータセクション](/guide/best-practices/decorators.md)で説明したように、デコレータを使用してエンドポイントに機能を追加する必要があります。 あなたはCBVと二つ選択肢があります。
 
-1. Apply to _all_ HTTP methods in the view
-2. Apply individually to HTTP methods in the view
+1. ビュー内の _全ての_ HTTPメソッドに適用する
+2. ビュー内のHTTPメソッドに個別に適用する
 
-Let's see what the options look like:
+オプションがどのように見えるか見てみましょう:
 
 ---:1
 
-### Apply to all methods
+### すべての方法に適用する
 
-If you want to add any decorators to the class, you can set the `decorators` class variable. These will be applied to the class when `as_view` is called.
+クラスにデコレータを追加する場合は、`デコレータ`クラス変数を設定できます。これらは、`as_view`が呼び出されるとクラスに適用されます。
 :--:1
 ```python
 class ViewWithDecorator(HTTPMethodView):
@@ -148,9 +148,9 @@ app.add_route(ViewWithDecorator.as_view(), "/url")
 
 ---:1
 
-### Apply to individual methods
+### 個々の方法に適用する
 
-But if you just want to decorate some methods and not all methods, you can as shown here.
+しかし、すべてのメソッドではなく、いくつかのメソッドを飾りたい場合は、ここに示すようにできます。
 :--:1
 ```python
 class ViewWithSomeDecorator(HTTPMethodView):
@@ -169,10 +169,10 @@ class ViewWithSomeDecorator(HTTPMethodView):
 ```
 :---
 
-## Generating a URL
+## URLを作成
 ---:1
 
-This works just like [generating any other URL](/guide/basics/routing.md#generating-a-url), except that the class name is a part of the endpoint.
+これは、クラス名がエンドポイントの一部であることを除いて、[他のURLの生成](/guide/basics/routing.md#generating-a-url)と同じように機能します。
 :--:1
 ```python
 @app.route("/")
@@ -190,11 +190,11 @@ app.add_route(SpecialClassView.as_view(), "/special_class_view")
 ```
 :---
 
-## Composition view
+## 構成ビュー
 
-As an alternative to the `HTTPMethodView`, you can use `CompositionView` to move handler functions outside of the view class.
+`HTTPMethodView`の代替として、`CompositionView`を使用してハンドラ関数をビュークラスの外に移動できます。
 
-Handler functions for each supported HTTP method are defined elsewhere in the source, and then added to the view using the `CompositionView.add` method. The first parameter is a list of HTTP methods to handle (e.g. `["GET", "POST"]`), and the second is the handler function.
+サポートされている各HTTPメソッドのハンドラー関数は、ソースの他の場所で定義され、`CompositionView.add`メソッドを使用してビューに追加されます。 最初のパラメータは、処理するHTTPメソッドのリストです(例:`["GET", "POST"]`)、2番目はハンドラー関数です。
 
 ```python
 from sanic.views import CompositionView
@@ -206,14 +206,14 @@ view = CompositionView()
 view.add(["GET"], get_handler)
 view.add(["POST", "PUT"], lambda request: text("I am a post/put method"))
 
-# Use the new view to handle requests to the base URL
+# 新しいビューを使用して、ベースURLへの要求を処理します
 app.add_route(view, "/")
 ```
 
-::: warning
-Currently you cannot build a URL for a `CompositionView` using `url_for`.
+::: 警告
+現在、「url_for」を使用して「CompositionView」のURLを構築することはできません。
 :::
 
-::: warning Deprecated v21.6
+::: 警告 非推奨のv21.6
 `CompositionView` has been deprecated and will be removed from Sanic in v21.12.
 :::
