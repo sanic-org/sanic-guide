@@ -127,7 +127,6 @@ async def index(request):
 
 `request.match_info`를 수정할 수 있습니다. 예를 들어 미들웨어에서 `a-slug`를 `a_slug`로 변환하는 데 사용할 수 있는 유용한 기능입니다.
 
-:::
 :--:1
 ```python
 @app.on_request
