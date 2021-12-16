@@ -44,7 +44,7 @@ class UserProfile:
 
 ## Definition decorator
 
-### `@opanepi.definition`
+### `@openapi.definition`
 
 The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums
 decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using
