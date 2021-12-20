@@ -28,7 +28,7 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip 
+::: tip
 It is standard practice in Sanic to name your config values in **uppercase letters**. Indeed, you may experience weird behaviors if you start mixing uppercase and lowercase names.
 :::
 
@@ -112,7 +112,7 @@ app.update_config("${my_path}/my_config.py")
 ```
 :---
 
-::: tip 
+::: tip
 Just remember that you have to provide environment variables in the format `${environment_variable}` and that `$environment_variable` is not expanded (is treated as "plain" text).
 :::
 #### From a dict
@@ -178,6 +178,10 @@ app.update_config(MyConfig())
 | WEBSOCKET_PING_TIMEOUT    | 20                    | Connection is closed when Pong is not received after ping_timeout seconds           |
 | WEBSOCKET_READ_LIMIT      | 2^16                  | High-water limit of the buffer for incoming bytes                                   |
 | WEBSOCKET_WRITE_LIMIT     | 2^16                  | High-water limit of the buffer for outgoing bytes                                   |
+
+::: tip FYI
+The `USE_UVLOOP` value will be ignored if running with Gunicorn.
+:::
 
 ::: tip FYI
 The `WEBSOCKET_` values will be ignored if in ASGI mode.
