@@ -78,6 +78,10 @@ let en_locales = {
               text: "How to...",
               link: "/en/guide/how-to/toc.md",
             },
+            {
+              text: "Latest Release Notes",
+              link: "/en/guide/release-notes/v21.9.md",
+            },
           ],
         },
         {

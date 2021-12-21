@@ -2,7 +2,7 @@
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
 heroText: Build fast. Run fast.
-tagline: Async Python 3.7+ web server/framework
+tagline: Next generation Python web server/framework
 actionText: Get Started →
 actionLink: /en/guide/
 features:
