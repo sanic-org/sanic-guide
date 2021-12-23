@@ -28,7 +28,7 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip 
+::: tip
 It is standard practice in Sanic to name your config values in **uppercase letters**. Indeed, you may experience weird behaviors if you start mixing uppercase and lowercase names.
 :::
 
@@ -112,7 +112,7 @@ app.update_config("${my_path}/my_config.py")
 ```
 :---
 
-::: tip 
+::: tip
 Just remember that you have to provide environment variables in the format `${environment_variable}` and that `$environment_variable` is not expanded (is treated as "plain" text).
 :::
 #### From a dict
@@ -153,30 +153,35 @@ app.update_config(MyConfig())
 ## Builtin values
 
 
-| **Variable**              | **Default**       | **Description**                                                             |
-|---------------------------|-------------------|-----------------------------------------------------------------------------|
-| ACCESS_LOG                | True              | Disable or enable access log                                                |
-| FALLBACK_ERROR_FORMAT     | html              | Format of error response if an exception is not caught and handled          |
-| FORWARDED_FOR_HEADER      | X-Forwarded-For   | The name of "X-Forwarded-For" HTTP header that contains client and proxy ip |
-| FORWARDED_SECRET          | None              | Used to securely identify a specific proxy server (see below)               |
-| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0              | How long to wait to force close non-idle connection (sec)                   |
-| KEEP_ALIVE                | True              | Disables keep-alive when False                                              |
-| KEEP_ALIVE_TIMEOUT        | 5                 | How long to hold a TCP connection open (sec)                                |
-| PROXIES_COUNT             | None              | The number of proxy servers in front of the app (e.g. nginx; see below)     |
-| REAL_IP_HEADER            | None              | The name of "X-Real-IP" HTTP header that contains real client ip            |
-| REGISTER                  | True              | Whether the app registry should be enabled                                  |
-| REQUEST_BUFFER_QUEUE_SIZE | 100               | Request streaming buffer queue size                                         |
-| REQUEST_BUFFER_SIZE       | 65536             | Request buffer size before request is paused, default is 64 Kib             |
-| REQUEST_ID_HEADER         | X-Request-ID      | The name of "X-Request-ID" HTTP header that contains request/correlation ID |
-| REQUEST_MAX_SIZE          | 100000000         | How big a request may be (bytes), default is 100 megabytes                  |
-| REQUEST_TIMEOUT           | 60                | How long a request can take to arrive (sec)                                 |
-| RESPONSE_TIMEOUT          | 60                | How long a response can take to process (sec)                               |
-| WEBSOCKET_MAX_QUEUE       | 32                | Maximum length of the queue that holds incoming messages                    |
-| WEBSOCKET_MAX_SIZE        | 2^20              | Maximum size for incoming messages (bytes)                                  |
-| WEBSOCKET_PING_INTERVAL   | 20                | A Ping frame is sent every ping_interval seconds.                           |
-| WEBSOCKET_PING_TIMEOUT    | 20                | Connection is closed when Pong is not received after ping_timeout seconds   |
-| WEBSOCKET_READ_LIMIT      | 2^16              | High-water limit of the buffer for incoming bytes                           |
-| WEBSOCKET_WRITE_LIMIT     | 2^16              | High-water limit of the buffer for outgoing bytes                           |
+| **Variable**              | **Default**      | **Description**                                                                     |
+|---------------------------|------------------|-------------------------------------------------------------------------------------|
+| ACCESS_LOG                | True             | Disable or enable access log                                                        |
+| FALLBACK_ERROR_FORMAT     | html             | Format of error response if an exception is not caught and handled                  |
+| FORWARDED_FOR_HEADER      | X-Forwarded-For  | The name of "X-Forwarded-For" HTTP header that contains client and proxy ip         |
+| FORWARDED_SECRET          | None             | Used to securely identify a specific proxy server (see below)                       |
+| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0             | How long to wait to force close non-idle connection (sec)                           |
+| KEEP_ALIVE                | True             | Disables keep-alive when False                                                      |
+| KEEP_ALIVE_TIMEOUT        | 5                | How long to hold a TCP connection open (sec)                                        |
+| PROXIES_COUNT             | None             | The number of proxy servers in front of the app (e.g. nginx; see below)             |
+| REAL_IP_HEADER            | None             | The name of "X-Real-IP" HTTP header that contains real client ip                    |
+| REGISTER                  | True             | Whether the app registry should be enabled                                          |
+| REQUEST_BUFFER_QUEUE_SIZE | 100              | Request streaming buffer queue size                                                 |
+| REQUEST_BUFFER_SIZE       | 65536            | Request buffer size before request is paused, default is 64 Kib                     |
+| REQUEST_ID_HEADER         | X-Request-ID     | The name of "X-Request-ID" HTTP header that contains request/correlation ID         |
+| REQUEST_MAX_SIZE          | 100000000        | How big a request may be (bytes), default is 100 megabytes                          |
+| REQUEST_TIMEOUT           | 60               | How long a request can take to arrive (sec)                                         |
+| RESPONSE_TIMEOUT          | 60               | How long a response can take to process (sec)                                       |
+| USE_UVLOOP                | True (see below) | Whether to override the loop policy to use `uvloop`. Supported only with `app.run`. |
+| WEBSOCKET_MAX_QUEUE       | 32               | Maximum length of the queue that holds incoming messages                            |
+| WEBSOCKET_MAX_SIZE        | 2^20             | Maximum size for incoming messages (bytes)                                          |
+| WEBSOCKET_PING_INTERVAL   | 20               | A Ping frame is sent every ping_interval seconds.                                   |
+| WEBSOCKET_PING_TIMEOUT    | 20               | Connection is closed when Pong is not received after ping_timeout seconds           |
+| WEBSOCKET_READ_LIMIT      | 2^16             | High-water limit of the buffer for incoming bytes                                   |
+| WEBSOCKET_WRITE_LIMIT     | 2^16             | High-water limit of the buffer for outgoing bytes                                   |
+
+::: tip FYI
+The `USE_UVLOOP` value will be ignored if running with Gunicorn. Defaults to `False` on non-supported platforms (Windows).
+:::
 
 ::: tip FYI
 The `WEBSOCKET_` values will be ignored if in ASGI mode.
