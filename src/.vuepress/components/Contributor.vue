@@ -1,14 +1,14 @@
 <template>
-  <li>
-    <img :src="contrib.avatar_url" />
-    <a :href="contrib.html_url" target="_blank" rel="noopener noreferrer"
-      >@{{ contrib.login }}</a
-    >
-  </li>
+  <div>
+    <img :src="avatar" />
+    <a :href="profile" target="_blank" rel="noopener noreferrer">
+      @{{ login }}
+    </a>
+  </div>
 </template>
 <script>
 export default {
-  props: ["contrib"],
+  props: ["avatar", "profile", "login"],
 };
 </script>
 <style scoped>
@@ -16,7 +16,7 @@ img {
   width: 54px;
   border-radius: 100%;
 }
-li {
+div {
   display: flex;
   flex-direction: column;
   align-items: center;

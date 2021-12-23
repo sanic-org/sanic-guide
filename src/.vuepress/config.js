@@ -229,6 +229,7 @@ let en_locales = {
         title: "Release Notes",
         sidebarDepth: 1,
         children: [
+          "/en/guide/release-notes/v21.12.md",
           "/en/guide/release-notes/v21.9.md",
           "/en/guide/release-notes/v21.6.md",
           "/en/guide/release-notes/v21.3.md",

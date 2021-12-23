@@ -1,12 +1,13 @@
 <template>
   <div>
-    <h4>{{ title }}</h4>
+    <h4 v-if="title">{{ title }}</h4>
     <ul>
-      <Contributor
+      <ContributorWrapper
         v-for="contrib in contributors"
         :key="contrib.id"
         :contrib="contrib"
       />
+      <slot />
     </ul>
     <div class="additional" v-if="additional">
       <a :href="more" target="_blank">+{{ additional }} more</a>
@@ -15,9 +16,9 @@
 </template>
 
 <script>
-import Contributor from "./Contributor.vue";
+import ContributorWrapper from "./ContributorWrapper.vue";
 export default {
-  components: { Contributor },
+  components: { ContributorWrapper },
   props: ["title", "contributors", "additional", "more"],
   //   data: {},
 };
