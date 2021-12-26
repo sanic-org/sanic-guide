@@ -2,7 +2,9 @@
 
 > How do I run Sanic via HTTPS? 
 
-If you do not have TLS certificates yet, see the end of this page.
+If you do not have TLS certificates yet, [see the end of this page](./tls.md#get-certificates-for-your-domain-names).
+
+## Single domain and single certificate
 
 ---:1
 Let Sanic automatically load your certificate files, which need to be named `fullchain.pem` and `privkey.pem` in the given folder:
@@ -46,7 +48,7 @@ app.run(host="0.0.0.0", port=8443, ssl=context)
 :---
 
 
-> Multiple domains with separate certificates
+## Multiple domains with separate certificates
 
 ---:1
 A list of multiple certificates may be provided, in which case Sanic chooses the one matching the hostname the user is connecting to. This occurs so early in the TLS handshake that Sanic has not sent any packets to the client yet.
@@ -89,7 +91,7 @@ app.run(host="0.0.0.0", port=8443, ssl=ssl)
 ```
 :---
 
-> Accessing TLS information in handlers via `request.conn_info` fields
+## Accessing TLS information in handlers via `request.conn_info` fields
 
 * `.ssl` - is the connection secure (bool)
 * `.cert` - certificate info and dict fields of the currently active cert (dict)
@@ -97,7 +99,7 @@ app.run(host="0.0.0.0", port=8443, ssl=ssl)
 
 Do note that all `conn_info` fields are per connection, where there may be many requests over time. If a proxy is used in front of your server, these requests on the same pipe may even come from different users.
 
-> Redirect HTTP to HTTPS, with certificate requests still over HTTP
+## Redirect HTTP to HTTPS, with certificate requests still over HTTP
 
 In addition to your normal server(s) running HTTPS, run another server for redirection, `http_redir.py`:
 ```python
@@ -122,7 +124,36 @@ sanic http_redir:app -H 0.0.0.0 -p 80
 sanic http_redir:app -H :: -p 80
 ```
 
-> Get certificates for your domain names
+Alternatively, it is possible to run the HTTP redirect application from the main application:
+
+```python
+# app == Your main application
+# redirect == Your http_redir application
+@app.before_server_start
+async def start(app, _):
+    app.ctx.redirect = await redirect.create_server(
+        port=80, return_asyncio_server=True
+    )
+    app.add_task(runner(redirect, app.ctx.redirect))
+
+
+@app.before_server_stop
+async def stop(app, _):
+    await app.ctx.redirect.close()
+
+
+async def runner(app, app_server):
+    app.is_running = True
+    try:
+        app.signalize()
+        app.finalize()
+        await app_server.serve_forever()
+    finally:
+        app.is_running = False
+        app.is_stopping = True
+```
+
+## Get certificates for your domain names
 
 You can get free certificates from [Let's Encrypt](https://letsencrypt.org/). Install [certbot](https://certbot.eff.org/) via your package manager, and request a certificate:
 

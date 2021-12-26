@@ -189,31 +189,3 @@ class SpecialClassView(HTTPMethodView):
 app.add_route(SpecialClassView.as_view(), "/special_class_view")
 ```
 :---
-
-## Composition view
-
-As an alternative to the `HTTPMethodView`, you can use `CompositionView` to move handler functions outside of the view class.
-
-Handler functions for each supported HTTP method are defined elsewhere in the source, and then added to the view using the `CompositionView.add` method. The first parameter is a list of HTTP methods to handle (e.g. `["GET", "POST"]`), and the second is the handler function.
-
-```python
-from sanic.views import CompositionView
-
-def get_handler(request):
-    return text("I am a get method")
-
-view = CompositionView()
-view.add(["GET"], get_handler)
-view.add(["POST", "PUT"], lambda request: text("I am a post/put method"))
-
-# Use the new view to handle requests to the base URL
-app.add_route(view, "/")
-```
-
-::: warning
-Currently you cannot build a URL for a `CompositionView` using `url_for`.
-:::
-
-::: warning Deprecated v21.6
-`CompositionView` has been deprecated and will be removed from Sanic in v21.12.
-:::

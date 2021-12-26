@@ -150,6 +150,30 @@ app.update_config(MyConfig())
 ```
 :---
 
+### Type casting
+
+When loading from environment variables, Sanic will attempt to cast the values to expected Python types. This particularly applies to:
+
+- `int`
+- `float`
+- `bool`
+
+In regards to `bool`, the following _case insensitive_ values are allowed:
+
+- **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
+- **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
+
+::: new NEW in v21.12
+
+---:1
+Additionally, Sanic can be configured to cast additional types using additional type converters. This should be any callable that returns the value or raises a `ValueError`.
+:--:1
+```python
+app = Sanic(..., config=Config(converters=[UUID]))
+```
+:---
+:::
+
 ## Builtin values
 
 

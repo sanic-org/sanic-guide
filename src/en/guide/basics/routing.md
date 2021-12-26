@@ -601,3 +601,30 @@ If you are going to have multiple `static()` routes, then it is *highly* suggest
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
 app.static("/user/profile", "/path/to/profile", name="profile_pics")
 ```
+:::
+
+## Route context
+::: new NEW in v21.12
+
+---:1
+When a route is defined, you can add any number of keyword arguments with a `ctx_` prefix. These values will be injected into the route `ctx` object.
+:--:1
+```python
+@app.get("/1", ctx_label="something")
+async def handler1(request):
+    ...
+
+@app.get("/2", ctx_label="something")
+async def handler2(request):
+    ...
+
+@app.get("/99")
+async def handler99(request):
+    ...
+
+@app.on_request
+async def do_something(request):
+    if request.route.ctx.label == "something":
+        ...
+```
+:---
