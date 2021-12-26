@@ -41,14 +41,24 @@ app.blueprint(bp)
 
 Blueprints also have the same `websocket()` decorator and `add_websocket_route` method for implementing websockets.
 
+---:1
+
+::: new NEW in v21.12
+Beginning in v21.12, a Blueprint may be registered before or after adding objects to it. Previously, only objects attached to the Blueprint at the time of registration would be loaded into application instance.
+:--:1
+```python
+app.blueprint(bp)
+
+@bp.route("/")
+async def bp_root(request):
+    ...
+```
+:---
 ## Copying
 
 ---:1
 
-::: new NEW in v21.9
 Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint.
-
-:::
 
 :--:1
 
@@ -375,5 +385,5 @@ app.blueprint(blueprint_1)
 When generating a url with `url_for()`, the endpoint name will be in the form:
 
 ```text
-<blueprint_name>.<handler_name>
+{blueprint_name}.{handler_name}
 ```

@@ -18,20 +18,47 @@ Sanic Extensions is an *officially supported* plugin developed, and maintained b
 
 ## Install
 
+The best method is to just install Sanic Extensions along with Sanic itself:
+
+```bash
+pip install sanic[ext]
+```
+
+You can of course also just install it by itself.
+
 ```bash
 pip install sanic-ext
 ```
 
 ## Extend your application
 
----:1
+Out of the box, Sanic Extensions will enable a bunch of features for you. 
 
-Out of the box, Sanic Extensions will enable a bunch of features for you. The easiest way to get started is just to instantiate it with `Extend`.
+::: new NEW in v21.12
+---:1
+To setup Sanic Extensions (v21.12+), you need to do: **nothing**. If it is installed in the environment, it is setup and ready to go.
+
+This code is the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md) _without any changes_.
+:--:1
+```python
+from sanic import Sanic
+from sanic.response import text
+
+app = Sanic("MyHelloWorldApp")
+
+@app.get("/")
+async def hello_world(request):
+    return text("Hello, world.")
+```
+:---
+:::
+
+---:1
+**_OLD DEPRECATED SETUP_**
+
+In v21.9, the easiest way to get started is to instantiate it with `Extend`.
 
 If you look back at the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md), you will see the only additions here are the two highlighted lines.
-
-After running your application, you should now be able to view the OpenAPI documentation and see some of the functionality in action: [http://localhost:8000/docs](http://localhost:8000/docs).
-
 :--:1
 
 ```python{3,6}
@@ -46,5 +73,6 @@ Extend(app)
 async def hello_world(request):
     return text("Hello, world.")
 ```
-
 :---
+
+Regardless of how it is setup, you should now be able to view the OpenAPI documentation and see some of the functionality in action: [http://localhost:8000/docs](http://localhost:8000/docs).

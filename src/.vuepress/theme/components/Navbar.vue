@@ -6,7 +6,7 @@
       <img
         v-if="$site.themeConfig.logo && $page.frontmatter.logo !== false"
         class="logo"
-        :src="$withBase($site.themeConfig.logo)"
+        :src="logo"
         :alt="$siteTitle"
       />
       <span
@@ -32,10 +32,11 @@
       <SearchBox
         v-else-if="
           $site.themeConfig.search !== false &&
-            $page.frontmatter.search !== false
+          $page.frontmatter.search !== false
         "
       />
       <NavLinks class="can-hide" />
+      <ToggleDarkMode @darkmode="handleDarkMode" />
     </div>
   </header>
 </template>
@@ -55,6 +56,7 @@ export default {
   },
   data() {
     return {
+      darkMode: false,
       linksWrapMaxWidth: null,
     };
   },
@@ -66,6 +68,16 @@ export default {
     },
     isAlgoliaSearch() {
       return this.algolia && this.algolia.apiKey && this.algolia.indexName;
+    },
+    logo() {
+      return this.darkMode
+        ? "https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-white-400x97.png"
+        : "https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-simple-400x97.png";
+    },
+  },
+  methods: {
+    handleDarkMode(value) {
+      this.darkMode = value;
     },
   },
   mounted() {
@@ -83,6 +95,7 @@ export default {
           ((this.$refs.siteName && this.$refs.siteName.offsetWidth) || 0);
       }
     };
+    this.handleDarkMode(true);
     handleLinksWrapWidth();
     window.addEventListener("resize", handleLinksWrapWidth, false);
   },
@@ -96,46 +109,67 @@ function css(el, property) {
 </script>
 
 <style lang="stylus">
-$navbar-vertical-padding = 0.7rem
-$navbar-horizontal-padding = 1.5rem
-.navbar
-  padding $navbar-vertical-padding $navbar-horizontal-padding
-  line-height $navbarHeight - 1.4rem
-  a, span, img
-    display inline-block
-  .logo
-    height $navbarHeight - 1.4rem
-    min-width $navbarHeight - 1.4rem
-    margin-right 0.8rem
-    vertical-align top
-  .site-name
-    font-size 1.3rem
-    font-weight 600
-    color $textColor
-    position relative
-  .links
-    padding-left 1.5rem
-    box-sizing border-box
-    background-color white
-    white-space nowrap
-    font-size 0.9rem
-    position absolute
-    right $navbar-horizontal-padding
-    top $navbar-vertical-padding
-    display flex
-    .search-box
-      flex: 0 0 auto
-      vertical-align top
-@media (max-width: $MQMobile)
-  .navbar
-    padding-left 4rem
-    .can-hide
-      display none
-    .links
-      padding-left 1.5rem
-    .site-name
-      width calc(100vw - 9.4rem)
-      overflow hidden
-      white-space nowrap
-      text-overflow ellipsis
+$navbar-vertical-padding = 0.7rem;
+$navbar-horizontal-padding = 1.5rem;
+
+.navbar {
+  padding: $navbar-vertical-padding $navbar-horizontal-padding;
+  line-height: $navbarHeight - 1.4rem;
+
+  a, span, img {
+    display: inline-block;
+  }
+
+  .logo {
+    height: $navbarHeight - 1.4rem;
+    min-width: $navbarHeight - 1.4rem;
+    margin-right: 0.8rem;
+    vertical-align: top;
+  }
+
+  .site-name {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: $textColor;
+    position: relative;
+  }
+
+  .links {
+    padding-left: 1.5rem;
+    box-sizing: border-box;
+    background-color: white;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    position: absolute;
+    right: $navbar-horizontal-padding;
+    top: $navbar-vertical-padding;
+    display: flex;
+
+    .search-box {
+      flex: 0 0 auto;
+      vertical-align: top;
+    }
+  }
+}
+
+@media (max-width: $MQMobile) {
+  .navbar {
+    padding-left: 4rem;
+
+    .can-hide {
+      display: none;
+    }
+
+    .links {
+      padding-left: 1.5rem;
+    }
+
+    .site-name {
+      width: calc(100vw - 9.4rem);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
 </style>

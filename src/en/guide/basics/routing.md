@@ -135,6 +135,24 @@ async def handler(request):
 :::
 ::::
 
+::: warning
+By default, Sanic will **only** consume the incoming request body on non-safe HTTP methods (`POST`, `PUT`, `PATCH`). If you want to receive data in the HTTP request on any other method, you will need to do one of the following two options:
+
+**Option #1 - Tell Sanic to consume the body using `ignore_body`**
+```python
+@app.delete("/path", ignore_body=False)
+async def handler(_):
+    ...
+```
+
+**Option #2 - Manually consume the body in the handler using `receive_body`**
+```python
+@app.delete("/path")
+async def handler(request: Request):
+    await request.receive_body()
+```
+:::
+
 ## Path parameters
 
 ---:1
@@ -583,3 +601,30 @@ If you are going to have multiple `static()` routes, then it is *highly* suggest
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
 app.static("/user/profile", "/path/to/profile", name="profile_pics")
 ```
+:::
+
+## Route context
+::: new NEW in v21.12
+
+---:1
+When a route is defined, you can add any number of keyword arguments with a `ctx_` prefix. These values will be injected into the route `ctx` object.
+:--:1
+```python
+@app.get("/1", ctx_label="something")
+async def handler1(request):
+    ...
+
+@app.get("/2", ctx_label="something")
+async def handler2(request):
+    ...
+
+@app.get("/99")
+async def handler99(request):
+    ...
+
+@app.on_request
+async def do_something(request):
+    if request.route.ctx.label == "something":
+        ...
+```
+:---

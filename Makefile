@@ -5,4 +5,4 @@ build:
 	@yarn docs:build
 
 serve:
-	@python -m http.server --directory=./docs 8080
+	@sanic ./docs --simple --port=8080

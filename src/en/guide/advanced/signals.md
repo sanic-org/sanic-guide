@@ -53,9 +53,7 @@ async def my_signal_handler():
 
 ## Built-in signals
 
-::: new NEW in v21.9
 In addition to creating a new signal, there are a number of built-in signals that are dispatched from Sanic itself. These signals exist to provide developers with more opportunities to add functionality into the request and server lifecycles.
-:::
 
 ---:1
 
@@ -69,7 +67,6 @@ You can attach them just like any other signal to an application or blueprint in
 async def my_signal_handler(conn_info):
     print("Connection has been closed")
 ```
-
 :---
 
 These signals are the signals that are available, along with the arguments that the handlers take, and the conditions that attach (if any).
@@ -95,8 +92,18 @@ These signals are the signals that are available, along with the arguments that 
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: warning
-This is still an experimental feature. Full support will not be finalized until v21.12
+::: new NEW in v21.12
+---:1
+To make using the built-in signals easier, there is an `Enum` object that contains all of the allowed built-ins. With a modern IDE this will help so that you do not need to remember the full list of event names as strings.
+:--:1
+```python
+from sanic.signals import Event
+
+@app.signal(Event.HTTP_LIFECYCLE_COMPLETE)
+async def my_signal_handler(conn_info):
+    print("Connection has been closed")
+```
+:---
 :::
 
 ## Events
