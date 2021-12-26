@@ -36,7 +36,9 @@
         "
       />
       <NavLinks class="can-hide" />
-      <ToggleDarkMode @darkmode="handleDarkMode" />
+      <ClientOnly>
+        <ToggleDarkMode @darkmode="handleDarkMode" />
+      </ClientOnly>
     </div>
   </header>
 </template>
