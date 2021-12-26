@@ -54,11 +54,6 @@ app.run(host="0.0.0.0", port=8443, ssl=context)
 A list of multiple certificates may be provided, in which case Sanic chooses the one matching the hostname the user is connecting to. This occurs so early in the TLS handshake that Sanic has not sent any packets to the client yet.
 
 If the client sends no SNI (Server Name Indication), the first certificate on the list will be used even though on the client browser it will likely fail with a TLS error due to name mismatch. To prevent this fallback and to cause immediate disconnection of clients without a known hostname, add `None` as the first entry on the list. `--tls-strict-host` is the equivalent CLI option.
-
-::: tip
-You may also use `None` in front of a single certificate if you do not wish to reveal your certificate, true hostname or site content to anyone connecting to the IP address instead of the proper DNS name.
-:::
-
 :--:1
 ```python
 ssl = ["certs/example.com/", "certs/bigcorp.test/"]
@@ -71,6 +66,10 @@ sanic myserver:app
     --tls-strict-host
 ```
 :---
+
+::: tip
+You may also use `None` in front of a single certificate if you do not wish to reveal your certificate, true hostname or site content to anyone connecting to the IP address instead of the proper DNS name.
+:::
 
 ---:1
 Dictionaries can be used on the list. This allows also specifying which domains a certificate matches to, although the names present on the certificate itself cannot be controlled from here. If names are not specified, the names from the certificate itself are used.
@@ -102,6 +101,7 @@ Do note that all `conn_info` fields are per connection, where there may be many 
 ## Redirect HTTP to HTTPS, with certificate requests still over HTTP
 
 In addition to your normal server(s) running HTTPS, run another server for redirection, `http_redir.py`:
+
 ```python
 from sanic import Sanic, exceptions, response
 
@@ -119,6 +119,7 @@ def redirect_everything_else(request, exception):
 ```
 
 It is best to setup this as a systemd unit separate of your HTTPS servers. You may need to run HTTP while initially requesting your certificates, while you cannot run the HTTPS server yet. Start for IPv4 and IPv6:
+
 ```
 sanic http_redir:app -H 0.0.0.0 -p 80
 sanic http_redir:app -H :: -p 80
