@@ -53,9 +53,7 @@ async def my_signal_handler():
 
 ## Built-in signals
 
-::: new NEW in v21.9
 In addition to creating a new signal, there are a number of built-in signals that are dispatched from Sanic itself. These signals exist to provide developers with more opportunities to add functionality into the request and server lifecycles.
-:::
 
 ---:1
 

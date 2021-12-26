@@ -11,20 +11,23 @@ const path = require("path");
 let en = {
   lang: "en-US",
   title: "Sanic Framework",
+  current: "Current with version 21.12",
   description:
-    "Sanic is a Python 3.7+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.",
+  "Sanic is a Python 3.7+ web server and web framework that's written to go fast. It allows the usage of the async/await syntax added in Python 3.5, which makes your code non-blocking and speedy.",
 };
 
 let zh = {
   lang: "zh-hans",
   title: "Sanic 框架",
+  current: "Current with version 21.9",
   description:
-    "Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。",
+  "Sanic 是 Python 3.7+ Web 服务器和 Web 框架，旨在提高性能。它允许使用 Python 3.5 中添加的 `async`/`await`等待语法，这使得您的代码有效的避免阻塞从而达到提升响应速度的目的。",
 };
 
 let ko = {
   lang: "ko-KR",
   title: "Sanic 프레임워크",
+  current: "Current with version 21.9",
   description:
     "Sanic은 빠르게 작동하도록 작성된 Python 3.7+ 웹 서버 및 웹 프레임 워크입니다. Python 3.5에 추가된 async / await 구문을 사용할 수 있으므로 코드가 차단(Blocking)되지 않고 빠릅니다.",
 };
@@ -42,6 +45,7 @@ let en_locales = {
   label: "English",
   editLinkText: "Edit this page on GitHub",
   algolia: {},
+  current: "Current with version 21.12",
   nav: [
     {
       text: "Home",
@@ -339,8 +343,8 @@ let zh_locales = {
   selectText: "选择语言",
   label: "简体中文",
   editLinkText: "在 GitHub 上编辑此页",
-
   algolia: {},
+  current: "",
   nav: [
     {
       text: "主页",
@@ -634,6 +638,7 @@ let ko_locales = {
   label: "한국어",
   editLinkText: "GitHub에서 이 페이지를 수정",
   algolia: {},
+  current: "",
   nav: [
     {
       text: "홈 (Home)",
@@ -979,6 +984,9 @@ let site_config = {
     extendMarkdown: (md) => {
       md.use(require("markdown-it-multicolumn").default);
     },
+    config: md => {
+            md.use(require('markdown-it-footnote'))
+        }
   },
 
   plugins: [
