@@ -84,7 +84,7 @@ let en_locales = {
             },
             {
               text: "Latest Release Notes",
-              link: "/en/guide/release-notes/v21.9.md",
+              link: "/en/guide/release-notes/v21.12.md",
             },
           ],
         },
