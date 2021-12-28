@@ -65,13 +65,12 @@ export default {
   background-position: bottom;
   background-image: linear-gradient(
     180deg,
-    #021037 0%,
-    #20206a 19%,
+    #111111 0%,
+    #111154 19%,
     #7092a8 66%,
     #c7f0f5 100%
   );
   transition: 0.2s;
-  border: 0.125em solid #eef3f6;
   overflow: hidden;
 }
 #theme-toggle + label span {
@@ -92,12 +91,16 @@ export default {
 }
 #theme-toggle:checked + label {
   background-position: top;
-  border-color: #5983a6;
 }
 #theme-toggle:checked + label span {
   background: transparent;
   transform: translateX(calc(100%)) scale(0.65);
   box-shadow: inset -0.1875em -0.1875em 0 0 #fbe7ef,
     inset -0.5625em -0.5625em 0 0 #fffff7;
+}
+@media (max-width: 719px) {
+  .dark-mode-widget {
+    display: none;
+  }
 }
 </style>
