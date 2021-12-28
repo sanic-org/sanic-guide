@@ -97,7 +97,7 @@ let en_locales = {
             },
             {
               text: "Sanic Testing",
-              link: "/en/plugins/sanic-testing/testing.md",
+              link: "/en/plugins/sanic-testing/getting-started.md",
             },
           ],
         },
@@ -244,7 +244,7 @@ let en_locales = {
         sidebarDepth: 1,
         children: [
           ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+          ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
         ],
       },
       {
@@ -299,7 +299,10 @@ let en_locales = {
       {
         title: "Sanic Testing",
         sidebarDepth: 1,
-        children: ["/en/plugins/sanic-testing/testing.md"],
+        children: [
+          "/en/plugins/sanic-testing/getting-started.md",
+          "/en/plugins/sanic-testing/clients.md",
+        ],
       },
       {
         title: "Organization",
@@ -326,7 +329,7 @@ let en_locales = {
         sidebarDepth: 1,
         children: [
           ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+          ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
         ],
       },
       {
@@ -686,7 +689,7 @@ let ko_locales = {
             },
             {
               text: "Sanic Testing",
-              link: "/en/plugins/sanic-testing/testing.md",
+              link: "/en/plugins/sanic-testing/getting-started.md",
             },
           ],
         },
@@ -832,7 +835,7 @@ let ko_locales = {
         sidebarDepth: 1,
         children: [
           ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+          ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
         ],
       },
       {
@@ -887,7 +890,7 @@ let ko_locales = {
       {
         title: "Sanic Testing",
         sidebarDepth: 1,
-        children: ["/en/plugins/sanic-testing/testing.md"],
+        children: ["/en/plugins/sanic-testing/getting-started.md"],
       },
       {
         title: "Organization",
@@ -914,7 +917,7 @@ let ko_locales = {
         sidebarDepth: 1,
         children: [
           ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-          ["/en/plugins/sanic-testing/testing.md", "Sanic Testing"],
+          ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
         ],
       },
       {
