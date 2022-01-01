@@ -1,16 +1,16 @@
-# Proxy configuration
+# プロキシ構成
 
-When you use a reverse proxy server (e.g. nginx), the value of `request.ip` will contain the IP of a proxy, typically `127.0.0.1`. Almost always, this is **not** what you will want.
+リバースプロキシサーバー(nginxなど)を使用する場合、`request.ip`の値にはプロキシのIP(通常は`127.0.0.1`が含まれます。ほとんどの場合、これはあなたが望むものではありません。
 
-Sanic may be configured to use proxy headers for determining the true client IP, available as `request.remote_addr`. The full external URL is also constructed from header fields _if available_.
+Sanicは、`request.remote_addr`として利用可能な真のクライアントIPを決定するためにプロキシヘッダーを使用するように構成できます。完全な外部URLは、ヘッダーフィールド_if available_からも構築されます。
 
-::: tip Heads up
-Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
+::: ヒント 注意
+適切な予防措置がなければ、悪意のあるクライアントはプロキシヘッダーを使用して独自のIPを偽装することができます。このような問題を回避するために、Sanicは明示的に有効になっていない限り、プロキシヘッダーを使用しません。
 :::
 
 ---:1
 
-Services behind reverse proxies must configure one or more of the following [configuration values](/guide/deployment/configuration.md):
+リバースプロキシの背後にあるサービスは、次の[構成値](/guide/deployment/configuration.md)の1つ以上を設定する必要があります。
 
 - `FORWARDED_SECRET`
 - `REAL_IP_HEADER`
@@ -23,29 +23,33 @@ app.config.PROXIES_COUNT = 2
 ```
 :---
 
-## Forwarded header
+## 転送されたヘッダー
 
-In order to use the `Forwarded` header, you should set `app.config.FORWARDED_SECRET` to a value known to the trusted proxy server. The secret is used to securely identify a specific proxy server.
+`Forwarded`ヘッダーを使用するには、信頼できるプロキシサーバーに知られている値に`app.config.FORWARDED_SECRET`を設定する必要があります。この秘密は、特定のプロキシサーバーを安全に識別するために使用されます。
 
-Sanic ignores any elements without the secret key, and will not even parse the header if no secret is set.
+29
 
-All other proxy headers are ignored once a trusted forwarded element is found, as it already carries complete information about the client.
+30
 
-To learn more about the `Forwarded` header, read the related [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) and [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/) articles.
+Sanicは秘密鍵のない要素を無視し、秘密が設定されていない場合、ヘッダーを解析することさえしません。
 
-## Traditional proxy headers
+他のすべてのプロキシヘッダーは、クライアントに関する完全な情報をすでに持っているため、信頼できる転送された要素が見つかると無視されます。
 
-### IP Headers
+`Forwarded`ヘッダーの詳細については、関連する[MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded)および[Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)の記事をお読みください。
 
-When your proxy forwards you the IP address in a known header, you can tell Sanic what that is with the `REAL_IP_HEADER` config value.
+## 従来のプロキシヘッダー
+
+### IP-Header
+
+プロキシが既知のヘッダーのIPアドレスを転送すると、「REAL_IP_HEADER」設定値でそれが何であるかをSanicに伝えることができます。
 
 ### X-Forwarded-For
 
-This header typically contains a chain of IP addresses through each layer of a proxy. Setting `PROXIES_COUNT` tells Sanic how deep to look to get an actual IP address for the client. This value should equal the _expected_ number of IP addresses in the chain.
+このヘッダーには、通常、プロキシの各レイヤーを介したIPアドレスのチェーンが含まれています。`PROXIES_COUNT`を設定すると、クライアントの実際のIPアドレスを取得する深さがSanicに指示されます。この値は、チェーン内のIPアドレスの_expected_数に等しいはずです。
 
 ### Other X-headers
 
-If a client IP is found by one of these methods, Sanic uses the following headers for URL parts:
+クライアントIPが次のいずれかの方法で見つかった場合、SanicはURL部分に次のヘッダーを使用します。
 
 - x-forwarded-proto
 - x-forwarded-host
@@ -53,9 +57,9 @@ If a client IP is found by one of these methods, Sanic uses the following header
 - x-forwarded-path
 - x-scheme
 
-## Examples
+## 例えば
 
-In the following examples, all requests will assume that the endpoint looks like this:
+次の例では、すべての要求はエンドポイントが次のようになります。
 ```python
 @app.route("/fwd")
 async def forwarded(request):
@@ -72,8 +76,8 @@ async def forwarded(request):
 ---:1
 ---
 
-##### Example 1
-Without configured FORWARDED_SECRET, x-headers should be respected
+##### 例えば 1
+FORWARDED_SECRETが設定されていない場合、xヘッダーは尊重されるべきです
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -104,8 +108,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 2
-FORWARDED_SECRET now configured
+##### 例えば 2
+FORWARDED_SECRETが設定されました
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -140,8 +144,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 3
-Empty Forwarded header -> use X-headers
+##### 例えば 3
+空の転送ヘッダー - > Xヘッダーを使用する
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
