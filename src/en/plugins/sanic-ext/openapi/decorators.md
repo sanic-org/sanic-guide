@@ -431,7 +431,7 @@ If using a `Response` object, you should not pass any other arguments.
 
 ---:1
 ```python
-@openapi.tag("foo")
+@openapi.secured("foo")
 ```
 :--:1
 ```python
@@ -441,7 +441,7 @@ If using a `Response` object, you should not pass any other arguments.
 
 ---:1
 ```python
-@openapi.tag({"my_api_key": []})
+@openapi.secured({"my_api_key": []})
 ```
 :--:1
 ```python
