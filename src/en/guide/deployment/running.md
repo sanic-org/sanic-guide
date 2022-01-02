@@ -219,10 +219,13 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 
 Sanic is also ASGI-compliant. This means you can use your preferred ASGI webserver to run Sanic. The three main implementations of ASGI are [Daphne](http://github.com/django/daphne), [Uvicorn](https://www.uvicorn.org/), and [Hypercorn](https://pgjones.gitlab.io/hypercorn/index.html).
 
+::: warning
+Daphne does not support the ASGI `lifespan` protocol, and therefore cannot be used to run Sanic. See [Issue #264](https://github.com/django/daphne/issues/264) for more details.
+:::
+
 Follow their documentation for the proper way to run them, but it should look something like:
 
 ```
-daphne myapp:app
 uvicorn myapp:app
 hypercorn myapp:app
 ```
