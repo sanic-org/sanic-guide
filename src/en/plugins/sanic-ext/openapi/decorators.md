@@ -66,6 +66,7 @@ The fields are purposely permissive in accepting multiple types to make it easie
 | `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
+| `secured`     | **Dict[str, Any]**                                                        |
 
 **Examples**
 
@@ -408,5 +409,48 @@ If using a `Response` object, you should not pass any other arguments.
 ```
 
 :---
+
+:::
+
+:::tab secured
+
+**Arguments**
+
+| Field             | Type                    |
+| ----------------- | ----------------------- |
+| `*args, **kwargs` | **str, Dict[str, Any]** |
+
+**Examples**
+
+---:1
+```python
+@openapi.secured()
+```
+:--:1
+:---
+
+---:1
+```python
+@openapi.tag("foo")
+```
+:--:1
+```python
+@openapi.secured("token1", "token2")
+```
+:---
+
+---:1
+```python
+@openapi.tag({"my_api_key": []})
+```
+:--:1
+```python
+@openapi.secured(my_api_key=[])
+```
+:---
+
+Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
+
+:::
 
 ::::
