@@ -290,6 +290,7 @@ let en_locales = {
               "/en/plugins/sanic-ext/openapi/decorators.md",
               "/en/plugins/sanic-ext/openapi/advanced.md",
               "/en/plugins/sanic-ext/openapi/autodoc.md",
+              "/en/plugins/sanic-ext/openapi/security.md",
             ],
           },
           "/en/plugins/sanic-ext/validation.md",
