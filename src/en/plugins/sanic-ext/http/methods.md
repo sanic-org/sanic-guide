@@ -85,7 +85,7 @@ To enable auto-creation of these endpoints, you must first enable them when exte
 ```python
 from sanic_ext import Extend, Config
 
-Extend(app, config=Config(auto_trace=True))
+app.extend(config=Config(http_auto_trace=True))
 ```
 
 Now, assuming you have some endpoints setup, you can trace them as shown here:
