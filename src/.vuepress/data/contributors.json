@@ -504,27 +504,6 @@
         "contributions": 359
     },
     {
-        "login": "sjsadowski",
-        "id": 857480,
-        "node_id": "MDQ6VXNlcjg1NzQ4MA==",
-        "avatar_url": "https://avatars.githubusercontent.com/u/857480?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/sjsadowski",
-        "html_url": "https://github.com/sjsadowski",
-        "followers_url": "https://api.github.com/users/sjsadowski/followers",
-        "following_url": "https://api.github.com/users/sjsadowski/following{/other_user}",
-        "gists_url": "https://api.github.com/users/sjsadowski/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/sjsadowski/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/sjsadowski/subscriptions",
-        "organizations_url": "https://api.github.com/users/sjsadowski/orgs",
-        "repos_url": "https://api.github.com/users/sjsadowski/repos",
-        "events_url": "https://api.github.com/users/sjsadowski/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/sjsadowski/received_events",
-        "type": "User",
-        "site_admin": false,
-        "contributions": 32
-    },
-    {
         "login": "Sniedes722",
         "id": 13172848,
         "node_id": "MDQ6VXNlcjEzMTcyODQ4",
