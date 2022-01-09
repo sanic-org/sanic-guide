@@ -1013,7 +1013,7 @@ let site_config = {
           "/images/sanic-framework-social-media-preview-1280x640.png",
       },
     ],
-    ["sitemap", { hostname: "https://sanicframework.org" }],
+    ["sitemap", { hostname: "https://sanic.dev" }],
     [
       "umami",
       {
