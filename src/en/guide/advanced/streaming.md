@@ -107,8 +107,9 @@ async def test(request):
     response = await request.respond(content_type="text/csv")
     await response.send("foo,")
     await response.send("bar")
+
+    # Optionally, you can explicitly end the stream by calling:
     await response.eof()
-    return response
 ```
 :---
 
