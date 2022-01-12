@@ -160,6 +160,27 @@
         "site_admin": false
     },
     {
+        "login": "Tronic",
+        "id": 98187,
+        "node_id": "MDQ6VXNlcjk4MTg3",
+        "avatar_url": "https://avatars.githubusercontent.com/u/98187?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/Tronic",
+        "html_url": "https://github.com/Tronic",
+        "followers_url": "https://api.github.com/users/Tronic/followers",
+        "following_url": "https://api.github.com/users/Tronic/following{/other_user}",
+        "gists_url": "https://api.github.com/users/Tronic/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/Tronic/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/Tronic/subscriptions",
+        "organizations_url": "https://api.github.com/users/Tronic/orgs",
+        "repos_url": "https://api.github.com/users/Tronic/repos",
+        "events_url": "https://api.github.com/users/Tronic/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/Tronic/received_events",
+        "type": "User",
+        "site_admin": false,
+        "contributions": 32
+    },
+    {
         "login": "yunstanford",
         "id": 13110231,
         "node_id": "MDQ6VXNlcjEzMTEwMjMx",
