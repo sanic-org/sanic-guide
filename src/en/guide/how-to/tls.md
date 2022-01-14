@@ -148,6 +148,7 @@ async def runner(app, app_server):
     try:
         app.signalize()
         app.finalize()
+        app.state.is_started = True
         await app_server.serve_forever()
     finally:
         app.is_running = False
