@@ -63,7 +63,7 @@ The fields are purposely permissive in accepting multiple types to make it easie
 | `exclude`     | **bool**                                                                  |
 | `operation`   | **str**                                                                   |
 | `parameter`   | **str, dict, Parameter, [str], [dict], [Parameter]**                      |
-| `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
+| `response`    | **dict, Response, *YourModel*, [dict], [Response]**                       |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
 | `secured`     | **Dict[str, Any]**                                                        |
