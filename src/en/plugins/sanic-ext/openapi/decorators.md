@@ -62,7 +62,7 @@ The fields are purposely permissive in accepting multiple types to make it easie
 | `document`    | **str, ExternalDocumentation**                                            | 
 | `exclude`     | **bool**                                                                  |
 | `operation`   | **str**                                                                   |
-| `parameter`   | **dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**      |
+| `parameter`   | **str, dict, Parameter, [str], [dict], [Parameter]**                      |
 | `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
