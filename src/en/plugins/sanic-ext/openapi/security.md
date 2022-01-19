@@ -55,7 +55,7 @@ There are two options, document _all_ endpoints.
 
 :--:1
 ```python
-app.ext.openapi.secure()
+app.ext.openapi.secured()
 app.ext.openapi.secured("token")
 ```
 :---
