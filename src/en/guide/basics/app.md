@@ -10,7 +10,7 @@ The most basic building block is the `Sanic()` instance. It is not required, but
 
 from sanic import Sanic
 
-app = Sanic("My Hello, world app")
+app = Sanic("MyHelloWorldApp")
 ```
 :---
 
