@@ -1,6 +1,6 @@
 # Signals
 
-Signals provide a way for one part of your application to tell another part that something happened.
+シグナルは、アプリケーションのある部分が別の部分に何かが起こったことを伝える方法を提供します。
 
 ```python
 @app.signal("user.registration.created")
@@ -16,10 +16,10 @@ async def handle_registration(request):
     })
 ```
 
-## Adding a signal
+## signalを追加する
 
 ---:1
-The API for adding a signal is very similar to adding a route.
+信号を追加するためのAPIは、ルートの追加と非常によく似ています。
 :--:1
 ```python
 async def my_signal_handler():
@@ -30,7 +30,7 @@ app.add_signal(my_signal_handler, "something.happened.ohmy")
 :---
 
 ---:1
-But, perhaps a slightly more convenient method is to use the built-in decorators.
+ただし、おそらくもう少し便利な方法は、組み込みのデコレータを使用することです。
 :--:1
 ```python
 @app.signal("something.happened.ohmy")
@@ -40,7 +40,7 @@ async def my_signal_handler():
 :---
 
 ---:1
-Signals can also be declared on blueprints
+信号は設計図で宣言することもできます
 :--:1
 ```python
 bp = Blueprint("foo")
@@ -51,16 +51,16 @@ async def my_signal_handler():
 ```
 :---
 
-## Built-in signals
+## signalsを設計する
 
 ::: new NEW in v21.9
 In addition to creating a new signal, there are a number of built-in signals that are dispatched from Sanic itself. These signals exist to provide developers with more opportunities to add functionality into the request and server lifecycles.
 :::
 
 ---:1
+新しいシグナルを作成することに加えて、Sanic自体からディスパッチされる多くの組み込みシグナルがあります。これらのシグナルは、開発者がリクエストとサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
 
-
-You can attach them just like any other signal to an application or blueprint instance.
+他のシグナルと同じように、アプリケーションまたはブループリントインスタンスにアタッチできます。
 
 :--:1
 
