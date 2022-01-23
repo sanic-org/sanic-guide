@@ -28,7 +28,7 @@ In order to use the test client, you just need to access the property `test_clie
 
 ```python
 import pytest
-from sanic import Sanic
+from sanic import Sanic, response
 
 
 @pytest.fixture
@@ -61,6 +61,7 @@ You can then create an async test and use the ASGI client:
 
 ```python
 import pytest
+from sanic import Sanic, response
 
 @pytest.fixture
 def app():
