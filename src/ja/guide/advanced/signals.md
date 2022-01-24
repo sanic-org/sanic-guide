@@ -54,7 +54,7 @@ async def my_signal_handler():
 ## signalsを設計する
 
 ::: new NEW in v21.9
-In addition to creating a new signal, there are a number of built-in signals that are dispatched from Sanic itself. These signals exist to provide developers with more opportunities to add functionality into the request and server lifecycles.
+新しい信号を作成することに加えて、Sanic自体からディスパッチされる組み込み信号がいくつかあります。これらの信号は、開発者に要求とサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
 :::
 
 ---:1
@@ -72,10 +72,10 @@ async def my_signal_handler(conn_info):
 
 :---
 
-These signals are the signals that are available, along with the arguments that the handlers take, and the conditions that attach (if any).
+これらの信号は、ハンドラーが取る引数、およびアタッチする条件(存在する場合)とともに、利用可能な信号です。
 
 
-| Event name                 | Arguments                       | Conditions                                                |
+| イベント名                   | 変数                             | 条件                                                |
 | -------------------------- | ------------------------------- | --------------------------------------------------------- |
 | `http.routing.before`      | request                         |                                                           |
 | `http.routing.after`       | request, route, kwargs, handler |                                                           |
@@ -95,31 +95,31 @@ These signals are the signals that are available, along with the arguments that 
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: warning
-This is still an experimental feature. Full support will not be finalized until v21.12
+::: 注意
+これはまだ実験的な特徴です。V21.12までフルサポートは確定しません
 :::
 
-## Events
+## イベント
 
 ---:1
-Signals are based off of an _event_. An event, is simply a string in the following pattern:
+信号は_event_に基づいています。イベントは、単に次のパターンの文字列です。
 :--:1
 ```
 namespace.reference.action
 ```
 :---
 
-::: tip
-Events must have three parts. If you do not know what to use, try these patterns:
+::: 次に
+イベントには3つの部分が必要です。何を使うべきかわからない場合は、次のパターンを試してください。
 
 - `my_app.something.happened`
 - `sanic.notice.hello`
 :::
 
-### Event parameters
+### イベントパラメータ
 
 ---:1
-An event can be "dynamic" and declared using the same syntax as [path parameters](../basics/routing.md#path-parameters). This allows matching based upon arbitrary values.
+イベントは「動的」であり、[pathパラメータ](../basics/routing.md#path-parameters)と同じ構文を使用して宣言できます。これにより、任意の値に基づいてマッチングできます。
 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
@@ -133,19 +133,19 @@ async def trigger(request):
 ```
 :---
 
-Checkout [path parameters](../basics/routing.md#path-parameters) for more information on allowed type definitions.
+許可された型定義の詳細については、[pathパラメータ](../basics/routing.md#path-parameters)をチェックしてください。
 
-::: warning
-Only the third part of an event (the "action") may be dynamic:
+::: 注意
+イベントの3番目の部分(「アクション」)のみが動的です。
 
 - `foo.bar.<thing>` :ok:
 - `foo.<bar>.baz` :x:
 :::
 
-### Waiting
+### 待つ
 
 ---:1
-In addition to executing a signal handler, your application can wait for an event to be triggered.
+シグナルハンドラの実行に加えて、アプリケーションはイベントがトリガーされるのを待つことができます。
 :--:1
 ```python
 await app.event("foo.bar.baz")
@@ -153,7 +153,7 @@ await app.event("foo.bar.baz")
 :---
 
 ---:1
-**IMPORTANT**: waiting is a blocking function. Therefore, you likely will want this to run in a [background task](../basics/tasks.md).
+**大事**: 待つことはブロッキング機能です。したがって、これを[バックグラウンドタスク](../basics/tasks.md)で実行する必要があります。
 :--:1
 ```python
 async def wait_for_event(app):
@@ -169,7 +169,7 @@ async def after_server_start(app, loop):
 :---
 
 ---:1
-If your event was defined with a dynamic path, you can use `*` to catch any action.
+イベントが動的パスで定義されている場合は、`*`を使用して任意のアクションをキャッチできます。
 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
@@ -182,13 +182,13 @@ await app.event("foo.bar.*")
 
 ## Dispatching
 
-*In the future, Sanic will dispatch some events automatically to assist developers to hook into life cycle events.*
+*将来的には、Sanicは開発者がライフサイクルイベントに参加するのを支援するために、いくつかのイベントを自動的にディスパッチします。*
 
 ---:1
-Dispatching an event will do two things:
+イベントをDispatchすると、2つのことを行います。
 
-1. execute any signal handlers defined on the event, and
-2. resolve anything that is "waiting" for the event to complete.
+1. イベントで定義されたシグナルハンドラを実行し、
+2. イベントが完了するまで「待っている」ことをすべて解決します。
 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
@@ -205,7 +205,7 @@ thing=baz
 ### Context
 
 ---:1
-Sometimes you may find the need to pass extra information into the signal handler. In our first example above, we wanted our email registration process to have the email address for the user.
+場合によっては、信号ハンドラに余分な情報を渡す必要があるかもしれません。上記の最初の例では、電子メール登録プロセスにユーザーの電子メールアドレスを指定してほしかった。
 :--:1
 ```python
 @app.signal("user.registration.created")
@@ -223,15 +223,15 @@ await app.dispatch(
 :---
 
 ::: tip FYI
-Signals are dispatched in a background task.
+信号はバックグラウンドタスクでディスパッチされます。
 :::
 
 ### Blueprints
 
-Dispatching blueprint signals works similar in concept to [middleware](../basics/middleware.md). Anything that is done from the app level, will trickle down to the blueprints. However, dispatching on a blueprint, will only execute the signals that are defined on that blueprint.
+青写真信号のdispatchは、[middleware](../basics/middleware.md)と同様に機能します。アプリレベルから行われるものは、青写真まで流れ落ちます。ただし、青写真でディスパッチすると、その青写真で定義されている信号のみが実行されます。
 
 ---:1
-Perhaps an example is easier to explain:
+おそらく、例は説明しやすいです:
 :--:1
 ```python
 bp = Blueprint("bp")
@@ -252,7 +252,7 @@ def bp_signal():
 :---
 
 ---:1
-Running `app.dispatch("foo.bar.baz")` will execute both signals.
+`app.dispatch("foo.bar.baz")`を実行すると、両方の信号が実行されます。
 :--:1
 ```python
 await app.dispatch("foo.bar.baz")
@@ -262,7 +262,7 @@ assert bp_counter == 1
 :---
 
 ---:1
-Running `bp.dispatch("foo.bar.baz")` will execute only the blueprint signal.
+`bp.dispatch("foo.bar.baz")`を実行すると、ブループリント信号のみが実行されます。
 :--:1
 ```python
 await bp.dispatch("foo.bar.baz")
