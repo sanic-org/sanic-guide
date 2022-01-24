@@ -2,13 +2,13 @@
 
 ## Request streaming
 
-Sanic allows you to stream data sent by the client to begin processing data as the bytes arrive.
+Sanicを使用すると、クライアントから送信されたデータをストリーミングして、バイトが到着するとデータの処理を開始できます。
 
 ---:1
 
-When enabled on an endpoint, you can stream the request body using `await request.stream.read()`.
+エンドポイントで有効にすると、`await request.stream.read()`を使用してリクエストボディをストリーミングできます。
 
-That method will return `None` when the body is completed.
+そのメソッドは、本文が完了すると「なし」を返します。
 :--:1
 ```python
 from sanic.views import stream
@@ -28,7 +28,7 @@ class SimpleView(HTTPMethodView):
 
 ---:1
 
-It also can be enabled with a keyword argument in the decorator...
+また、デコレータのキーワード引数で有効にすることもできます。
 :--:1
 ```python
 @app.post("/stream", stream=True)
@@ -54,16 +54,16 @@ bp.add_route(
 :---
 
 ::: tip FYI
-Only post, put and patch decorators have stream argument.
+Post、put、patchデコレータのみがストリーム引数を持っています。
 :::
 
 ## Response streaming
 
 ---:1
 
-Sanic allows you to stream content to the client with an instance of `StreamingHTTPResponse`. There is also a `sanic.response.stream` convenience method.
+Sanicを使用すると、「StreamingHTTPResponse」のインスタンスを使用してクライアントにコンテンツをストリーミングできます。`sanic.response.stream`コンビニエンスメソッドもあります。
 
-This method accepts a coroutine callback which is passed an object that can control writing to the client.
+このメソッドは、クライアントへの書き込みを制御できるオブジェクトを渡されるコルーチンコールバックを受け入れます。
 :--:1
 ```python
 from sanic.response import stream
@@ -78,7 +78,7 @@ async def test(request):
 ```
 :---
 
-This is useful in situations where you want to stream content to the client that originates in an external service, like a database. For example, you can stream database records to the client with the asynchronous cursor that `asyncpg` provides.
+これは、データベースなどの外部サービスに由来するクライアントにコンテンツをストリーミングする場合に便利です。たとえば、`asyncpg`が提供する非同期カーソルを使用して、データベースレコードをクライアントにストリーミングできます。
 
 ```python
 @app.route("/")
@@ -93,12 +93,12 @@ async def index(request):
 ```
 
 ::: tip FYI
-If a client supports HTTP/1.1, Sanic will use [chunked transfer encoding](https://en.wikipedia.org/wiki/Chunked_transfer_encoding); you can explicitly enable or disable it using chunked option of the stream function.
+クライアントが HTTP/1.1 をサポートしている場合、Sanic は [チャンク転送エンコーディング](https://en.wikipedia.org/wiki/Chunked_transfer_encoding) を使用します。ストリーム関数のチャンクオプションを使用して明示的に有効または無効にできます。
 :::
 
 ---:1
 
-The coroutine callback pattern using `stream` is not needed. It is the *old style* of streaming, and should be replaced with the newer inline streaming. You now are able to stream the response directly in the handler.
+`stream`を使用したコルーチンコールバックパターンは必要ありません。これはストリーミングの*古いスタイル*であり、新しいインラインストリーミングに置き換える必要があります。これで、ハンドラーで応答を直接ストリーミングできるようになりました。
 
 :--:1
 ```python
@@ -112,16 +112,16 @@ async def test(request):
 ```
 :---
 
-In the example above `await response.eof()` is called as a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client.
+上記の例では、`await response.eof()` は `await response.send("", True)` を置き換える便利なメソッドとして呼び出されます。ハンドラがクライアントに送り返すものが何も残っていないと判断した場合、** 1回** *after*を呼び出す必要があります。
 
 
 ## File streaming
 
 ---:1
 
-Sanic provides `sanic.response.file_stream` function that is useful when you want to send a large file. It returns a `StreamingHTTPResponse` object and will use chunked transfer encoding by default; for this reason Sanic doesn’t add `Content-Length` HTTP header in the response.
+Sanicは、大きなファイルを送信する場合に便利な `sanic.response.file_stream` 関数を提供します。`StreamingHTTPResponse`オブジェクトを返し、デフォルトでチャンク転送エンコーディングを使用します。このため、Sanicは応答に`Content-Length` HTTPヘッダーを追加しません。
 
-A typical use case might be streaming an video file.
+典型的なユースケースは、ビデオファイルをストリーミングしている可能性があります。
 :--:1
 ```python
 @app.route("/mp4")
@@ -140,7 +140,7 @@ async def handler_file_stream(request):
 
 ---:1
 
-If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually simply by adding the `Content-Length` header.
+`Content-Length`ヘッダーを使用する場合は、チャンク転送エンコーディングを無効にし、`Content-Length`ヘッダーを追加するだけで手動で追加できます。
 
 :--:1
 ```python
