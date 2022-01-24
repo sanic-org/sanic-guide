@@ -44,6 +44,7 @@ let en_locales = {
   selectText: "Languages",
   label: "English",
   editLinkText: "Edit this page on GitHub",
+  helpText: "Help",
   algolia: {},
   current: "Current with version 21.12",
   nav: [
@@ -1062,6 +1063,8 @@ let site_config = {
     nextLinks: true,
     prevLinks: true,
     lastUpdated: "Last Updated",
+    helpLink: "help.md",
+    helpTextFallback: "Help",
     logo:
       "https://raw.githubusercontent.com/sanic-org/sanic-assets/main/png/sanic-framework-logo-simple-400x97.png",
     locales: {
