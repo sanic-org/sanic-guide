@@ -4,7 +4,7 @@
 
 ---:1
 
-Cookies can be accessed via the `Request` object’s `cookies` dictionary.
+クッキーは、`Request`オブジェクトの`cookies`辞書を介してアクセスできます。
 :--:1
 ```python
 @app.route("/cookie")
@@ -19,7 +19,7 @@ async def test(request):
 
 ---:1
 
-When returning a response, cookies can be set on the `Response` object: `response.cookies`. This object is an instance of `CookieJar` which is a special sort of dictionary that automatically will write the response headers for you.
+応答を返すとき、クッキーは`Response`オブジェクトに設定できます: `response.cookies`。このオブジェクトは、応答ヘッダーを自動的に書き込む特別な種類の辞書である「CookieJar」のインスタンスです。
 :--:1
 ```python
 @app.route("/cookie")
@@ -32,22 +32,22 @@ async def test(request):
 ```
 :---
 
-Response cookies can be set like dictionary values and have the following parameters available:
+応答クッキーは辞書の値のように設定でき、次のパラメータを使用できます。
 
-- `expires: datetime` - The time for the cookie to expire on the client’s browser.
-- `path: str` - The subset of URLs to which this cookie applies. Defaults to `/`.
-- `comment: str` - A comment (metadata).
-- `domain: str` - Specifies the domain for which the cookie is valid. An explicitly specified domain must always start with a dot.
-- `max-age: int` - Number of seconds the cookie should live for.
-- `secure: bool` - Specifies whether the cookie will only be sent via HTTPS.
-- `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
-- `samesite: str` - Default is browser dependent, specification states (Lax, Strict, and None) are valid values.
+- `expires: datetime` - クライアントのブラウザでクッキーが期限切れになる時間。
+- `path: str` - このクッキーが適用されるURLのサブセット。デフォルトは `/` です。
+- `comment: str` - コメント(メタデータ)。
+- `domain: str` - クッキーが有効なドメインを指定します。明示的に指定されたドメインは常にドットで始まる必要があります。
+- `max-age: int` - クッキーが存息する秒数。
+- `secure: bool` - クッキーがHTTPS経由でのみ送信されるかどうかを指定します。
+- `httponly: bool` - クッキーをJavaScriptで読み取ることができないかどうかを指定します。
+- `samesite: str` - デフォルトはブラウザに依存し、仕様状態(Lax、Strict、None)は有効な値です。
 
 ## Deleting
 
 ---:1
 
-Cookies can be removed semantically or explicitly.
+クッキーは意味的または明示的に削除できます。
 :--:1
 ```python
 @app.route("/cookie")
@@ -73,4 +73,4 @@ async def test(request):
 
 ## Eating
 
-I like cookies :cookie:
+私はクッキーが好きです:🍪:
