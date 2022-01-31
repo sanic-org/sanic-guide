@@ -1,18 +1,18 @@
 # Handlers
 
-The next important building block are your _handlers_. These are also sometimes called "views".
+次の重要な構成要素は、あなたの_handlers_です。これらは「ビュー」とも呼ばれます。
 
-In Sanic, a handler is any callable that takes at least a `Request` instance as an argument, and returns either an `HTTPResponse` instance, or a coroutine that does the same.
+Sanicでは、ハンドラは、少なくとも「Request`インスタンスを引数として受け取り、`HTTPResponse`インスタンス、または同じことを行うコルーチンのいずれかを返す呼び出し可能物です。
 
 
 
 ---:1
 
-Huh? :confused:
+え? :confused:
 
-It is a **function**; either synchronous or asynchronous.
+これは**関数**です。同期または非同期のいずれかです。
 
-The job of the handler is to respond to an endpoint and do something. This is where the majority of your business logic will go.
+ハンドラの仕事は、エンドポイントに応答し、何かをすることです。これはあなたのビジネスロジックの大半が行く場所です。
 :--:1
 ```python
 def i_am_a_handler(request):
@@ -24,17 +24,17 @@ async def i_am_ALSO_a_handler(request):
 :---
 
 ::: tip Heads up
-If you want to learn more about encapsulating your logic, checkout [class based views](/guide/advanced/class-based-views.md).
+ロジックのカプセル化の詳細については、[クラスベースのビュー](/guide/advanced/class-based-views.md) をチェックアウトしてください。
 :::
 ---:1
-Then, all you need to do is wire it up to an endpoint. We'll learn more about [routing soon](./routing.md).
+次に、エンドポイントに配線するだけです。[すぐにルーティング](./routing.md)について詳しく学びます。
 
-Let's look at a practical example.
+実際の例を見てみましょう。
 
-- We use a convenience decorator on our app instance: `@app.get()`
-- And a handy convenience method for generating out response object: `text()`
+- アプリインスタンスで便利なデコレータを使用します: `@app.get()`
+- そして、応答オブジェクトを生成するための便利な便利なメソッド: `text()`
 
-Mission accomplished :muscle:
+達成されたミッション :muscle:
 :--:1
 ```python
 from sanic.response import text
@@ -47,18 +47,18 @@ async def foo_handler(request):
 
 ---
 
-## A word about _async_...
+## _async_について...
 
 ---:1
 
-It is entirely possible to write handlers that are synchronous.
+同期しているハンドラーを書くことは完全に可能です。
 
-In this example, we are using the _blocking_ `time.sleep()` to simulate 100ms of processing time. Perhaps this represents fetching data from a DB, or a 3rd-party website.
+この例では、_blocking_ `time.sleep()`を使用して100msの処理時間をシミュレートしています。おそらく、これはDB、またはサードパーティのウェブサイトからデータを取得することを表します。
 
-Using four (4) worker processes and a common benchmarking tool:
+4つのワーカープロセスと共通のベンチマークツールを使用する:
 
-- **956** requests in 30.10s
-- Or, about **31.76** requests/second
+- **956** 30.10秒のリクエスト
+- または、約**31.76**リクエスト/秒
 :--:1
 ```python
 @app.get("/sync")
@@ -70,20 +70,20 @@ def sync_handler(request):
 
 ---:1
 
-Just by changing to the asynchronous alternative `asyncio.sleep()`, we see an incredible change in performance. :rocket:
+非同期代替 `asyncio.sleep()` に変更するだけで、パフォーマンスが驚くほど変化します。 :rocket:
 
-Using the same four (4) worker processes:
+同じ4つのワーカープロセスを使用する:
 
 - **115,590** requests in 30.08s
 - Or, about **3,843.17** requests/second
 
 :flushed:
 
-Okay... this is a ridiculously overdramatic result. And any benchmark you see is inherently very biased. This example is meant to over-the-top show the benefit of `async/await` in the web world. Results will certainly vary. Tools like Sanic and other async Python libraries are not magic bullets that make things faster. They make them _more efficient_.
+さて...これはとんでもなく劇的な結果です。そして、あなたが見るベンチマークは本質的に非常に偏っています。この例は、ウェブの世界で「async/await」の利点をオーバーザトップで示すことを目的としています。結果は確かに異なります。Sanicやその他の非同期Pythonライブラリなどのツールは、物事をより速くする魔法の弾丸ではありません。彼らはそれらをより効率的にします。
 
-In our example, the asynchronous version is so much better because while one request is sleeping, it is able to start another one, and another one, and another one, and another one...
+この例では、1つのリクエストがスリープしている間、別のリクエストと別のリクエスト、別のリクエスト、別のリクエスト、別のリクエストを開始できるため、非同期バージョンの方がはるかに優れています。
 
-But, this is the point! Sanic is fast because it takes the available resources and squeezes performance out of them. It can handle many requests concurrently, which means more requests per second.
+しかし、これがポイントです!Sanicは、利用可能なリソースを取り出し、それらからパフォーマンスを絞り出すため、高速です。多くのリクエストを同時に処理できるため、1秒あたりのリクエストが増えます。
 
 :--:1
 ```python
@@ -94,13 +94,13 @@ async def async_handler(request):
 ```
 :---
 
-::: warning A common mistake!
+::: 警告 よくある間違い!
 
-Don't do this! You need to ping a website. What do you use? `pip install your-fav-request-library` :see_no_evil:
+こんなことしないで!ウェブサイトにpingを送信する必要があります。何を使いますか?`pip install your-fav-request-library` :see_no_evil:
 
-Instead, try using a client that is `async/await` capable. Your server will thank you. Avoid using blocking tools, and favor those that play well in the asynchronous ecosystem. If you need recommendations, check out [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
+その代わり、`async/await` が可能なクライアントを使用してみてください。あなたのサーバーはあなたに感謝するでしょう。ブロッキングツールの使用は避け、非同期のエコシステムでうまく機能するものを選びましょう。もし推薦が必要なら、[Awesome Sanic](https://github.com/mekicha/awesome-sanic)をチェックしてください。
 
-Sanic uses [httpx](https://www.python-httpx.org/) inside of its testing package (sanic-testing) :wink:.
+Sanicは、テストパッケージ（sanic-testing）内で[httpx](https://www.python-httpx.org/)を使用しています。 :wink:.
 
 :::
 
@@ -108,7 +108,7 @@ Sanic uses [httpx](https://www.python-httpx.org/) inside of its testing package 
 
 ## A fully annotated handler
 
-For those that are using type annotations...
+型注釈を使用している人のために...
 
 ```python
 from sanic.response import HTTPResponse, text
