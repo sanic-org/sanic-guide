@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
 测试时在终端运行您的应用程序。
 
-## Nigin 配置(Nginx configuration)
+## Nginx 配置(Nginx configuration)
 
 允许快速透明代理需要相当多的配置，但是在大多数情况下，这些并不需要修改。
 

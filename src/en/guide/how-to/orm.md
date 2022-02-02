@@ -2,37 +2,43 @@
 
 >  How do I use SQLAlchemy with Sanic ?
 
-All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance. 
-There are some orm packages who support 
+All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
+There are some orm packages who support
 
-At present, there are many ORMs that support asynchrony, among which the better ones are：
+At present, there are many ORMs that support asynchronicity. Two of the more common libraries are：
 
-[SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)  [tortoise-orm](https://github.com/tortoise/tortoise-orm)
+- [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
+- [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
-Don't know how to integrate it into sanic ?  don't worry, there is a simple usage:
-
+Integration in to your Sanic application is fairly simple:
 
 ## SQLAlchemy
 
-Yeah, as you see, [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has native support for asyncio, Sanic finally can play happily with sqlalchemy.
+Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has added native support for `asyncio`, Sanic can finally work well with SQLAlchemy. Be aware that this functionality is still considered *beta* by the SQLAlchemy project.
 
 
 ---:1
 
 ### Dependencies
 
-First of all, we need to install dependencies. In the past, the dependencies we installed were `sqlalchemy' and `pymysql`, but now we need `sqlalchemy' and `aiomysql`.
+First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
 
 :--:1
 
 ```shell
 pip install -U sqlalchemy
-pip install -U aiomysql 
+pip install -U aiomysql
 ```
 
 :---
 
 ---:1
+
+### Define ORM Model
+
+ORM model creation remains the same.
+
+:--:1
 
 ```python
 # ./models.py
@@ -64,12 +70,6 @@ class Car(BaseModel):
     user = relationship("Person", back_populates="cars")
 ```
 
-:--:1
-
-### Define ORM Model
-
-You can still create ORM models as before.
-
 :---
 
 ---:1
@@ -94,10 +94,18 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 ---:1
 
+### Register Middlewares
+
+The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
+
+Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
+
+
+:--:1
 
 ```python
 # ./server.py
-from contextvars import ContextVar 
+from contextvars import ContextVar
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
@@ -117,22 +125,13 @@ async def close_session(request, response):
         await request.ctx.session.close()
 ```
 
-:--:1
-
-### Register Middlewares
-
-The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`. 
-
-Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
-
-
 :---
 
 ---:1
 
 ### Register Routes
 
-According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and a 2.0's way to query ORM object is using `select`.
+According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and the 2.0 way to query an ORM object is using `select`.
 
 :--:1
 
@@ -184,8 +183,6 @@ curl --location --request GET 'http://127.0.0.1:8000/user/1'
 ```
 
 
-
-
 ## Tortoise-ORM
 
 ---:1
@@ -204,6 +201,12 @@ pip install -U tortoise-orm
 
 ---:1
 
+### Define ORM Model
+
+If you are familiar with Django, you should find this part very familiar.
+
+:--:1
+
 ```python
 # ./models.py
 from tortoise import Model, fields
@@ -216,12 +219,6 @@ class Users(Model):
     def __str__(self):
         return f"I am {self.name}"
 ```
-
-:--:1
-
-### Define ORM Model
-
-If you are familiar with Django, you should find this part very familiar.
 
 :---
 
@@ -253,6 +250,9 @@ register_tortoise(
 
 ---:1
 
+### Register Routes
+
+:--:1
 
 ```python
 
@@ -276,11 +276,6 @@ async def get_user(request, pk):
 if __name__ == "__main__":
     app.run(port=5000)
 ```
-
-
-:--:1
-
-### Register Routes
 
 :---
 

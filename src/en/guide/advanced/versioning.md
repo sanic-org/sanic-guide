@@ -38,7 +38,7 @@ You can also pass a version number to the blueprint, which will apply to all rou
 ```python
 bp = Blueprint("test", url_prefix="/foo", version=1)
 
-# /v1/foo/text
+# /v1/foo/html
 @bp.route("/html")
 def handle_request(request):
     return response.html("<p>Hello world!</p>")
@@ -100,11 +100,10 @@ async def handle_endpoint_2_bp2(request):
 :---
 
 ## Version prefix
-::: new NEW in v21.6
 
 As seen above, the `version` that is applied to a route is **always** the first segment in the generated URI path. Therefore, to make it possible to add path segments before the version, every place that a `version` argument is passed, you can also pass `version_prefix`. 
 
-The `version_prefix` argument is can be defined in:
+The `version_prefix` argument can be defined in:
 
 - `app.route` and `bp.route` decorators (and all the convenience decorators also)
 - `Blueprint` instantiation

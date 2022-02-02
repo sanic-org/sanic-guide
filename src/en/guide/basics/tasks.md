@@ -58,3 +58,68 @@ app.run(...)
 ::: tip
 To pass parameters to `slow_work` above, `functools.partial` can be used.
 :::
+
+## Named tasks
+
+::: new NEW in v21.12
+_This is only supported in Python 3.8+_
+
+---:1
+When creating a task, you can ask Sanic to keep track of it for you by providing a `name`.
+
+:--:1
+```python
+app.add_task(slow_work, name="slow_task")
+```
+:---
+
+---:1
+You can now retrieve that task instance from anywhere in your application using `get_task`.
+
+:--:1
+```python
+task = app.get_task("slow_task")
+```
+:---
+
+---:1
+If that task needs to be cancelled, you can do that with `cancel_task`. Make sure that you `await` it.
+
+:--:1
+```python
+await app.cancel_task("slow_task")
+```
+:---
+
+---:1
+All registered tasks can be found in the `app.tasks` property. To prevent cancelled tasks from filling up, you may want to run `app.purge_tasks` that will clear out any completed or cancelled tasks.
+
+:--:1
+```python
+app.purge_tasks()
+```
+:---
+
+This pattern can be particularly useful with `websockets`:
+
+```python
+async def receiver(ws):
+    while True:
+        message = await ws.recv()
+        if not message:
+            break
+        print(f"Received: {message}")
+
+@app.websocket("/feed")
+async def feed(request, ws):
+    task_name = f"receiver:{request.id}"
+    request.app.add_task(receiver(ws), name=task_name)
+    try:
+        while True:
+            await request.app.event("my.custom.event")
+            await ws.send("A message")
+    finally:
+        # When the websocket closes, let's cleanup the task
+        await request.app.cancel_task(task_name)
+        request.app.purge_tasks()
+:::

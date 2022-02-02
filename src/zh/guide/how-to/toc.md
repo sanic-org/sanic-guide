@@ -15,7 +15,7 @@
 | Request validation                    | *Coming soon*                                          |
 | Serialization                         | *Coming soon*                                          |
 | Server Sent Events                    | *Coming soon*                                          |
-| [SQLAlchemy](./sqlalchemy)            | ... 与 SQLAlchemy 集成                                  |
+| [ORM](./orm.md)                       | 在 Sanic 中使用 ORM ？                                   |
 | Task queues                           | *Coming soon*                                          |
 | [TLS/SSL/HTTPS](./tls.md)             | ... 在 HTTPS 下运行 Sanic ？... 将 HTTP 重定向到 HTTPS ？  |
 | Websocket feeds                       | *Coming soon*                                          |

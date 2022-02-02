@@ -123,7 +123,7 @@ from sanic.response import file_stream
 
 @app.route("/")
 async def handler(request):
-    return file_stream("/path/to/whatever.mp4")
+    return await file_stream("/path/to/whatever.mp4")
 ```
 
 Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file.

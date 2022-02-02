@@ -161,8 +161,6 @@ if __name__ == '__main__':
 ```
 :::
 
-::: new v21.6 新增
-
 #### Sanic 简易服务器
 
 ---:1
@@ -188,8 +186,6 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 
 :---
-
-:::
 
 ## ASGI
 

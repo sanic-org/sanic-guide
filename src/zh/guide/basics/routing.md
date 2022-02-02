@@ -8,14 +8,20 @@
 
 ```python
 @app.route("/stairway")
+
+
 ...
 
 
 @app.get("/to")
+
+
 ...
 
 
 @app.post("/heaven")
+
+
 ...
 
 ```
@@ -48,9 +54,9 @@ app.add_route(handler, "/test")
 
 ```python
 app.add_route(
-        handler,
-        '/test',
-        methods=["POST", "PUT"],
+    handler,
+    '/test',
+    methods=["POST", "PUT"],
 )
 ```
 
@@ -196,7 +202,7 @@ async def uuid_handler(request, foo_id: UUID):
 
 :::: tabs
 
-::: tab "str 🌟"
+::: tab "str"
 
 ```python
 @app.route("/path/to/<foo:str>")
@@ -212,9 +218,6 @@ async def handler(request, foo: str):
 
 - `/path/to/Bob`
 - `/path/to/Python%203`
-
-
-::: new v21.6 新增
 
 在之前版本中，您应该这样写 `<foo:string>`。这种写法将在 v21.12 中被弃用
 
@@ -242,7 +245,7 @@ async def handler(request, foo: int):
 
 :::
 
-::: tab "float 🌟"
+::: tab "float"
 
 ```python
 @app.route("/path/to/<foo:float>")
@@ -259,9 +262,6 @@ async def handler(request, foo: float):
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
-
-
-::: new NEW in v21.6
 
 在之前版本中，您应该这样写 `<foo:number>`。这种写法将在 v21.12 中被弃用
 
@@ -289,9 +289,7 @@ async def handler(request, foo: str):
 
 :::
 
-::: tab "slug 🌟"
-
-::: new v21.6 新增
+::: tab "slug"
 
 ```python
 @app.route("/path/to/<article:slug>")
@@ -299,15 +297,14 @@ async def handler(request, article: str):
     ...
 ```
 
-**使用的正则表达式**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
+**使用的正则表达式**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`
 
-**类型转换**: `str`  
+**类型转换**: `str`
 
 **匹配示例**:
 
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
-
 
 :::
 
@@ -343,9 +340,9 @@ async def handler(request, foo: datetime.date):
     ...
 ```
 
-**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
+**使用的正则表达式**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`
 
-**转换类型**: `datetime.date`  
+**转换类型**: `datetime.date`
 
 **匹配示例**:
 
@@ -410,10 +407,10 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 更进一步，下面的这些匹配方式都是支持的：
 
 ```python
-@app.get(r"/image/<foo:\d{9}.jpg>")                 # 完全匹配           
-@app.get(r"/image/<foo:(\d+).jpg>")                 # 定义单个的匹配组            
-@app.get(r"/image/<foo:(?P<foo>\d+).jpg>")          # 定义单个命名的匹配组       
-@app.get(r"/image/<foo:(?P<foo>\d+).(?:jpg|png)>)") # 定义一个命名的匹配组，以及一个或者多个不匹配的组 
+@app.get(r"/image/<foo:\d{9}.jpg>")  # 完全匹配           
+@app.get(r"/image/<foo:(\d+).jpg>")  # 定义单个的匹配组            
+@app.get(r"/image/<foo:(?P<foo>\d+).jpg>")  # 定义单个命名的匹配组       
+@app.get(r"/image/<foo:(?P<foo>\d+).(?:jpg|png)>)")  # 定义一个命名的匹配组，以及一个或者多个不匹配的组 
 ```
 
 值得注意的是，如果您使用了命名的匹配组，它的名称必须与 `label` 相同
@@ -429,7 +426,8 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 
 ---:1
 
-Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，您只需要函数名称即可实现响应函数之间的处理权力的移交。在您不希望将 url 进行硬编码或希望响应函数之间具有层级关系的时候，这将非常有用。它的使用方法如下：
+Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_for()`，您只需要函数名称即可实现响应函数之间的处理权力的移交。在您不希望将 url
+进行硬编码或希望响应函数之间具有层级关系的时候，这将非常有用。它的使用方法如下：
 
 :--:1
 
@@ -438,7 +436,7 @@ Sanic 提供了一种基于处理程序方法名生成 url 的方法：`app.url_
 async def index(request):
     # generate a URL for the endpoint `post_handler`
     url = app.url_for('post_handler', post_id=5)
-    
+
     # Redirect to `/posts/5`
     return redirect(url)
 
@@ -458,10 +456,10 @@ async def post_handler(request, post_id):
 
 ```python
 >> > app.url_for(
-        "post_handler",
-        post_id=5,
-        arg_one="one",
-        arg_two="two",
+    "post_handler",
+    post_id=5,
+    arg_one="one",
+    arg_two="two",
 )
 '/posts/5?arg_one=one&arg_two=two'
 ```
@@ -476,9 +474,9 @@ async def post_handler(request, post_id):
 
 ```python
 >> > app.url_for(
-        "post_handler",
-        post_id=5,
-        arg_one=["one", "two"],
+    "post_handler",
+    post_id=5,
+    arg_one=["one", "two"],
 )
 '/posts/5?arg_one=one&arg_one=two'
 ```
@@ -623,6 +621,7 @@ bp2 = Blueprint(
 # set the strict slashes check to false
 group = Blueprint.group([bp1, bp2], strict_slashes=True)
 ```
+
 :---
 
 ## 静态文件(Static files)
@@ -637,7 +636,7 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 
 第二个参数是渲染文件所在的文件(夹)路径
 
-更多详细用法请参考  [API docs]() 
+更多详细用法请参考  [API docs]()
 
 :--:1
 
@@ -667,9 +666,9 @@ app.static("/", "/path/to/index.html")
 
 ```python
 app.static(
-        "/user/uploads",
-        "/path/to/uploads",
-        name="uploads",
+    "/user/uploads",
+    "/path/to/uploads",
+    name="uploads",
 )
 ```
 
@@ -683,17 +682,17 @@ app.static(
 
 ```python
 >> > app.url_for(
-        "static",
-        name="static",
-        filename="file.txt",
+    "static",
+    name="static",
+    filename="file.txt",
 )
 '/static/file.txt'
 
 ​```python
 >> > app.url_for(
-        "static",
-        name="uploads",
-        filename="image.png",
+    "static",
+    name="uploads",
+    filename="image.png",
 )
 '/user/uploads/image.png'
 

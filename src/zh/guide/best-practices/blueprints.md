@@ -21,13 +21,13 @@ from sanic import Blueprint
 
 bp = Blueprint("my_blueprint")
 
+
 @bp.route("/")
 async def bp_root(request):
     return json({"my": "blueprint"})
 ```
 
 :---
-
 
 ---:1
 
@@ -89,6 +89,7 @@ from sanic import Blueprint
 
 static = Blueprint("content_static", url_prefix="/static")
 ```
+
 :---
 
 ---:1
@@ -172,9 +173,11 @@ app.blueprint(api)
 async def print_on_request(request):
     print("I am a spy")
 
+
 @bp.middleware("request")
 async def halt_request(request):
     return text("I halted the request")
+
 
 @bp.middleware("response")
 async def halt_response(request, response):
@@ -193,23 +196,29 @@ async def halt_response(request, response):
 bp1 = Blueprint("bp1", url_prefix="/bp1")
 bp2 = Blueprint("bp2", url_prefix="/bp2")
 
+
 @bp1.middleware("request")
 async def bp1_only_middleware(request):
     print("applied on Blueprint : bp1 Only")
+
 
 @bp1.route("/")
 async def bp1_route(request):
     return text("bp1")
 
+
 @bp2.route("/<param>")
 async def bp2_route(request, param):
     return text(param)
 
+
 group = Blueprint.group(bp1, bp2)
+
 
 @group.middleware("request")
 async def group_middleware(request):
     print("common middleware applied for both bp1 and bp2")
+
 
 # Register Blueprint group under the app
 app.blueprint(group)
@@ -256,7 +265,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 :--:1
 
 ```python
->>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
+>> > print(app.url_for("static", name="bp.uploads", filename="file.txt"))
 '/bp/web/path/file.txt'
 ```
 
@@ -274,6 +283,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 @bp.listener("before_server_start")
 async def before_server_start(app, loop):
     ...
+
 
 @bp.listener("after_server_stop")
 async def after_server_stop(app, loop):
@@ -325,7 +335,7 @@ app.blueprint(auth2)
 auth = Blueprint("auth", url_prefix="/auth")
 metrics = Blueprint("metrics", url_prefix="/metrics")
 
-group = Blueprint.group([auth, metrics], version="v1")
+group = Blueprint.group(auth, metrics, version="v1")
 
 # This will provide APIS prefixed with the following URL path
 # /v1/auth/ and /v1/metrics
@@ -334,8 +344,6 @@ group = Blueprint.group([auth, metrics], version="v1")
 :---
 
 ## 组合(Composable)
-
-::: new NEW in v21.6
 
 一个蓝图对象可以被多个蓝图组注册，且蓝图组之间可以进行嵌套注册。这样就消除了蓝图之间组合的限制。
 
@@ -384,8 +392,6 @@ app.blueprint(blueprint_1)
 ```
 
 :---
-
-:::
 
 ## URL 生成(Generating a URL)
 

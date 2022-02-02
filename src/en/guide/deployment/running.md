@@ -55,10 +55,22 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 ```
 :---
 
-::: tip
 Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
-A common way to check this on Linux based operating systems:
+::: new NEW in v21.12
+---:1
+The easiest way to get the maximum CPU performance is to use the `fast` option. This will automatically run the maximum number of workers given the system constraints.
+:--:1
+```python
+app.run(host='0.0.0.0', port=1337, fast=True)
+```
+```python
+$ sanic server:app --host=0.0.0.0 --port=1337 --fast
+```
+:---
+:::
+
+In older versions of Sanic without the `fast` option, a common way to check this on Linux based operating systems:
 
 ```
 $ nproc
@@ -71,7 +83,6 @@ import multiprocessing
 workers = multiprocessing.cpu_count()
 app.run(..., workers=workers)
 ```
-:::
 
 ### Running via command
 
@@ -91,40 +102,80 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 Use `sanic --help` to see all the options.
 ```text
 $ sanic --help
-usage: sanic [-h] [-v] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX]
-             [--cert CERT] [--key KEY] [--access-logs | --no-access-logs]
-             [-w WORKERS] [-d] [-r] [-R PATH]
+usage: sanic [-h] [--version] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX] [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
+             [-w WORKERS | --fast] [--access-logs | --no-access-logs] [--debug] [-d] [-r] [-R PATH] [--motd | --no-motd] [-v]
+             [--noisy-exceptions | --no-noisy-exceptions]
              module
 
-                 Sanic
-         Build Fast. Run Fast.
+   ▄███ █████ ██      ▄█▄      ██       █   █   ▄██████████
+  ██                 █   █     █ ██     █   █  ██
+   ▀███████ ███▄    ▀     █    █   ██   ▄   █  ██
+               ██  █████████   █     ██ █   █  ▄▄
+  ████ ████████▀  █         █  █       ██   █   ▀██ ███████
 
-positional arguments:
-  module                         Path to your Sanic app. Example: path.to.server:app
-                                 If running a Simple Server, path to directory to serve. Example: ./
+ To start running a Sanic application, provide a path to the module, where
+ app is a Sanic() instance:
 
-optional arguments:
-  -h, --help                     show this help message and exit
-  -v, --version                  show program's version number and exit
-  --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
-  -s, --simple                   Run Sanic as a Simple Server (module arg should be a path)
-                                  
-  -H HOST, --host HOST           Host address [default 127.0.0.1]
-  -p PORT, --port PORT           Port to serve on [default 8000]
-  -u UNIX, --unix UNIX           location of unix socket
-                                  
-  --cert CERT                    Location of certificate for SSL
-  --key KEY                      location of keyfile for SSL
-                                  
-  --access-logs                  display access logs
-  --no-access-logs               no display access logs
-                                  
-  -w WORKERS, --workers WORKERS  number of worker processes [default 1]
-                                  
-  -d, --debug
-  -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
-  -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
-                                  
+     $ sanic path.to.server:app
+
+ Or, a path to a callable that returns a Sanic() instance:
+
+     $ sanic path.to.factory:create_app --factory
+
+ Or, a path to a directory to run as a simple HTTP server:
+
+     $ sanic ./path/to/static --simple
+
+Required
+========
+  Positional:
+    module                         Path to your Sanic app. Example: path.to.server:app
+                                   If running a Simple Server, path to directory to serve. Example: ./
+
+Optional
+========
+  General:
+    -h, --help                     show this help message and exit
+    --version                      show program's version number and exit
+
+  Application:
+    --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
+    -s, --simple                   Run Sanic as a Simple Server, and serve the contents of a directory
+                                   (module arg should be a path)
+
+  Socket binding:
+    -H HOST, --host HOST           Host address [default 127.0.0.1]
+    -p PORT, --port PORT           Port to serve on [default 8000]
+    -u UNIX, --unix UNIX           location of unix socket
+
+  TLS certificate:
+    --cert CERT                    Location of fullchain.pem, bundle.crt or equivalent
+    --key KEY                      Location of privkey.pem or equivalent .key file
+    --tls DIR                      TLS certificate folder with fullchain.pem and privkey.pem
+                                   May be specified multiple times to choose multiple certificates
+    --tls-strict-host              Only allow clients that send an SNI matching server certs
+
+  Worker:
+    -w WORKERS, --workers WORKERS  Number of worker processes [default 1]
+    --fast                         Set the number of workers to max allowed
+    --access-logs                  Display access logs
+    --no-access-logs               No display access logs
+
+  Development:
+    --debug                        Run the server in debug mode
+    -d, --dev                      Currently is an alias for --debug. But starting in v22.3, 
+                                   --debug will no longer automatically trigger auto_restart. 
+                                   However, --dev will continue, effectively making it the 
+                                   same as debug + auto_reload.
+    -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
+    -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
+
+  Output:
+    --motd                         Show the startup display
+    --no-motd                      No show the startup display
+    -v, --verbosity                Control logging noise, eg. -vv or --verbosity=2 [default 0]
+    --noisy-exceptions             Output stack traces for all exceptions
+    --no-noisy-exceptions          No output stack traces for all exceptions
 ```
 
 #### As a module
@@ -146,7 +197,6 @@ if __name__ == '__main__':
 :::
 
 
-::: new NEW in v21.6
 #### Sanic Simple Server
 
 ---:1
@@ -164,16 +214,18 @@ This could also be paired with auto-reloading.
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
-:::
 
 ## ASGI
 
 Sanic is also ASGI-compliant. This means you can use your preferred ASGI webserver to run Sanic. The three main implementations of ASGI are [Daphne](http://github.com/django/daphne), [Uvicorn](https://www.uvicorn.org/), and [Hypercorn](https://pgjones.gitlab.io/hypercorn/index.html).
 
+::: warning
+Daphne does not support the ASGI `lifespan` protocol, and therefore cannot be used to run Sanic. See [Issue #264](https://github.com/django/daphne/issues/264) for more details.
+:::
+
 Follow their documentation for the proper way to run them, but it should look something like:
 
 ```
-daphne myapp:app
 uvicorn myapp:app
 hypercorn myapp:app
 ```

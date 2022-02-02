@@ -41,6 +41,49 @@ app.blueprint(bp)
 
 Blueprints also have the same `websocket()` decorator and `add_websocket_route` method for implementing websockets.
 
+---:1
+
+::: new NEW in v21.12
+Beginning in v21.12, a Blueprint may be registered before or after adding objects to it. Previously, only objects attached to the Blueprint at the time of registration would be loaded into application instance.
+:--:1
+```python
+app.blueprint(bp)
+
+@bp.route("/")
+async def bp_root(request):
+    ...
+```
+:---
+## Copying
+
+---:1
+
+Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint.
+
+:--:1
+
+```python
+v1 = Blueprint("Version1", version=1)
+
+@v1.route("/something")
+def something(request):
+    pass
+
+v2 = v1.copy("Version2", version=2)
+
+app.blueprint(v1)
+app.blueprint(v2)
+```
+
+```
+Available routes:
+/v1/something
+/v2/something
+
+```
+
+:---
+
 ## Blueprint groups
 
 Blueprints may also be registered as part of a list or tuple, where the registrar will recursively cycle through any sub-sequences of blueprints and register them accordingly. The Blueprint.group method is provided to simplify this process, allowing a ‘mock’ backend directory structure mimicking what’s seen from the front end. Consider this (quite contrived) example:
@@ -283,7 +326,7 @@ same time.
 auth = Blueprint("auth", url_prefix="/auth")
 metrics = Blueprint("metrics", url_prefix="/metrics")
 
-group = Blueprint.group([auth, metrics], version="v1")
+group = Blueprint.group(auth, metrics, version="v1")
 
 # This will provide APIs prefixed with the following URL path
 # /v1/auth/ and /v1/metrics
@@ -292,7 +335,6 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 ## Composable
 
-::: new NEW in v21.6
 A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
 
 ---:1
@@ -336,7 +378,6 @@ app.blueprint(blueprint_1)
 
 ```
 :---
-:::
 
 
 ## Generating a URL
@@ -344,5 +385,5 @@ app.blueprint(blueprint_1)
 When generating a url with `url_for()`, the endpoint name will be in the form:
 
 ```text
-<blueprint_name>.<handler_name>
+{blueprint_name}.{handler_name}
 ```

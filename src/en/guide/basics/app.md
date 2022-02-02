@@ -10,7 +10,7 @@ The most basic building block is the `Sanic()` instance. It is not required, but
 
 from sanic import Sanic
 
-app = Sanic("My Hello, world app")
+app = Sanic("MyHelloWorldApp")
 ```
 :---
 
@@ -116,11 +116,11 @@ The Sanic application instance can be customized for your application needs in a
 
 ### Custom configuration
 ---:1
-::: new NEW in v21.6
+
 This simplest form of custom configuration would be to pass your own object directly into that Sanic application instance
 
 If you create a custom configuration object, it is *highly* recommended that you subclass the Sanic `Config` option to inherit its behavior. You could use this option for adding properties, or your own set of custom logic.
-:::
+
 :--:1
 ```python
 from sanic.config import Config
@@ -169,9 +169,9 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 :---
 ### Custom context
 ---:1
-::: new NEW in v21.6
+
 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. However, you also have the option of passing any object whatsoever instead.
-:::
+
 :--:1
 ```python
 app = Sanic(..., ctx=1)

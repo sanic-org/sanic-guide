@@ -1,3 +1,3 @@
 # Sanic Guide
 
-**https://sanicframework.org/**
+**https://sanic.dev/**
