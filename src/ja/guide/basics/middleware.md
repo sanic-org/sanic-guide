@@ -1,8 +1,8 @@
 # Middleware
 
-Whereas listeners allow you to attach functionality to the lifecycle of a worker process, middleware allows you to attach functionality to the lifecycle of an HTTP stream.
+リスナーではワーカー・プロセスのライフサイクルに機能を付加できますが、ミドルウェアではHTTPストリームのライフサイクルに機能を付加できます。
 
-You can execute middleware either _before_ the handler is executed, or _after_.
+ミドルウェアを実行するには、_before_ハンドラを実行するか_after_を実行します。
 
 ```mermaid
 sequenceDiagram
@@ -32,7 +32,7 @@ Note over Worker: Deliver response
 
 ---:1
 
-This should probably look familiar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`.
+これはもう見慣れたものになっているはずです。必要なのは、 「リクエスト」 または 「レスポンス」 のどちらでミドルウェアを実行するかを宣言することだけです。
 :--:1
 ```python
 async def extract_user(request):
@@ -44,7 +44,7 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-Again, the `Sanic` app instance also has a convenience decorator.
+ここでも、`Sanic`アプリインスタンスには便利なデコレーターもある。
 :--:1
 ```python
 @app.middleware("request")
@@ -55,7 +55,7 @@ async def extract_user(request):
 
 ---:1
 
-Response middleware receives both the `request` and `response` arguments.
+レスポンス・ミドルウェアは`request`と`response`の両方の引数を受け取ります。
 :--:1
 ```python
 @app.middleware('response')
@@ -66,7 +66,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
+デコレーターをさらに短くすることができます。これは、オートコンプリート機能を備えたIDEがある場合に便利です。
 :--:1
 ```python
 @app.on_request
@@ -83,7 +83,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-Middleware can modify the request or response parameter it is given, _as long as it does not return it_.
+ミドルウェアは、_を返さない限り、指定されたリクエストまたはレスポンス・パラメータを変更できます。
 
 #### Order of execution
 
@@ -118,7 +118,7 @@ async def index(request):
 
 
 ---:1
-You can modify the `request.match_info`. A useful feature that could be used, for example, in middleware to convert `a-slug` to `a_slug`.
+`request.match_info`を変更できます。たとえば、ミドルウェアで`a-slug`を`a_slug`に変換するために使用できる便利な機能。
 :--:1
 ```python
 @app.on_request
@@ -139,10 +139,10 @@ foo_bar_baz
 
 ---:1
 
-If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+ミドルウェアが`HTTPResponse`オブジェクトを返す場合、リクエストは処理を停止し、レスポンスが返されます。これがルートハンドラに到達する前のリクエストで発生した場合、ハンドラは**not**呼び出されます。レスポンスを返すと、それ以降のミドルウェアの実行も妨げられます。
 
 ::: tip
-You can return a `None` value to stop the execution of the middleware handler to allow the request to process as normal. This can be useful when using early return to avoid processing requests inside of that middleware handler.
+`None`値を返すと、ミドルウェアハンドラの実行を停止して、リクエストを通常どおりに処理できます。これは、アーリー・リターンを使用して、そのミドルウェア・ハンドラー内の要求の処理を回避する場合に便利です。
 :::
 :--:1
 ```python
@@ -158,9 +158,9 @@ async def halt_response(request, response):
 
 #### Order of execution
 
-Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
+リクエスト・ミドルウェアは、宣言された順序で実行されます。レスポンス・ミドルウェアは、**逆順で実行されます**.
 
-Given the following setup, we should expect to see this in the console.
+次の設定では、コンソールにこのメッセージが表示されます。
 
 ---:1
 
