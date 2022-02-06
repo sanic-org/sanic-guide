@@ -1,20 +1,20 @@
 # Listeners
 
-Sanic provides you with six (6) opportunities to inject an operation into the life cycle of your application. 
+Sanicは、アプリケーションのライフサイクルにオペレーションを注入する6つの機会を提供します。
 
-There are two (2) that run **only** on your main Sanic process (ie, once per call to `sanic server.app`.)
+メインのSanicプロセスで**のみ**を実行するものが2つあります(つまり、`sanic server.app`への呼び出しごとに1回です。)。
 
 - `main_process_start`
 - `main_process_stop`
 
-There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
+サーバの起動時または終了時にスタートアップ/ティアダウンコードを実行できるようにするには、4つの方法があります。
 
 - `before_server_start`
 - `after_server_start`
 - `before_server_stop`
 - `after_server_stop`
 
-The life cycle of a worker process looks like this:
+ワーカプロセスのライフサイクルは次のようになります。
 
 ```mermaid
 sequenceDiagram
@@ -64,9 +64,9 @@ Note over Process: exit
 
 ---:1
 
-The process to setup a function as a listener is similar to declaring a route.
+関数をリスナーとして設定するプロセスは、ルートの宣言に似ています。
 
-The two injected arguments are the currently running `Sanic()` instance, and the currently running loop.
+注入される2つの引数は、現在実行中の`Sanic()`インスタンスと現在実行中のループです。
 :--:1
 ```python
 async def setup_db(app, loop):
@@ -78,7 +78,7 @@ app.register_listener(setup_db, "before_server_start")
 
 ---:1
 
-The `Sanic` app instance also has a convenience decorator.
+`Sanic`アプリインスタンスにも便利なデコレーターがある。
 :--:1
 ```python
 @app.listener("before_server_start")
@@ -89,7 +89,7 @@ async def setup_db(app, loop):
 
 ---:1
 
-You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
+デコレーターをさらに短くすることができます。これは、オートコンプリート機能を備えたIDEがある場合に便利です。
 
 :--:1
 ```python
@@ -101,7 +101,7 @@ async def setup_db(app, loop):
 
 ## Order of execution
 
-Listeners are executed in the order they are declared during startup, and reverse order of declaration during teardown
+リスナーは、起動時に宣言された順序で実行され、ティアダウン時に宣言された順序とは逆の順序で実行されます。
 
 |                       | Phase           | Order   |
 |-----------------------|-----------------|---------|
@@ -112,7 +112,7 @@ Listeners are executed in the order they are declared during startup, and revers
 | `after_server_stop`   | worker shutdown | reverse :upside_down_face: |
 | `main_process_stop`   | main shutdown   | reverse :upside_down_face: |
 
-Given the following setup, we should expect to see this in the console if we run two workers.
+次の設定では、2人のワーカーを実行した場合にコンソールにこのメッセージが表示されます。
 
 ---:1
 
@@ -176,13 +176,13 @@ async def listener_8(app, loop):
 [pid: 1000000] [INFO] listener_9
 [pid: 1000000] [INFO] Server Stopped
 ```
-In the above example, notice how there are three processes running:
+上の例では、3つのプロセスが実行されています。
 
 - `pid: 1000000` - The *main* process
 - `pid: 1111111` - Worker 1
 - `pid: 1222222` - Worker 2
 
-*Just because our example groups all of one worker and then all of another, in reality since these are running on separate processes, the ordering between processes is not guaranteed. But, you can be sure that a single worker will **always** maintain its order.*
+*この例では、1つのワーカーをすべてグループ化し、次に別のワーカーをすべてグループ化していますが、実際にはこれらのワーカーは別々のプロセスで実行されているため、プロセス間の順序付けは保証されません。ただし、1人のワーカーが常にその順序を維持することは確実です。*
 :---
 
 
@@ -192,7 +192,7 @@ The practical result of this is that if the first listener in `before_server_sta
 
 ## ASGI Mode
 
-If you are running your application with an ASGI server, then make note of the following changes:
+実際には、`before_server_start`ハンドラの最初のリスナーがデータベース接続を設定すると、その後に登録されたリスナーは、起動時と停止時の両方でその接続が有効であることを信頼できます。
 
 - `main_process_start` and `main_process_stop` will be **ignored**
 - `before_server_start` will run as early as it can, and will be before `after_server_start`, but technically, the server is already running at that point
