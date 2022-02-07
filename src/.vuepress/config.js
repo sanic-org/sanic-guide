@@ -358,7 +358,7 @@ let ja_locales = {
               link: "/ja/guide/advanced/class-based-views.md",
             },
             {
-              text: "良い練習",
+              text: "ベストプラクティス",
               link: "/ja/guide/best-practices/blueprints.md",
             },
             {
