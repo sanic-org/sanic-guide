@@ -3,7 +3,7 @@
 ## Instance
 
 ---:1
-The most basic building block is the `Sanic()` instance. It is not required, but the custom is to instantiate this in a file called `server.py`.
+最も基本的な構成要素は、 「Sanic () 」 インスタンスです。これは必須ではありませんが、カスタムはこれを`server.py`というファイルでインスタンス化します。
 :--:1
 ```python
 # /path/to/server.py
@@ -16,10 +16,9 @@ app = Sanic("My Hello, world app")
 
 ## Application context
 
-Most applications will have the need to share/reuse data or objects across different parts of the code base. The most common example is DB connections. 
-
+ほとんどのアプリケーションでは、コード・ベースのさまざまな部分でデータやオブジェクトを共有/再利用する必要があります。最も一般的な例はDB接続です。
 ---:1
-In versions of Sanic prior to v21.3, this was commonly done by attaching an attribute to the application instance
+v21.3より前のバージョンのSanicでは、これは通常、属性をアプリケーションインスタンスにアタッチすることによって行われていました。
 :--:1
 ```python
 # Raises a warning as deprecated feature in 21.3
@@ -29,7 +28,7 @@ app.db = Database()
 :---
 
 ---:1
-Because this can create potential problems with name conflicts, and to be consistent with [request context](./request.md#context) objects, v21.3 introduces application level context object.
+これにより、名前の競合に関する潜在的な問題が発生したり、[要求コンテキスト](./request.md#context)オブジェクトv 21.3では、アプリケーションレベルのコンテキストオブジェクトが導入されました。
 :--:1
 ```python
 # Correct way to attach objects to the application
@@ -41,8 +40,7 @@ app.ctx.db = Database()
 ## App Registry
 
 ---:1
-
-When you instantiate a Sanic instance, that can be retrieved at a later time from the Sanic app registry. This can be useful, for example, if you need to access your Sanic instance from a location where it is not otherwise accessible.
+Sanicインスタンスをインスタンス化すると、後でSanicアプリケーションレジストリから取得できます。これは、他の方法ではアクセスできない場所からSanicインスタンスにアクセスする必要がある場合などに便利です。
 :--:1
 ```python
 # ./path/to/server.py
@@ -58,8 +56,7 @@ app = Sanic.get_app("my_awesome_server")
 :---
 
 ---:1
-
-If you call `Sanic.get_app("non-existing")` on an app that does not exist, it will raise `SanicException` by default. You can, instead, force the method to return a new instance of Sanic with that name.
+存在しないアプリケーションで`Sanic.get_app("non-existing")`を呼び出すと、デフォルトで`SanicException'が発生します。代わりに、その名前の新しいSanicインスタンスを返すようにメソッドに強制できます。
 :--:1
 ```python
 app = Sanic.get_app(
@@ -70,7 +67,7 @@ app = Sanic.get_app(
 :---
 
 ---:1
-If there is **only one** Sanic instance registered, then calling `Sanic.get_app()` with no arguments will return that instance
+**Sanicインスタンスが1つしか登録されていない**場合、引数なしで`Sanic.get_app () `を呼び出すと、そのインスタンスが返されます。
 :--:1
 ```python
 Sanic("My only app")
@@ -82,7 +79,7 @@ app = Sanic.get_app()
 ## Configuration
 
 ---:1
-Sanic holds the configuration in the `config` attribute of the `Sanic` instance. Configuration can be modified **either** using dot-notation **OR** like a dictionary.
+Sanicは、Sanicインスタンスのconfig属性に設定を保持します。構成は、ドット表記を使用するか、辞書のように変更できます。
 :--:1
 ```python
 app = Sanic('myapp')
@@ -100,26 +97,26 @@ app.config.update(db_settings)
 :---
 
 ::: tip Heads up
-Config keys _should_ be uppercase. But, this is mainly by convention, and lowercase will work most of the time.
+構成キーは大文字でなければなりません。しかし、これは主に規約によるもので、ほとんどの場合小文字で動作します。
 ```
 app.config.GOOD = "yay!"
 app.config.bad = "boo"
 ```
 :::
 
-There is much [more detail about configuration](/guide/deployment/configuration.md) later on.
+[設定の詳細](/guide/deployment/configuration.md)については後で説明します。
 
 
 ## Customization
 
-The Sanic application instance can be customized for your application needs in a variety of ways at instantiation. 
+Sanicアプリケーションインスタンスは、インスタンス化時にさまざまな方法でアプリケーションのニーズに合わせてカスタマイズできます。
 
 ### Custom configuration
 ---:1
 
-This simplest form of custom configuration would be to pass your own object directly into that Sanic application instance
+カスタム設定の最も単純な形式は、独自のオブジェクトを直接そのSanicアプリケーションインスタンスに渡すことです。
 
-If you create a custom configuration object, it is *highly* recommended that you subclass the Sanic `Config` option to inherit its behavior. You could use this option for adding properties, or your own set of custom logic.
+カスタム設定オブジェクトを作成する場合は、Sanicの`Config`オプションをサブクラス化して、その動作を継承することを強くお勧めします。このオプションを使用して、プロパティを追加することも、独自のカスタムロジックセットを追加することもできます。
 
 :--:1
 ```python
@@ -133,7 +130,8 @@ app = Sanic(..., config=MyConfig())
 :---
 
 ---:1
-A useful example of this feature would be if you wanted to use a config file in a form that differs from what is [supported](../deployment/configuration.md#using-sanic-update-config).
+
+この機能の有用な例は、 [supported](../deployment/configuration.md#using-sanic-update-config)とは異なる形式の設定ファイルを使用する場合です。
 :--:1
 ```python
 from sanic import Sanic, text
@@ -170,7 +168,7 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ### Custom context
 ---:1
 
-By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. However, you also have the option of passing any object whatsoever instead.
+デフォルトでは、アプリケーション・コンテキストは [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) であり、必要なプロパティを設定できます。ただし、代わりに任意のオブジェクトを渡すこともできます。
 
 :--:1
 ```python
@@ -190,11 +188,11 @@ app = Sanic(..., ctx=MyContext())
 :---
 ### Custom requests
 ---:1
-It is sometimes helpful to have your own `Request` class, and tell Sanic to use that instead of the default. One example is if you wanted to modify the default `request.id` generator.
+独自の 「Request」 クラスを用意し、デフォルトの代わりにそれを使用するようにSanicに指示すると便利な場合があります。たとえば、デフォルトの`request.id`ジェネレータを変更する場合です。
 
 ::: tip Important
 
-It is important to remember that you are passing the *class* not an instance of the class.
+クラスのインスタンスではなく、*クラス*を渡すことを覚えておくことが重要です。
 
 :::
 :--:1
@@ -222,7 +220,7 @@ async def handler(request):
 ### Custom error handler
 
 ---:1
-See [exception handling](../best-practices/exceptions.md#custom-error-handling) for more
+詳細については、[exception handling](../best-practices/exceptions.md#custom-error-handling)を参照してください。
 :--:1
 ```python
 from sanic.handlers import ErrorHandler
