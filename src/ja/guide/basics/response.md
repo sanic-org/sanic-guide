@@ -1,10 +1,10 @@
 # Response
 
-All [handlers](./handlers.md) **must** return a response object, and [middleware](./middleware.md) may optionally return a response object.
+すべての[ハンドラ](./handlers.md) **は**レスポンス・オブジェクトを返し、[ミドルウェア](./middleware.md)は、オプションで応答オブジェクトを返すことができます。
 
 ## Methods
 
-The easiest way to generate a response object is to use one of the nine (9) convenience methods.
+レスポンス・オブジェクトを生成する最も簡単な方法は、9つの便利なメソッドのいずれかを使用することです。
 
 :::: tabs
 
@@ -174,7 +174,7 @@ Defaults to a `204` status.
 
 ## Default status
 
-The default HTTP status code for the response is `200`. If you need to change it, it can be done by the response method.
+レスポンスのデフォルトのHTTPステータス・コードは`200`です。変更が必要な場合は、レスポンス方式で行うことができます。
 
 
 ```python
