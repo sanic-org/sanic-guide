@@ -21,6 +21,10 @@ The `Extend` instance has two basic methods on it used for dependency injection:
 
 Let's explore some use cases here.
 
+::: warning
+If you used dependency injection prior to v21.12, the lower level API method was called `injection`. It has since been renamed to `add_dependency` and starting in v21.12 `injection` is an alias for `add_dependency`. The `injection` method has been deprecated for removal in v22.6.
+:::
+
 ## Basic implementation
 
 The simplest use case would be simply to recast a value.
