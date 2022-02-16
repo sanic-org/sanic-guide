@@ -1,21 +1,21 @@
-# Getting Started
+# スタートアップ
 
-Before we begin, make sure you are running Python 3.7 or higher. Currently, is known to work with Python versions 3.7, 3.8 and 3.9.
+最初に、Python 3.7以降が実行されていることを確認します。現在、はPythonバージョン3.7、3.8、および3.9で動作することがわかっています。
 
-## Install
+## インストール
 
 ```bash
 pip install sanic
 ```
 
-## Hello, world application
+## hello, worldアプリケーション
 
 ---:1
 
-If you have ever used one of the many decorator based frameworks, this probably looks somewhat familiar to you.
+多くのデコレーター・ベースのフレームワークのいずれかを使用したことがある人であれば、このフレームワークはおそらく皆さんにとって馴染みのあるものです。
 
 ::: tip 
-If you are coming from Flask or another framework, there are a few important things to point out. Remember, Sanic aims for performance, flexibility, and ease of use. These guiding principles have tangible impact on the API and how it works.
+もしあなたがFlaskや他のフレームワークから来ているのであれば、いくつかの重要な指摘があります。Sanicはパフォーマンス、柔軟性、使いやすさを目指しています。これらの指針は、APIとその動作に目に見える影響を与えます。
 :::
 
 
@@ -35,16 +35,16 @@ async def hello_world(request):
 
 :---
 
-### Important to note
+### 重要なノート
 
-- Every request handler can either be sync (`def hello_world`) or async (`async def hello_world`). Unless you have a clear reason for it, always go with `async`.
-- The `request` object is always the first argument of your handler. Other frameworks pass this around in a context variable to be imported. In the `async` world, this would not work so well and it is far easier (not to mention cleaner and more performant) to be explicit about it. 
-- You **must** use a response type. MANY other frameworks allow you to have a return value like this: `return "Hello, world."` or this: `return {"foo": "bar"}`. But, in order to do this implicit calling, somewhere in the chain needs to spend valuable time trying to determine what you meant. So, at the expense of this ease, Sanic has decided to require an explicit call.
+- すべてのリクエストハンドラは、sync(`def hello_world`)またはasync(`async def hello_world`)のいずれかになります。明確な理由がない限り、常に`async'を使ってください。
+- `request`オブジェクトは、常にハンドラの最初の引数です。他のフレームワークは、インポートされるコンテキスト変数でこれを渡します。`async`の世界では、これはあまりうまく動作しないでしょうし、それについて明示的に説明することは (よりクリーンでよりパフォーマンス的であることは言うまでもありませんが) はるかに簡単です。
+- 応答タイプを使用する必要があります。他の多くのフレームワークでは、`return"Hello, world。"`またはthis:`return {"foo":"bar"}`です。しかし、この暗黙の呼び出しを行うには、チェーン内のどこかで、意味を判断するために貴重な時間を費やす必要があります。この容易さを犠牲にして、Sanicは明示的なコールを要求することにしました。
 
-### Running
+### 実行中。。。
 
 ---:1
-Let's save the above file as `server.py`. And launch it.
+上記のファイルを`server.py`として保存します。そして、それを起動します。
 :--:1
 ```bash
 sanic server.app
@@ -52,7 +52,7 @@ sanic server.app
 :---
 
 ::: tip 
-This **another** important distinction. Other frameworks come with a built in development server and explicitly say that it is _only_ intended for development use. The opposite is true with Sanic. 
+この**別の**重要な違いです。他のフレームワークには、組み込みの開発サーバーが付属しており、開発用であることを明示的に示しています。逆のことは、Sanicにも言える。
 
-**The packaged server is production ready.**
+**パッケージ化されたサーバーは、実稼働に対応しています。**
 :::
