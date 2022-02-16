@@ -1,16 +1,16 @@
 # Blueprints
 
-## Overview
+## 概要
 
-Blueprints are objects that can be used for sub-routing within an application. Instead of adding routes to the application instance, blueprints define similar methods for adding routes, which are then registered with the application in a flexible and pluggable manner.
+設計図は、アプリケーション内のサブルーティングに使用できるオブジェクトです。設計図では、アプリケーション・インスタンスにルートを追加する代わりに、ルートを追加するための同様のメソッドを定義し、それを柔軟でプラグ可能な方法でアプリケーションに登録します。
 
-Blueprints are especially useful for larger applications, where your application logic can be broken down into several groups or areas of responsibility.
+設計図は、アプリケーション・ロジックを複数のグループまたは責任領域に分けることができる大規模なアプリケーションに特に役立ちます。
 
-## Creating and registering
+## 作成と登録
 
 ---:1
 
-First, you must create a blueprint. It has a very similar API as the `Sanic()` app instance with many of the same decorators.
+まず、設計図を作成する必要があります。これは、多くの同じデコレータを持つ`Sanic()`アプリケーションインスタンスと非常に似たAPIを持っています。
 :--:1
 ```python
 # ./my_blueprint.py
@@ -28,7 +28,7 @@ async def bp_root(request):
 
 ---:1
 
-Next, you register it with the app instance.
+次に、アプリケーションインスタンスに登録します。
 :--:1
 ```python
 from sanic import Sanic
@@ -39,14 +39,14 @@ app.blueprint(bp)
 ```
 :---
 
-Blueprints also have the same `websocket()` decorator and `add_websocket_route` method for implementing websockets.
+Blueprintには、websocketsを実装するための同じ`websocket()`デコレータと`add_websocket_route`メソッドもあります。
 
 ## Copying
 
 ---:1
 
 ::: new NEW in v21.9
-Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint.
+`copy()`メソッドを使用すると、設計図とそれにアタッチされているすべてのものを新しいインスタンスにコピーできます。唯一必要な引数は、新しい`name`を渡すことです。ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。
 
 :::
 
@@ -74,9 +74,9 @@ Available routes:
 
 :---
 
-## Blueprint groups
+## Blueprintグループ
 
-Blueprints may also be registered as part of a list or tuple, where the registrar will recursively cycle through any sub-sequences of blueprints and register them accordingly. The Blueprint.group method is provided to simplify this process, allowing a ‘mock’ backend directory structure mimicking what’s seen from the front end. Consider this (quite contrived) example:
+設計図は、リストまたはタプルの一部として登録することもでき、レジストラは、設計図のサブシーケンスを再帰的に巡回し、それに従って登録する。Blueprint.groupメソッドは、このプロセスを単純化するために提供されており、フロントエンドから見えるものを模倣する`モック`バックエンドディレクトリ構造を可能にする。次の (かなり不自然な) 例を考えてみましょう。
 
 ```text
 api/
@@ -91,7 +91,7 @@ app.py
 
 ---:1
 
-#### First blueprint
+#### blueprint 最初に
 
 :--:1
 ```python
@@ -104,7 +104,7 @@ authors = Blueprint("content_authors", url_prefix="/authors")
 
 ---:1
 
-#### Second blueprint
+#### blueprint 次に
 
 :--:1
 ```python
@@ -117,7 +117,7 @@ static = Blueprint("content_static", url_prefix="/static")
 
 ---:1
 
-#### Blueprint group
+#### Blueprint グループ
 
 :--:1
 ```python
@@ -132,7 +132,7 @@ content = Blueprint.group(static, authors, url_prefix="/content")
 
 ---:1
 
-#### Third blueprint
+#### blueprint 三つ目に
 
 :--:1
 ```python
@@ -145,7 +145,7 @@ info = Blueprint("info", url_prefix="/info")
 
 ---:1
 
-#### Another blueprint group
+#### 他のblueprintグループ
 
 :--:1
 ```python
@@ -160,9 +160,9 @@ api = Blueprint.group(content, info, url_prefix="/api")
 
 ---:1
 
-#### Main server
+#### メインサーバー
 
-All blueprints are now registered
+すべての設計図が登録されました
 
 :--:1
 ```python
@@ -175,11 +175,11 @@ app.blueprint(api)
 ```
 :---
 
-## Middleware
+## ミドルウェアー
 
 ---:1
 
-Blueprints can also have middleware that is specifically registered for its endpoints only.
+Blueprintsは、エンドポイント専用に登録されたミドルウェアを持つこともできます。
 :--:1
 ```python
 @bp.middleware
@@ -198,7 +198,7 @@ async def halt_response(request, response):
 
 ---:1
 
-Similarly, using blueprint groups, it is possible to apply middleware to an entire group of nested blueprints.
+同様に、設計図グループを使用すると、ネストされた設計図グループ全体にミドルウェアを適用できます。
 :--:1
 ```python
 bp1 = Blueprint("bp1", url_prefix="/bp1")
@@ -227,11 +227,11 @@ app.blueprint(group)
 ```
 :---
 
-## Exceptions
+## 例外
 
 ---:1
 
-Just like other [exception handling](./exceptions.md), you can define blueprint specific handlers.
+他の[例外処理](./exceptions.md)を使用して、設計図固有のハンドラーを定義できます。
 :--:1
 ```python
 @bp.exception(NotFound)
@@ -240,11 +240,11 @@ def ignore_404s(request, exception):
 ```
 :---
 
-## Static files
+## 静的ファイル
 
 ---:1
 
-Blueprints can also have their own static handlers
+Blueprintsは独自の静的ハンドラを持つこともできます。
 :--:1
 ```python
 bp = Blueprint("bp", url_prefix="/bp")
@@ -255,7 +255,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-Which can then be retrieved using `url_for()`. See [routing](/guide/basics/routing.md) for more information.
+これは、`url_for()`を使用して取得できます。詳細については、[ルーティング](/guide/basics/routing.md) を参照してください。
 :--:1
 ```python
 >>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
@@ -263,11 +263,11 @@ Which can then be retrieved using `url_for()`. See [routing](/guide/basics/routi
 ```
 :---
 
-## Listeners
+## リスナー
 
 ---:1
 
-Blueprints can also implement [listeners](/guide/basics/listeners.md).
+Blueprintsは[listeners](/guide/basics/listeners.md)も実装できます。
 :--:1
 ```python
 @bp.listener("before_server_start")
@@ -280,13 +280,13 @@ async def after_server_stop(app, loop):
 ```
 :---
 
-## Versioning
+## バージョン
 
-As discussed in the [versioning section](/guide/advanced/versioning.md), blueprints can be used to implement different versions of a web API.
+[versioning section](/guide/advanced/versioning.md)で説明したように、設計図を使用してさまざまなバージョンのWeb APIを実装できます。
 
 ---:1
 
-The `version` will be prepended to the routes as `/v1` or `/v2`, etc.
+`version`は、ルートの前に`/v1`または`/v2`のように付加されます。
 :--:1
 ```python
 auth1 = Blueprint("auth", url_prefix="/auth", version=1)
@@ -296,7 +296,7 @@ auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 
 ---:1
 
-When we register our blueprints on the app, the routes `/v1/auth` and `/v2/auth` will now point to the individual blueprints, which allows the creation of sub-sites for each API version.
+アプリケーションに設計図を登録すると、ルート`/v1/auth`と`/v2/auth`は個々の設計図を指すようになり、各APIバージョンのサブサイトを作成できるようになります。
 :--:1
 ```python
 from auth_blueprints import auth1, auth2
@@ -309,8 +309,7 @@ app.blueprint(auth2)
 
 ---:1
 
-It is also possible to group the blueprints under a `BlueprintGroup` entity and version multiple of them together at the
-same time.
+設計図を`BlueprintGroup`エンティティの下にグループ化し、同じ時間。
 :--:1
 ```python
 auth = Blueprint("auth", url_prefix="/auth")
@@ -323,12 +322,12 @@ group = Blueprint.group([auth, metrics], version="v1")
 ```
 :---
 
-## Composable
+## 合成可能
 
-A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
+`Blueprint`は複数のグループに登録することができ、`BlueprintGroup`自体もそれぞれ登録してさらにネストすることができる。これにより、無限の可能性を持つ`Blueprint`コンポジションが作成されます。
 
 ---:1
-Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes.
+この例を見て、2つのハンドラーが実際には5つの異なるルートとしてマウントされていることを確認してください。
 :--:1
 ```python
 app = Sanic(__name__)
@@ -370,9 +369,9 @@ app.blueprint(blueprint_1)
 :---
 
 
-## Generating a URL
+## URLを生成
 
-When generating a url with `url_for()`, the endpoint name will be in the form:
+`url_for()`を使用してURLを生成する場合、エンドポイント名は次の形式になります。
 
 ```text
 <blueprint_name>.<handler_name>
