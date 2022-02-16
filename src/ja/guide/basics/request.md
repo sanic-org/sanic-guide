@@ -1,7 +1,7 @@
 # Request
 //Now createing...//
 
-The `Request` instance contains **a lot** of helpful information available on its parameters. Refer to the [API documentation](https://sanic.readthedocs.io/) for full details.
+`Request`インスタンスには、そのパラメータに関する有用な情報が**たくさん**含まれています。詳細については、[APIドキュメント](https://sanic.readthedocs.io/) を参照してください。
 
 ## Body
 
@@ -60,9 +60,9 @@ bar
 ```
 
 ::: tip FYI
-:bulb: The `request.form` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
+:bulb: `request.form`オブジェクトは、各値がリストであるディクショナリの、いくつかのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
+ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
 :::
 
 ::: tab Uploaded
@@ -99,9 +99,9 @@ Most of the time you will want to use the `.get()` method to access the first el
 
 ### Request context
 
-The `request.ctx` object is your playground to store whatever information you need to about the request.
+`request.ctx`オブジェクトは、リクエストに関して必要な情報を格納するためのプレイグラウンドです。
 
-This is often used to store items like authenticated user details. We will get more into [middleware](./middleware.md) later, but here is a simple example.
+これは、認証されたユーザーの詳細などのアイテムを格納するためによく使用されます。[ミドルウェア](./middleware.md)を使用しますが、ここでは簡単な例を示します。
 
 ```python
 @app.on_request
@@ -113,19 +113,20 @@ async def hi_my_name_is(request):
     return text("Hi, my name is {}".format(request.ctx.user.name))
 ```
 
-A typical use case would be to store the user object acquired from database in an authentication middleware. Keys added are accessible to all later middleware as well as the handler over the duration of the request.
+典型的な使用例は、データベースから取得したユーザー・オブジェクトを認証ミドルウェアに格納することです。追加されたキーは、以降のすべてのミドルウェアおよびリクエストの実行中にハンドラからアクセスできます。
 
-Custom context is reserved for applications and extensions. Sanic itself makes no use of it.
+カスタムコンテキストは、アプリケーションおよび拡張用に予約されています。サニック自身はそれを利用しない。
 
 ### Connection context
 
 ---:1
 
-Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
+多くの場合、APIは同じクライアントに対して複数の同時 (または連続) リクエストを処理する必要があります。たとえば、データを取得するために複数のエンドポイントにクエリを実行する必要があるプログレッシブウェブアプリでは、これが頻繁に発生します。
 
-The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
 
-When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
+HTTPプロトコルでは、[keep alive headers](../ deployment/configuration.md#keep-alive-timeout)を使用した接続によって発生するオーバーヘッド時間を緩和する必要があります。
+
+複数のリクエストが1つの接続を共有する場合、Sanicはそれらのリクエストが状態を共有できるようにコンテキストオブジェクトを提供します。
 
 :--:1
 ```python
@@ -151,7 +152,7 @@ request.conn_info.ctx.foo=3
 ## Parameters
 
 ---:1
-Values that are extracted from the path are injected into the handler as parameters, or more specifically as keyword arguments. There is much more detail about this in the [Routing section](./routing.md).
+パスから抽出された値は、パラメータとして、より具体的にはキーワード引数としてハンドラに注入されます。詳細については、 [ルーティングセクション](./routing.md)。
 :--:1
 ```python
 @app.route('/tag/<tag>')
@@ -163,7 +164,7 @@ async def tag_handler(request, tag):
 
 ## Arguments
 
-There are two attributes on the `request` instance to get query parameters:
+`request`インスタンスには、問合せパラメータを取得するための2つの属性があります。
 
 - `request.args`
 - `request.query_args`
@@ -191,7 +192,7 @@ key1=val1&key2=val2&key1=val3
 ```
 
 ::: tip FYI
-:bulb: The `request.args` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.  
+:bulb: `request.args`オブジェクトは、各値がリストになっているディクショナリのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
+ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
 :::
