@@ -1,7 +1,7 @@
 # Background tasks
 
-## Creating Tasks
-It is often desirable and very convenient to make usage of [tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) in async Python. Sanic provides a convenient method to add tasks to the currently **running** loop. It is somewhat similar to `asyncio.create_task`. For adding tasks before the 'App' loop is running, see next section.
+## Tasksを作成
+非同期Pythonで[tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task)を使用することは、望ましいことが多く、非常に便利です。Sanicは、現在実行中の**ループにタスクを追加する便利な方法を提供します。これは`asyncio.create_task`。'App'ループの実行前にタスクを追加する方法については、次のセクションを参照してください。
 
 ```python
 async def notify_server_started_after_five_seconds():
@@ -13,7 +13,7 @@ app.add_task(notify_server_started_after_five_seconds())
 
 ---:1
 
-Sanic will attempt to automatically inject the app, passing it as an argument to the task.
+Sanicは自動的にアプリを注入し、タスクへの引数として渡す。
 :--:1
 ```python
 async def auto_inject(app):
@@ -26,7 +26,7 @@ app.add_task(auto_inject)
 
 ---:1
 
-Or you can pass the `app` argument explicitly.
+または、`app`引数を明示的に渡すこともできます。
 :--:1
 ```python
 async def explicit_inject(app):
@@ -37,15 +37,15 @@ app.add_task(explicit_inject(app))
 ```
 :---
 
-## Adding tasks before `app.run`
+## `app.run`の前にタスクを追加します
 
-It is possible to add background tasks before the App is run ie. before `app.run`. To add a task before the App is run, it is recommended to not pass the coroutine object (ie. one created by calling the `async` callable), but instead just pass the callable and Sanic will create the coroutine object on **each worker**. Note: the tasks that are added such are run as `before_server_start` jobs and thus run on every worker (and not in the main process). This has certain consequences, please read [this comment](https://github.com/sanic-org/sanic/issues/2139#issuecomment-868993668) on [this issue](https://github.com/sanic-org/sanic/issues/2139) for further details.
+Appを実行する前にバックグラウンドタスクを追加することができます。`app.run`の前に置きます。Appが実行される前にタスクを追加するには、コルーチンオブジェクト(つまり、。`async`callable)を渡さずに、単に呼び出し可能オブジェクトを渡すことをお勧めします。Sanicは各ワーカーにコルーチンオブジェクトを作成します**.注:追加されるタスクは`before_server_start`ジョブとして実行されるため、すべてのワーカーで実行されます (メインプロセスでは実行されません) 。これには特定の結果が伴います。詳細については、[この問題](https://github.com/sanic-org/sanic/issues/2139) の [このコメント](https://github.com/sanic-org/sanic/issues/2139#issuecomment-868993668) を参照してください。
 
-To add work on the main process, consider adding work to [`@app.main_process_start`](./listeners.md). Note: the workers won't start until this work is completed.
+メイン・プロセスに作業を追加するには、[`@app.main_process_start`](./listeners.md)。注意:この作業が完了するまで、就業者は開始しません。
 
 ---:1
 
-Example to add a task before `app.run`
+`app.run`の前にタスクを追加する例
 :---:1
 ```python
 async def slow_work(...):
@@ -56,5 +56,5 @@ app.add_task(slow_work) # Note: we are passing the callable and not coroutine ob
 app.run(...)
 ```
 ::: tip
-To pass parameters to `slow_work` above, `functools.partial` can be used.
+上記の`slow_work`にパラメータを渡すには、`functools.partial`を使用します。
 :::
