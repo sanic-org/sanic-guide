@@ -1,10 +1,10 @@
-# Routing
+# ルーティング
 
 ---:1
 
-So far we have seen a lot of this decorator in different forms.
+これまでに様々な形の装飾家を見てきました。
 
-But what is it? And how do we use it?
+でも何なの?どうやって使うのか?
 :--:1
 ```python
 @app.route("/stairway")
@@ -18,13 +18,13 @@ But what is it? And how do we use it?
 ```
 :---
 
-## Adding a route
+## ルートを追加する
 
 ---:1
 
-The most basic way to wire up a handler to an endpoint is with `app.add_route()`.
+ハンドラをエンドポイントに接続する最も基本的な方法は、`app.add_route()`を使用することです。
 
-See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) for more details.
+詳細については、[API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for)を参照してください。
 :--:1
 ```python
 async def handler(request):
@@ -36,7 +36,7 @@ app.add_route(handler, "/test")
 
 ---:1
 
-By default, routes are available as an HTTP `GET` call. You can change a handler to respond to one or more HTTP methods.
+デフォルトでは、ルートはHTTP`GET`コールとして使用できます。1つ以上のHTTPメソッドに応答するようにハンドラを変更できます。
 :--:1
 ```python
 app.add_route(
@@ -49,7 +49,7 @@ app.add_route(
 
 ---:1
 
-Using the decorator syntax, the previous example is identical to this.
+デコレータ構文を使用する場合、前の例はこれと同じです。
 :--:1
 ```python
 @app.route('/test', methods=["POST", "PUT"])
@@ -58,9 +58,9 @@ async def handler(request):
 ```
 :---
 
-## HTTP methods
+## HTTPメソッド
 
-Each of the standard HTTP methods has a convenience decorator.
+標準のHTTPメソッドにはそれぞれ便利なデコレータがあります。
 
 :::: tabs
 ::: tab GET
@@ -135,11 +135,11 @@ async def handler(request):
 :::
 ::::
 
-## Path parameters
+## パスパラメーター
 
 ---:1
 
-Sanic allows for pattern matching, and for extracting values from URL paths. These parameters are then injected as keyword arguments in the route handler.
+Sanicでは、パターンマッチングやURLパスからの値の抽出が可能です。これらのパラメータは、キーワード引数としてルートハンドラに挿入されます。
 :--:1
 ```python
 @app.get("/tag/<tag>")
@@ -150,7 +150,7 @@ async def tag_handler(request, tag):
 
 ---:1
 
-You can declare a type for the parameter. This will be enforced when matching, and also will type cast the variable.
+パラメータの型を宣言できます。これはマッチング時に強制され、変数を型キャストします。
 :--:1
 ```python
 @app.get("/foo/<foo_id:uuid>")
@@ -159,7 +159,7 @@ async def uuid_handler(request, foo_id: UUID):
 ```
 :---
 
-### Supported types
+### 型のサポート
 
 :::: tabs
 
@@ -177,7 +177,7 @@ async def handler(request, foo: str):
 - `/path/to/Python%203`
 
 
-In previous versions of Sanic, this was `<foo:string>`. That form has been deprecated and will be removed in v21.12
+以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
 :::
 ::: tab  int
 
@@ -208,7 +208,7 @@ async def handler(request, foo: float):
 - `/path/to/-10`
 - `/path/to/1.5`
 
-In previous versions of Sanic, this was `<foo:number>`. That form has been deprecated and will be removed in v21.12
+以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
 :::
 ::: tab alpha
 
@@ -254,7 +254,7 @@ async def handler(request, foo: str):
 - `/path/to/hello/world.txt`
 
 ::: warning
-Because this will match on `/`, you should be careful and thoroughly test your patterns that use `path` so they do not capture traffic intended for another endpoint.
+これは`/`で一致するため、`path`を使用するパターンを慎重に徹底的にテストして、別のエンドポイント向けのトラフィックをキャプチャしないようにする必要があります。
 :::
 ::: tab ymd
 
@@ -295,31 +295,31 @@ async def handler(request, foo: str):
 **Example matches**:
 - `/path/to/2021-01-01`
 
-This gives you the freedom to define specific matching patterns for your use case. 
+これにより、ユースケースの特定のマッチング・パターンを自由に定義できます。
+この例では、YYYY-MM-DD形式の日付を探しています。
 
-In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
 
 ::::
 
-### Regex Matching
+### 正規表現照合
 
 
 
-More often than not, compared with complex routing, the above example is too simple, and we use a completely different routing matching pattern, so here we will explain the advanced usage of regex matching in detail.
+複雑なルーティングと比較すると、上記の例は単純すぎることが多く、まったく異なるルーティングマッチングパターンを使用するため、ここではregexマッチングの高度な使用方法について詳しく説明します。
 
-Sometimes, you want to match a part of a route:
+ルートの一部を照合する場合があります。
 
 ```text
 /image/123456789.jpg
 ```
 
-If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun 😄:
+ファイルのパターンにマッチさせたいが、数値の部分だけをキャプチャしたい場合は、正規表現を使う必要があります😄:
 
 ```python
 app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 ```
 
-Further, these should all be acceptable:
+さらに、これらはすべて許容可能です。
 
 ```python
 @app.get(r"/<foo:[a-z]{3}.txt>")                # matching on the full pattern
@@ -328,20 +328,20 @@ Further, these should all be acceptable:
 @app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
 ```
 
-Also, if using a named matching group, it must be the same as the segment label.
+また、名前付き一致グループを使用する場合は、セグメントラベルと同じである必要があります。
 
 ```python
 @app.get(r"/<foo:(?P<foo>\d+).jpg>")  # OK
 @app.get(r"/<foo:(?P<bar>\d+).jpg>")  # NOT OK
 ```
 
-For more regular usage methods, please refer to [Regular expression operations](https://docs.python.org/3/library/re.html)
+より一般的な使用方法については、[正規表現の操作](https://docs.python.org/3/library/re.html)を参照してください。
 
-## Generating a URL
+## URLを生成
 
 ---:1
 
-Sanic provides a method to generate URLs based on the handler method name: `app.url_for()`. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name.
+Sanicは、ハンドラメソッド名`app.url_for()`に基づいてURLを生成するメソッドを提供しています。これは、アプリケーションへのURLパスをハードコーディングしない場合に便利です。代わりに、ハンドラ名を参照することができます。
 :--:1
 ```python
 @app.route('/')
@@ -360,7 +360,7 @@ async def post_handler(request, post_id):
 
 ---:1
 
-You can pass any arbitrary number of keyword arguments. Anything that is _not_ a request parameter will be implemented as a part of the query string.
+任意の数のキーワード引数を渡すことができます。_not_a要求パラメータであるものはすべて、クエリ文字列の一部として実装されます。
 :--:1
 ```python
 >>> app.url_for(
@@ -375,7 +375,7 @@ You can pass any arbitrary number of keyword arguments. Anything that is _not_ a
 
 ---:1
 
-Also supported is passing multiple values for a single query key.
+また、1つのクエリキーに複数の値を渡すこともサポートされています。
 :--:1
 ```python
 >>> app.url_for(
@@ -387,7 +387,7 @@ Also supported is passing multiple values for a single query key.
 ```
 :---
 
-### Special keyword arguments
+### 特殊のキーワード
 
 See [API Docs]() for more details.
 
@@ -408,11 +408,11 @@ See [API Docs]() for more details.
 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
-### Customizing a route name
+### ルート名をカスタマイズ
 
 ---:1
 
-A custom route name can be used by passing a `name` argument while registering the route.
+カスタムルート名は、ルートの登録時に`name`引数を渡すことで使用できます。
 :--:1
 ```python
 @app.get("/get", name="get_handler")
@@ -423,7 +423,7 @@ def handler(request):
 
 ---:1
 
-Now, use this custom name to retrieve the URL
+ここで、このカスタム名を使用してURLを取得します。
 :--:1
 ```python
 >>> app.url_for("get_handler", foo="bar")
@@ -435,7 +435,7 @@ Now, use this custom name to retrieve the URL
 
 ---:1
 
-Websocket routing works similar to HTTP methods.
+WebsocketルーティングはHTTPメソッドと同様に動作します。
 :--:1
 ```python
 async def handler(request, ws):
@@ -450,7 +450,7 @@ app.add_websocket_route(handler, "/test")
 
 ---:1
 
-It also has a convenience decorator.
+便利なデコレーターも付いています。
 :--:1
 ```python
 @app.websocket("/test")
@@ -462,14 +462,14 @@ async def handler(request, ws):
 ```
 :---
 
-Read the [websockets section](/guide/advanced/websockets.md) to learn more about how they work.
+[websockets section](/guide/advanced/websockets.md)を読み、動作の仕組みを学んでください。
 
-## Strict slashes
+## 厳密なスラッシュ
 
 
 ---:1
 
-Sanic routes can be configured to strictly match on whether or not there is a trailing slash: `/`. This can be configured at a few levels and follows this order of precedence:
+Sanicルートは、末尾のスラッシュがあるかどうかに厳密に一致するように設定できます。これはいくつかのレベルで設定でき、次の優先順位に従います。
 
 1. Route
 2. Blueprint
@@ -513,18 +513,18 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 ```
 :---
 
-## Static files
+## Staticファイル
 
 ---:1
 
-In order to serve static files from Sanic, use `app.static()`.
+Sanicから静的ファイルを提供するには、`app.static()`を使用します。
 
-The order of arguments is important:
+引数の順序は重要です。
 
-1. Route the files will be served from
-2. Path to the files on the server
+1. ファイルが提供されるルート
+2. サーバー上のファイルへのパス
 
-See [API docs]() for more details.
+詳しくは[API docs]()を見てください。
 :--:1
 ```python
 app.static("/static", "/path/to/directory")
@@ -533,7 +533,7 @@ app.static("/static", "/path/to/directory")
 
 ---:1
 
-You can also serve individual files.
+個々のファイルを提供することもできます。
 :--:1
 ```python
 app.static("/", "/path/to/index.html")
@@ -542,7 +542,7 @@ app.static("/", "/path/to/index.html")
 
 ---:1
 
-It is also sometimes helpful to name your endpoint
+また、エンドポイントに名前を付けると便利な場合もあります。
 :--:1
 ```python
 app.static(
@@ -555,7 +555,7 @@ app.static(
 
 ---:1
 
-Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory.
+URLの取得は、ハンドラと同様に機能します。ただし、ディレクトリ内に特定のファイルが必要な場合は、`filename`引数を追加することもできます。
 :--:1
 ```python
 >>> app.url_for(
@@ -577,7 +577,7 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 :---
 
 ::: tip
-If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+複数の`static()`ルートを使用する場合は、手動で名前を付けることを推奨します。これにより、バグを発見するのが難しい可能性がほぼ確実に軽減されます。
 
 ```python
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
