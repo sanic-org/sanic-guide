@@ -1,3 +1,3 @@
 # Testing
 
-See [sanic-testing](../../plugins/sanic-testing/testing.md)
+[sanic-testing](../../plugins/sanic-testing/testing.md)をみて
