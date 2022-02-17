@@ -1,12 +1,12 @@
 # Logging
 
-Sanic allows you to do different types of logging (access log, error log) on the requests based on the [Python logging API](https://docs.python.org/3/howto/logging.html). You should have some basic knowledge on Python logging if you want to create a new configuration.
+Sanicでは、[Python logging API](https://docs.python.org/3/howto/logging.html)に基づいて、さまざまなタイプのロギング(アクセスログ、エラーログ)を要求に対して実行できます。新しい設定を作成する場合は、Pythonロギングに関する基本的な知識が必要です。
 
-## Quick Start
+## クイックスタート
 
 ---:1
 
-A simple example using default settings would be like this:
+デフォルト設定を使用する簡単な例を次に示します。
 :--:1
 ```python
 from sanic import Sanic
@@ -25,21 +25,21 @@ if __name__ == "__main__":
 ```
 :---
 
-After the server is running, you should see logs like this.
+サーバーの実行後、次のようなログが表示されます。
 ```text
 [2021-01-04 15:26:26 +0200] [1929659] [INFO] Goin' Fast @ http://127.0.0.1:8000
 [2021-01-04 15:26:26 +0200] [1929659] [INFO] Starting worker [1929659]
 ```
 
-You can send a request to server and it will print the log messages.
+サーバに要求を送信すると、ログメッセージが出力されます。
 ```text
 [2021-01-04 15:26:28 +0200] [1929659] [INFO] Here is your log
 [2021-01-04 15:26:28 +0200] - (sanic.access)[INFO][127.0.0.1:44228]: GET http://localhost:8000/  200 -1
 ```
 
-## Changing Sanic loggers
+## Sanicのログを変える
 
-To use your own logging config, simply use `logging.config.dictConfig`, or pass `log_config` when you initialize Sanic app.
+独自のロギング設定を使用するには、`logging.config.dictConfig`を使用するか、Sanicアプリケーションを初期化するときに`log_config`を渡します。
 
 ```python
 app = Sanic('logging_example', log_config=LOGGING_CONFIG)
@@ -49,32 +49,32 @@ if __name__ == "__main__":
 ```
 
 ::: tip FYI
-Logging in Python is a relatively cheap operation. However, if you are serving a high number of requests and performance is a concern, all of that time logging out access logs adds up and becomes quite expensive.  
+Pythonでのロギングは比較的安価な操作です。ただし、多数の要求を処理していて、パフォーマンスが懸念される場合は、アクセスログをログアウトする時間が増え、非常にコストがかかります。
 
-This is a good opportunity to place Sanic behind a proxy (like nginx) and to do your access logging there. You will see a *significant* increase in overall performance by disabling the `access_log`.  
+これは、 (nginxのような) プロキシの背後にSanicを置き、そこでアクセスログを取る良い機会です。`access_log`を無効にすると、全体的なパフォーマンスが*大幅に*向上します。
 
-For optimal production performance, it is advised to run Sanic with `debug` and `access_log` disabled: `app.run(debug=False, access_log=False)`
+最適な運用パフォーマンスを得るには、`debug`と`access_log`を無効にした状態で、`app.run(debug=False、access_log=False)`でSanicを実行することをお勧めします。
 :::
 
-## Configuration
+## 構成
 
-Sanic's default logging configuration is: `sanic.log.LOGGING_CONFIG_DEFAULTS`.
+Sanicのデフォルトのロギング設定は、`sanic.log。LOGGING_CONFIG_DEFAULTS`を参照してください。
 
 ---:1
-There are three loggers used in sanic, and must be defined if you want to create your own logging configuration:
+sanicで使用されるロガーは3つあり、独自のロギング設定を作成する場合は定義する必要があります。
 
 | **Logger Name** | **Use Case**                  |
 |-----------------|-------------------------------|
-| `sanic.root`    | Used to log internal messages. |
-| `sanic.error`   | Used to log error logs.       |
-| `sanic.access`  | Used to log access logs.      |
+| `sanic.root`    | 内部メッセージのログに使用されます。 |
+| `sanic.error`   | エラーログの記録に使用されます。    |
+| `sanic.access`  | アクセスログの記録に使用されます。  |
 :--:1
 
 :---
 
-### Log format
+### ログのフォーマット
 
-In addition to default parameters provided by Python (`asctime`, `levelname`, `message`), Sanic provides additional parameters for access logger with.
+Pythonが提供するデフォルトのパラメータ(`asctime`,`levelname`,`message`)に加えて、SanicはAccess Loggerに追加のパラメータを提供します。
 
 | Log Context Parameter | Parameter Value                       | Datatype |
 |-----------------------|---------------------------------------|----------|
@@ -86,7 +86,7 @@ In addition to default parameters provided by Python (`asctime`, `levelname`, `m
 
 
 
-The default access log format is:
+デフォルトのアクセスログ形式は次のとおりです。
 
 ```text
 %(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: %(request)s %(message)s %(status)d %(byte)d
