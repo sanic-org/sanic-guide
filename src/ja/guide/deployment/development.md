@@ -1,12 +1,12 @@
 # Development
 
-The first thing that should be mentioned is that the webserver that is integrated into Sanic is **not** just a development server. 
+まず、Sanicに統合されているウェブサーバは、単なる開発サーバではありません。
 
-It is production ready, provided you are *not* in debug mode.
+デバッグ・モードで*not*であれば、本番環境で使用できます。
 
-## Debug mode
+## デバッグ・モード
 
-By setting the debug mode a more verbose output from Sanic will be output and the Automatic Reloader will be activated.
+デバッグモードを設定すると、Sanicからより詳細な出力が出力され、Automatic Reloaderがアクティブになります。
 
 ```python
 from sanic import Sanic
@@ -23,13 +23,13 @@ if __name__ == "__main__":
 ```
 
 ::: warning
-Sanic's debug mode will slow down the server's performance and is therefore advised to enable it only in development environments.
+Sanicのデバッグモードは、サーバのパフォーマンスを低下させるため、開発環境でのみ有効にすることをお勧めします。
 :::
-## Automatic Reloader
+## 自動的に読み込む
 
 ---:1
 
-Sanic offers a way to enable or disable the Automatic Reloader manually (and independent from debug mode). The `auto_reload` argument will activate or deactivate the Automatic Reloader.
+Sanicでは、Automatic Reloaderを手動で (デバッグモードから独立して) 有効または無効にする方法を提供しています。`auto_reload`引数は、自動リローダーをアクティブまたは非アクティブにします。
 :--:1
 ```python
 app.run(auto_reload=True)
