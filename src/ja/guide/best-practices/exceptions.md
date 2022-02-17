@@ -1,10 +1,10 @@
-# Exceptions
+# 例外エラー
 
-## Using Sanic exceptions
+## Sanicの例外を使う
 
-Sometimes you just need to tell Sanic to halt execution of a handler and send back a status code response. You can raise a `SanicException` for this and Sanic will do the rest for you.
+場合によっては、ハンドラの実行を停止し、ステータスコード応答を返すようにSanicに指示する必要があります。このために 「SanicException」 を発生させることができ、残りはSanicが行います。
 
-You can pass an optional `status_code` argument. By default, a SanicException will return an internal server error 500 response.
+オプションの`status_code`引数を渡すことができます。デフォルトでは、SanicExceptionは内部サーバエラー500応答を返します。
 
 ```python
 from sanic.exceptions import SanicException
@@ -14,11 +14,11 @@ async def no_no(request):
         raise SanicException("Something went wrong.", status_code=501)
 ```
 
-Sanic provides a number of standard exceptions. They each automatically will raise the appropriate HTTP status code in your response. [Check the API reference](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions) for more details. 
+Sanicはいくつかの標準的な例外を提供しています。これらはそれぞれ、応答で適切なHTTPステータスコードを自動的に生成します。詳しくは[APIリファレンスを確認](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions)を参照してください。
 
 ---:1
 
-The more common exceptions you _should_ implement yourself include:
+あなた自身が実装すべき一般的な例外は以下の通りです。
 
 - `InvalidUsage` (400)
 - `Unauthorized` (401)
@@ -43,15 +43,15 @@ async def login(request):
 
 :---
 
-## Handling
+## 取り扱い
 
-Sanic handles exceptions automatically by rendering an error page, so in many cases you don't need to handle them yourself. However, if you would like more control on what to do when an exception is raised, you can implement a handler yourself.
+Sanicはエラーページを表示することで例外を自動的に処理するので、多くの場合、ユーザ自身が処理する必要はありません。ただし、例外が発生したときの処理をより詳細に制御したい場合は、ハンドラを自分で実装できます。
 
-Sanic provides a decorator for this, which applies to not only the Sanic standard exceptions, but **any** exception that your application might throw.
+Sanicはこのためのデコレータを提供しており、これはSanic標準の例外だけでなく、アプリケーションがスローする可能性のある**任意の**例外にも適用されます。
 
 ---:1
 
-The easiest method to add a handler is to use `@app.exception()` and pass it one or more exceptions.
+ハンドラを追加する最も簡単な方法は、`@app.exception()`を使用して1つ以上の例外を渡すことです。
 
 :--:1
 
@@ -67,7 +67,7 @@ async def ignore_404s(request, exception):
 
 ---:1
 
-You can also create a catchall handler by catching `Exception`.
+`Exception`をキャッチすることで、catchallハンドラを作成することもできます。
 
 :--:1
 
@@ -81,7 +81,7 @@ async def catch_anything(request, exception):
 
 ---:1
 
-You can also use `app.error_handler.add()` to add error handlers.
+`app.error_handler.add()`を使用してエラー・ハンドラを追加することもできます。
 
 :--:1
 
@@ -94,14 +94,14 @@ app.error_handler.add(Exception, server_error_handler)
 
 :---
 
-## Built-in error handling
+## 組み込みのエラー処理
 
-Sanic ships with three formats for exceptions: HTML, JSON, and text. You can see examples of them below in the [Fallback handler](#fallback-handler) section.
+Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が用意されています。以下の [Fallback handler](#fallback-handler) セクションに例があります。
 
 ---:1
 
 ::: new NEW in v21.9
-You can control _per route_ which format to use with the `error_format` keyword argument.
+route_which形式を使用するには、`error_format`キーワード引数を使用します。
 
 :::
 
@@ -116,9 +116,9 @@ async def handler(request):
 :---
 
 
-## Custom error handling
+## カスタムエラー処理
 
-In some cases, you might want to add some more error handling functionality to what is provided by default. In that case, you can subclass Sanic's default error handler as such:
+場合によっては、デフォルトで提供される機能にさらにエラー処理機能を追加する必要があります。この場合、次のようにSanicのデフォルトのエラーハンドラをサブクラス化できます。
 
 ```python
 from sanic.handlers import ErrorHandler
@@ -132,15 +132,15 @@ class CustomErrorHandler(ErrorHandler):
 app.error_handler = CustomErrorHandler()
 ```
 
-## Fallback handler
+## ハンドルフォールバック
 
-Sanic comes with three fallback exception handlers:
+Sanicには3つのフォールバック例外ハンドラがあります。
 
 1. HTML (*default*)
 2. Text
 3. JSON
 
-These handlers present differing levels of detail depending upon whether your application is in [debug mode](/guide/deployment/development.md) or not.
+これらのハンドラは、アプリケーションが[デバッグモード](/guide/deployment/development.md)にあるかどうかによって、異なる詳細レベルを表示します。
 
 ### HTML
 
@@ -293,9 +293,9 @@ content-type: application/json
 
 :---
 
-### Auto
+### 自動
 
-Sanic also provides an option for guessing which fallback option to use. This is still an **experimental feature**.
+Sanicには、使用するフォールバックオプションを推測するためのオプションも用意されています。これはまだ**実験的な機能です**.
 
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
