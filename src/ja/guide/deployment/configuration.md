@@ -1,11 +1,11 @@
-# Configuration
+# 構成
 
-## Basics
+## ベーシック
 
 
 ---:1
 
-Sanic holds the configuration in the config attribute of the application object. The configuration object is merely an object that can be modified either using dot-notation or like a dictionary.
+Sanicは、アプリケーションオブジェクトのconfig属性に設定を保持します。構成オブジェクトは、ドット表記法を使用して、または辞書のように変更できる単なるオブジェクトです。
 :--:1
 ```python
 app = Sanic("myapp")
@@ -16,7 +16,7 @@ app.config["DB_USER"] = "appuser"
 
 ---:1
 
-You can also use the `update()` method like on regular dictionaries.
+また、通常の辞書と同様に`update()`メソッドを使用することもできます。
 :--:1
 ```python
 db_settings = {
@@ -29,16 +29,16 @@ app.config.update(db_settings)
 :---
 
 ::: tip 
-It is standard practice in Sanic to name your config values in **uppercase letters**. Indeed, you may experience weird behaviors if you start mixing uppercase and lowercase names.
+Sanicでは、設定値には**大文字で名前を付けるのが一般的です**.実際、大文字と小文字を混在させると奇妙な動作をすることがあります。
 :::
 
-## Loading
+## 読み込み中
 
-### Environment variables
+### 環境変数
 
 ---:1
 
-Any environment variables defined with the `SANIC_` prefix will be applied to the Sanic config. For example, setting `SANIC_REQUEST_TIMEOUT` will be loaded by the application automatically and fed into the `REQUEST_TIMEOUT` config variable.
+`SANIC_`プレフィックスで定義された環境変数は、Sanicの設定に適用されます。たとえば、設定`SANIC_REQUEST_TIMEOUT`はアプリケーションによって自動的にロードされ、`REQUEST_TIMEOUT`構成変数に渡されます。
 :--:1
 ```bash
 $ export SANIC_REQUEST_TIMEOUT=10
@@ -51,7 +51,7 @@ $ export SANIC_REQUEST_TIMEOUT=10
 
 ---:1
 
-You can change the prefix that Sanic is expecting at startup.
+起動時にSanicが要求するプレフィクスを変更できます。
 :--:1
 ```bash
 $ export MYAPP_REQUEST_TIMEOUT=10
@@ -65,22 +65,22 @@ $ export MYAPP_REQUEST_TIMEOUT=10
 
 ---:1
 
-You can also disable environment variable loading completely.
+環境変数のロードを完全に無効にすることもできます。
 :--:1
 ```python
 app = Sanic(__name__, load_env=False)
 ```
 :---
 
-### Using Sanic.update_config
+### Sanic.update_configを使用する
 
-The `Sanic` instance has a _very_ versatile method for loading config: `app.update_config`. You can feed it a path to a file, a dictionary, a class, or just about any other sort of object.
+`Sanic`インスタンスには、config:`app.update_config`をロードするための_very_versatileメソッドがあります。ファイル、辞書、クラスなど、あらゆる種類のオブジェクトへのパスを指定できます。
 
 #### From a file
 
 ---:1
 
-Let's say you have `my_config.py` file that looks like this.
+たとえば、次のような`my_config.py`ファイルがあるとします。
 :--:1
 ```python
 # my_config.py
@@ -91,7 +91,7 @@ B = 2
 
 ---:1
 
-You can load this as config values by passing its path to `app.update_config`.
+パスを`app.update_config`に渡すことで、これを構成値としてロードできます。
 :--:1
 ```python
 >>> app.update_config("/path/to/my_config.py")
@@ -102,7 +102,7 @@ You can load this as config values by passing its path to `app.update_config`.
 
 ---:1
 
-This path also accepts bash style environment variables.
+このパスはbashスタイルの環境変数も受け付けます。
 :--:1
 ```bash
 $ export my_path="/path/to"
@@ -113,24 +113,24 @@ app.update_config("${my_path}/my_config.py")
 :---
 
 ::: tip 
-Just remember that you have to provide environment variables in the format `${environment_variable}` and that `$environment_variable` is not expanded (is treated as "plain" text).
+環境変数は`${environment_variable}`の形式で指定する必要があり、`$environment_variable`は展開されません ("プレーン"テキストとして扱われます) 。
 :::
-#### From a dict
+#### 辞書から
 
 ---:1
 
-The `app.update_config` method also works on plain dictionaries.
+`app.update_config`メソッドは、通常の辞書でも動作します。
 :--:1
 ```python
 app.update_config({"A": 1, "B": 2})
 ```
 :---
 
-#### From a class or object
+#### クラスまたはオブジェクトから
 
 ---:1
 
-You can define your own config class, and pass it to `app.update_config`
+独自の構成クラスを定義して、`app.update_config`
 :--:1
 ```python
 class MyConfig:
@@ -143,14 +143,14 @@ app.update_config(MyConfig)
 
 ---:1
 
-It even could be instantiated.
+インスタンス化も可能です。
 :--:1
 ```python
 app.update_config(MyConfig())
 ```
 :---
 
-## Builtin values
+## 組み込み値
 
 
 | **Variable**              | **Default**       | **Description**                                                             |
@@ -179,7 +179,7 @@ app.update_config(MyConfig())
 | WEBSOCKET_WRITE_LIMIT     | 2^16              | High-water limit of the buffer for outgoing bytes                           |
 
 ::: tip FYI
-The `WEBSOCKET_` values will be ignored if in ASGI mode.
+ASGIモードの場合、`WEBSOCKET_`値は無視されます。
 :::
 
 ## Timeouts
