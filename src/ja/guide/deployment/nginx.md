@@ -1,26 +1,18 @@
 # Nginx Deployment
 
-## Introduction
+## イントロダクション
 
 
-Although Sanic can be run directly on Internet, it may be useful to use a proxy
-server such as Nginx in front of it. This is particularly useful for running
-multiple virtual hosts on the same IP, serving NodeJS or other services beside
-a single Sanic app, and it also allows for efficient serving of static files.
-SSL and HTTP/2 are also easily implemented on such proxy.
+Sanicはインターネット上で直接実行できますが、プロキシを使用すると便利な場合があります。
+Nginxのようなサーバーを目の前にします。これは、同じIP上で複数の仮想ホストを実行したり、単一のSanicアプリに加えてNodeJSやその他のサービスを提供したり、静的ファイルを効率的に提供したりする場合に特に便利です。
+SSLとHTTP/2も、このようなプロキシに簡単に実装できます。
 
-We are setting the Sanic app to serve only locally at `127.0.0.1:8000`, while the
-Nginx installation is responsible for providing the service to public Internet
-on domain `example.com`. Static files will be served from `/var/www/`.
+私たちはSanicのアプリを`127.0.0.1:8000`でローカルのみにサービスを提供するように設定していますが、Nginxのインストールはドメイン`example.com`上のパブリックインターネットにサービスを提供する責任があります。静的ファイルは`/var/www/`。
 
 
-## Proxied Sanic app
+## プロキシSanicアプリ
 
-The app needs to be setup with a secret key used to identify a trusted proxy,
-so that real client IP and other information can be identified. This protects
-against anyone on the Internet sending fake headers to spoof their IP addresses
-and other details. Choose any random string and configure it both on the app
-and in Nginx config.
+信頼できるプロキシを識別するために使用される秘密キーを使用してアプリを設定し、実際のクライアントIPおよびその他の情報を識別できるようにする必要があります。これにより、IPアドレスやその他の詳細を偽装するために、インターネット上で偽のヘッダーを送信するすべてのユーザーを保護できます。任意のランダムな文字列を選択し、アプリとNginx configの両方で設定します。
 
 ```python
 from sanic import Sanic
@@ -41,26 +33,18 @@ if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000, workers=8, access_log=False)
 ```
 
-Since this is going to be a system service, save your code to
-`/srv/sanicexample/sanicexample.py`.
+これはシステムサービスになるので、コードを次の場所に保存します。
+`/srv/sanicexample/sanicexample.py`
 
-For testing, run your app in a terminal.
+テストでは、ターミナルでアプリを実行します。
 
-## Nginx configuration
+## Nginxの設定
 
-Quite much configuration is required to allow fast transparent proxying, but
-for the most part these don't need to be modified, so bear with me.
+高速透過プロキシを可能にするためにはかなり多くの設定が必要ですが、これらの大部分は修正する必要がないので、私に我慢してください。
 
-Upstream servers need to be configured in a separate `upstream` block to enable
-HTTP keep-alive, which can drastically improve performance, so we use this
-instead of directly providing an upstream address in `proxy_pass` directive. In
-this example, the upstream section is named by `server_name`, i.e. the public
-domain name, which then also gets passed to Sanic in the `Host` header. You may
-change the naming as you see fit. Multiple servers may also be provided for
-load balancing and failover.
+HTTPキープアライブを有効にするには、アップストリームサーバを個別の`upstream`ブロックで設定する必要があります。これにより、パフォーマンスが大幅に向上します。そこで、`proxy_pass`ディレクティブでアップストリームアドレスを直接指定する代わりに、これを使用します。この例では、アップストリーム・セクションの名前`server_name`、つまりパブリック・ドメイン名であり、これも`Host`ヘッダーでSanicに渡されます。必要に応じて名前を変更できます。ロード・バランシングとフェイルオーバーのために、複数のサーバを用意することもできます。
 
-Change the two occurrences of `example.com` to your true domain name, and
-instead of `YOUR SECRET` use the secret you chose for your app.
+`example.com`の2つの出現箇所を実際のドメイン名に変更し、`YOUR SECRET`の代わりにアプリ用に選択したシークレットを使用します。
 
 ```nginx
 upstream example.com {
@@ -93,8 +77,8 @@ server {
 }
 ```
 
-To avoid cookie visibility issues and inconsistent addresses on search engines,
-it is a good idea to redirect all visitors to one true domain, always using
+Cookieの可視性の問題および検索エンジンでのアドレスの一貫性を回避するには、次の手順を実行します。
+すべての訪問者を1つの真のドメインにリダイレクトすることをお勧めします。
 HTTPS:
 
 ```nginx
@@ -115,15 +99,13 @@ server {
 }
 ```
 
-The above config sections may be placed in `/etc/nginx/sites-available/default`
-or in other site configs (be sure to symlink them to `sites-enabled` if you
-create new ones).
+上記の設定セクションは、`/etc/nginx/sites-available/default`または他のサイト設定に配置できます (新しい設定セクションを作成する場合は、必ず`sites-enabled`にシンボリックリンクしてください) 。
 
-Make sure that your SSL certificates are configured in the main config, or
-add the `ssl_certificate` and `ssl_certificate_key` directives to each
-`server` section that listens on SSL.
+SSL証明書がメイン設定で設定されていることを確認します。
+それぞれに`ssl_certificate`ディレクティブと`ssl_certificate_key`ディレクティブを追加します。
+SSLでリスニングする`server`セクション。
 
-Additionally, copy&paste all of this into `nginx/conf.d/forwarded.conf`:
+さらに、これらすべてを`nginx/conf.d/forwarded.conf`にコピー&ペーストします。
 
 ```nginx
 # RFC 7239 Forwarded header for Nginx proxy_pass
@@ -165,24 +147,20 @@ map $http_forwarded $proxy_add_forwarded {
 ```
 
 ::: tip Note
-For installs that don't use `conf.d` and `sites-available`, all of the above
-configs may also be placed inside the `http` section of the main `nginx.conf`.
+`conf.d`と`sites-available`を使用しないインストールの場合、上記の設定はすべて、メインの`nginx.conf`の`http`セクション内に配置することもできます。
 :::
 
-Reload Nginx config after changes:
+変更後にNginxの設定をリロード:
 
 ```bash
 sudo nginx -s reload
 ```
 
-Now you should be able to connect your app on `https://example.com/`. Any 404
-errors and such will be handled by Sanic's error pages, and whenever a static
-file is present at a given path, it will be served by Nginx.
+これで、`https://example.com/`でアプリを接続できるようになります。404エラーなどはすべてSanicのエラーページで処理され、静的ファイルが与えられたパスに存在する時はいつでもNginxによって提供されます。
 
 ## SSL certificates
 
-If you haven't already configured valid certificates on your server, now is a
-good time to do so. Install `certbot` and `python3-certbot-nginx`, then run
+サーバで有効な証明書をまだ設定していない場合は、ここで設定します。`certbot`と`python 3-certbot-nginx`をインストールしてください。
 
 ```bash
 certbot --nginx -d example.com -d www.example.com
@@ -190,10 +168,9 @@ certbot --nginx -d example.com -d www.example.com
 
 `<https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/>`_
 
-## Running as a service
+## サービスとして実行
 
-This part is for Linux distributions based on `systemd`. Create a unit file
-`/etc/systemd/system/sanicexample.service`
+このパートは`systemd`に基づくLinuxディストリビューション用です。ユニットファイル`/etc/systemd/system/sanicexample.service`を作成します。
 
 ```text
 [Unit]
@@ -209,7 +186,7 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-Then reload service files, start your service and enable it on boot:
+次に、サービスファイルをリロードし、サービスを起動してブート時に有効にします。
 
 ```bash
 sudo systemctl daemon-reload
