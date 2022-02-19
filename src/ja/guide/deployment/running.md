@@ -1,27 +1,27 @@
-# Running Sanic
+# Sanicの実行
 
-Sanic ships with its own internal web server. Under most circumstances, this is the preferred method for deployment. In addition, you can also deploy Sanic as an ASGI app bundled with an ASGI-able web server, or using gunicorn.
+Sanicには、独自の内部Webサーバが付属しています。ほとんどの状況では、これがデプロイメントに適した方法です。さらに、Sanicは、ASGI対応ウェブサーバーにバンドルされたASGIアプリとして、またはgunicornを使用してデプロイすることもできます。
 
-## Sanic Server
+## Sanicサーバー
 
-After defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
+`sanic.Sanic`の場合、次のキーワード引数を使用してrunメソッドを呼び出すことができます。
 
 |    Parameter    |     Default    |                                           Description                                     |
 | :-------------: | :------------: | :---------------------------------------------------------------------------------------- |
-|  **host**       | `"127.0.0.1"`  | Address to host the server on.                                                            |
-|  **port**       | `8000`         | Port to host the server on.                                                               |
-|  **unix**       | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
-|  **debug**      | `False`        | Enables debug output (slows server).                                                      |
-|  **ssl**        | `None`         | SSLContext for SSL encryption of worker(s).                                               |
-|  **sock**       | `None`         | Socket for the server to accept connections from.                                         |
-|  **workers**    | `1`            | Number of worker processes to spawn.                                                      |
-|  **loop**       | `None`         | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
-|  **protocol**   | `HttpProtocol` | Subclass of asyncio.protocol.                                                             |
-|  **access_log** | `True`         | Enables log on handling requests (significantly slows server).                            |
+|  **host**       | `"127.0.0.1"`  | サーバーをホストするアドレス。                                                                 |
+|  **port**       | `8000`         | サーバをホストするポート。                                                                    |
+|  **unix**       | `None`         | サーバをホストするUnixソケット名 (TCPではありません)                                             |
+|  **debug**      | `False`        | デバッグ出力をイネーブルにします (サーバの速度が低下します)                                         |
+|  **ssl**        | `None`         | workersのSSL暗号化のためのSSLContext。                                                       |
+|  **sock**       | `None`         | サーバーがからの接続を受け入れるためのソケット。                                                  |
+|  **workers**    | `1`            | 作成するworkersもしくはprocessの数                                                           |
+|  **loop**       | `None`         | 非同期互換イベントループ。何も指定しないのであれば、独自のイベントループが作成されます                   |
+|  **protocol**   | `HttpProtocol` | asyncio.protocolのサブクラス。                                                              |
+|  **access_log** | `True`         | 要求の処理でログオンを有効にします (サーバの処理速度が大幅に低下します) 。                            |
 
 ---:1
 
-In the above example, we decided to turn off the access log in order to increase performance.
+上記の例では、パフォーマンスを向上させるためにアクセスログをオフにしました。
 
 :--:1
 
@@ -35,7 +35,7 @@ app.run(host='0.0.0.0', port=1337, access_log=False)
 
 ---:1
 
-Now, just execute the python script that has `app.run(...)`
+`app.run(...)`を持つPythonスクリプトを実行します。
 
 :--:1
 
@@ -48,7 +48,7 @@ python server.py
 ### Workers
 
 ---:1
-By default, Sanic listens in the main process using only one CPU core. To crank up the juice, just specify the number of workers in the run arguments.
+デフォルトでは、Sanicは1つのCPUコアだけを使用してメインプロセスをリッスンします。具体的には、run引数にworkersの数を指定します。
 :--:1
 ```python
 app.run(host='0.0.0.0', port=1337, workers=4)
@@ -56,9 +56,9 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 :---
 
 ::: tip
-Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
+Sanicは自動的に複数のプロセスを起動し、それらの間でトラフィックをルーティングする。使用可能なプロセッサと同じ数のworkersを推奨します。
 
-A common way to check this on Linux based operating systems:
+Linuxベースのオペレーティング・システムでこれを確認する一般的な方法は、次のとおりです。
 
 ```
 $ nproc
@@ -73,14 +73,14 @@ app.run(..., workers=workers)
 ```
 :::
 
-### Running via command
+### viaコマンドの実行
 
 #### Sanic CLI
 
 ---:1
-Sanic also has a simple CLI to launch via command line.
+コマンドラインから起動できるシンプルなCLIも用意されています。
 
-For example, if you initialized Sanic as app in a file named `server.py`, you could run the server like so:
+たとえば、`server.py`という名前のファイルでアプリケーションとしてSanicを初期化した場合、次のようにサーバを実行できます。
 :--:1
 ```bash
 sanic server.app --host=0.0.0.0 --port=1337 --workers=4
@@ -88,7 +88,7 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 :---
 
 
-Use `sanic --help` to see all the options.
+すべてのオプションを表示するには、`sanic --help`を使用します。
 ```text
 $ sanic --help
 usage: sanic [-h] [-v] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX]
@@ -127,10 +127,10 @@ optional arguments:
                                   
 ```
 
-#### As a module
+#### モジュールとして
 
 ---:1
-It can also be called directly as a module.
+モジュールとして直接呼び出すこともできます。
 :--:1
 ```bash
 python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
@@ -138,7 +138,7 @@ python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 :---
 
 ::: tip FYI
-With either method (CLI or module), you shoud *not* invoke `app.run()` in your Python file. If you do, make sure you wrap it so that it only executes when directly run by the interpreter.
+どちらの方法(CLIまたはモジュール)でも、Pythonファイルの`app.run()`を*呼び出さない*でください。もしも実行する場合は、インタプリタによって直接実行される場合にのみ実行されるようにラップしてください。
 ```python
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1337, workers=4)
@@ -146,10 +146,10 @@ if __name__ == '__main__':
 :::
 
 
-#### Sanic Simple Server
+#### Sanicシンプルサーバー
 
 ---:1
-Sometimes you just have a directory of static files that need to be served. This especially can be handy for quickly standing up a localhost server. Sanic ships with a Simple Server, where you only need to point it at a directory.
+提供する必要がある静的ファイルのディレクトリだけがある場合もあります。これは特に、localhostサーバーを素早く立ち上げる場合に便利です。SanicにはSimple Serverが付属しており、ディレクトリを指定するだけです。
 :--:1
 ```bash
 sanic ./path/to/dir --simple
@@ -157,7 +157,7 @@ sanic ./path/to/dir --simple
 :---
 
 ---:1
-This could also be paired with auto-reloading.
+自動リロードと組み合わせることもできます。
 :--:1
 ```bash
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
@@ -166,9 +166,10 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 
 ## ASGI
 
-Sanic is also ASGI-compliant. This means you can use your preferred ASGI webserver to run Sanic. The three main implementations of ASGI are [Daphne](http://github.com/django/daphne), [Uvicorn](https://www.uvicorn.org/), and [Hypercorn](https://pgjones.gitlab.io/hypercorn/index.html).
+SanicもASGIに準拠しています。つまり、任意のASGI Webサーバを使用してSanicを実行できます。ASGIの3つの主要な実装は、[Daphne](http://github.com/django/daphne),[Uvicorn](https://www.uvicorn.org/),と[Hypercorn](https://pgjones.gitlab.io/hypercorn/index.html)です。
 
-Follow their documentation for the proper way to run them, but it should look something like:
+実行方法は次のようになります。
+※適切な実行方法についてはドキュメントを参照してください。
 
 ```
 daphne myapp:app
@@ -176,14 +177,14 @@ uvicorn myapp:app
 hypercorn myapp:app
 ```
 
-A couple things to note when using ASGI:
+ASGIを使用する際には、次の点に注意してください。
 
-1. When using the Sanic webserver, websockets will run using the `websockets` package. In ASGI mode, there is no need for this package since websockets are managed in the ASGI server. 
-2. The ASGI lifespan protocol <https://asgi.readthedocs.io/en/latest/specs/lifespan.html>, supports only two server events: startup and shutdown. Sanic has four: before startup, after startup, before shutdown, and after shutdown. Therefore, in ASGI mode, the startup and shutdown events will run consecutively and not actually around the server process beginning and ending (since that is now controlled by the ASGI server). Therefore, it is best to use `after_server_start` and `before_server_stop`.
+1. Sanic Webサーバを使用する場合、websocketsは`websockets`パッケージを使用して実行されますが。ASGIモードでは、websocketsはASGIサーバで管理されるため、このパッケージは必要ありません。
+2. ASGIライフスパンプロトコルは、スタートアップとシャットダウンの2つのサーバイベントだけをサポートします。Sanicには、起動前、起動後、シャットダウン前、シャットダウン後の4つがあります。したがって、ASGIモードでは、スタートアップイベントとシャットダウンイベントは連続して実行され、実際にはサーバプロセスの開始と終了の前後では実行されません(なぜなら現在、ASGIサーバによって制御されているためです)。したがって、`after_server_start`および`before_server_stop`を使用することをお薦めします。
 
 ### Trio
 
-Sanic has experimental support for running on Trio with:
+SanicはTrio上での実行を実験的にサポートしています。
 
 ```
 hypercorn -k trio myapp:app
@@ -192,26 +193,26 @@ hypercorn -k trio myapp:app
 
 ## Gunicorn
 
-[Gunicorn](http://gunicorn.org/) ("Green Unicorn") is a WSGI HTTP Server for UNIX based operating systems. It is a pre-fork worker model ported from Ruby’s Unicorn project.
+[Gunicorn](http://gunicorn.org/)("Green Unicorn")は、UNIXベースのオペレーティング・システム用のWSGI HTTP Serverです。これはRubyのUnicornプロジェクトから移植されたフォーク前のworkerモデルです。
 
-In order to run Sanic application with Gunicorn, you need to use the special `sanic.worker.GunicornWorker` for Gunicorn worker-class argument:
+GunicornでSanicアプリケーションを実行するには、特殊な`sanic.worker.GunicornWorker`を実行する必要があります:
 
 ```bash
 gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class sanic.worker.GunicornWorker
 ```
 
-If your application suffers from memory leaks, you can configure Gunicorn to gracefully restart a worker after it has processed a given number of requests. This can be a convenient way to help limit the effects of the memory leak.
+アプリケーションでメモリリークが発生した場合、Gunicornを設定して、指定した数のリクエストを処理したあとでワーカーを正常に再起動できます。これは、メモリリークの影響を制限するのに役立つ便利な方法です。
 
-See the [Gunicorn Docs](http://docs.gunicorn.org/en/latest/settings.html#max-requests) for more information.
+詳細については、[Gunicorn Docs](http://docs.gunicorn.org/en/latest/settings.html#max-requests) を参照してください。
 
 ::: warning
-When running Sanic via `gunicorn`, you are losing out on a lot of the performance benefits of `async`/`await`. Weigh your considerations carefully before making this choice. Gunicorn does provide a lot of configuration options, but it is not the best choice for getting Sanic to run at its fastest.
+`gunicorn`経由でSanicを実行すると、`async/await`のパフォーマンス上の利点の多くを失うことになります。慎重に検討してから選択してください。Gunicornには多くの設定オプションが用意されていますが、Sanicを最速で動作させるには最適な選択肢ではありません。
 :::
 
-## Performance considerations
+## パフォーマンスに関する考慮事項
 
 ---:1
-When running in production, make sure you turn off `debug`.
+本番環境で実行する場合は、`debug`を必ずオフにしてください。
 :--:1
 ```python
 app.run(..., debug=False)
@@ -219,9 +220,9 @@ app.run(..., debug=False)
 :---
 
 ---:1
-Sanic will also perform fastest if you turn off `access_log`.
+また、`access_log`をオフにすると、Sanicは最も高速に動作します。
 
-If you still require access logs, but want to enjoy this performance boost, consider using [Nginx as a proxy](./nginx.md), and letting that handle your access logging. It will be much faster than anything Python can handle.
+それでもアクセスログが必要だが、このパフォーマンス向上を享受したい場合は、[Nginxをプロキシとして](./nginx.md)使用すればアクセスログを処理できます。Pythonが処理できるものよりもはるかに高速になります。
 :--:1
 ```python
 app.run(..., access_log=False)
