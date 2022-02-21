@@ -50,7 +50,7 @@ You can make a request by using one of the following methods
 - `SanicTestClient.delete`
 - `SanicTestClient.options`
 - `SanicTestClient.head`
-- `SanicTestClient.websockets`
+- `SanicTestClient.websocket`
 - `SanicTestClient.request`
 
 You can use these methods *almost* identically as you would when using `httpx`. Any argument that you would pass to `httpx` will be accepted, **with one caveat**: If you are using `test_client.request` and want to manually specify the HTTP method, you should use: `http_method`:
