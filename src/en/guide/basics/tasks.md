@@ -48,16 +48,17 @@ To add work on the main process, consider adding work to [`@app.main_process_sta
 Example to add a task before `app.run`
 :---:1
 ```python
-async def slow_work(...):
+async def slow_work():
+   ...
+   
+async def even_slower(num):
    ...
 
 app = Sanic(...)
-app.add_task(slow_work) # Note: we are passing the callable and not coroutine object `slow_work(...)`
+app.add_task(slow_work) # Note: we are passing the callable and not coroutine object ...
+app.add_task(even_slower(10)) # ... or we can call the function and pass the coroutine.
 app.run(...)
 ```
-::: tip
-To pass parameters to `slow_work` above, `functools.partial` can be used.
-:::
 
 ## Named tasks
 
