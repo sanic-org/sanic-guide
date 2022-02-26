@@ -47,7 +47,7 @@ app.add_task(explicit_inject(app))
 
 在 app 运行前是可以添加后台任务的。为了完成这个目的，您应该为 `Sanic.add_task` 方法传入一个可调用的对象，即使用 `async` 定义的函数本身，而不是一个协程对象（调用 `async` 函数后得到的对象），当传入可调用对象之后，Sanic 将为 **每一个** 子程序都创建该任务。
 
-注意：这样添加的任务是在 `before_server_start` 阶段工作的，因此在每个子进程搜会有该任务（而不是在主进程中）。
+注意：这样添加的任务是在 `before_server_start` 阶段工作的，因此在每个子进程都会有该任务（而不是在主进程中）。
 
 这将会产生一些后果：请查看[这个问题](https://github.com/sanic-org/sanic/issues/2139)的[这条评论](https://github.com/sanic-org/sanic/issues/2139#issuecomment-868993668)来获取更多信息。
 
