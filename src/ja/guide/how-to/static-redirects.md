@@ -1,6 +1,6 @@
-# "Static" Redirects
+# "Static"ファイルのリダイレクト
 
-> How do I configure static redirects?
+> スタティックリダイレクトを設定するにはどうすればいいですか。
 
 :::: tabs
 ::: tab app.py
@@ -107,6 +107,6 @@ body {
 :::
 ::::
 
-Also, checkout some resources from the community:
+また、コミュニティからいくつかのリソースをチェックアウトします。
 
 - [Static Routing Example](https://github.com/Perzan/sanic-static-routing-example)
