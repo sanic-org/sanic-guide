@@ -5,7 +5,7 @@ title: CORS
 
 # Cross-origin resource sharing (CORS)
 
-> How do I configure my application for CORS?
+> アプリケーションをCORS用に構成する方法は?
 
 :::: tabs
 ::: tab server.py
@@ -134,6 +134,6 @@ Access-Control-Allow-Credentials: true
 Access-Control-Allow-Headers: origin, content-type, accept, authorization, x-xsrf-token, x-request-id
 connection: keep-alive
 ```
-Also, checkout some resources from the community:
+また、コミュニティからいくつかのリソースをチェックアウトします。
 
 - [Awesome Sanic](https://github.com/mekicha/awesome-sanic/blob/master/README.md#frontend) 
