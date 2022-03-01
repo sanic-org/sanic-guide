@@ -3,15 +3,15 @@ title: Autodiscovery
 ---
 
 
-# Autodiscovery of Blueprints, Middleware, and Listeners
+# Blueprints、ミドルウェア、listenersの自動検出
 
-> How do I autodiscover the components I am using to build my application?
+> アプリケーションの構築に使用しているコンポーネントを自動検出するにはどうすればよいですか。
 
-One of the first problems someone faces when building an application, is *how* to structure the project. Sanic makes heavy use of decorators to register route handlers, middleware, and listeners. And, after creating blueprints, they need to be mounted to the application.
+アプリケーションを構築する際に直面する最初の問題の1つは、プロジェクトを 「どのように」 構築するかということです。Sanicはルートハンドラ、ミドルウェア、リスナーの登録にデコレータを多用しています。また、設計図を作成した後、アプリケーションにマウントする必要があります。
 
-A possible solution is a single file in which **everything** is imported and applied to the Sanic instance. Another is passing around the Sanic instance as a global variable. Both of these solutions have their drawbacks.
+可能な解決策は、**すべて**がインポートされ、Sanicインスタンスに適用される単一のファイルです。もう1つは、グローバル変数としてSanicインスタンスを渡す方法です。どちらの解決策にも欠点があります。
 
-An alternative is autodiscovery. You point your application at modules (already imported, or strings), and let it wire everything up.
+もう1つの方法は、自動検出です。アプリケーションをモジュール(すでにインポートされている、または文字列)に向け、すべてを接続します。
 
 :::: tabs
 ::: tab server.py
