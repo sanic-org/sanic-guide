@@ -1,13 +1,13 @@
-# Table of Contents
+# 目次
 
-We have compiled fully working examples to answer common questions and user cases. For the most part, the examples are as minimal as possible, but should be complete and runnable solutions.
+よくある質問やユーザー・ケースに答えるために、十分に機能する例をまとめました。ほとんどの場合、例は最小限のものですが、完全で実行可能なソリューションである必要があります。
 
 | Page | How do I ... |
 |:-----|:------------|
-| [Application mounting](./mounting.md) | ... mount my application at some path above the root? |
-| [Authentication](./authentication.md) | ... control authentication and authorization? |
-| [Autodiscovery](./autodiscovery.md)   | ... autodiscover the components I am using to build my application? |
-| [CORS](./cors.md)                     | ... configure my application for CORS? |
+| [Applicationのマウント](./mounting.md) | ... どうやってルートより上のパスにアプリケーションをマウントする? |
+| [Authentication](./authentication.md) | ... どうやって認証と許可を制御しますか? |
+| [Autodiscovery](./autodiscovery.md)   | ... どうやってアプリケーションの構築に使用しているコンポーネントを自動検出しますか? |
+| [CORS](./cors.md)                     | ... どうやってCORS用にアプリケーションを構成しますか？ |
 | CSRF                                  | *Coming soon* |
 | Databases                             | *Coming soon* |
 | IPv6                                  | *Coming soon* |
@@ -15,7 +15,7 @@ We have compiled fully working examples to answer common questions and user case
 | Request validation                    | *Coming soon* |
 | Serialization                         | *Coming soon* |
 | Server Sent Events                    | *Coming soon* |
-| [ORM](./orm)                          | ... use an ORM with Sanic? |
+| [ORM](./orm)                          | ... どうやってSanicでORMを使う? |
 | Task queues                           | *Coming soon* |
-| [TLS/SSL/HTTPS](./tls.md)             | ... run Sanic via HTTPS? ... redirect HTTP to HTTPS? |
+| [TLS/SSL/HTTPS](./tls.md)             | ... どうやってHTTPS経由でSanicを実行する? ... どうやってHTTPをHTTPSにリダイレクトしますか? |
 | Websocket feeds                       | *Coming soon* |
