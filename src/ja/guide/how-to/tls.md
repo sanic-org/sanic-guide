@@ -1,9 +1,9 @@
 # TLS/SSL/HTTPS
 
-> How do I run Sanic via HTTPS? 
+> HTTPS経由でSanicを実行するにはどうすればよいですか?
 
 ---:1
-You can use the [`ssl` module](https://docs.python.org/3/library/ssl.html) to create a context and pass it to Sanic
+[`ssl`モジュール] (https://docs.python.org/3/library/ssl.html) を使用してコンテキストを作成し、Sanicに渡すことができます。
 :--:1
 ```python
 import ssl
