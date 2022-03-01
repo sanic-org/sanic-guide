@@ -1,8 +1,8 @@
 # Authentication
 
-> How do I control authentication and authorization?
+> 認証と認可を制御するにはどうすればよいですか。
 
-This is an _extremely_ complicated subject to cram into a few snippets. But, this should provide you with an idea on ways to tackle this problem. This example uses [JWTs](https://jwt.io/), but the concepts should be equally applicable to sessions or some other scheme.
+これは、いくつかのスニペットに詰め込むのが非常に複雑な問題です。しかし、これはこの問題に取り組む方法についてのアイデアを提供するはずです。この例では [JWT](https://jwt.io/)を使用していますが、この概念はセッションやその他のスキームにも同様に適用できます。
 
 :::: tabs
 ::: tab server.py
@@ -75,7 +75,7 @@ def protected(wrapped):
 
     return decorator(wrapped)
 ```
-This decorator pattern is taken from the [decorators page](/en/guide/best-practices/decorators.md).
+このデコレーターのパターンは、 [decorators page](/en/guide/best-practices/decorators.md) から取得されます。
 :::
 ::::
 
@@ -86,7 +86,7 @@ content-length: 21
 connection: keep-alive
 content-type: text/plain; charset=utf-8
 
-You are unauthorized.
+あなたは許可されていません。
 
 $ curl localhost:9999/login -X POST                                                                                                                                                                               7 ↵
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.e30.rjxS7ztIGt5tpiRWS8BGLUqjQFca4QOetHcZTi061DE
@@ -108,7 +108,7 @@ content-type: text/plain; charset=utf-8
 You are unauthorized.
 ```
 
-Also, checkout some resources from the community:
+また、コミュニティからいくつかのリソースをチェックアウトします。
 
 - Awesome Sanic - [Authorization](https://github.com/mekicha/awesome-sanic/blob/master/README.md#authentication) & [Session](https://github.com/mekicha/awesome-sanic/blob/master/README.md#session)
 - [EuroPython 2020 - Overcoming access control in web APIs](https://www.youtube.com/watch?v=Uqgoj43ky6A)
