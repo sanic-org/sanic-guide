@@ -72,4 +72,4 @@ ssl = {"cert": "/path/to/cert", "key": "/path/to/keyfile"}
 app.run(host="example.com", port=443, ssl=ssl)
 ```
 
-[See forums](https://community.sanicframework.org/t/https-redirection-with-sanic/810) for more complete discussion
+[forumsを見て](https://community.sanicframework.org/t/https-redirection-with-sanic/810) for more complete discussion
