@@ -1,6 +1,6 @@
 # Application Mounting
 
-> How do I mount my application at some path above the root?
+> ルートより上のパスにアプリケーションをマウントするにはどうすればよいですか。
 
 ```python
 # server.py
