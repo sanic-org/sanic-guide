@@ -1,27 +1,27 @@
 # ORM
 
->  How do I use SQLAlchemy with Sanic ?
+> SQLAlchemyをSanicと共に使用する方法?
 
-All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
-There are some orm packages who support
+すべてのORMツールはSanicで動作しますが、非同期ORMツールはSanicのパフォーマンスに影響します。
+これをサポートするormパッケージがいくつかあります。
 
-At present, there are many ORMs that support asynchronicity. Two of the more common libraries are：
+現在、非同期性をサポートするORMはたくさんあります。一般的なライブラリには、次の2つがあります。
 
 - [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
 - [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
-Integration in to your Sanic application is fairly simple:
+のSanicアプリケーションへの統合は非常に簡単です。
 
 ## SQLAlchemy
 
-Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html) has added native support for `asyncio`, Sanic can finally work well with SQLAlchemy. Be aware that this functionality is still considered *beta* by the SQLAlchemy project.
+[SQLAlchemy 1.4関数](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)が`asyncio`のネイティブサポートを追加したので、SanicはついにSQLAlchemyでうまく動作するようになりました。SQLAlchemyプロジェクトでは、この機能はまだ*ベータ*と見なされていることに注意してください。
 
 
 ---:1
 
-### Dependencies
+### 依存関係
 
-First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
+まず、必要な依存関係をインストールする必要があります。以前は、インストールされる依存関係は`sqlalchemy'と`pymysql'でしたが、現在は`sqlalchemy'と`aiomysql'が必要です。
 
 :--:1
 
@@ -34,9 +34,9 @@ pip install -U aiomysql
 
 ---:1
 
-### Define ORM Model
+### ORMモデルの定義
 
-ORM model creation remains the same.
+ORMモデルの作成は同じままです。
 
 :--:1
 
@@ -74,9 +74,9 @@ class Car(BaseModel):
 
 ---:1
 
-### Create Sanic App and Async Engine
+### Sanicアプリケーションと非同期エンジンの作成
 
-Here we use mysql as the database, and you can also choose PostgreSQL/SQLite. Pay attention to changing the driver from `aiomysql` to `asyncpg`/`aiosqlite`.
+ここではデータベースとしてmysqlを使用しますが、PostgreSQL/SQLiteを選択することもできます。ドライバを`aiomysql`から`asyncpg`/`aiosqlite`に変更することに注意してください。
 :--:1
 
 
@@ -94,11 +94,11 @@ bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=Tru
 
 ---:1
 
-### Register Middlewares
+### ミドルウェアの登録
 
-The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
+リクエスト・ミドルウェアは、使用可能な`AsyncSession`オブジェクトを作成し、それを`request.ctx`および`_base_model_session_ctx`に設定します。
 
-Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
+スレッドセーフな変数`_base_model_session_ctx`を使用すると、`request.ctx`からセッション・オブジェクトをフェッチするかわりにセッション・オブジェクトを使用できます。
 
 
 :--:1
@@ -129,9 +129,9 @@ async def close_session(request, response):
 
 ---:1
 
-### Register Routes
+### ルートの登録
 
-According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and the 2.0 way to query an ORM object is using `select`.
+sqlalchemyの公式ドキュメントによると、`session.query`は2.0年にレガシーになり、ORMオブジェクトをクエリする2.0の方法は`select`を使用します。
 
 :--:1
 
@@ -170,7 +170,7 @@ async def get_user(request, pk):
 
 :---
 
-### Send Requests
+### リクエストを送信
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
@@ -187,9 +187,9 @@ curl --location --request GET 'http://127.0.0.1:8000/user/1'
 
 ---:1
 
-### Dependencies
+### 依存関係
 
-tortoise-orm's dependency is very simple, you just need install tortoise-orm.
+tortoise-ormの依存関係は非常に単純で、tortoise-ormをインストールするだけです。
 
 :--:1
 
@@ -201,9 +201,9 @@ pip install -U tortoise-orm
 
 ---:1
 
-### Define ORM Model
+### ORMモデルの定義
 
-If you are familiar with Django, you should find this part very familiar.
+Djangoに精通している方であれば、この部分は非常に馴染みがあるはずです。
 
 :--:1
 
@@ -225,9 +225,9 @@ class Users(Model):
 
 ---:1
 
-### Create Sanic App and Async Engine
+### Sanicアプリケーションと非同期エンジンの作成
 
-Tortoise-orm provides a set of registration interface, which is convenient for users, and you can use it to create database connection easily.
+Tortoise-ormは、ユーザーにとって便利な登録インタフェースのセットを提供し、これを使用してデータベース接続を簡単に作成できます。
 
 :--:1
 
@@ -250,7 +250,7 @@ register_tortoise(
 
 ---:1
 
-### Register Routes
+### ルートの登録
 
 :--:1
 
@@ -279,7 +279,7 @@ if __name__ == "__main__":
 
 :---
 
-### Send Requests
+### リクエストを送信
 
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
