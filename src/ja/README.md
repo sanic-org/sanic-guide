@@ -1,23 +1,23 @@
 ---
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
-heroText: 速く構築します。速く動作します。
-tagline: 非同期 Python 3.7+ ウェブサーバー/ウェブフレームワーク
-actionText: さあスタートしよう →
+heroText: 速く構築。速く動作。
+tagline: 非同期 Python 3.7+ webサーバー/フレームワーク
+actionText: さあ始めよう →
 actionLink: /ja/guide/
 features:
 - title: シンプルで軽量
-  details: スマートデフォルトと肥大化のない直感的なAPIを使用すると、アプリの構築に直接取り掛かることができます。
+  details: スマートデフォルトと肥大化のない直感的なAPIを使用し、アプリの構築に直接取り掛かることができます。
 - title: 自由な発想と柔軟な対応
   details: ツールに制限をかけずに構築する方法を構築します。
 - title: パフォーマンスとスケーラブル
-  details: 主な関心事として、スピードとスケーラビリティでゼロから構築されています。大小のWebアプリケーションにいつでも起動させることができます。
+  details: スピードとスケーラビリティを重視して、ゼロから作り上げました。大小さまざまなWebアプリケーションを動かすことができます。
 - title: 生産準備完了
-  details: 箱から出してすぐに、それはあなたのウェブアプリケーションを起動させることができます。
-- title: 何百万人もの人々に信頼されています
-  details: Sanicは、PyPIで全体的に最も人気のあるフレームワークの1つであり、トップの非同期対応フレームワークです
+  details: ウェブサーバーがバンドルされており、特別な準備なしにwebアプリケーションを起動することができます。
+- title: 数百万人からの信頼
+  details: Sanicは、PyPIで全体的に最も人気のあるフレームワークの1つであり、1番の非同期対応フレームワークです。
 - title: コミュニティ主導
-  details: このプロジェクトは、コミュニティのためにコミュニティによって維持され、運営されています。
+  details: このプロジェクトはコミュニティのために、コミュニティによって維持、運営されています。
 pageClass: landing-page
 logo: false
 ---
