@@ -1,42 +1,41 @@
-# Policies
+# ポリシー
 
-## Versioning
+## バージョン進行
 
-Sanic uses [calendar versioning](https://calver.org/), aka "calver". To be more specific, the pattern follows:
+Sanicは[カレンダーバージョン進行](https://calver.org/)、通称"calver"を使用しています。 より明確にするため、次のパターンを使用します:
 
 ```
 YY.MM.MICRO
 ```
 
-Generally, versions are referred to in their ``YY.MM`` form. The `MICRO` number indicates an incremental patch version, starting at `0`.
+基本的に、バージョンは``YY.MM``形式で参照されます。`MICRO`番号は`0`から順番に増えるパッチバージョンを表します。
 
-## Release Schedule
+## リリーススケジュール
 
-There are four (4) scheduled releases per year: March, June, September, and December. Therefore, there are four (4) released versions per year: `YY.3`, `YY.6`, `YY.9`, and `YY.12`. 
+1年につき4回(3,6,9,12月)のリリーススケジュールがあります。したがって、年間でリリースされるバージョンは、`YY.3`, `YY.6`, `YY.9`, `YY.12`の4つです。
 
-This release schedule provides:
+このリリーススケジュールでは以下のものを提供します。
+- 予測可能なリリース間隔、
+- 機能を定期的にリリースできる比較的短い開発ウィンドウ、
+- コントロールされた[非推奨通知](#deprecation)、そして、
+- 毎年のLTSとの一貫した安定性。
 
-- a predictable release cadence,
-- relatively short development windows allowing features to be regularly released,
-- controlled [deprecations](#deprecation), and
-- consistent stability with a yearly LTS.
+そして、年間リリースサイクルは私たちの経営モデル[S.C.O.P.E.](./scope.md)と組み合わせて使用されます。
 
-We also use the yearly release cycle in conjunction with our governance model, covered by the [S.C.O.P.E.](./scope.md)
+### 長期サポートと暫定リリース
 
-### Long term support v Interim releases
+Sanicは毎年12月に長期サポートリリース(通称LTS)をリリースします。LTSリリースはバグ修正やセキュリティアップデートを**24ヶ月間**サポートします。年間を通じて中間リリースは3か月ごとに行われ、次のリリースまでサポートされます。
 
-Sanic releases a long term support release (aka "LTS") once a year in December. The LTS releases receive bug fixes and security updates for **24 months**. Interim releases throughout the year occur every three months, and are supported until the subsequent release.
-
-| Version | LTS           | Supported               |
+| Version | LTS           | サポート状況              |
 | ------- | ------------- | ----------------------- |
 | 21.9    |               | :white_check_mark:      |
 | 21.6    |               | :x:                     |
 | 21.3    |               | :x:                     |
-| 20.12   | until 2022-12 | :white_check_mark:      |
+| 20.12   | 2022年12月まで | :white_check_mark:      |
 | 20.9    |               | :x:                     |
 | 20.6    |               | :x:                     |
 | 20.3    |               | :x:                     |
-| 19.12   | until 2021-12 | :ballot_box_with_check: |
+| 19.12   | 2021年12月まで | :ballot_box_with_check: |
 | 19.9    |               | :x:                     |
 | 19.6    |               | :x:                     |
 | 19.3    |               | :x:                     |
@@ -50,11 +49,11 @@ Sanic releases a long term support release (aka "LTS") once a year in December. 
 | 0.2.0   |               | :x:                     |
 | 0.1.9   |               | :x:                     |
 
-:ballot_box_with_check: = security/bug fixes 
-:white_check_mark: = full support
+:ballot_box_with_check: = セキュリティ/バグ修正のみ
+:white_check_mark: = フルサポート
 
-## Deprecation
+## 非推奨
 
-Before a feature is deprecated, or breaking changes are introduced into the API, it shall be publicized and shall appear with deprecation warnings through two release cycles. No deprecations shall be made in an LTS release.
+機能が非推奨になる前、またはAPIに破壊的更新が導入される前に、その機能は発表され、2つのリリースサイクルを通じて非推奨の警告とともに表示されます。 LTSリリースでは非推奨になりません。
 
-Breaking changes or feature removal may happen outside of these guidelines when absolutely warranted. These circumstances should be rare. For example, it might happen when no alternative is available to curtail a major security issue.
+正当な理由がある場合、これらのガイドラインの範囲外で重大な変更または機能の削除が行われる可能性があります。これらの状況は稀なはずです。たとえば、主要なセキュリティ問題を削減するための代替手段が利用できない場合などに発生する可能性があります。
