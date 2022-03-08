@@ -1,7 +1,7 @@
 # Openapi
 
-- Adding documentation with decorators
-- Documenting CBV
-- Using autodoc
-- Rendering docs with redoc/swagger
-- Validation
+- デコレーターのドキュメンテーションを追加
+- CBVのドキュメンテーション
+- autodocの使用
+- redoc/swaggerを使ったdocsのレンダリング
+- バリデーション
