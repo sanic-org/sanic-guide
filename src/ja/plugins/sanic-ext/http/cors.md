@@ -41,7 +41,7 @@ connection: keep-alive
 
 CORS 対策の真の威力は、設定を開始してから発揮されます。以下は、すべてのオプションの表です。
 
-| キー│タイプ│デフォルト│説明│  
+| キー │ タイプ │ デフォルト │ 説明 │
 |--|--|--|--|
 | `CORS_ALLOW_HEADERS` | `str` または `List[str]` | `"*"` | `access-control-allow-headers` に表示されるヘッダのリストです。|
 | `CORS_ALWAYS_SEND` | `bool` | `True` | `True` の場合、常に `access-control-allow-origin` に値を設定します。`False` の場合、 `Origin` ヘッダがある場合にのみ設定されます。|
