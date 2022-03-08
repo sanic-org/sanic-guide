@@ -1,4 +1,4 @@
-# Basics
+# 基本事項
 
 ::: tip Side note
 Sanic ExtensionsのOpenAPI実装は、[`sanic-openapi`](https://github.com/sanic-org/sanic-openapi)のOAS3実装がベースになっています。実際、Sanic Extensionsはそのプロジェクトの後継であり、Sanic Extensionsのリリースと同時にメンテナンスモードに入りました。もしあなたが以前 OAS3 を `sanic-openapi` で使っていたなら、Sanic Extensions にアップグレードするのは簡単なはずです。残念ながら、このプロジェクトは OAS2 仕様をサポートして*いません*。
