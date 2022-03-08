@@ -1,14 +1,10 @@
-# Decorators
+# デコレータ
 
-The primary mechanism for adding content to your schema is by decorating your endpoints. If you have
-used `sanic-openapi` in the past, this should be familiar to you. The decorators and their arguments match closely
-the [OAS v3.0 specification](https://swagger.io/specification/).
+スキーマにコンテンツを追加するための主なメカニズムは、エンドポイントを装飾することです。もしあなたが過去に `sanic-openapi` を使ったことがあるなら、これは馴染みのあるものでしょう。デコレータとその引数は [OAS v3.0 仕様](https://swagger.io/specification/) とほぼ同じです。
 
 ---:1
 
-All of the examples show will wrap around a route definition. When you are creating these, you should make sure that
-your Sanic route decorator (`@app.route`, `@app.get`, etc) is the outermost decorator. That is to say that you should
-put that first and then one or more of the below decorators after.
+表示されるすべての例は、ルート定義の周りにラップされます。これらを作成する際には、Sanic ルート・デコレーター (`@app.route` や `@app.get` など) が一番外側のデコレーターであることを確認する必要があります。つまり、最初にそれを置き、その後に以下のデコレータを1つ以上置く必要があります。
 
 :--:1
 
@@ -27,9 +23,7 @@ async def handler(request, somethind: str):
 
 ---:1
 
-You will also see a lot of the below examples reference a model object. For the sake of simplicity, the examples will
-use `UserProfile` that will look like this. The point is that it can be any well-typed class. You could easily imagine
-this being a `dataclass` or some other kind of model object.
+また、以下の例の多くはモデルオブジェクトを参照していることがわかります。シンプルにするために、例では `UserProfile` を使用し、以下のようになります。重要なのは、型付けされたクラスであれば何でも良いということです。`dataclass`や他の種類のモデルオブジェクトであることは容易に想像がつくでしょう。
 
 :--:1
 
@@ -42,28 +36,26 @@ class UserProfile:
 
 :---
 
-## Definition decorator
+## デコレーターの定義
 
 ### `@opanepi.definition`
 
-The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums
-decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using
-multiple field-specific decorators or a single decorator is a style choice for you the developer.
+`@openapi.definition`デコレーターを使用すると、パス上の操作のすべての部分を一度に定義することができます。これは、他のデコレーターと同じように操作の定義を作成できるオムニバムデコレーターです。複数のフィールド固有のデコレータを使うか、あるいは単一のデコレータを使うかは、 開発者のスタイルによります。
 
-The fields are purposely permissive in accepting multiple types to make it easiest for you to define your operation.
+このフィールドは、操作の定義を容易にするために、意図的に複数のタイプを受け入れる寛容なものとなっています。
 
 **Arguments**
 
-| Field         | Type                                                                      |
+| フィールド      | タイプ                                                                     |
 | ------------- | --------------------------------------------------------------------------|
-| `body`        | **dict, RequestBody, *YourModel***                                        |
+| `body`        | **dict, RequestBody, *ユーザー定義モデル***                                  |
 | `deprecated`  | **bool**                                                                  |
 | `description` | **str**                                                                   |
 | `document`    | **str, ExternalDocumentation**                                            | 
 | `exclude`     | **bool**                                                                  |
 | `operation`   | **str**                                                                   |
-| `parameter`   | **dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**      |
-| `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
+| `parameter`   | **dict, Parameter, *ユーザー定義モデル*, [dict], [Parameter], [*ユーザー定義モデル*]** |
+| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]** |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
 
@@ -84,24 +76,23 @@ The fields are purposely permissive in accepting multiple types to make it easie
 
 :---
 
-*See below examples for more examples. Any of the values for the below decorators can be used in the corresponding
-keyword argument.*
+*その他の例については、以下の例を参照してください。以下のデコレータの値は、対応するキーワード引数で使用することができます。*
 
-## Field-specific decorators
+## フィールド固有デコレーター
 
-All the following decorators are based on `@openapi`
+以下のすべてのデコレーターは `@openapi` をベースにしています。
 
 ::::tabs
 
 :::tab body
 
-**Arguments**
+**引数**
 
-| Field       | Type                               |
+| フィールド    | タイプ                              |
 | ----------- | ---------------------------------- |
-| **content** | ***YourModel*, dict, RequestBody** |
+| **content** | ***ユーザー定義モデル*, dict, RequestBody** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -133,11 +124,11 @@ All the following decorators are based on `@openapi`
 
 :::tab deprecated
 
-**Arguments**
+**引数**
 
 *None*
 
-**Examples**
+**例**
 
 ---:1
 
@@ -157,13 +148,13 @@ All the following decorators are based on `@openapi`
 
 :::tab description
 
-**Arguments**
+**引数**
 
-| Field  | Type    |
+| フィールド | タイプ   |
 | ------ | ------- |
 | `text` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -188,14 +179,14 @@ All the following decorators are based on `@openapi`
 
 :::tab document
 
-**Arguments**
+**引数**
 
-| Field         | Type    |
+| フィールド      | タイプ   |
 | ------------- | ------- |
 | `url`         | **str** |
 | `description` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -215,16 +206,16 @@ All the following decorators are based on `@openapi`
 
 :::tab exclude
 
-Can be used on route definitions like all of the other decorators, or can be called on a Blueprint
+他のすべてのデコレータと同様にルート定義で使用するか、ブループリントで呼び出すことができます。
 
-**Arguments**
+**引数**
 
-| Field  | Type          | Default  |
+| フィールド | タイプ       | デフォルト |
 | ------ | ------------- | -------- |
 | `flag` | **bool**      | **True** |
 | `bp`   | **Blueprint** |          |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -244,15 +235,15 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab operation
 
-Sets the operation ID.
+オペレーションIDを設定します。
 
-**Arguments**
+**引数**
 
-| Field  | Type    |
+| フィールド | タイプ |
 | ------ | ------- |
 | `name` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -268,15 +259,15 @@ Sets the operation ID.
 
 :::tab parameter
 
-**Arguments**
+**引数**
 
-| Field      | Type                                      | Default     |
+| フィールド   | タイプ                                     | デフォルト    |
 | ---------- | ----------------------------------------- | ----------- |
 | `name`     | **str**                                   |             |
 | `schema`   | ***type***                                | **str**     |
 | `location` | **"query", "header", "path" or "cookie"** | **"query"** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -304,18 +295,18 @@ Sets the operation ID.
 
 :::tab response
 
-**Arguments**
+**引数**
 
-If using a `Response` object, you should not pass any other arguments.
+`Responce`オブジェクトを使用する場合は、他の引数を渡してはいけません。
 
-| Field         | Type                          |
+| フィールド      | タイプ                         |
 | ------------- | ----------------------------- |
 | `status`      | **int**                       |
 | `content`     | ***type*, *YourModel*, dict** |
 | `description` | **str**                       |
 | `response`    | **Response**                  |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -365,13 +356,13 @@ If using a `Response` object, you should not pass any other arguments.
 
 :::tab summary
 
-**Arguments**
+**引数**
 
-| Field  | Type    |
+| フィールド | タイプ |
 | ------ | ------- |
 | `text` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -387,13 +378,13 @@ If using a `Response` object, you should not pass any other arguments.
 
 :::tab tag
 
-**Arguments**
+**引数**
 
-| Field   | Type         |
+| フィールド | タイプ       |
 | ------- | ------------ |
 | `*args` | **str, Tag** |
 
-**Examples**
+**例**
 
 ---:1
 
