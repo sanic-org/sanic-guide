@@ -1,3 +1,3 @@
-# Configuration
+# 設定
 
-_Documentation coming October 2021_
+_ドキュメンテーションは2022年10月公開予定_
