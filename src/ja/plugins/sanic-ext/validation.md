@@ -1,16 +1,16 @@
-# Validation
+# バリデーション
 
-One of the most commonly implemented features of a web application is user-input validation. For obvious reasons, this is not only a security issue, but also just plain good practice. You want to make sure your data conforms to expectations, and throw a `400` response when it does not.
+Webアプリケーションで最もよく実装される機能の1つが、ユーザー入力の検証です。明らかな理由により、これはセキュリティ上の問題であるだけでなく、単なるグッドプラクティスでもあります。データが期待通りのものであることを確認し、そうでない場合は `400` 応答を投げるようにしたいものです。
 
-## Implementation
+## インプリメンテーション
 
-### Validation with Dataclasses
+### データクラスによる検証
 
-With the introduction of [Data Classes](https://docs.python.org/3/library/dataclasses.html), Python made it super simple to create objects that meet a defined schema. However, the standard library only supports type checking validation, **not** runtime validation. Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses`.
+[データクラス](https://docs.python.org/3/library/dataclasses.html) の導入により、Pythonは定義されたスキーマを満たすオブジェクトをとても簡単に作成することができるようになりました。しかし、標準ライブラリは型チェックの検証のみをサポートし、実行時の検証はサポート**していません**。Sanic Extensionsは`dataclasses`を使って、入力されたリクエストに対して実行時の検証を行う機能を追加します。
 
 ---:1
 
-First, define a model.
+まず、モデルを定義する。
 
 :--:1
 
@@ -24,7 +24,7 @@ class SearchParams:
 
 ---:1
 
-Then, attach it to your route
+そして、ルートに添付。
 
 :--:1
 
@@ -41,7 +41,7 @@ async def handler(request, query: SearchParams):
 
 ---:1
 
-You should now have validation on the incoming request.
+これで、受信したリクエストのバリデーションが行われたはずです。
 
 :--:1
 
@@ -58,17 +58,17 @@ $ curl localhost:8000/search\?q=python
 
 :---
 
-### Validation with Pydantic
+### Pydanticを使ったバリデーション
 
 ::: warning
-Currently, only JSON body validation supports Pydantic models.
+現在、PydanticモデルをサポートしているのはJSONボディの検証のみです。
 :::
 
-You can use Pydantic models also.
+Pydanticモデルの使用もできます。
 
 ---:1
 
-First, define a model.
+まず、モデルを定義する。
 
 :--:1
 
@@ -82,7 +82,7 @@ class Person(BaseModel):
 
 ---:1
 
-Then, attach it to your route
+そして、ルートに添付。
 
 :--:1
 
@@ -98,7 +98,7 @@ async def handler(request, body: Person):
 
 ---:1
 
-You should now have validation on the incoming request.
+これで、受信したリクエストのバリデーションが行われたはずです。
 
 :--:1
 
@@ -109,12 +109,12 @@ $ curl localhost:8000/person -d '{"name": "Alice", "age": 21}' -X POST
 
 :---
 
-## What can be validated?
+## 何が検証できるのか?
 
-The `validate` decorator can be used to validate incoming user date from three places: JSON body data (`request.json`), form body data (`request.form`), and query parameters (`request.args`).
+`validate` デコレータを使用すると、3つの場所から入力されたユーザーデータを検証することができます。JSON の本文(`request.json`)、フォームの本文(`request.form`)、そしてクエリパラメータ(`request.args`) です。
 
 ---:1
-As you might expect, you can attach your model using the keyword arguments of the decorator.
+予想通り、デコレータのキーワード引数を使ってモデルをアタッチすることができます。
 
 :--:1
 ```python
