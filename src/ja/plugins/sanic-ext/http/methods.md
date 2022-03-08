@@ -100,9 +100,9 @@ Accept: */*
 
 ::::
 
-## Additional method support
+## メソッドの追加サポート
 
-Vanilla Sanic allows you to build endpoints with the following HTTP methods:
+バニラSanicでは、以下のHTTPメソッドでエンドポイントを構築することができます。
 
 - [GET](/en/guide/basics/routing.html#get)
 - [POST](/en/guide/basics/routing.html#post)
@@ -112,15 +112,15 @@ Vanilla Sanic allows you to build endpoints with the following HTTP methods:
 - [PATCH](/en/guide/basics/routing.html#patch)
 - [DELETE](/en/guide/basics/routing.html#delete)
 
-See [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) for more.
+もっと見たい場合は[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) を見てください。
 
 ---:1
 
-There are, however, two more "standard" HTTP methods: `TRACE` and `CONNECT`. Sanic Extensions will allow you to build
-endpoints using these methods, which would otherwise not be allowed.
+しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。
+Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。
 
-It is worth pointing out that this will *NOT* enable convenience methods: `@app.trace` or `@app.connect`. You need to
-use `@app.route` as shown in the example here.
+これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするものではないことに注意してください。
+この例で示されているように、`@app.route`を使用する必要があります。
 
 :--:1
 
