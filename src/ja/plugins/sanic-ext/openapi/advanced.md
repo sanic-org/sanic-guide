@@ -1,6 +1,6 @@
-# Advanced
+# 高機能
 
-_Documentation coming October 2021_
+_ドキュメンテーションは2021年10月に追加予定_
 
 ## CBV
 
