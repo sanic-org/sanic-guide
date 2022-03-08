@@ -1,18 +1,18 @@
-# CORS protection
+# CORSの保護
 
-Cross-Origin Resource Sharing (aka CORS) is a *huge* topic by itself. The documentation here cannot go into enough detail about *what* it is. You are highly encouraged to do some research on your own to understand the security problem presented by it, and the theory behind the solutions. [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) are a great first step.
+Cross-Origin Resource Sharing（別名：CORS）は、それだけで*巨大な*トピックです。この文書では、それが何であるかについて十分に詳しく説明することはできません。セキュリティ上の問題や解決策の背景にある理論について理解するために、ご自身で調査されることを強くお勧めします。[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)が最初の一歩として最適です。
 
-In super brief terms, CORS protection is a framework that browsers use to facilitate how and when a web page can access information from another domain. It is extremely relevant to anyone building a single-page application. Often times your frontend might be on a domain like `https://portal.myapp.com`, but it needs to access the backend from `https://api.myapp.com`.
+超簡単に説明すると、CORS 保護は、Web ページが別のドメインから情報にアクセスする方法とタイミングを容易にするために、ブラウザが使用するフレームワークです。これは、単一ページのアプリケーションを構築している人に非常に関連性の高いものです。フロントエンドは `https://portal.myapp.com` のようなドメインにありますが、バックエンドには `https://api.myapp.com` からアクセスする必要があることがよくあります。
 
-The implementation here is heavily inspired by [`sanic-cors`](https://github.com/ashleysommer/sanic-cors), which is in turn based upon [`flask-cors`](https://github.com/corydolphin/flask-cors). It is therefore very likely that you can achieve a near drop-in replacement of `sanic-cors` with `sanic-ext`.
+この実装は[`sanic-cors`](https://github.com/ashleysommer/sanic-cors)に強く影響を受けており、さらに[`flask-cors`](https://github.com/corydolphin/flask-cors) がベースになっています。したがって、`sanic-cors`を`sanic-ext`でほぼ完全に置き換えることができるでしょう。
 
-## Basic implementation
+## 基本的な実装
 
 ---:1
 
-As shown in the example in the [auto-endpoints example](methods.md#options), Sanic Extensions will automatically enable CORS protection without further action. But, it does not offer too much out of the box.
+[自動エンドポイントの例](methods.md#options) にあるように、Sanic Extensions は特に何もしなくても自動的に CORS 保護を有効にします。しかし、それは箱から出してもあまり多くのものを提供しません。
 
-At a *bare minimum*, it is **highly** recommended that you set `config.CORS_ORIGINS` to the intended origin(s) that will be accessing the application.
+最低でも、`config.CORS_ORIGINS` をアプリケーションにアクセスする意図されたオリジンに設定することを **強く** お勧めします。
 
 :--:1
 ```python
@@ -56,13 +56,32 @@ The true power of CORS protection, however, comes into play once you start confi
 
 *For the sake of brevity, where the above says `List[str]` any instance of a `list`, `set`, `frozenset`, or `tuple` will be acceptable. Alternatively, if the value is a `str`, it can be a comma delimited list.*
 
-## Route level overrides
+## コンフィグレーション
+
+CORS 対策の真の威力は、設定を開始してから発揮されます。以下は、すべてのオプションの表です。
+
+| キー│タイプ│デフォルト│説明│
+|--|--|--|--|
+| `CORS_ALLOW_HEADERS` | `str` または `List[str]` | `"*"` | `access-control-allow-headers` に表示されるヘッダのリストです。|
+| `CORS_ALWAYS_SEND` | `bool` | `True` | `True` の場合、常に `access-control-allow-origin` に値を設定します。`False` の場合、 `Origin` ヘッダがある場合にのみ設定されます。|
+| `CORS_AUTOMATIC_OPTIONS` | `bool` | `True` | 受信したプリフライトリクエストに対して、 `access-control-allow-headers`, `access-control-max-age`, `access-control-allow-methods` へ自動的に値を設定するかどうかを指定することができます。False` の場合、これらの値は `@cors` デコレーターでデコレートされたルートにのみ設定されます。|
+| `CORS_EXPOSE_HEADERS` | `str` または `List[str]` |""` | `access-control-expose-headers` ヘッダに設定するヘッダの指定リストです。|
+| `CORS_MAX_AGE` | `str`, `int`, `timedelta` | `0` | `access-control-max-age` ヘッダーを使用してプリフライトリマインダーをキャッシュできる最大秒数です。虚偽の値を指定すると、このヘッダは設定されません。|
+| `CORS_METHODS` | `str` または `List[str]` |`""` | 許可されたオリジンがアクセスできる HTTP メソッド (`access-control-allow-methods` ヘッダーで設定)。|
+| `CORS_ORIGINS` | `str`, `List[str]`, `re.Pattern` | `"*"` | `access-control-allow-origin` ヘッダーで設定した、リソースへのアクセスを許可するオリジンを指定します。|
+| `CORS_SEND_WILDCARD` | `bool` | `False` | `True` の場合、 `origin` リクエストヘッダの代わりにワイルドカード `*` オリジンを送信します。|
+| `CORS_SUPPORTS_CREDENTIALS` | `bool` | `False` | `access-control-allow-credentials` ヘッダを設定するかどうか。|
+| `CORS_VARY_HEADER` | `bool` | `True` | 適切な場合に `vary` ヘッダーを追加するかどうか。|
+
+*簡潔にするために、上記で `List[str]` と記述している場合は、 `list`, `set`, `frozenset`, または `tuple` のインスタンスであれば、何でも構いません。また、値が `str` の場合は、カンマで区切られたリストでも構いません*。
+
+## ルートレベル・オーバーライド
 
 ---:1
 
-It may sometimes be necessary to override app-wide settings for a specific route. To allow for this, you can use the `@sanic_ext.cors()` decorator to set different route-specific values.
+特定のルートに対して、アプリ全体の設定を上書きすることが必要な場合があります。これを可能にするために、`@sanic_ext.cors()` デコレーターを使用して、異なるルート固有の値を設定することができます。
 
-The values that can be overridden with this decorator are:
+このデコレータでオーバーライドできる値は、以下のとおりです。
 
 - `origins`
 - `expose_headers`
