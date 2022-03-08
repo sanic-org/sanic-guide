@@ -1,31 +1,31 @@
-# Auto-documentation
+# 自動ドキュメンテーション
 
-To make documenting endpoints easier, Sanic Extensions will use a function's docstring to populate your documentation. 
+エンドポイントのドキュメント化を容易にするために、Sanic Extensionsは関数のdocstringを使用してドキュメントを入力します。
 
-## Summary and description
+## 概要と説明
 
 ---:1
-A function's docstring will be used to create the summary and description. As you can see from this example here, the docstring has been parsed to use the first line as the summary, and the remainder of the string as the description.
+関数のdocstringは、要約と説明を作成するために使用されます。この例からわかるように、docstringは最初の行を要約として、残りの文字列を説明として使用するように解析されます。
 :--:1
 ```python
 @app.get("/foo")
 async def handler(request, something: str):
-    """This is a simple foo handler
+    """これはシンプルなfooハンドラです。
 
-    It is helpful to know that you could also use **markdown** inside your
-    docstrings.
+    docstringの内部で**markdown**を使用することも可能であることを知っておくと
+    便利です。
 
-    - one
-    - two
-    - three"""
+    - いち
+    - に
+    - さん"""
     return text(">>>")
 ```
 ```json
 "paths": {
   "/foo": {
     "get": {
-      "summary": "This is a simple foo handler",
-      "description": "It is helpful to know that you could also use **markdown** inside your<br>docstrings.<br><br>- one<br>- two<br>- three",
+      "summary": "これはシンプルなfooハンドラです。",
+      "description": "docstringの内部で**markdown**を使用することも可能であることを知っておくと<br>便利です。<br><br>- one<br>- two<br>- three",
       "responses": {
         "default": {
           "description": "OK"
@@ -38,37 +38,37 @@ async def handler(request, something: str):
 ```
 :---
 
-## Operation level YAML
+## 動作レベルYAML
 
 ---:1
-You can expand upon this by adding valid OpenAPI YAML to the docstring. Simply add a line that contains `openapi:`, followed by your YAML. 
+docstringに有効なOpenAPIのYAMLを追加することで、これを拡張することができます。単に `openapi:` を含む行を追加し、その後にあなたのYAMLを追加します。
 
-The `---` shown in the example is *not* necessary. It is just there to help visually identify the YAML as a distinct section of the docstring.
+この例で示されている `---` は必要ありません。これは YAML が docstring の個別のセクションであることを視覚的に識別するために存在します。
 :--:1
 ```python
 @app.get("/foo")
 async def handler(request, something: str):
-    """This is a simple foo handler
+    """これはシンプルなfooハンドラです。
 
-    Now we will add some more details
+    いくつかの詳細を追加しておきます。
 
     openapi:
     ---
     operationId: fooDots
     tags:
-      - one
-      - two
+      - いち
+      - に
     parameters:
       - name: limit
         in: query
-        description: How many items to return at one time (max 100)
+        description: 一回でいくつのアイテムを返すか(最大100)
         required: false
         schema:
           type: integer
           format: int32
     responses:
       '200':
-        description: Just some dots
+        description: いくつかのドットだよ
     """
     return text("...")
 ```
@@ -77,17 +77,17 @@ async def handler(request, something: str):
   "/foo": {
     "get": {
       "operationId": "fooDots",
-      "summary": "This is a simple foo handler",
-      "description": "Now we will add some more details",
+      "summary": "これはシンプルなfooハンドラです。",
+      "description": "いくつかの詳細を追加しておきます。",
       "tags": [
-        "one",
-        "two"
+        "いち",
+        "に"
       ],
       "parameters": [
         {
           "name": "limit",
           "in": "query",
-          "description": "How many items to return at one time (max 100)",
+          "description": "一回でいくつのアイテムを返すか(最大100)",
           "required": false,
           "schema": {
             "type": "integer",
@@ -97,7 +97,7 @@ async def handler(request, something: str):
       ],
       "responses": {
         "200": {
-          "description": "Just some dots"
+          "description": "いくつかのドットだよ"
         }
       }
     }
@@ -108,23 +108,23 @@ async def handler(request, something: str):
 :---
 
 ::: tip
-When both YAML documentation and decorators are used, it is the content from the decorators that will take priority when generating the documentation.
+YAML ドキュメントとデコレータの両方が使用された場合、 ドキュメントを生成する際に優先されるのはデコレータからのコンテンツです。
 :::
 
-## Excluding docstrings
+## docstringの除外
 
 ---:1
-Sometimes a function may contain a docstring that is not meant to be consumed inside the documentation.
+関数が、ドキュメント内で消費されることを意図していないdocstringを含むことがあります。
 
-**Option 1**: Globally turn off auto-documentation `app.config.OAS_AUTODOC = False`
+**方法 1**: `app.config.OAS_AUTODOC = False`で自動ドキュメンテーションを全体的にオフにする。
 
-**Option 2**: Disable it for the single handler with the `@openapi.no_autodoc` decorator
+**方法 2**: `@openapi.no_autodoc` デコレータを使用し、単一のハンドラに対してこの機能を無効にする。
 :--:1
 ```python
 @app.get("/foo")
 @openapi.no_autodoc
 async def handler(request, something: str):
-    """This is a docstring about internal info only. Do not parse it.
+    """このdocstringは情報専用。autodocしないでね。
     """
     return text("...")
 ```

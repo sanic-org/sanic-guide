@@ -1,12 +1,12 @@
-# Basics
+# 基本事項
 
 ::: tip Side note
-The OpenAPI implementation in Sanic Extensions is based upon the OAS3 implementation from [`sanic-openapi`](https://github.com/sanic-org/sanic-openapi). In fact, Sanic Extensions is in a large way the successor to that project, which entered maintenance mode upon the release of Sanic Extensions. If you were previously using OAS3 with `sanic-openapi` you should have an easy path to upgrading to Sanic Extensions. Unfortunately, this project does *NOT* support the OAS2 specification.
+Sanic ExtensionsのOpenAPI実装は、[`sanic-openapi`](https://github.com/sanic-org/sanic-openapi)のOAS3実装がベースになっています。実際、Sanic Extensionsはそのプロジェクトの後継であり、Sanic Extensionsのリリースと同時にメンテナンスモードに入りました。もしあなたが以前 OAS3 を `sanic-openapi` で使っていたなら、Sanic Extensions にアップグレードするのは簡単なはずです。残念ながら、このプロジェクトは OAS2 仕様をサポートして*いません*。
 :::
 
 ---:1
 
-Out of the box, Sanic Extensions provides automatically generated API documentation using the [v3.0 OpenAPI specification](https://swagger.io/specification/). The only thing that you need to do is `Extend` your application by instantiating Sanic Extensions.
+Sanic Extensionsは、[v3.0 OpenAPI仕様](https://swagger.io/specification/)を用いて自動生成されたAPIドキュメントをそのまま提供します。必要なのは、Sanic Extensionsをインスタンス化することによって、アプリケーションを`拡張`することだけです。
 
 :--:1
 
@@ -20,21 +20,21 @@ Extend(app)
 
 :---
 
-After doing this, you will now have beautiful documentation already generated for you based upon your existing application:
+これで、既存のアプリケーションに基づいた美しいドキュメントがすでに生成されていることになります:
 
 [http://localhost:8000/docs](http://localhost:8000/docs)
 
 
 ---:1
 
-Using [Redoc](https://github.com/Redocly/redoc)
+[Redoc](https://github.com/Redocly/redoc)を使う
 
 ![Redoc](~@assets/images/sanic-ext-redoc.png)
 
 
 :--:1
 
-or [Swagger UI](https://github.com/swagger-api/swagger-ui)
+もしくは[Swagger UI](https://github.com/swagger-api/swagger-ui)
 
 ![Swagger UI](~@assets/images/sanic-ext-swagger.png)
 

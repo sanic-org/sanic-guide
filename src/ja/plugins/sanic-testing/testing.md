@@ -1,3 +1,3 @@
 # Testing
 
-_Documentation coming October 2021_
+_ドキュメンテーションは2021年10月に公開予定_

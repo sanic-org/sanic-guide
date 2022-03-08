@@ -1,6 +1,6 @@
 # UI
 
-Sanic Extensions comes with both Redoc and Swagger interfaces. You have a choice to use one, or both of them. Out of the box, the following endpoints are setup for you, with the bare `/docs` displaying Redoc.
+Sanic Extensionsには、RedocとSwaggerの両方のインターフェイスが付属しています。どちらかを使うか、両方を使うかを選択することができます。以下のエンドポイントが自動でセットアップされており、素の `/docs` はRedocを表しています。
 
 - `/docs`
 - `/docs/openapi.json`
@@ -8,19 +8,19 @@ Sanic Extensions comes with both Redoc and Swagger interfaces. You have a choice
 - `/docs/swagger`
 - `/docs/openapi-config`
 
-## Config options
+## 設定オプション
 
-| **Key**                    | **Type**        | **Default**         | **Desctiption**                                              |
+| **キー**                    | **タイプ**       | **デフォルト**       | **説明**                                                      |
 | -------------------------- | --------------- | ------------------- | ------------------------------------------------------------ |
-| `OAS_IGNORE_HEAD`          | `bool`          | `True`              | Whether to display `HEAD` endpoints.                         |
-| `OAS_IGNORE_OPTIONS`       | `bool`          | `True`              | Whether to display `OPTIONS` endpoints.                      |
-| `OAS_PATH_TO_REDOC_HTML`   | `Optional[str]` | `None`              | Path to HTML to override the default Redoc HTML              |
-| `OAS_PATH_TO_SWAGGER_HTML` | `Optional[str]` | `None`              | Path to HTML to override the default Swagger HTML            |
-| `OAS_UI_DEFAULT`           | `Optional[str]` | `"redoc"`           | Can be set to `redoc` or `swagger`. Controls which UI to display on the base route. If set to `None`, then the base route will not be setup. |
-| `OAS_UI_REDOC`             | `bool`          | `True`              | Whether to enable Redoc UI.                                  |
-| `OAS_UI_SWAGGER`           | `bool`          | `True`              | Whether to enable Swagger UI.                                |
-| `OAS_URI_TO_CONFIG`        | `str`           | `"/openapi-config"` | URI path to the OpenAPI config used by Swagger               |
-| `OAS_URI_TO_JSON`          | `str`           | `"/openapi.json"`   | URI path to the JSON document.                               |
-| `OAS_URI_TO_REDOC`         | `str`           | `"/redoc"`          | URI path to Redoc.                                           |
-| `OAS_URI_TO_SWAGGER`       | `str`           | `"/swagger"`        | URI path to Swagger.                                         |
-| `OAS_URL_PREFIX`           | `str`           | `"/docs"`           | URL prefix to use for the Blueprint for OpenAPI docs.        |
+| `OAS_IGNORE_HEAD`          | `bool`          | `True`              | `HEAD`エンドポイントを表示するかどうかを指定する。                   |
+| `OAS_IGNORE_OPTIONS`       | `bool`          | `True`              | `OPTIONS` 端末を表示するかどうかを指定する。                       |
+| `OAS_PATH_TO_REDOC_HTML`   | `Optional[str]` | `None`              | デフォルトの Redoc HTML を上書きするための HTML へのパス。          |
+| `OAS_PATH_TO_SWAGGER_HTML` | `Optional[str]` | `None`              | デフォルトの Swagger HTML をオーバーライドするための HTML へのパス。  |
+| `OAS_UI_DEFAULT`           | `Optional[str]` | `"redoc"`           | `redoc`または `swagger` に設定することができ、ベースルートに表示するUIを制御します。`None` に設定すると、ベースルートは設定されません。|
+| `OAS_UI_REDOC`             | `bool`          | `True`              | Redoc UI を有効にするかどうか。                                  |
+| `OAS_UI_SWAGGER`           | `bool`          | `True`              | Swagger UI を使用可能にするかどうか。                             |
+| `OAS_URI_TO_CONFIG`        | `str`           | `"/openapi-config"` | Swagger が使用する OpenAPI コンフィグへの URI パス                |
+| `OAS_URI_TO_JSON`          | `str`           | `"/openapi.json"`   | JSON ドキュメントへの URI パス。                                 |
+| `OAS_URI_TO_REDOC`         | `str`           | `"/redoc"`          | Redoc への URI パス。                                          |
+| `OAS_URI_TO_SWAGGER`       | `str`           | `"/swagger"`        | Swagger への URI パス。                                        |
+| `OAS_URL_PREFIX`           | `str`           | `"/docs"`           | Blueprint for OpenAPI ドキュメントに使用する URL のプレフィックス。 |

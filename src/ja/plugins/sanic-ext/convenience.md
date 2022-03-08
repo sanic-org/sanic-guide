@@ -1,10 +1,10 @@
-# Convenience
+# 便利な物
 
-## Fixed serializer
+## シリアライザーの修正
 
 ---:1
 
-Often when developing an application, there will be certain routes that always return the same sort of response. When this is the case, you can predefine the return serializer and on the endpoint, and then all that needs to be returned is the content.
+アプリケーションを開発していると、常に同じようなレスポンスを返すルートが存在することがよくあります。このような場合、エンドポイントで返されるシリアライザーをあらかじめ定義しておけば、あとはコンテンツを返すだけでよいのです。
 
 :--:1
 
@@ -25,7 +25,7 @@ async def hello_world(request, name: str):
 
 ---:1
 
-The `serializer` decorator also can add status codes.
+`@serializer` デコレータは、ステータスコードを追加することもできます。
 
 :--:1
 ```python
@@ -38,12 +38,12 @@ async def create_something(request):
 ```
 :---
 
-## Custom serializer
+## カスタムシリアライザー
 
 
 ---:1
 
-Using the `@serializer` decorator, you can also pass your own custom functions as long as they also return a valid type (`HTTPResonse`).
+`@serializer` デコレータを使用すると、有効な型 (`HTTPResonse`) を返す限りにおいて、独自のカスタム関数を渡すことも可能です。
 
 :--:1
 
@@ -69,7 +69,7 @@ async def do_action(request, action: str):
 
 ---:1
 
-Now, returning just a string should return a nice serialized output.
+さて、文字列だけを返すと、素敵なシリアル化された出力が返されるはずです。
 
 :--:1
 

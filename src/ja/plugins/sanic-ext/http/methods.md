@@ -1,10 +1,9 @@
-# HTTP Methods
+# HTTPメソッド
 
-## Auto-endpoints
+## 自動エンドポイント
 
-The default behavior is to automatically generate `HEAD` endpoints for all `GET` routes, and `OPTIONS` endpoints for all
-routes. Additionally, there is the option to automatically generate `TRACE` endpoints. However, these are not enabled by
-default.
+デフォルトの動作は、すべての`GET`ルートに`HEAD`エンドポイントを、そして全ルートに`OPTIONS`エンドポイントを自動的に生成することです。
+さらに、`TRACE`エンドポイントを自動的に生成するオプションもあります。しかし、これらは初期状態では有効ではありません。
 
 ::::tabs
 
@@ -13,8 +12,8 @@ default.
 - **Configuration**: `AUTO_HEAD` (default `True`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
 
-A `HEAD` request provides the headers and an otherwise identical response to what a `GET` request would provide.
-However, it does not actually return the body.
+`HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。
+しかし、実際にはボディを返しません。
 
 ```python
 @app.get("/")
@@ -22,7 +21,7 @@ async def hello_world(request):
     return text("Hello, world.")
 ```
 
-Given the above route definition, Sanic Extensions will enable `HEAD` responses, as seen here.
+上記のルート定義があれば、Sanic Extensionsはここで見られるように`HEAD`レスポンスを有効にします。
 
 ```
 $ curl localhost:8000 --head
@@ -40,8 +39,7 @@ content-type: text/plain; charset=utf-8
 - **Configuration**: `AUTO_OPTIONS` (default `True`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
 
-`OPTIONS` requests provide the recipient with details about how the client is allowed to communicate with a given
-endpoint.
+`OPTIONS` リクエストは、クライアントが与えられたエンドポイントとの通信をどのように許可されるかの詳細を受信者に提供します。
 
 ```python
 @app.get("/")
@@ -49,10 +47,10 @@ async def hello_world(request):
     return text("Hello, world.")
 ```
 
-Given the above route definition, Sanic Extensions will enable `OPTIONS` responses, as seen here.
+上記のルート定義があれば、Sanic Extensionsはここで見られるように`HEAD`レスポンスを有効にします。
 
-It is important to note that we also see `access-control-allow-origins` in this example. This is because
-the [CORS protection](cors.md) is enabled by default.
+この例では、`access-control-allow-origins`も表示されていることに注意することが重要です。
+これは、[CORS保護](cors.md)がデフォルトで有効になっているためです。
 
 ```
 $ curl localhost:8000 -X OPTIONS -i
@@ -62,8 +60,7 @@ access-control-allow-origin: *
 connection: keep-alive
 ```
 
-::: tip Even though Sanic Extensions will setup these routes for you automatically, if you decide to manually create
-an `@app.options` route, it will *not* be overridden.
+::: tip Sanic Extensionsがこれらのルートを自動的にセットアップしてくれるとしても、手動で `@app.options` ルートを作成することにした場合、それは オーバーライド**されません**。
 :::
 
 :::tab TRACE
@@ -71,8 +68,7 @@ an `@app.options` route, it will *not* be overridden.
 - **Configuration**: `AUTO_TRACE` (default `False`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/TRACE)
 
-By default, `TRACE` endpoints will **not** be automatically created. However, Sanic Extensions **will allow** you to
-create them if you wanted. This is something that is not allowed in vanilla Sanic.
+デフォルトでは、`TRACE`エンドポイントは自動的に作成**されません**。しかし、Sanic Extensions では、必要であれば作成することができます。これはバニラSanicでは許可されていないことである。
 
 ```python
 @app.route("/", methods=["trace"])
@@ -80,7 +76,7 @@ async def handler(request):
     ...
 ```
 
-To enable auto-creation of these endpoints, you must first enable them when extending Sanic.
+これらのエンドポイントの自動作成を有効にするには、まずSanicを拡張する際に有効にする必要があります。
 
 ```python
 from sanic_ext import Extend, Config
@@ -88,7 +84,7 @@ from sanic_ext import Extend, Config
 Extend(app, config=Config(auto_trace=True))
 ```
 
-Now, assuming you have some endpoints setup, you can trace them as shown here:
+さて、いくつかのエンドポイントが設定されていると仮定して、以下のようにトレースすることができます。
 
 ```
 $ curl localhost:8000 -X TRACE
@@ -98,15 +94,15 @@ User-Agent: curl/7.76.1
 Accept: */*
 ```
 
-::: tip Setting up `AUTO_TRACE` can be super helpful, especially when your application is deployed behind a proxy since
-it will help you determine how the proxy is behaving.
+::: tip `AUTO_TRACE` を設定すると、特にアプリケーションがプロキシの後ろに配置されている場合、非常に便利です。
+は、プロキシがどのように動作しているかを判断するのに役立ちます。
 :::
 
 ::::
 
-## Additional method support
+## メソッドの追加サポート
 
-Vanilla Sanic allows you to build endpoints with the following HTTP methods:
+バニラSanicでは、以下のHTTPメソッドでエンドポイントを構築することができます。
 
 - [GET](/en/guide/basics/routing.html#get)
 - [POST](/en/guide/basics/routing.html#post)
@@ -116,15 +112,15 @@ Vanilla Sanic allows you to build endpoints with the following HTTP methods:
 - [PATCH](/en/guide/basics/routing.html#patch)
 - [DELETE](/en/guide/basics/routing.html#delete)
 
-See [MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) for more.
+もっと見たい場合は[MDN Web Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods) を見てください。
 
 ---:1
 
-There are, however, two more "standard" HTTP methods: `TRACE` and `CONNECT`. Sanic Extensions will allow you to build
-endpoints using these methods, which would otherwise not be allowed.
+しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。
+Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。
 
-It is worth pointing out that this will *NOT* enable convenience methods: `@app.trace` or `@app.connect`. You need to
-use `@app.route` as shown in the example here.
+これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするものではないことに注意してください。
+この例で示されているように、`@app.route`を使用する必要があります。
 
 :--:1
 

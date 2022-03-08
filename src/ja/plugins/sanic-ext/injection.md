@@ -1,26 +1,26 @@
-# Injection
+# インジェクション
 
-Dependency injection is a method to add arguments to a route handler based upon the defined function signature. This can be useful in a number of cases like:
+依存性インジェクションは、定義された関数シグネチャに基づいてルートハンドラに引数を追加する方法です。これは、次のようなさまざまなケースで役に立ちます。
 
-- Fetching an object based upon request headers (like the current session user)
-- Recasting certain objects into a specific type
-- Using the request object to prefetch data
-- Auto inject services
+- リクエストヘッダに基づいてオブジェクトを取得する（現在のセッションユーザーのように）。
+- 特定のオブジェクトを特定のタイプにリキャストする
+- リクエストオブジェクトを使用したデータのプリフェッチ
+- サービスの自動挿入
 
-When you `Extend` your application, the return instance has an `injection` method on it. That method accepts the following arguments:
+アプリケーションを `Extend` したとき、その戻り値のインスタンスには `injection` というメソッドがあります。そのメソッドは以下の引数を受け取リます。
 
-- *type*: some unique class that will be the type of the oject
-- *constructor* (OPTIONAL): a function that will return that type
+- *type*: オブジェクトの型となるユニークなクラス。
+- *constructor* (OPTIONAL): その型を返す関数。
 
-Let's explore some use cases here.
+ここでは、いくつかの使用例を探ってみましょう。
 
-## Basic implementation
+## 基本的な実装
 
-The simplest use case would be simply to recast a value.
+最も単純な使用例は、単に値を再キャストすることです。
 
 ---:1
 
-This could be useful if you have a model that you want to generate based upon the matched path parameters.
+これは、マッチしたパスパラメータに基づいて生成したいモデルがある場合に便利です。
 
 :--:1
 
@@ -47,15 +47,15 @@ You chose Chocolate (Yum!)
 ```
 :---
 
-## Additional constructors
+## 追加コンストラクタ
 
 ---:1
 
-Sometimes you may need to also pass a constructor. This could be a function, or perhaps even a classmethod that acts as a constructor. In this example, we are creating an injection that will call `Person.create` first.
+時には、コンストラクタを渡す必要があるかもしれません。これは関数でもいいですし、クラスメソッドでコンストラクタとして動作させることもできます。この例では、最初に `Person.create` を呼び出すインジェクションを作成します。
 
-Also important to note on this example, we are actually injecting **two (2)** objects! It of course does not need to be this way, but we will inject objects based upon the function signature.
+また、この例で重要なのは、実際に**2個**のオブジェクトをインジェクションしていることです! もちろん、このようにする必要はありませんが、関数のサインに基づいてオブジェクトをインジェクトすることになります。
 
-When a constructor is not passed to `ext.injection`, then the object will be created by calling the type.
+コンストラクタが`ext.injection`に渡されない場合、オブジェクトは型を呼び出して作成されます。
 
 :--:1
 
@@ -94,24 +94,24 @@ Person(person_id=PersonID(person_id=123), name='noname', age=111)
 ```
 :---
 
-## Objects from the `Request`
+## `Request`からのオブジェクト
 
 ---:1
 
-Sometimes you may want to extract details from the request and preprocess them. You could, for example, cast the request JSON to a Python object, and then add some additional logic based upon DB queries.
+時には、リクエストから詳細を抽出し、前処理を行いたい場合があります。例えば、リクエストのJSONをPythonのオブジェクトにキャストし、DBクエリに基づいていくつかの追加ロジックを追加することができます。
 
 ::: warning
-If you plan to use this method, you should note that the injection actually happens *before* Sanic has had a chance to read the request body. The headers should already have been consumed. So, if you do want access to the body, you will need to manually consume as seen in this example.
+このメソッドを使うつもりなら、Sanic がリクエストボディを読む機会がある**前**に、 インジェクションが実際に起こるということに注意すべきです。ヘッダはすでに消費されているはずです。したがって、ボディにアクセスしたい場合、この例で見られるように手動で消費する必要があります。
 
 ```python
 await request.receive_body()
 ```
 :::
 
-This could be used in cases where you otherwise might:
+そうでない場合にも使えるかもしれません:
 
-- use middleware to preprocess and add something to the `request.ctx`
-- use decorators to preprocess and inject arguments into the request handler
+- ミドルウェアを使用して、前処理と `request.ctx` への追加を行う。
+- デコレータを使用して、前処理とリクエストハンドラへの引数の注入を行う。
 
 :--:1
 
@@ -168,13 +168,13 @@ $ curl localhost:8000/profile -X PATCH -d '{"name": "Alice", "birthday": "2000-0
 ```
 :---
 
-## Injecting services
+## サービスのインジェクション
 
 ---:1
 
-It is a common pattern to create things like DB connection pools and store them on the `app.ctx` object. This makes them available throughout your application, which is certainly a convenience.
+DB コネクションプールのようなものを作成して、それを `app.ctx` オブジェクトに格納するのはよくあるパターンです。これにより、アプリケーション全体でそれらを利用できるようになり、確かに便利です。
 
-One downside, however, is that you no longer have a typed object to work with. You could use injections to fix this.
+しかし、欠点としては、型付けされたオブジェクトを扱うことができなくなることです。これを解決するために、インジェクションを使うことができます。
 
 :--:1
 
