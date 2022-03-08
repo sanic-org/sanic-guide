@@ -1,36 +1,36 @@
-# Getting Started
+# スタートアップ
 
-Sanic Extensions is an *officially supported* plugin developed, and maintained by the SCO. The primary goal of this project is to add additional features to help Web API and Web application development easier.
+Sanic Extensionsは、SCOが開発し、保守している*公式サポート*のプラグインです。このプロジェクトの主な目的は、Web API と Web アプリケーションの開発を容易にするための追加機能を提供することです。
 
-## Features
+## 機能
 
-- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
-- CORS protection
-- Predefined, endpoint-specific response serializers
-- Argument injection into route handlers
-- OpenAPI documentation with Redoc and/or Swagger
-- Request query arguments and body input validation
+- 自動で`HEAD`、`OPTIONS`、`TRACE`エンドポイントを作成
+- CORSによる保護
+- あらかじめ定義されたエンドポイント固有のレスポンスシリアライザー
+- ルートハンドラへの引数挿入
+- RedocやSwaggerを使ったOpenAPIドキュメンテーション
+- リクエストのクエリ引数とボディ入力のバリデーション
 
-## Minimum requirements
+## 最低要件
 
 - **Python**: 3.8+
 - **Sanic**: 21.9+
 
-## Install
+## インストール
 
 ```bash
 pip install sanic-ext
 ```
 
-## Extend your application
+## アプリケーションを拡張
 
 ---:1
 
-Out of the box, Sanic Extensions will enable a bunch of features for you. The easiest way to get started is just to instantiate it with `Extend`.
+Sanic Extensionsは詳細な設定不要で、多くの機能を有効にしてくれます。最も簡単な方法は、`Extend`をインスタンス化することです。
 
-If you look back at the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md), you will see the only additions here are the two highlighted lines.
+[Sanic入門ページ](../../guide/getting-started.md) のHello, worldアプリを見返してみると、ここで追加したのはハイライトした2行だけであることがわかると思います。
 
-After running your application, you should now be able to view the OpenAPI documentation and see some of the functionality in action: [http://localhost:8000/docs](http://localhost:8000/docs).
+アプリケーションを実行すると、[http://localhost:8000/docs](http://localhost:8000/docs) でOpenAPIのドキュメントが表示され、機能の一部を確認することができるようになります。
 
 :--:1
 
