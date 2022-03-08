@@ -45,10 +45,10 @@ CORS 対策の真の威力は、設定を開始してから発揮されます。
 |--|--|--|--|
 | `CORS_ALLOW_HEADERS` | `str` または `List[str]` | `"*"` | `access-control-allow-headers` に表示されるヘッダのリストです。|
 | `CORS_ALWAYS_SEND` | `bool` | `True` | `True` の場合、常に `access-control-allow-origin` に値を設定します。`False` の場合、 `Origin` ヘッダがある場合にのみ設定されます。|
-| `CORS_AUTOMATIC_OPTIONS` | `bool` | `True` | 受信したプリフライトリクエストに対して、 `access-control-allow-headers`, `access-control-max-age`, `access-control-allow-methods` へ自動的に値を設定するかどうかを指定することができます。False` の場合、これらの値は `@cors` デコレーターでデコレートされたルートにのみ設定されます。|
-| `CORS_EXPOSE_HEADERS` | `str` または `List[str]` |""` | `access-control-expose-headers` ヘッダに設定するヘッダの指定リストです。|
+| `CORS_AUTOMATIC_OPTIONS` | `bool` | `True` | 受信したプリフライトリクエストに対して、 `access-control-allow-headers`, `access-control-max-age`, `access-control-allow-methods` へ自動的に値を設定するかどうかを指定することができます。`False` の場合、これらの値は `@cors` デコレーターでデコレートされたルートにのみ設定されます。|
+| `CORS_EXPOSE_HEADERS` | `str` または `List[str]` | `""` | `access-control-expose-headers` ヘッダに設定するヘッダの指定リストです。|
 | `CORS_MAX_AGE` | `str`, `int`, `timedelta` | `0` | `access-control-max-age` ヘッダーを使用してプリフライトリマインダーをキャッシュできる最大秒数です。虚偽の値を指定すると、このヘッダは設定されません。|
-| `CORS_METHODS` | `str` または `List[str]` |`""` | 許可されたオリジンがアクセスできる HTTP メソッド (`access-control-allow-methods` ヘッダーで設定)。|
+| `CORS_METHODS` | `str` または `List[str]` | `""` | 許可されたオリジンがアクセスできる HTTP メソッド (`access-control-allow-methods`ヘッダーで設定)。|
 | `CORS_ORIGINS` | `str`, `List[str]`, `re.Pattern` | `"*"` | `access-control-allow-origin` ヘッダーで設定した、リソースへのアクセスを許可するオリジンを指定します。|
 | `CORS_SEND_WILDCARD` | `bool` | `False` | `True` の場合、 `origin` リクエストヘッダの代わりにワイルドカード `*` オリジンを送信します。|
 | `CORS_SUPPORTS_CREDENTIALS` | `bool` | `False` | `access-control-allow-credentials` ヘッダを設定するかどうか。|
