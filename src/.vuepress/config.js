@@ -1,4 +1,5 @@
 const path = require("path");
+
 const locales = require("./locales");
 
 let site_config = {
@@ -40,6 +41,7 @@ let site_config = {
   locales: {
     "/en/": locales.locale_abstract_en,
     "/zh/": locales.locale_abstract_zh,
+    "/ja/": locales.locale_abstract_ja,
     "/ko/": locales.locale_abstract_ko,
   },
 
@@ -90,6 +92,7 @@ let site_config = {
         defaultTitle: {
           "/en/": "NEW",
           "/zh/": "新的",
+          "/ja/": "新しい",
           "/ko/": "새로운",
         },
       },
@@ -130,6 +133,7 @@ let site_config = {
     locales: {
       "/en/": locales.locale_detail_en,
       "/zh/": locales.locale_detail_zh,
+      "/ja/": locales.locale_detail_ja,
       "/ko/": locales.locale_detail_ko,
     },
     author: {
