@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Sanic: Next generation Python web server/framework</title>
+    <meta name="generator" content="VuePress 1.9.5">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#fd0d68">
+    <meta name="description" content="">
+    <meta property="article:modified_time" content="2021-03-01T23:49:07.000Z">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="/">
+    <meta property="og:image" content="/images/sanic-framework-social-media-preview-1280x640.png">
+    <meta name="twitter:title" content="Home">
+    <meta name="twitter:url" content="/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="/images/sanic-framework-social-media-preview-1280x640.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Sanic Community Organization">
+    <meta name="twitter:creator" content="@sanicframework">
+    <meta name="msapplication-TileColor" content="#444444">
+    <meta name="theme-color" content="#fd0d68">
+
+    <style>
+      body {
+
+        background-color: #ffffff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        body {
+          background-color: #000000;
+          color: #ffffff;
+          text-align: center;
+        }
+
+        a {
+          color: #fd0d68;
+        }
+
+        main,
+        footer {
+          margin: 100px auto;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <img
+        src="https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-circle-128x128.png"
+        alt="Sanic Framework" />
+      <h1>Sanic Framework</h1>
+      <h2>Next generation Python web server/framework</h2>
+      <a id="continue" href="/">Redirecting</a>
+    </main>
+    <footer class="page-footer"><a href="https://github.com/sanic-org/sanic/blob/master/LICENSE">
+        MIT Licensed
+      </a> <br>
+      Copyright © 2018-present Sanic Community Organization<br>
+      <p>~ Made with ❤️ and ☕️ ~</p>
+    </footer>
+
+    <script>
+      const allowed = ["en", "zh", "ko"]
+      const getLanguage = () => {
+        let lang = "en"
+        if (navigator.languages && navigator.languages.length) {
+          lang = navigator.languages[0];
+        } else {
+          lang = navigator.userLanguage || navigator.language || navigator.browserLanguage || 'en';
+        }
+        lang = lang.split("-")[0]
+        if (allowed.includes(lang)) {
+          return lang;
+        }
+        return "en"
+      }
+      const languageLocation = `/${getLanguage()}/`
+      document.querySelector("#continue").href = languageLocation;
+      window.location.href = languageLocation;
+    </script>
+  </body>
+
+</html>

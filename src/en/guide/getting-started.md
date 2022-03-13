@@ -56,3 +56,37 @@ This **another** important distinction. Other frameworks come with a built in de
 
 **The packaged server is production ready.**
 :::
+
+## Sanic Extensions
+
+Sanic intentionally aims for a clean and unopinionated feature list. The project does not want to require you to build your application in a certain way, and tries to avoid prescribing specific development patterns. There are a number of third-party plugins that are built and maintained by the community to add additional features that do not otherwise meet the requirements of the core repository.
+
+However, in order **to help API developers**, the Sanic organization maintains an official plugin called [Sanic Extensions](../plugins/sanic-ext/getting-started.md) to provide all sorts of goodies, including:
+
+- **OpenAPI** documentation with Redoc and/or Swagger
+- **CORS** protection
+- **Dependency injection** into route handlers
+- Request query arguments and body input **validation**
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
+- Predefined, endpoint-specific response serializers
+
+::: new NEW in v21.12
+The preferred method to set it up is to install it along with Sanic, but you can also install the packages on their own.
+
+---:1
+```
+$ pip install sanic[ext]
+```
+:--:1
+```
+$ pip install sanic sanic-ext
+```
+:---
+
+Starting in v21.12, Sanic will automatically setup Sanic Extensions if it is in the same environment. You will also have access to two additional application properties:
+
+- `app.extend()` - used to configure Sanic Extensions
+- `app.ext` - the `Extend` instance attached to the application
+:::
+
+See [the plugin documenataion](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin

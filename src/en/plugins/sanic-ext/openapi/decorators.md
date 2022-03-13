@@ -44,7 +44,7 @@ class UserProfile:
 
 ## Definition decorator
 
-### `@opanepi.definition`
+### `@openapi.definition`
 
 The `@openapi.definition` decorator allows you to define all parts of an operations on a path at once. It is an omnibums
 decorator in that it has the same capabilities to create operation definitions as the rest of the decorators. Using
@@ -62,10 +62,11 @@ The fields are purposely permissive in accepting multiple types to make it easie
 | `document`    | **str, ExternalDocumentation**                                            | 
 | `exclude`     | **bool**                                                                  |
 | `operation`   | **str**                                                                   |
-| `parameter`   | **dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]**      |
-| `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**        |
+| `parameter`   | **str, dict, Parameter, [str], [dict], [Parameter]**                      |
+| `response`    | **dict, Response, *YourModel*, [dict], [Response]**                       |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
+| `secured`     | **Dict[str, Any]**                                                        |
 
 **Examples**
 
@@ -408,5 +409,48 @@ If using a `Response` object, you should not pass any other arguments.
 ```
 
 :---
+
+:::
+
+:::tab secured
+
+**Arguments**
+
+| Field             | Type                    |
+| ----------------- | ----------------------- |
+| `*args, **kwargs` | **str, Dict[str, Any]** |
+
+**Examples**
+
+---:1
+```python
+@openapi.secured()
+```
+:--:1
+:---
+
+---:1
+```python
+@openapi.secured("foo")
+```
+:--:1
+```python
+@openapi.secured("token1", "token2")
+```
+:---
+
+---:1
+```python
+@openapi.secured({"my_api_key": []})
+```
+:--:1
+```python
+@openapi.secured(my_api_key=[])
+```
+:---
+
+Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
+
+:::
 
 ::::
