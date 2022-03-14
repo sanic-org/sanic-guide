@@ -43,6 +43,100 @@ async def login(request):
 
 :---
 
+## 例外プロパティ
+
+Sanicのすべての例外は `SanicException` から派生します。このクラスにはいくつかのプロパティがあり、開発者がアプリケーション全体で一貫して例外を報告できるように支援します。
+
+- `message`
+- `status_code`
+- `quiet`
+- `context`
+- `extra`
+
+これらのプロパティはすべて例外の生成時に渡すことができますが、これから説明するように、最初の3つはクラス変数として使用することもできます。
+
+---:1
+### `message`
+
+`message` プロパティは、Python の他の例外と同様に、表示されるメッセージを制御します。特に便利なのは、クラス定義で `message` プロパティを設定できることで、アプリケーション全体の言語を簡単に標準化することができることです。
+:--:1
+```python
+class CustomError(SanicException):
+    message = "Something bad happened"
+
+raise CustomError
+# もしくは
+raise CustomError("Override the default message with something else")
+```
+:---
+
+---:1
+### `status_code`
+
+このプロパティは、例外が発生したときの応答コードを設定するために用います。これは、通常クライアントから来る悪い情報への対応である、カスタムの400シリーズ例外を作成するときに特に有用です。
+:--:1
+```python
+class TeapotError(SanicException):
+    status_code = 418
+    message = "Sorry, I cannot brew coffee"
+
+raise TeapotError
+# もしくは
+raise TeapotError(status_code=400)
+```
+:---
+
+---:1
+### `quiet`
+
+デフォルトでは、例外は Sanic によって `error_logger` に出力されます。特に例外ハンドラでイベントのトリガとして例外を使っている場合、これは望ましくないことがあります ([次のセクションを参照してください](./exceptions.md#handling))。`quiet=True`を使用すると、ログ出力を抑制することができます。
+:--:1
+```python
+class SilentError(SanicException):
+    message = "Something happened, but not shown in logs"
+    quiet = True
+
+raise SilentError
+# もしくは
+raise InvalidUsage("blah blah", quiet=True)
+```
+:---
+
+---:1
+::: new NEW in v21.12
+デバッグ中に、`quiet=True` プロパティをグローバルに無視したいことがあるかもしれません。このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。
+:::
+:--:1
+```python
+app.config.NOISY_EXCEPTIONS = True
+```
+:---
+
+---:1
+::: new NEW in v21.12
+### `extra`
+
+[文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
+:::
+:--:1
+```python
+raise SanicException(..., extra={"name": "Adam"})
+```
+:---
+
+---:1
+::: new NEW in v21.12
+### `context`
+
+[文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
+:::
+:--:1
+```python
+raise SanicException(..., context={"foo": "bar"})
+```
+:---
+
+
 ## 取り扱い
 
 Sanicはエラーページを表示することで例外を自動的に処理するので、多くの場合、ユーザ自身が処理する必要はありません。ただし、例外が発生したときの処理をより詳細に制御したい場合は、ハンドラを自分で実装できます。
