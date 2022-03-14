@@ -189,31 +189,3 @@ class SpecialClassView(HTTPMethodView):
 app.add_route(SpecialClassView.as_view(), "/special_class_view")
 ```
 :---
-
-## 構成ビュー
-
-`HTTPMethodView`の代替として、`CompositionView`を使用してハンドラ関数をビュークラスの外に移動できます。
-
-サポートされている各HTTPメソッドのハンドラー関数は、ソースの他の場所で定義され、`CompositionView.add`メソッドを使用してビューに追加されます。 最初のパラメータは、処理するHTTPメソッドのリストです(例:`["GET", "POST"]`)、2番目はハンドラー関数です。
-
-```python
-from sanic.views import CompositionView
-
-def get_handler(request):
-    return text("I am a get method")
-
-view = CompositionView()
-view.add(["GET"], get_handler)
-view.add(["POST", "PUT"], lambda request: text("I am a post/put method"))
-
-# 新しいビューを使用して、ベースURLへの要求を処理します
-app.add_route(view, "/")
-```
-
-::: 警告
-現在、「url_for」を使用して「CompositionView」のURLを構築することはできません。
-:::
-
-::: 警告 非推奨のv21.6
-`CompositionView` has been deprecated and will be removed from Sanic in v21.12.
-:::
