@@ -194,6 +194,6 @@ The practical result of this is that if the first listener in `before_server_sta
 
 実際には、`before_server_start`ハンドラの最初のリスナーがデータベース接続を設定すると、その後に登録されたリスナーは、起動時と停止時の両方でその接続が有効であることを信頼できます。
 
-- `main_process_start` and `main_process_stop` will be **ignored**
-- `before_server_start` will run as early as it can, and will be before `after_server_start`, but technically, the server is already running at that point
-- `after_server_stop` will run as late as it can, and will be after `before_server_stop`, but technically, the server is still running at that point
+- `main_process_start`と`main_process_stop`は**無視されます。**
+- `before_server_start`はできるだけ早く動きます。,そして`after_server_start`の前に実行されます。, しかし、技術的には、サーバーはすでにその時点で実行されています
+- `after_server_stop`はできるだけ遅く実行され、`before_server_stop`の後になりますが、技術的には、サーバーはまだその時点で実行されています
