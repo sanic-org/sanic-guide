@@ -194,10 +194,7 @@ Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が
 
 ---:1
 
-::: new NEW in v21.9
 route_which形式を使用するには、`error_format`キーワード引数を使用します。
-
-:::
 
 :--:1
 
@@ -394,3 +391,108 @@ Sanicには、使用するフォールバックオプションを推測するた
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
 ```
+## 文脈上の例外
+
+::: new NEW in v21.12
+デフォルトの例外メッセージにより、アプリケーション全体で一貫して例外を発生させる機能を簡素化できます。
+
+```python
+class TeapotError(SanicException):
+    status_code = 418
+    message = "Sorry, I cannot brew coffee"
+
+raise TeapotError
+```
+
+しかし、これには2つのことが欠けています。
+
+1. ダイナミックで予測可能なメッセージのフォーマット
+2. エラーメッセージに追加のコンテキストを追加する機能（詳細は後述します）
+
+### `Extra` を使用した動的で予測可能なメッセージ
+
+Sanic の例外は `extra` キーワード引数を使って発生させることができ、発生した例外インスタンスに追加情報を提供することができます。
+
+```python
+class TeapotError(SanicException):
+    status_code = 418
+
+    @property
+    def message(self):
+        return f"Sorry {self.extra['name']}, I cannot make you coffee"
+
+raise TeapotError(extra={"name": "Adam"})
+```
+
+この新しい機能では、例外インスタンスに `extra` メタを渡すことができます。これは、上記の例のように、メッセージテキストに動的なデータを渡すのに特に便利です。この `extra` 情報オブジェクトは、 `PRODUCTION` モードでは抑制され**、 `DEVELOPMENT` モードでは表示されます。
+
+---:1
+**制作**
+
+![image](https://user-images.githubusercontent.com/166269/139014161-cda67cd1-843f-4ad2-9fa1-acb94a59fc4d.png)
+:--:1
+**開発**
+
+![image](https://user-images.githubusercontent.com/166269/139014121-0596b084-b3c5-4adb-994e-31ba6eba6dad.png)
+:---
+
+### エラーメッセージに `context` を追加する
+
+Sanic の例外は、 `context` 引数とともに発生させて、何が起こったのかについてユーザーに意図した情報を渡すこともできます。これは、マイクロサービスや、JSON形式のエラーメッセージを渡すことを目的としたAPIを作成するときに特に便利です。この使用例では、クライアントに詳細を返すために、解析可能なエラーメッセージだけでなく、例外の周りにいくつかのコンテキストを持ちたいと思います。
+
+```python
+raise TeapotError(context={"foo": "bar"})
+```
+
+これは、(利用可能であれば)常にエラーで渡される**ようにしたい**情報です。以下のような感じです。
+
+---:1
+**制作**
+
+```json
+{
+  "description": "I'm a teapot",
+  "status": 418,
+  "message": "Sorry Adam, I cannot make you coffee",
+  "context": {
+    "foo": "bar"
+  }
+}
+```
+:--:1
+**開発**
+
+```json
+{
+  "description": "I'm a teapot",
+  "status": 418,
+  "message": "Sorry Adam, I cannot make you coffee",
+  "context": {
+    "foo": "bar"
+  },
+  "path": "/",
+  "args": {},
+  "exceptions": [
+    {
+      "type": "TeapotError",
+      "exception": "Sorry Adam, I cannot make you coffee",
+      "frames": [
+        {
+          "file": "handle_request",
+          "line": 83,
+          "name": "handle_request",
+          "src": ""
+        },
+        {
+          "file": "/tmp/p.py",
+          "line": 17,
+          "name": "handler",
+          "src": "raise TeapotError("
+        }
+      ]
+    }
+  ]
+}
+```
+:---
+:::
