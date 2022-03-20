@@ -1,5 +1,4 @@
 # Request
-//Now createing...//
 
 `Request`インスタンスには、そのパラメータに関する有用な情報が**たくさん**含まれています。詳細については、[APIドキュメント](https://sanic.readthedocs.io/) を参照してください。
 

@@ -47,7 +47,7 @@ async def foo_handler(request):
 
 ---
 
-## _async_について...
+## 非同期について...
 
 ---:1
 
