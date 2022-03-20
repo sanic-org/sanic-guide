@@ -2,7 +2,7 @@
 home: true
 heroImage: https://raw.githubusercontent.com/sanic-org/sanic-assets/master/png/sanic-framework-logo-400x97.png
 heroText: 速く構築。速く動作。
-tagline: 非同期 Python 3.7+ webサーバー/フレームワーク
+tagline: 次世代Python webサーバー/フレームワーク
 actionText: さあ始めよう →
 actionLink: /ja/guide/
 features:

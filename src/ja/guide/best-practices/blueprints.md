@@ -41,14 +41,24 @@ app.blueprint(bp)
 
 Blueprintには、websocketsを実装するための同じ`websocket()`デコレータと`add_websocket_route`メソッドもあります。
 
+---:1
+
+::: new NEW in v21.12
+v21.12 以降では、ブループリントはオブジェクトを追加する前でも後でも登録することができます。以前は、登録時にブループリントにアタッチされたオブジェクトのみがアプリケーション インスタンスにロードされました。
+:--:1
+```python
+app.blueprint(bp)
+
+@bp.route("/")
+async def bp_root(request):
+    ...
+```
+:---
 ## Copying
 
 ---:1
 
-::: new NEW in v21.9
 `copy()`メソッドを使用すると、設計図とそれにアタッチされているすべてのものを新しいインスタンスにコピーできます。唯一必要な引数は、新しい`name`を渡すことです。ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。
-
-:::
 
 :--:1
 
@@ -374,5 +384,5 @@ app.blueprint(blueprint_1)
 `url_for()`を使用してURLを生成する場合、エンドポイント名は次の形式になります。
 
 ```text
-<blueprint_name>.<handler_name>
+{blueprint_name}.{handler_name}
 ```

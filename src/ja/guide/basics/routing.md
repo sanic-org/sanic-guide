@@ -135,6 +135,24 @@ async def handler(request):
 :::
 ::::
 
+::: warning
+デフォルトでは、Sanic は安全でない HTTP メソッド (`POST`、`PUT`、`PATCH`) で受信したリクエストボディ**のみ**を消費します。他のメソッドでHTTPリクエストのデータを受け取りたい場合は、以下の2つのオプションのいずれかを実行する必要があります。
+
+**オプション#1 - `ignore_body`を使用してSanicにボディを消費するように指示する。**
+```python
+@app.delete("/path", ignore_body=False)
+async def handler(_):
+    ...
+```
+
+**オプション #2 - ハンドラ内で `receive_body` を使って手動でボディを消費する。**
+```python
+@app.delete("/path")
+async def handler(request: Request):
+    await request.receive_body()
+```
+:::
+
 ## パスパラメーター
 
 ---:1
@@ -583,3 +601,30 @@ URLの取得は、ハンドラと同様に機能します。ただし、ディ�
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
 app.static("/user/profile", "/path/to/profile", name="profile_pics")
 ```
+:::
+
+## ルートコンテキスト
+::: new NEW in v21.12
+
+---:1
+ルートが定義されるとき、`ctx_` という接頭辞を持つキーワード引数をいくつでも追加することができます。これらの値はルートの `ctx` オブジェクトにインジェクションされます。
+:--:1
+```python
+@app.get("/1", ctx_label="something")
+async def handler1(request):
+    ...
+
+@app.get("/2", ctx_label="something")
+async def handler2(request):
+    ...
+
+@app.get("/99")
+async def handler99(request):
+    ...
+
+@app.on_request
+async def do_something(request):
+    if request.route.ctx.label == "something":
+        ...
+```
+:---

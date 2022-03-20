@@ -1,4 +1,4 @@
-# Background tasks
+# バックグラウンドタスク
 
 ## Tasksを作成
 非同期Pythonで[tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task)を使用することは、望ましいことが多く、非常に便利です。Sanicは、現在実行中の**ループにタスクを追加する便利な方法を提供します。これは`asyncio.create_task`。'App'ループの実行前にタスクを追加する方法については、次のセクションを参照してください。
@@ -57,4 +57,70 @@ app.run(...)
 ```
 ::: tip
 上記の`slow_work`にパラメータを渡すには、`functools.partial`を使用します。
+:::
+
+## Named tasks
+
+::: new NEW in v21.12
+_Python 3.8以上でのみサポートされます_
+
+---:1
+タスクを作成するときに、`name`を指定することで、Sanicにそのタスクを追跡するように依頼することができます。
+
+:--:1
+```python
+app.add_task(slow_work, name="slow_task")
+```
+:---
+
+---:1
+これで、アプリケーションのどこからでも `get_task` を使って、そのタスクのインスタンスを取得できるようになりました。
+
+:--:1
+```python
+task = app.get_task("slow_task")
+```
+:---
+
+---:1
+そのタスクをキャンセルする必要がある場合は、 `cancel_task` を使って行うことができます。必ず `await` してください。
+
+:--:1
+```python
+await app.cancel_task("slow_task")
+```
+:---
+
+---:1
+登録されたすべてのタスクは `app.tasks` プロパティで確認することができます。キャンセルされたタスクが一杯になるのを防ぐために、`app.purge_tasks`を実行して、完了したタスクやキャンセルされたタスクを消去するとよいでしょう。
+
+:--:1
+```python
+app.purge_tasks()
+```
+:---
+
+このパターンは、特に `websocket` で有効です:
+
+```python
+async def receiver(ws):
+    while True:
+        message = await ws.recv()
+        if not message:
+            break
+        print(f"Received: {message}")
+
+@app.websocket("/feed")
+async def feed(request, ws):
+    task_name = f"receiver:{request.id}"
+    request.app.add_task(receiver(ws), name=task_name)
+    try:
+        while True:
+            await request.app.event("my.custom.event")
+            await ws.send("A message")
+    finally:
+        # When the websocket closes, let's cleanup the task
+        await request.app.cancel_task(task_name)
+        request.app.purge_tasks()
+```
 :::

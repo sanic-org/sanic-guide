@@ -6,10 +6,6 @@ pageClass: intro
 
 Sanicは、Python 3.7以上のWebサーバーとWebフレームワークで、高速に機能するように書かれています。Python 3.5で追加された非同期/待機構文の使用が可能になり、コードがノンブロッキングでスピーディーになります。
 
-# 紹介
-
-Sanicは、Python 3.7以上のWebサーバーとWebフレームワークで、高速に機能するように書かれています。Python 3.5で追加された非同期/待機構文の使用が可能になり、コードがノンブロッキングでスピーディーになります。
-
 |         |                                                                                                                         |
 |---------|-------------------------------------------------------------------------------------------------------------------------|
 | 構築     | [![Build Status][]][1] [![AppVeyor Build Status][]][2] [![Codecov]][3]                                                 　 |
@@ -26,10 +22,10 @@ Sanicは、Python 3.7以上のWebサーバーとWebフレームワークで、�
 
 しかし、箱から出してすぐにSanicには、本番グレードのWebアプリケーションの作成、展開、拡張に必要なものがすべて付属していることを忘れないでください。:rocket:
 
-## Goal
+## 目的
 
 > 構築、拡張、最終的に拡張が簡単な高性能HTTPサーバーを起動して実行する簡単な方法を提供する。
-## Features
+## 機能
 
 ---:1
 
@@ -56,9 +52,13 @@ Sanicは、Python 3.7以上のWebサーバーとWebフレームワークで、�
 
 Stackoverflow `[sanic]`タグは、プロジェクトのメンテナによって[積極的に監視](https://stackoverflow.com/questions/tagged/sanic)です。
 
-## Contribution
+## リビューション
 
 私たちは常に新しい貢献を喜んでいます。私たちは[始めるために探している人のために良いマークされた問題](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)、ようこそ[フォーラムの質問/回答/ディスカッション](https://community.sanicframework.org/)。[貢献ガイドライン](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)をご覧ください。
+
+## 私たちは誰
+
+ <Contributions />
 
 [構築ステータス]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic

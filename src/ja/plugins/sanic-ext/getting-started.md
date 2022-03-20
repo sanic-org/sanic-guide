@@ -18,20 +18,47 @@ Sanic Extensionsは、SCOが開発し、保守している*公式サポート*�
 
 ## インストール
 
+一番良い方法は、Sanic本体と一緒にSanic Extensionsをインストールするだけです。
+
+```bash
+pip install sanic[ext]
+```
+
+もちろん、単体でインストールすることも可能です。
+
 ```bash
 pip install sanic-ext
 ```
 
 ## アプリケーションを拡張
 
+Sanic Extensionsは、特別な操作なしに、たくさんの機能を有効にしてくれます。
+
+::: new NEW in v21.12
 ---:1
+Sanic Extensions (v21.12+) をセットアップするために必要なこと: **何もない**。環境にインストールされていれば、セットアップが完了し、すぐに使えるようになっています。
 
-Sanic Extensionsは詳細な設定不要で、多くの機能を有効にしてくれます。最も簡単な方法は、`Extend`をインスタンス化することです。
+このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリを変更せずにそのまま使用しています_。
+:--:1
+```python
+from sanic import Sanic
+from sanic.response import text
 
-[Sanic入門ページ](../../guide/getting-started.md) のHello, worldアプリを見返してみると、ここで追加したのはハイライトした2行だけであることがわかると思います。
+app = Sanic("MyHelloWorldApp")
 
-アプリケーションを実行すると、[http://localhost:8000/docs](http://localhost:8000/docs) でOpenAPIのドキュメントが表示され、機能の一部を確認することができるようになります。
+@app.get("/")
+async def hello_world(request):
+    return text("Hello, world.")
+```
+:---
+:::
 
+---:1
+**古い非推奨の設定**
+
+v21.9 では、`Extend` でインスタンス化するのが最も簡単な方法です。
+
+Sanic Getting Started page](../../guide/getting-started.md) の Hello, world アプリを見返してみると、ここで追加されているのはハイライトした2行だけであることがわかると思います。
 :--:1
 
 ```python{3,6}
@@ -46,5 +73,6 @@ Extend(app)
 async def hello_world(request):
     return text("Hello, world.")
 ```
-
 :---
+
+どのように設定されているかに関わらず、これでOpenAPIのドキュメントを閲覧し、機能の一部を確認することができるはずです。[http://localhost:8000/docs](http://localhost:8000/docs)

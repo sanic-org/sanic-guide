@@ -53,9 +53,7 @@ async def my_signal_handler():
 
 ## signalsを設計する
 
-::: new NEW in v21.9
 新しい信号を作成することに加えて、Sanic自体からディスパッチされる組み込み信号がいくつかあります。これらの信号は、開発者に要求とサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
-:::
 
 ---:1
 新しいシグナルを作成することに加えて、Sanic自体からディスパッチされる多くの組み込みシグナルがあります。これらのシグナルは、開発者がリクエストとサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
@@ -69,7 +67,6 @@ async def my_signal_handler():
 async def my_signal_handler(conn_info):
     print("Connection has been closed")
 ```
-
 :---
 
 これらの信号は、ハンドラーが取る引数、およびアタッチする条件(存在する場合)とともに、利用可能な信号です。
@@ -95,9 +92,18 @@ async def my_signal_handler(conn_info):
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: 注意
-これはまだ実験的な特徴です。V21.12までフルサポートは確定しません
-:::
+::: new NEW in v21.12
+---:1
+ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。
+:--:1
+```python
+from sanic.signals import Event
+
+@app.signal(Event.HTTP_LIFECYCLE_COMPLETE)
+async def my_signal_handler(conn_info):
+    print("Connection has been closed")
+```
+:---
 
 ## イベント
 

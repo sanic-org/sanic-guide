@@ -28,7 +28,7 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip 
+::: tip
 Sanicでは、設定値には**大文字で名前を付けるのが一般的です**.実際、大文字と小文字を混在させると奇妙な動作をすることがあります。
 :::
 
@@ -112,7 +112,7 @@ app.update_config("${my_path}/my_config.py")
 ```
 :---
 
-::: tip 
+::: tip
 環境変数は`${environment_variable}`の形式で指定する必要があり、`$environment_variable`は展開されません ("プレーン"テキストとして扱われます) 。
 :::
 #### 辞書から
@@ -150,85 +150,100 @@ app.update_config(MyConfig())
 ```
 :---
 
+### 型キャスティング
+
+環境変数から読み込む場合、Sanicは値を期待されるPythonの型にキャストしようとします。これは特に以下に当てはまります。
+
+- `int`
+- `float`
+- `bool`
+
+`bool` に関しては、以下のような大文字小文字を区別しない値を使用することができます。
+
+- **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
+- **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
+
+::: new NEW in v21.12
+
+---:1
+さらに、Sanicは追加のタイプコンバータを使用して、追加の型をキャストするように設定することができます。これは、値を返すか、`ValueError`を発生させる任意のcallableでなければならない。
+:--:1
+```python
+app = Sanic(..., config=Config(converters=[UUID]))
+```
+:---
+:::
+
 ## 組み込み値
 
 
-| **Variable**              | **Default**       | **Description**                                                             |
-|---------------------------|-------------------|-----------------------------------------------------------------------------|
-| ACCESS_LOG                | True              | Disable or enable access log                                                |
-| FALLBACK_ERROR_FORMAT     | html              | Format of error response if an exception is not caught and handled          |
-| FORWARDED_FOR_HEADER      | X-Forwarded-For   | The name of "X-Forwarded-For" HTTP header that contains client and proxy ip |
-| FORWARDED_SECRET          | None              | Used to securely identify a specific proxy server (see below)               |
-| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0              | How long to wait to force close non-idle connection (sec)                   |
-| KEEP_ALIVE                | True              | Disables keep-alive when False                                              |
-| KEEP_ALIVE_TIMEOUT        | 5                 | How long to hold a TCP connection open (sec)                                |
-| PROXIES_COUNT             | None              | The number of proxy servers in front of the app (e.g. nginx; see below)     |
-| REAL_IP_HEADER            | None              | The name of "X-Real-IP" HTTP header that contains real client ip            |
-| REGISTER                  | True              | Whether the app registry should be enabled                                  |
-| REQUEST_BUFFER_QUEUE_SIZE | 100               | Request streaming buffer queue size                                         |
-| REQUEST_BUFFER_SIZE       | 65536             | Request buffer size before request is paused, default is 64 Kib             |
-| REQUEST_ID_HEADER         | X-Request-ID      | The name of "X-Request-ID" HTTP header that contains request/correlation ID |
-| REQUEST_MAX_SIZE          | 100000000         | How big a request may be (bytes), default is 100 megabytes                  |
-| REQUEST_TIMEOUT           | 60                | How long a request can take to arrive (sec)                                 |
-| RESPONSE_TIMEOUT          | 60                | How long a response can take to process (sec)                               |
-| WEBSOCKET_MAX_QUEUE       | 32                | Maximum length of the queue that holds incoming messages                    |
-| WEBSOCKET_MAX_SIZE        | 2^20              | Maximum size for incoming messages (bytes)                                  |
-| WEBSOCKET_PING_INTERVAL   | 20                | A Ping frame is sent every ping_interval seconds.                           |
-| WEBSOCKET_PING_TIMEOUT    | 20                | Connection is closed when Pong is not received after ping_timeout seconds   |
-| WEBSOCKET_READ_LIMIT      | 2^16              | High-water limit of the buffer for incoming bytes                           |
-| WEBSOCKET_WRITE_LIMIT     | 2^16              | High-water limit of the buffer for outgoing bytes                           |
+| **変数** | **デフォルト** | **説明** |
+|--|--|--|
+| ACCESS_LOG | True | アクセスログを無効または有効にする。
+| AUTO_EXTEND ^ | True | [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) が既存の仮想環境内にある場合にロードするかどうかを制御する |
+| AUTO_RELOAD | True | ファイルが変更されたときにアプリケーションが自動的にリロードするかどうかを制御します。 |
+| EVENT_AUTOREGISTER | True | `True` のとき、存在しないシグナルに対して `app.event()` メソッドを使用すると、自動的にシグナルを生成して例外を発生させないEVENT_AUTOREGISTER.index.index. |
+| FALLBACK_ERROR_FORMAT|html| 例外が発生し処理されなかった場合のエラー応答のフォーマット |
+| FORWARDED_FOR_HEADER| X-Forwarded-For| クライアントとプロキシのIPを含む「X-Forwarded-For」HTTPヘッダの名前です。 |
+| FORWARDED_SECRET|なし|特定のプロキシサーバーを安全に識別するために使用される（下記参照） |
+| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0 | アイドルでない接続を強制終了するまでの時間(秒) |
+| KEEP_ALIVE | True | Falseの場合、キープアライブを無効にする。 |
+| KEEP_ALIVE_TIMEOUT | 5 | TCP接続を開いたままにする時間(秒) |
+| MOTD ^ | True | 起動時にMOTD（今日のメッセージ）を表示するかどうか |
+| MOTD_DISPLAY ^ | {} | MOTDに任意のデータを追加表示するためのキー/バリュー・ペア |
+| NOISY_EXCEPTIONS ^ | False | すべての `quiet` 例外を強制的にログに記録する |
+| PROXIES_COUNT | なし | アプリの前にあるプロキシサーバーの数(例：nginx) |
+| REAL_IP_HEADER | なし | 本当のクライアントIPを含む「X-Real-IP」HTTPヘッダーの名前 | REAL_IP_HEADER | なし |
+| REGISTER | True | アプリのレジストリを有効にするかどうか。 |
+| REQUEST_BUFFER_SIZE | 65536 | リクエストが一時停止するまでのリクエストバッファサイズ、デフォルトは64Kib |
+| REQUEST_ID_HEADER | X-Request-ID | リクエスト/相関 ID を含む HTTP ヘッダー "X-Request-ID" の名前 |
+| REQUEST_MAX_SIZE | 100000000 | リクエストの大きさ (バイト)、デフォルトは100メガバイトです。 |
+| REQUEST_TIMEOUT | 60 | リクエストが到着するまでの時間(秒)です。 |
+| RESPONSE_TIMEOUT | 60 | レスポンス処理にかかる時間(秒)です。 |
+| USE_UVLOOP | True | ループポリシーをオーバーライドして `uvloop` を使用するかどうかを指定します。`app.run`でのみサポートされる。 |
+| WEBSOCKET_MAX_SIZE | 2^20 | 受信メッセージの最大サイズ (バイト) |
+| WEBSOCKET_PING_INTERVAL | 20 | Pingフレームはping_interval秒ごとに送信されます。 |
+| WEBSOCKET_PING_TIMEOUT | 20 |ping_timeout秒後にPongを受信しない場合、接続を終了します。|
 
-::: tip FYI
-ASGIモードの場合、`WEBSOCKET_`値は無視されます。
+::: new NEW in v21.12
+新要素: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
 :::
 
-## Timeouts
+::: tip FYI
+- `USE_UVLOOP` の値は、Gunicorn で実行されている場合、無視されます。サポートされていないプラットフォーム (Windows) では、デフォルトは `False` である。
+- ASGI モードでは `WEBSOCKET_` 値は無視されます。
+:::
 
-### REQUEST_TIMEOUT
+## タイムアウト
 
-A request timeout measures the duration of time between the instant when a new open TCP connection is passed to the
-Sanic backend server, and the instant when the whole HTTP request is received. If the time taken exceeds the
-`REQUEST_TIMEOUT` value (in seconds), this is considered a Client Error so Sanic generates an `HTTP 408` response
-and sends that to the client. Set this parameter's value higher if your clients routinely pass very large request payloads
-or upload requests very slowly.
+### リクエストタイムアウト
 
-### RESPONSE_TIMEOUT
+要求タイムアウトは、新しいオープンTCP接続がSanicバックエンドサーバーに渡された瞬間と、HTTP要求全体を受信した瞬間の間の時間を測定します。もし時間が `REQUEST_TIMEOUT` 値（秒）を超えたら、これはクライアントエラーとみなされ、Sanicは `HTTP 408` 応答を生成してクライアントに送信する。クライアントが日常的に非常に大きなリクエストペイロードを渡したり、リクエストを非常にゆっくりとアップロードする場合は、このパラメータの値を高く設定してください。
 
-A response timeout measures the duration of time between the instant the Sanic server passes the HTTP request to the
-Sanic App, and the instant a HTTP response is sent to the client. If the time taken exceeds the `RESPONSE_TIMEOUT`
-value (in seconds), this is considered a Server Error so Sanic generates an `HTTP 503` response and sends that to the
-client. Set this parameter's value higher if your application is likely to have long-running process that delay the
-generation of a response.
+### 応答タイムアウト
 
-### KEEP_ALIVE_TIMEOUT
+レスポンスタイムアウトは、SanicサーバーがSanicアプリにHTTPリクエストを渡した瞬間から、HTTPレスポンスがクライアントに送信されるまでの時間を測定します。時間が `RESPONSE_TIMEOUT` 値 (秒) を超えると、サーバーエラーと見なされるため、Sanic は `HTTP 503` 応答を生成してクライアントに送信します。レスポンスの生成を遅らせるような長時間稼働のプロセスがあるようなアプリケーションでは、このパラメータの値を高く設定してください。
 
-#### What is Keep Alive? And what does the Keep Alive Timeout value do?
+### キープアライブタイムアウト
 
-`Keep-Alive` is a HTTP feature introduced in `HTTP 1.1`. When sending a HTTP request, the client (usually a web browser application)
-can set a `Keep-Alive` header to indicate the http server (Sanic) to not close the TCP connection after it has send the response.
-This allows the client to reuse the existing TCP connection to send subsequent HTTP requests, and ensures more efficient
-network traffic for both the client and the server.
+#### Keep Alive とは何ですか？また、キープアライブタイムアウトの値は何をするのでしょうか？
 
-The `KEEP_ALIVE` config variable is set to `True` in Sanic by default. If you don't need this feature in your application,
-set it to `False` to cause all client connections to close immediately after a response is sent, regardless of
-the `Keep-Alive` header on the request.
+キープアライブとは、HTTP 1.1 で導入された HTTP の機能です。HTTPリクエストを送信するとき、クライアント(通常はウェブブラウザアプリケーション)は `Keep-Alive` ヘッダを設定して、HTTPサーバ(Sanic)が応答を送信した後もTCP接続を閉じないように指示することができます。これにより、クライアントは後続のHTTPリクエストを送信するために既存のTCP接続を再利用することができ、クライアントとサーバーの両方にとってより効率的なネットワークトラフィックを確保することができます。
 
-The amount of time the server holds the TCP connection open is decided by the server itself.
-In Sanic, that value is configured using the `KEEP_ALIVE_TIMEOUT` value. By default, it is set to 5 seconds.
-This is the same default setting as the Apache HTTP server and is a good balance between allowing enough time for
-the client to send a new request, and not holding open too many connections at once. Do not exceed 75 seconds unless
-you know your clients are using a browser which supports TCP connections held open for that long.
+Sanicでは、`KEEP_ALIVE`設定変数がデフォルトで `True` に設定されています。アプリケーションでこの機能を必要としない場合は、`False`に設定すると、リクエストの `Keep-Alive` ヘッダに関係なく、レスポンスが送信された後にすべてのクライアント接続を直ちに終了するようになります。
 
-For reference:
+サーバーが TCP 接続を開いたままにする時間は、サーバー自身が決定します。Sanic では、その値は `KEEP_ALIVE_TIMEOUT` 値を使用して設定されます。デフォルトでは、5秒に設定されています。これは Apache HTTP サーバーと同じデフォルト設定で、クライアントが新しいリクエストを送信するのに十分な時間を与えることと、一度に多くのコネクションをオープンしないことのバランスが取れています。クライアントが、その時間だけ開いたままの TCP 接続をサポートするブラウザを使用していることが分かっている場合を除き、75 秒を超えないようにしてください。
 
-* Apache httpd server default keepalive timeout = 5 seconds
-* Nginx server default keepalive timeout = 75 seconds
-* Nginx performance tuning guidelines uses keepalive = 15 seconds
-* IE (5-9) client hard keepalive limit = 60 seconds
-* Firefox client hard keepalive limit = 115 seconds
-* Opera 11 client hard keepalive limit = 120 seconds
-* Chrome 13+ client keepalive limit > 300+ seconds
+参考までに
 
-## Proxy configuration
+* Apache httpd サーバーのデフォルトのキープアライブタイムアウト = 5 秒
+* Nginxサーバのデフォルトのキープアライブタイムアウトは75秒です。
+* Nginx パフォーマンスチューニングガイドラインでは、keepalive = 15 秒を使用しています。
+* IE（5-9）クライアントのハードキープアライブ制限 = 60秒
+* Firefoxクライアントハードキープアライブ制限=115秒
+* Opera 11クライアントハードキープアライブ制限 = 120秒
+* Chrome 13+のクライアントキープアライブ制限 > 300秒以上
 
-See [proxy configuration section](/guide/advanced/proxy-headers.md)
+## プロキシ設定
+
+プロキシ設定の項](/guide/advanced/proxy-headers.md)を参照してください。

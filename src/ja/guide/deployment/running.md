@@ -55,10 +55,22 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 ```
 :---
 
-::: tip
 Sanicは自動的に複数のプロセスを起動し、それらの間でトラフィックをルーティングする。使用可能なプロセッサと同じ数のworkersを推奨します。
 
-Linuxベースのオペレーティング・システムでこれを確認する一般的な方法は、次のとおりです。
+::: new NEW in v21.12
+---:1
+CPUの性能を最大限に引き出す最も簡単な方法は、 `fast` オプションを使用することです。これは、システムの制約を考慮して、自動的に最大数のワーカーを実行します。
+:--:1
+```python
+app.run(host='0.0.0.0', port=1337, fast=True)
+```
+```python
+$ sanic server:app --host=0.0.0.0 --port=1337 --fast
+```
+:---
+:::
+
+古いバージョンのSanicで `fast` オプションがない場合、LinuxベースのOSでよくある確認方法を試してみてください。。
 
 ```
 $ nproc
@@ -71,7 +83,6 @@ import multiprocessing
 workers = multiprocessing.cpu_count()
 app.run(..., workers=workers)
 ```
-:::
 
 ### viaコマンドの実行
 
@@ -91,40 +102,80 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 すべてのオプションを表示するには、`sanic --help`を使用します。
 ```text
 $ sanic --help
-usage: sanic [-h] [-v] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX]
-             [--cert CERT] [--key KEY] [--access-logs | --no-access-logs]
-             [-w WORKERS] [-d] [-r] [-R PATH]
+usage: sanic [-h] [--version] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX] [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
+             [-w WORKERS | --fast] [--access-logs | --no-access-logs] [--debug] [-d] [-r] [-R PATH] [--motd | --no-motd] [-v]
+             [--noisy-exceptions | --no-noisy-exceptions]
              module
 
-                 Sanic
-         Build Fast. Run Fast.
+  ▄███ █████ ██      ▄█▄      ██       █   █   ▄██████████
+  ██                 █   █     █ ██     █   █  ██
+   ▀███████ ███▄    ▀     █    █   ██   ▄   █  ██
+               ██  █████████   █     ██ █   █  ▄▄
+  ████ ████████▀  █         █  █       ██   █   ▀██ ███████
 
-positional arguments:
-  module                         Path to your Sanic app. Example: path.to.server:app
-                                 If running a Simple Server, path to directory to serve. Example: ./
+ To start running a Sanic application, provide a path to the module, where
+ app is a Sanic() instance:
 
-optional arguments:
-  -h, --help                     show this help message and exit
-  -v, --version                  show program's version number and exit
-  --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
-  -s, --simple                   Run Sanic as a Simple Server (module arg should be a path)
-                                  
-  -H HOST, --host HOST           Host address [default 127.0.0.1]
-  -p PORT, --port PORT           Port to serve on [default 8000]
-  -u UNIX, --unix UNIX           location of unix socket
-                                  
-  --cert CERT                    Location of certificate for SSL
-  --key KEY                      location of keyfile for SSL
-                                  
-  --access-logs                  display access logs
-  --no-access-logs               no display access logs
-                                  
-  -w WORKERS, --workers WORKERS  number of worker processes [default 1]
-                                  
-  -d, --debug
-  -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
-  -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
-                                  
+     $ sanic path.to.server:app
+
+ Or, a path to a callable that returns a Sanic() instance:
+
+     $ sanic path.to.factory:create_app --factory
+
+ Or, a path to a directory to run as a simple HTTP server:
+
+     $ sanic ./path/to/static --simple
+
+Required
+========
+  Positional:
+    module                         Path to your Sanic app. Example: path.to.server:app
+                                   If running a Simple Server, path to directory to serve. Example: ./
+
+Optional
+========
+  General:
+    -h, --help                     show this help message and exit
+    --version                      show program's version number and exit
+
+  Application:
+    --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
+    -s, --simple                   Run Sanic as a Simple Server, and serve the contents of a directory
+                                   (module arg should be a path)
+
+  Socket binding:
+    -H HOST, --host HOST           Host address [default 127.0.0.1]
+    -p PORT, --port PORT           Port to serve on [default 8000]
+    -u UNIX, --unix UNIX           location of unix socket
+
+  TLS certificate:
+    --cert CERT                    Location of fullchain.pem, bundle.crt or equivalent
+    --key KEY                      Location of privkey.pem or equivalent .key file
+    --tls DIR                      TLS certificate folder with fullchain.pem and privkey.pem
+                                   May be specified multiple times to choose multiple certificates
+    --tls-strict-host              Only allow clients that send an SNI matching server certs
+
+  Worker:
+    -w WORKERS, --workers WORKERS  Number of worker processes [default 1]
+    --fast                         Set the number of workers to max allowed
+    --access-logs                  Display access logs
+    --no-access-logs               No display access logs
+
+  Development:
+    --debug                        Run the server in debug mode
+    -d, --dev                      Currently is an alias for --debug. But starting in v22.3, 
+                                   --debug will no longer automatically trigger auto_restart. 
+                                   However, --dev will continue, effectively making it the 
+                                   same as debug + auto_reload.
+    -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
+    -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
+
+  Output:
+    --motd                         Show the startup display
+    --no-motd                      No show the startup display
+    -v, --verbosity                Control logging noise, eg. -vv or --verbosity=2 [default 0]
+    --noisy-exceptions             Output stack traces for all exceptions
+    --no-noisy-exceptions          No output stack traces for all exceptions
 ```
 
 #### モジュールとして
