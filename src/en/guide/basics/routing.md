@@ -457,10 +457,10 @@ Websocket routing works similar to HTTP methods.
 :--:1
 ```python
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 
 app.add_websocket_route(handler, "/test")
 ```
@@ -473,10 +473,10 @@ It also has a convenience decorator.
 ```python
 @app.websocket("/test")
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 ```
 :---
 
