@@ -94,7 +94,7 @@ module.exports = {
       sidebarDepth: 1,
       children: [
         ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-        ["/ja/plugins/sanic-testing/testing.md", "Sanic Testing"],
+        ["/ja/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
       ],
      },
      {
@@ -140,6 +140,7 @@ module.exports = {
             "/ja/plugins/sanic-ext/openapi/decorators.md",
             "/ja/plugins/sanic-ext/openapi/advanced.md",
             "/ja/plugins/sanic-ext/openapi/autodoc.md",
+            "/ja/plugins/sanic-ext/openapi/security.md",
           ],
         },
         "/ja/plugins/sanic-ext/validation.md",
@@ -149,7 +150,10 @@ module.exports = {
      {
        title: "Sanic テスト",
        sidebarDepth: 1,
-       children: ["/ja/plugins/sanic-testing/testing.md"],
+       children: [
+        "/ja/plugins/sanic-testing/getting-started.md",
+        "/ja/plugins/sanic-testing/clients.md",
+      ],
      },
      {
        title: "組織",
@@ -176,7 +180,7 @@ module.exports = {
        sidebarDepth: 1,
        children: [
          ["/ja/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-         ["/ja/plugins/sanic-testing/testing.md", "Sanic Testing"],
+         ["/ja/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
        ],
      },
      {
