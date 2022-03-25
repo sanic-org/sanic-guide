@@ -1,13 +1,13 @@
-# Security Schemes
+# セキュリティスキーム
 
-To document authentication schemes, there are two steps.
+認証方式を文書化するためには、2つのステップがある。
 
-_Security is only available starting in v21.12.2_
+_セキュリティはv21.12.2以降で利用可能です。_
 
-## Document the scheme
+## スキームを文書化する
 
 ---:1
-The first thing that you need to do is define one or more security schemes. The basic pattern will be to define it as:
+まず最初に、1つ以上のセキュリティスキームを定義する必要があります。 こんな感じに定義するのが基本パターンとなります。:
 
 ```python
 add_security_scheme("<NAME>", "<TYPE>")
@@ -48,10 +48,10 @@ app.ext.openapi.add_security_scheme(
 ```
 :---
 
-## Document the endpoints
+## エンドポイントを文書化する
 
 ---:1
-There are two options, document _all_ endpoints.
+2つのオプションがあり、_all_ endpointsをdocumentします。
 
 :--:1
 ```python
@@ -61,7 +61,7 @@ app.ext.openapi.secured("token")
 :---
 
 ---:1
-Or, document only specific routes.
+あるいは、特定の経路だけを記録する。
 :--:1
 ```python
 @app.route("/one")
