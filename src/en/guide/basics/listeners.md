@@ -1,11 +1,18 @@
 # Listeners
 
-Sanic provides you with six (6) opportunities to inject an operation into the life cycle of your application. 
+Sanic provides you with eight (8) opportunities to inject an operation into the life cycle of your application server. This does not include the [signals](../advanced/signals.md), which allow further injection customization.
 
 There are two (2) that run **only** on your main Sanic process (ie, once per call to `sanic server.app`.)
 
 - `main_process_start`
 - `main_process_stop`
+
+::: new NEW in v22.3
+There are also two (2) that run **only** in a reloader process if auto-reload has been turned on.
+
+- `reload_process_start`
+- `reload_process_stop`
+:::
 
 There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
 
@@ -60,16 +67,32 @@ loop
 end
 Note over Process: exit
 ```
+
+The reloader process live outside of this worker process inside of a process that is responsible for starting and stopping the Sanic processes. Consider the following example:
+
+```python
+@app.reload_process_start
+async def reload_start(*_):
+    print(">>>>>> reload_start <<<<<<")
+
+
+@app.main_process_start
+async def main_start(*_):
+    print(">>>>>> main_start <<<<<<")
+```
+
+If this application were run with auto-reload turned on, the `reload_start` function would be called once. This is contrasted with `main_start`, which would be run every time a file is save and the reloader restarts the applicaition process.
+
 ## Attaching a listener
 
 ---:1
 
 The process to setup a function as a listener is similar to declaring a route.
 
-The two injected arguments are the currently running `Sanic()` instance, and the currently running loop.
+The currently running `Sanic()` instance is injected into the listener.
 :--:1
 ```python
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
@@ -82,10 +105,21 @@ The `Sanic` app instance also has a convenience decorator.
 :--:1
 ```python
 @app.listener("before_server_start")
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 ```
 :---
+
+::: new NEW in v22.3
+---:1
+Prior to v22.3, both the application instance and the current event loop were injected into the function. However, only the application instance is injected by default. If your function signature will accept both, then both the application and the loop will be injected as shown here.
+:--:1
+```python
+@app.listener("before_server_start")
+async def setup_db(app, loop):
+    app.ctx.db = await db_setup()
+```
+:::
 
 ---:1
 
@@ -94,7 +128,7 @@ You can shorten the decorator even further. This is helpful if you have an IDE w
 :--:1
 ```python
 @app.before_server_start
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 ```
 :---
@@ -194,6 +228,7 @@ The practical result of this is that if the first listener in `before_server_sta
 
 If you are running your application with an ASGI server, then make note of the following changes:
 
+- `reload_process_start` and `reload_process_stop` will be **ignored**
 - `main_process_start` and `main_process_stop` will be **ignored**
 - `before_server_start` will run as early as it can, and will be before `after_server_start`, but technically, the server is already running at that point
 - `after_server_stop` will run as late as it can, and will be after `before_server_stop`, but technically, the server is still running at that point

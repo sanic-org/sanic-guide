@@ -194,8 +194,28 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
+::: new NEW in v22.3
+`str` will *not* match on empty strings. See `strorempty` for this behavior.
 
-In previous versions of Sanic, this was `<foo:string>`. That form has been deprecated and will be removed in v21.12
+:::
+::: tab "strorempty 🌟"
+
+::: new NEW in v22.3
+
+```python
+@app.route("/path/to/<foo:strorempty>")
+async def handler(request, foo: str):
+    ...
+```
+**Regular expression applied**: `r"[^/]*")`  
+**Cast type**: `str`  
+**Example matches**:
+- `/path/to/Bob`
+- `/path/to/Python%203`
+- `/path/to/`
+
+Unlike the `str` path parameter type, `strorempty` can also match on an empty string path segment.
+
 :::
 ::: tab  int
 
@@ -226,7 +246,6 @@ async def handler(request, foo: float):
 - `/path/to/-10`
 - `/path/to/1.5`
 
-In previous versions of Sanic, this was `<foo:number>`. That form has been deprecated and will be removed in v21.12
 :::
 ::: tab alpha
 
@@ -298,6 +317,34 @@ async def handler(request, foo: UUID):
 **Cast type**: `UUID`  
 **Example matches**:
 - `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
+
+:::
+
+::: tab "ext 🌟"
+
+::: new NEW in v22.3
+
+```python
+@app.route("/path/to/<foo:ext>")
+async def handler(request, foo: UUID):
+    ...
+```
+**Regular expression applied**: n/a  
+**Cast type**: *varies*  
+**Example matches**:
+
+| definition                        | example     | filename    | extension  |
+| --------------------------------- | ----------- | ----------- | ---------- |
+| \<file:ext>                       | page.txt    | `"page"`    | `"txt"`    |
+| \<file:ext=jpg>                   | cat.jpg     | `"cat"`     | `"jpg"`    |
+| \<file:ext=jpg\|png\|gif\|svg>    | cat.jpg     | `"cat"`     | `"jpg"`    |
+| <file=int:ext>                    | 123.txt     | `123`       | `"txt"`    |
+| <file=int:ext=jpg\|png\|gif\|svg> | 123.svg     | `123`       | `"svg"`    |
+| <file=float:ext=tar.gz>           | 3.14.tar.gz | `3.14`      | `"tar.gz"` | 
+
+File extensions can be matched using the special `ext` parameter type. It uses a special format that allows you to specify other types of parameter types as the file name, and one or more specific extensions as shown in the example table above.
+
+It does *not* support the `path` parameter type.
 
 :::
 
@@ -604,7 +651,6 @@ app.static("/user/profile", "/path/to/profile", name="profile_pics")
 :::
 
 ## Route context
-::: new NEW in v21.12
 
 ---:1
 When a route is defined, you can add any number of keyword arguments with a `ctx_` prefix. These values will be injected into the route `ctx` object.

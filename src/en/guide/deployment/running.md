@@ -57,7 +57,6 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 
 Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
-::: new NEW in v21.12
 ---:1
 The easiest way to get the maximum CPU performance is to use the `fast` option. This will automatically run the maximum number of workers given the system constraints.
 :--:1
@@ -68,7 +67,6 @@ app.run(host='0.0.0.0', port=1337, fast=True)
 $ sanic server:app --host=0.0.0.0 --port=1337 --fast
 ```
 :---
-:::
 
 In older versions of Sanic without the `fast` option, a common way to check this on Linux based operating systems:
 

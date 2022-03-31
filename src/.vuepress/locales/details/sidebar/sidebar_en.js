@@ -84,6 +84,7 @@ module.exports = {
       title: "Release Notes",
       sidebarDepth: 1,
       children: [
+        "/en/guide/release-notes/v22.3.md",
         "/en/guide/release-notes/v21.12.md",
         "/en/guide/release-notes/v21.9.md",
         "/en/guide/release-notes/v21.6.md",

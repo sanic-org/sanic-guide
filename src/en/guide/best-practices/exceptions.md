@@ -103,9 +103,9 @@ raise InvalidUsage("blah blah", quiet=True)
 :---
 
 ---:1
-::: new NEW in v21.12
+
 Sometimes while debugging you may want to globally ignore the `quiet=True` property. You can force Sanic to log out all exceptions regardless of this property using `NOISY_EXCEPTIONS`
-:::
+
 :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
@@ -113,11 +113,11 @@ app.config.NOISY_EXCEPTIONS = True
 :---
 
 ---:1
-::: new NEW in v21.12
+
 ### `extra`
 
 See [contextual exceptions](./exceptions.md#contextual-exceptions)
-:::
+
 :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
@@ -125,11 +125,11 @@ raise SanicException(..., extra={"name": "Adam"})
 :---
 
 ---:1
-::: new NEW in v21.12
+
 ### `context`
 
 See [contextual exceptions](./exceptions.md#contextual-exceptions)
-:::
+
 :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
@@ -393,7 +393,6 @@ app.config.FALLBACK_ERROR_FORMAT = "auto"
 ```
 ## Contextual Exceptions
 
-::: new NEW in v21.12
 Default exception messages that simplify the ability to consistently raise exceptions throughout your application.
 
 ```python
@@ -495,4 +494,3 @@ This is information **that we want** to always be passed in the error (when it i
 }
 ```
 :---
-:::

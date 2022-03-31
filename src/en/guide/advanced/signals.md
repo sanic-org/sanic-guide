@@ -92,7 +92,6 @@ These signals are the signals that are available, along with the arguments that 
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: new NEW in v21.12
 ---:1
 To make using the built-in signals easier, there is an `Enum` object that contains all of the allowed built-ins. With a modern IDE this will help so that you do not need to remember the full list of event names as strings.
 :--:1
@@ -104,7 +103,6 @@ async def my_signal_handler(conn_info):
     print("Connection has been closed")
 ```
 :---
-:::
 
 ## Events
 
