@@ -163,8 +163,6 @@ In regards to `bool`, the following _case insensitive_ values are allowed:
 - **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
 - **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
 
-::: new NEW in v21.12
-
 ---:1
 Additionally, Sanic can be configured to cast additional types using additional type converters. This should be any callable that returns the value or raises a `ValueError`.
 :--:1
@@ -172,7 +170,6 @@ Additionally, Sanic can be configured to cast additional types using additional 
 app = Sanic(..., config=Config(converters=[UUID]))
 ```
 :---
-:::
 
 ## Builtin values
 
@@ -204,10 +201,6 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | WEBSOCKET_MAX_SIZE        | 2^20             | Maximum size for incoming messages (bytes)                                                                                            |
 | WEBSOCKET_PING_INTERVAL   | 20               | A Ping frame is sent every ping_interval seconds.                                                                                     |
 | WEBSOCKET_PING_TIMEOUT    | 20               | Connection is closed when Pong is not received after ping_timeout seconds                                                             |
-
-::: new NEW in v21.12
-Newly added: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
-:::
 
 ::: tip FYI
 - The `USE_UVLOOP` value will be ignored if running with Gunicorn. Defaults to `False` on non-supported platforms (Windows).

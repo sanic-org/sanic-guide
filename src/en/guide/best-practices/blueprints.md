@@ -43,7 +43,6 @@ Blueprints also have the same `websocket()` decorator and `add_websocket_route` 
 
 ---:1
 
-::: new NEW in v21.12
 Beginning in v21.12, a Blueprint may be registered before or after adding objects to it. Previously, only objects attached to the Blueprint at the time of registration would be loaded into application instance.
 :--:1
 ```python

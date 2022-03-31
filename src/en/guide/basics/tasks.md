@@ -62,7 +62,6 @@ app.run(...)
 
 ## Named tasks
 
-::: new NEW in v21.12
 _This is only supported in Python 3.8+_
 
 ---:1

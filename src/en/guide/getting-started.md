@@ -70,7 +70,6 @@ However, in order **to help API developers**, the Sanic organization maintains a
 - Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 - Predefined, endpoint-specific response serializers
 
-::: new NEW in v21.12
 The preferred method to set it up is to install it along with Sanic, but you can also install the packages on their own.
 
 ---:1
@@ -87,6 +86,5 @@ Starting in v21.12, Sanic will automatically setup Sanic Extensions if it is in 
 
 - `app.extend()` - used to configure Sanic Extensions
 - `app.ext` - the `Extend` instance attached to the application
-:::
 
 See [the plugin documenataion](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin
