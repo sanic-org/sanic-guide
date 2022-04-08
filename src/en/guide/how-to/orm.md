@@ -21,7 +21,7 @@ Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_1
 
 ### Dependencies
 
-First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now`sqlalchemy' and `aiomysql` are needed.
+First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now `sqlalchemy` and `aiomysql` are needed.
 
 :--:1
 
