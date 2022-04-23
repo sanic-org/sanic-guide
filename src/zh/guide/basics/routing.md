@@ -164,7 +164,7 @@ async def handler(request):
 
 ::::
 
-::: 注意
+::: warning 注意
 
 默认情况下，Sanic 将 **仅** 在不安全的 HTTP 方法(`POST`、`PUT`、`PATCH`) 上使用传入的请求体。如果你想以任何其他方法中接收 HTTP 请求中的数据，您需要从以下两种方法中任选其一:
 
