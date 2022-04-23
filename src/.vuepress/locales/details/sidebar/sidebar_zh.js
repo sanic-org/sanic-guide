@@ -84,6 +84,8 @@ module.exports = {
       title: "发行记录",
       sidebarDepth: 1,
       children: [
+        "/zh/guide/release-notes/v22.3.md",
+        "/zh/guide/release-notes/v21.12.md",
         "/zh/guide/release-notes/v21.9.md",
         "/zh/guide/release-notes/v21.6.md",
         "/zh/guide/release-notes/v21.3.md",
