@@ -1,11 +1,20 @@
 # 监听器(Listeners)
 
-在 Sanic 应用程序的生命周期中 6 个切入点，在这些关键节点上设置监听器可以让您可以完成一些注入操作。
+在 Sanic 应用程序的生命周期中 8 个切入点，在这些关键节点上设置监听器可以让您可以完成一些注入操作。但是这里并不包括[信号](../advanced/signals.md)，信号允许进一步的注入定制。
 
-有两 （2） 个切入点 *只* 在您的主进程中触发（即，只会在 `sanic server.app` 中触发一次。）
+有两 （2） 个切入点 _只_ 在您的主进程中触发（即，只会在 `sanic server.app` 中触发一次。）
 
 - `main_process_start`
 - `main_process_stop`
+
+::: new v22.3 新特性
+
+有两 （2） 个切入点 _只_ 在重新加载的过程中运行，前提是您开启了自动加载功能。
+
+- `reload_process_start`
+- `reload_process_stop`
+
+:::
 
 有四（4）个切入点可以让您在服务器启动或者关闭前执行一些初始化或资源回收相关代码。
 
@@ -61,18 +70,33 @@ end
 Note over 进程: 退出
 ```
 
+重新加载程序的进程会存在于当前工作进程之外，位于负责启动和停止 Sanic 进程的进程之内。下面是例子:
+
+```python
+@app.reload_process_start
+async def reload_start(*_):
+    print(">>>>>> reload_start <<<<<<")
+
+
+@app.main_process_start
+async def main_start(*_):
+    print(">>>>>> main_start <<<<<<")
+```
+
+如果您的应用程序启用了自动重载功能，将会调用一次 `reload_start` 函数。与 `main_start` 不同，`main_start` 会在每次保存文件和重载器重新启动应用时调用一次。
+
 ## 启用监听器(Attaching a listener)
 
 ---:1
 
 将函数设置为侦听器的过程类似于声明路由。
 
-两个注入的参数是当前正在运行 `Sanic()` 的实例和当前正在运行的循环。
+当前正在运行的应用程序将会注入到监听器中。
 
 :--:1
 
 ```python
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
@@ -88,11 +112,27 @@ app.register_listener(setup_db, "before_server_start")
 
 ```python
 @app.listener("before_server_start")
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 ```
 
 :---
+
+::: new v22.3 新特性
+
+---:1
+
+在 v22.3 版本之前，app 和 loop 都将被注入到函数中， 在 v22.3 版本之后默认只会将 app 进行注入，如果您的函数依旧想要接收两者，您可以按照下面的方式来进行操作：
+
+:--:1
+
+```python
+@app.listener("before_server_start")
+async def setup_db(app, loop):
+    app.ctx.db = await db_setup()
+```
+
+:::
 
 ---:1
 
@@ -102,7 +142,7 @@ async def setup_db(app, loop):
 
 ```python
 @app.before_server_start
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 ```
 
@@ -112,14 +152,14 @@ async def setup_db(app, loop):
 
 监听器按启动期间声明的顺序正向执行，并在拆解期间按照注册顺序反向执行。
 
-|                       | 执行阶段  |          执行顺序       |
-| :-------------------: | :------: | :---------------------: |
-| `main_process_start`  | 主程序启动| 正向 :smiley:           |
-| `before_server_start` | 子程序启动| 正向 :smiley:           |
-| `after_server_start`  | 子程序启动| 正向 :smiley:           |
-| `before_server_stop`  | 子程序关闭| 反向 :upside_down_face: |
-| `after_server_stop`   | 子程序关闭| 反向 :upside_down_face: |
-| `main_process_stop`   | 主程序关闭| 反向 :upside_down_face: |
+|                       |  执行阶段  |        执行顺序         |
+| :-------------------: | :--------: | :---------------------: |
+| `main_process_start`  | 主程序启动 |      正向 :smiley:      |
+| `before_server_start` | 子程序启动 |      正向 :smiley:      |
+| `after_server_start`  | 子程序启动 |      正向 :smiley:      |
+| `before_server_stop`  | 子程序关闭 | 反向 :upside_down_face: |
+|  `after_server_stop`  | 子程序关闭 | 反向 :upside_down_face: |
+|  `main_process_stop`  | 主程序关闭 | 反向 :upside_down_face: |
 
 以下列代码为例，我们在启动两个子程序并执行之后看到的输出内容应该是这样的：
 
@@ -190,11 +230,11 @@ async def listener_8(app, loop):
 
 在上面的例子中，注意这三个进程是如何运行的：
 
-- `pid: 1000000` - *主* 程序
+- `pid: 1000000` - _主_ 程序
 - `pid: 1111111` - 子程序 1
 - `pid: 1222222` - 子程序 2
 
-*只是为了举例，我们将两个子程序看做两组，分别顺序打印。但在实际情况下，这些都程序都运行在不同的进程中，进程执行的顺序是无法保证的。但是，可以确定的是，在只有一个子程序的情况下，**一直** 会保持上述顺序。*
+_只是为了举例，我们将两个子程序看做两组，分别顺序打印。但在实际情况下，这些都程序都运行在不同的进程中，进程执行的顺序是无法保证的。但是，可以确定的是，在只有一个子程序的情况下，**一直** 会保持上述顺序。_
 
 :---
 
@@ -208,6 +248,7 @@ async def listener_8(app, loop):
 
 如果您正在使用 ASGI 服务器来运行您的应用，那么需要关注一下以下的变化：
 
+- `reload_process_start` 和 `reload_process_stop` 将会被 **忽略**
 - `main_process_start` 和 `main_process_stop` 将会被 **忽略**
 - `before_server_start` 将会尽可能早得执行，且会在 `after_server_start` 之前，但是严格来说，服务器在这个时候已经运行了。
 - `after_server_stop` 将会尽可能迟得执行，并且在 `before_server_stop` 之后，但是严格来说，服务器在这个时候还没有停止运行。
