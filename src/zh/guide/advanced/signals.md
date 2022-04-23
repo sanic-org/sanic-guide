@@ -1,13 +1,5 @@
 # 信号(Signals)
 
-::: warning 该功能还处于 BETA 阶段
-
-由于是 BETA 版本，该 API 可能发生改动，且在非必要的情况下，不会大改。现在已经发布是为了让开发者可以尽早开始使用该功能，并且我们会在最终版本之前继续完善它。
-
-最终，信号将提供注入请求/响应生命周期的能力。
-
-:::
-
 信号可以让您应用中的不同部分可以相互通讯。
 
 ```python
@@ -71,12 +63,67 @@ async def my_signal_handler():
 
 :---
 
+## 内置信号（Built-in signals）
+
+除了创建新信号外，还有许多从 Sanic 自身发出的内置信号。这些信号的存在为开发人员提供了更多将功能添加到请求和服务器生命周期中的机会。
+
+---:1
+
+和其他的信号一样，您同样可以将这些内置信号附加到应用程序上或者蓝图中。
+
+:--:1
+
+```python
+@app.signal("http.lifecycle.complete")
+async def my_signal_handler(conn_info):
+    print("Connection has been closed")
+```
+
+:---
+
+以下是所有可用的信号，及信号对应可接受的参数：
+
+| Event name                 | Arguments                       | Conditions                                                |
+| -------------------------- | ------------------------------- | --------------------------------------------------------- |
+| `http.routing.before`      | request                         |                                                           |
+| `http.routing.after`       | request, route, kwargs, handler |                                                           |
+| `http.lifecycle.begin`     | conn_info                       |                                                           |
+| `http.lifecycle.read_head` | head                            |                                                           |
+| `http.lifecycle.request`   | request                         |                                                           |
+| `http.lifecycle.handle`    | request                         |                                                           |
+| `http.lifecycle.read_body` | body                            |                                                           |
+| `http.lifecycle.exception` | request, exception              |                                                           |
+| `http.lifecycle.response`  | request, response               |                                                           |
+| `http.lifecycle.send`      | data                            |                                                           |
+| `http.lifecycle.complete`  | conn_info                       |                                                           |
+| `http.middleware.before`   | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
+| `http.middleware.after`    | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
+| `server.init.before`       | app, loop                       |                                                           |
+| `server.init.after`        | app, loop                       |                                                           |
+| `server.shutdown.before`   | app, loop                       |                                                           |
+| `server.shutdown.after`    | app, loop                       |                                                           |
+
+---:1
+
+为了更方便的使用内置信号，Sanic 设置了一个 `Enum` 对象，其中包含了所有允许的内置信号。您无需记住字符串形式的事件名称即可直接使用。
+
+:--:1
+
+```python
+from sanic.signals import Event
+
+@app.signal(Event.HTTP_LIFECYCLE_COMPLETE)
+async def my_signal_handler(conn_info):
+    print("Connection has been closed")
+```
+
+:---
 
 ## 事件(Events)
 
 ---:1
 
-信号是基于一个 *事件* 的。一个事件，就是一个简单的字符串，它由以下部分组成如下：
+信号是基于一个 _event_ 的一个事件，就是一个简单的字符串，它由以下部分组成如下：
 
 :--:1
 
@@ -158,6 +205,7 @@ async def wait_for_event(app):
 async def after_server_start(app, loop):
     app.add_task(wait_for_event(app))
 ```
+
 :---
 
 ---:1
@@ -178,7 +226,7 @@ await app.event("foo.bar.*")
 
 ## 分发(Dispatching)
 
-*未来，Sanic 将自动分发一些事件，以帮助开发人员注入程序和请求生命周期。*
+_未来，Sanic 将自动分发一些事件，以帮助开发人员注入程序和请求生命周期。_
 
 ---:1
 
