@@ -445,13 +445,13 @@ raise TeapotError(extra={"name": "Adam"})
 
 ---:1
 
-**PRODUCTION**
+**生产模式**
 
 ![image](https://user-images.githubusercontent.com/166269/139014161-cda67cd1-843f-4ad2-9fa1-acb94a59fc4d.png)
 
 :--:1
 
-**DEVELOPMENT**
+**开发模式**
 
 ![image](https://user-images.githubusercontent.com/166269/139014121-0596b084-b3c5-4adb-994e-31ba6eba6dad.png)
 
@@ -468,7 +468,8 @@ raise TeapotError(context={"foo": "bar"})
 `context` 将始终被传递到异常信息中，这正是我们想要看到的，它看起来就像这样：
 
 ---:1
-**PRODUCTION**
+
+**生产模式**
 
 ```json
 {
@@ -481,7 +482,8 @@ raise TeapotError(context={"foo": "bar"})
 }
 ```
 :--:1
-**DEVELOPMENT**
+
+**开发模式**
 
 ```json
 {
