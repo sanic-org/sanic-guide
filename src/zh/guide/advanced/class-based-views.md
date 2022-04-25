@@ -209,36 +209,3 @@ app.add_route(SpecialClassView.as_view(), "/special_class_view")
 ```
 
 :---
-
-## 合成视图(Composition view)
-
-作为 `HTTPMethodView` 的替代方法，可以使用 `CompositionView` 将处理程序函数移至视图类之外。
-
-每个支持的 HTTP 方法的响应函数都在源代码的其他地方定义，然后使用 `CompositionView.add` 方法添加到视图中来。 第一个参数是要处理的 HTTP 方法的列表（例如 `[“ GET”，“ POST”]`），第二个参数是响应函数。
-
-```python
-from sanic.views import CompositionView
-
-def get_handler(request):
-    return text("I am a get method")
-
-view = CompositionView()
-view.add(["GET"], get_handler)
-view.add(["POST", "PUT"], lambda request: text("I am a post/put method"))
-
-# Use the new view to handle requests to the base URL
-app.add_route(view, "/")
-```
-
-::: warning
-
-目前为止，Sanic 暂时不支持您使用 `url_for` 来为 `CompositionView` 生成 URL
-
-:::
-
-::: warning 在 v21.6 弃用
-
-`CompositionView` 已经被弃用并且将在 v21.12 版本中删除。
-
-:::
-
