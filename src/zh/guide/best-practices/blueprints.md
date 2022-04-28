@@ -67,7 +67,7 @@ async def bp_root(request):
 
 ---:1
 
-使用 `copy()` 方法可以将蓝图以及附加到其上的所有内容复制到新实例中。唯一需要的参数是给它传递一个新的 `名称`。当然，您也可以使用它来覆盖旧蓝图中的任何值。
+使用 `copy()` 方法可以将蓝图以及附加到其上的所有内容复制到新实例中。唯一需要的参数是给它传递一个新的 `name`。当然，您也可以使用它来覆盖旧蓝图中的任何值。
 
 :--:1
 
@@ -444,5 +444,5 @@ app.blueprint(blueprint_1)
 当使用 `url_for()` 来生成 URL 时，端点的名称将以以下格式来组织：
 
 ```text
-<blueprint_name>.<handler_name>
+{blueprint_name}.{handler_name}
 ```
