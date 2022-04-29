@@ -31,6 +31,8 @@ app = Sanic("MyHelloWorldApp")
 @app.get("/")
 async def hello_world(request):
     return text("Hello, world.")
+    
+app.run("127.0.0.1", 8080)
 ```
 
 :---
