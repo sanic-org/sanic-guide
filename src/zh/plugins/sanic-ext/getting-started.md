@@ -13,7 +13,7 @@ Sanic Extensions 是一个由 SCO *官方开发和维护的* 插件。这个项�
 
 ## 最低要求（Minimum requirements）
 
-- **Python**: 3.7+
+- **Python**: 3.8+
 - **Sanic**: 21.9+
 
 ## 安装（Install）
