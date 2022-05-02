@@ -1,4 +1,4 @@
-#  快速开始(Getting Started)
+# 快速开始(Getting Started)
 
 在我们开始之前，请确保您使用的是 Python3.7 或更高版本。目前已知可以使用的 Python 版本包括：3.7，3.8 和 3.9。
 
@@ -37,7 +37,7 @@ async def hello_world(request):
 
 ### 注意(Important to note)
 
-- 每一个请求响应函数都可以使用同步方式（` def hello_world `）和异步方式（` async def hello_world `）进行声明。除非您有一个明确的需求和完善的使用方法，否则的话，请尽量使用 `async` 来声明响应函数。
+- 每一个请求响应函数都可以使用同步方式（`def hello_world`）和异步方式（`async def hello_world`）进行声明。除非您有一个明确的需求和完善的使用方法，否则的话，请尽量使用 `async` 来声明响应函数。
 
 - `request` 对象始终是响应函数的第一个参数。 其他框架在需要导入的上下文变量中进行传递。 在 `async` 的世界里，如果使用隐式传递，那么它将无法完美的运行，更何况还要兼顾简洁且高效的表现形式。所以我们在这里进行显式传递。
 
@@ -64,3 +64,39 @@ sanic server.app
 **可以用于生产环境的服务器已经准备就绪**
 
 :::
+
+## Sanic 拓展(Sanic Extensions)
+
+Sanic 致力于构建一个简洁且没有任何偏见的特征表。该项目不想要求您以某种方式构建应用程序，并试图避免指定特定的开发模式。有许多由社区构建和维护的第三方插件，用于添加不符合核心库要求的附加功能。
+
+但是，为了 **帮助 API 开发者** ，Sanic 组织维护了一个名为 [Sanic Extensions](../plugins/sanic-ext/getting-started.md) 的项目来提供各种易用的功能，包括:
+
+- **OpenAPI** 使用 Redoc 和/或 Swagger 的文档
+- **CORS** 保护
+- **依赖注入** 路由处理程序
+- Request 参数 **检查**
+- 自动创建 `HEAD`, `OPTIONS`, 和 `TRACE` 响应函数
+- 响应序列化
+
+安装它的首选方法是与 Sanic 一起安装，当然您也可以单独安装。
+
+---:1
+
+```
+$ pip install sanic[ext]
+```
+
+:--:1
+
+```
+$ pip install sanic sanic-ext
+```
+
+:---
+
+从 v21.12 开始，如果在相同的环境中，Sanic 将自动设置 Sanic 扩展。您可以通过以下的两种方式来进行访问拓展功能:
+
+- `app.extend()` - 用于配置 Sanic 拓展
+- `app.ext` - 注入到应用程序的扩展实例
+
+请查看 [插件文档](../plugins/sanic-ext/getting-started.md) 来了解如何使用拓展插件。

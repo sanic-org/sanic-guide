@@ -25,11 +25,12 @@ async def auto_inject(app):
 
 app.add_task(auto_inject)
 ```
+
 :---
 
 ---:1
 
-或者您可以选择显式的将 `app` 作为传递参数。 
+或者您可以选择显式的将 `app` 作为传递参数。
 
 :--:1
 
@@ -68,8 +69,85 @@ app.add_task(slow_work) # Note: we are passing the callable and not coroutine ob
 app.run(...)
 
 ```
+
 ::: tip
 
 如果您想要为 `slow_work` 绑定一些参数，可以使用 `functools.partial`。
 
 :::
+
+## 命名任务(Named tasks)
+
+_这只适用于 Python3.8 及以上版本_
+
+---:1
+
+当您创建任务的时候，您可以为您的任务指定一个名称，方便您后续进行任务追踪。
+
+:--:1
+
+```python
+app.add_task(slow_work, name="slow_task")
+```
+
+:---
+
+---:1
+
+之后，您可以使用 `get_task` 方法从应用程序的任何地方查看您的任务。
+
+:--:1
+
+```python
+task = app.get_task("slow_task")
+```
+
+:---
+
+---:1
+
+如果您想要取消任务，您可以通过 `cacle_task` 来进行操作，当然，该方法也是异步的，请确保使用时添加了 `await`。
+
+:--:1
+
+```python
+await app.cancel_task("slow_task")
+```
+
+:---
+
+---:1
+
+所有注册的任务都可以在 `app.tasks` 属性中找到。为了防止已取消的任务填满，您可能需要运行 `app.purge_tasks` 来清除所有已完成或已取消的任务。
+
+:--:1
+
+```python
+app.purge_tasks()
+```
+
+:---
+
+这种模式对于 websocket 来说非常有用：
+
+```python
+async def receiver(ws):
+    while True:
+        message = await ws.recv()
+        if not message:
+            break
+        print(f"Received: {message}")
+
+@app.websocket("/feed")
+async def feed(request, ws):
+    task_name = f"receiver:{request.id}"
+    request.app.add_task(receiver(ws), name=task_name)
+    try:
+        while True:
+            await request.app.event("my.custom.event")
+            await ws.send("A message")
+    finally:
+        # 当 websocket 关闭连接的时候，我们可以清除所有的任务。
+        await request.app.cancel_task(task_name)
+        request.app.purge_tasks()
+```

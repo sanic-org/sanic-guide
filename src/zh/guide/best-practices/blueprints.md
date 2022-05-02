@@ -47,6 +47,52 @@ app.blueprint(bp)
 
 蓝图也提供了 `websocket()` 装饰器和 `add_websocket_route` 方法来实现 websocket 通讯。
 
+---:1
+
+从 v21.12 开始，您可以在向蓝图中添加响应函数之前或之后注册蓝图。以前，只有在注册时附加到蓝图的响应函数才会被加载到应用程序实例中。
+
+:--:1
+
+```python
+app.blueprint(bp)
+
+@bp.route("/")
+async def bp_root(request):
+    ...
+```
+
+:---
+
+## 复制蓝图(Copying)
+
+---:1
+
+使用 `copy()` 方法可以将蓝图以及附加到其上的所有内容复制到新实例中。唯一需要的参数是给它传递一个新的 `name`。当然，您也可以使用它来覆盖旧蓝图中的任何值。
+
+:--:1
+
+```python
+v1 = Blueprint("Version1", version=1)
+
+@v1.route("/something")
+def something(request):
+    pass
+
+v2 = v1.copy("Version2", version=2)
+
+app.blueprint(v1)
+app.blueprint(v2)
+```
+
+```
+Available routes:
+/v1/something
+/v2/something
+
+```
+
+:---
+
 ## 蓝图组(Blueprint groups)
 
 蓝图也可以以列表或者元组的形式进行注册，在这种情况下，注册时会递归地遍历当前序列，在序列中或者在子序列中的所有蓝图对象都会被注册到应用上。`Blueprint.group` 方法允许模拟一个后端目录结构来简化上述问题。请看这个例子：
@@ -265,7 +311,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 :--:1
 
 ```python
->> > print(app.url_for("static", name="bp.uploads", filename="file.txt"))
+>>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
 '/bp/web/path/file.txt'
 ```
 
@@ -398,5 +444,5 @@ app.blueprint(blueprint_1)
 当使用 `url_for()` 来生成 URL 时，端点的名称将以以下格式来组织：
 
 ```text
-<blueprint_name>.<handler_name>
+{blueprint_name}.{handler_name}
 ```

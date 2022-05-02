@@ -41,3 +41,48 @@ app.run(auto_reload=True)
 ```
 
 :---
+
+---:1
+
+如果您有额外的目录想要在文件保存时自动重新加载(例如，HTML 模板的目录)，您可以在运行时添加它。
+
+:--:1
+
+```python
+app.run(auto_reload=True, reload_dir="/path/to/templates")
+# or multiple directories
+app.run(auto_reload=True, reload_dir=["/path/to/one", "/path/to/two"])
+```
+
+:---
+
+## 两全其美(Best of both worlds)
+
+::: new v22.3 新特征
+
+---:1
+
+如果您想在调试模式中使用自动重载功能，您可以设置 `dev=True`，这相当于您开启了 **调试模式 + 自动重载**
+
+:--:1
+
+```python
+app.run(dev=True)
+```
+
+:---
+
+:::
+
+## 客户端(CLI)
+
+值得注意的是，所有这些在 Sanic CLI 中都有对应的内容:
+
+```
+  Development:
+    --debug                        在调试模式下运行服务器。它包括调试日志、关于异常的附加上下文，
+                                   以及对生产不安全但有助于调试问题的其他设置。
+    -r, --reload, --auto-reload    监听文件的修改，并在修改时重新加载
+    -R PATH, --reload-dir PATH     更改时需要监听和重新加载的额外目录
+    -d, --dev                      调试模式 + 自动重载
+```

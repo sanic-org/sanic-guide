@@ -55,6 +55,10 @@ Sanic 的主要讨论渠道是通过 [社区论坛](https://community.sanicframe
 
 我们非常欢迎新的贡献者加入。我们已经为那些希望加入的人提供了 [标记好的问题](https://github.com/sanic-org/sanic/issues?q=is%3Aopen+is%3Aissue+label%3Abeginner)，并欢迎您在 [论坛](https://community.sanicframework.org/) 上进行提问/讨论/解答。详情请查看我们的 [贡献准则](https://github.com/sanic-org/sanic/blob/master/CONTRIBUTING.rst)
 
+## 我们是谁(who we are)
+
+<Contributions />
+
 [Build Status]: https://travis-ci.com/sanic-org/sanic.svg?branch=master
 [1]: https://travis-ci.com/sanic-org/sanic
 [AppVeyor Build Status]: https://ci.appveyor.com/api/projects/status/d8pt3ids0ynexi8c/branch/master?svg=true

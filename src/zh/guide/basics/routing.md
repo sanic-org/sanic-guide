@@ -7,20 +7,16 @@
 :--:1
 
 ```python
+
 @app.route("/stairway")
 
-
 ...
-
 
 @app.get("/to")
 
-
 ...
 
-
 @app.post("/heaven")
-
 
 ...
 
@@ -32,7 +28,7 @@
 
 ---:1
 
-将响应函数进行挂载的最基本方式就是使用 `app.add_route()`，具体的细节请查看 [API文档]()
+将响应函数进行挂载的最基本方式就是使用 `app.add_route()`，具体的细节请查看 [API 文档](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for)
 
 :--:1
 
@@ -76,7 +72,7 @@ async def handler(request):
 
 :---
 
-## HTTP方法(HTTP methods)
+## HTTP 方法(HTTP methods)
 
 每一个标准的 HTTP 请求方式都对应封装了一个简单易用的装饰器：
 
@@ -168,6 +164,28 @@ async def handler(request):
 
 ::::
 
+::: warning 注意
+
+默认情况下，Sanic 将 **仅** 在不安全的 HTTP 方法(`POST`、`PUT`、`PATCH`) 上使用传入的请求体。如果你想以任何其他方法中接收 HTTP 请求中的数据，您需要从以下两种方法中任选其一:
+
+**方法 #1 - 通过 `ignore_body` 告诉 Sanic 不要忽略请求体**
+
+```python
+@app.delete("/path", ignore_body=False)
+async def handler(_):
+    ...
+```
+
+**方法 #2 - 通过 `receive_body` 在请求中手动使用**
+
+```python
+@app.delete("/path")
+async def handler(request: Request):
+    await request.receive_body()
+```
+
+:::
+
 ## 路由参数(Path parameters)
 
 ---:1
@@ -219,7 +237,33 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
-在之前版本中，您应该这样写 `<foo:string>`。这种写法将在 v21.12 中被弃用
+::: new v22.3 新特征
+
+`str` 将不再匹配空字符串, 更多信息请参照 `strorempty`
+
+:::
+
+::: tab "strorempty 🌟"
+
+::: new v22.3 新特征
+
+```python
+@app.route("/path/to/<foo:strorempty>")
+async def handler(request, foo: str):
+    ...
+```
+
+**使用正则表达式**: `r"[^/]*")`
+
+**转换类型**: `str`
+
+**匹配示例**:
+
+- `/path/to/Bob`
+- `/path/to/Python%203`
+- `/path/to/`
+
+与 `str` 不同，`strorempty` 还能够匹配空字符串路径
 
 :::
 
@@ -241,7 +285,7 @@ async def handler(request, foo: int):
 
 - `/path/to/-10`
 
-  无法匹配 float，hex，octal，etc 等数字类型。
+  _无法匹配 float，hex，octal，etc 等数字类型。_
 
 :::
 
@@ -285,7 +329,7 @@ async def handler(request, foo: str):
 
 - `/path/to/Python`
 
-*无法匹配数字，空格以及其他特殊字符。*
+_无法匹配数字，空格以及其他特殊字符。_
 
 :::
 
@@ -368,6 +412,37 @@ async def handler(request, foo: UUID):
 
 :::
 
+::: tab "ext 🌟"
+
+::: new v22.3 新特征
+
+```python
+@app.route("/path/to/<foo:ext>")
+async def handler(request, foo: UUID):
+    ...
+```
+
+**使用的正则表达式**: n/a
+
+**转换类型**: _varies_
+
+**匹配示例**:
+
+| 定义                              | 示例        | 文件名   | 拓展名     |
+| --------------------------------- | ----------- | -------- | ---------- |
+| \<file:ext>                       | page.txt    | `"page"` | `"txt"`    |
+| \<file:ext=jpg>                   | cat.jpg     | `"cat"`  | `"jpg"`    |
+| \<file:ext=jpg\|png\|gif\|svg>    | cat.jpg     | `"cat"`  | `"jpg"`    |
+| <file=int:ext>                    | 123.txt     | `123`    | `"txt"`    |
+| <file=int:ext=jpg\|png\|gif\|svg> | 123.svg     | `123`    | `"svg"`    |
+| <file=float:ext=tar.gz>           | 3.14.tar.gz | `3.14`   | `"tar.gz"` |
+
+可以使用特殊的 `ext` 参数类型匹配文件扩展名。它使用一种特殊的格式，允许您指定其他类型的参数类型作为文件名，以及一个或多个特定的扩展名，如上表所示。
+
+该方法 _不_ 不支持 `path` 类型的参数。
+
+:::
+
 ::: tab regex
 
 ```python
@@ -407,10 +482,10 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 更进一步，下面的这些匹配方式都是支持的：
 
 ```python
-@app.get(r"/image/<foo:\d{9}.jpg>")  # 完全匹配           
-@app.get(r"/image/<foo:(\d+).jpg>")  # 定义单个的匹配组            
-@app.get(r"/image/<foo:(?P<foo>\d+).jpg>")  # 定义单个命名的匹配组       
-@app.get(r"/image/<foo:(?P<foo>\d+).(?:jpg|png)>)")  # 定义一个命名的匹配组，以及一个或者多个不匹配的组 
+@app.get(r"/<foo:[a-z]{3}.txt>")                # 全模式匹配
+@app.get(r"/<foo:([a-z]{3}).txt>")              # 定义单个匹配组
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       # 定义单个命名匹配组
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # 用一个或多个不匹配组定义单个命名匹配组
 ```
 
 值得注意的是，如果您使用了命名的匹配组，它的名称必须与 `label` 相同
@@ -534,7 +609,7 @@ def handler(request):
 
 :---
 
-## Websocket
+## Websocket 路径(Websockets routes)
 
 ---:1
 
@@ -628,7 +703,7 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 
 ---:1
 
-为了确保 Sanic 可以正确代理静态文件，请使用  `app.static()` 方法进行路由分配。
+为了确保 Sanic 可以正确代理静态文件，请使用 `app.static()` 方法进行路由分配。
 
 在这里，参数的顺序十分重要
 
@@ -636,7 +711,7 @@ group = Blueprint.group([bp1, bp2], strict_slashes=True)
 
 第二个参数是渲染文件所在的文件(夹)路径
 
-更多详细用法请参考  [API docs]()
+更多详细用法请参考 [API docs]()
 
 :--:1
 
@@ -680,7 +755,7 @@ app.static(
 
 :--:1
 
-```python
+````python
 >> > app.url_for(
     "static",
     name="static",
@@ -696,7 +771,7 @@ app.static(
 )
 '/user/uploads/image.png'
 
-```
+````
 
 :---
 
@@ -709,3 +784,32 @@ app.static("/user/uploads", "/path/to/uploads", name="uploads")
 app.static("/user/profile", "/path/to/profile", name="profile_pics")
 
 ```
+
+## 路由上下文(Route context)
+
+---:1
+
+定义路由时，您可以添加任意数量的带有 `ctx_` 前缀的关键字参数。这些值将被注入到路由的 `ctx` 对象中。
+
+:--:1
+
+```python
+@app.get("/1", ctx_label="something")
+async def handler1(request):
+    ...
+
+@app.get("/2", ctx_label="something")
+async def handler2(request):
+    ...
+
+@app.get("/99")
+async def handler99(request):
+    ...
+
+@app.on_request
+async def do_something(request):
+    if request.route.ctx.label == "something":
+        ...
+```
+
+:---

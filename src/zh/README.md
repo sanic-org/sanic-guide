@@ -2,7 +2,7 @@
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
 heroText: Build fast. Run fast.
-tagline: 异步 Python 3.7+ web 框架
+tagline: 下一代 Python Web 服务器/框架
 actionText: 快速开始 →
 actionLink: /zh/guide/
 features:

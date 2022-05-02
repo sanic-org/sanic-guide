@@ -52,6 +52,7 @@ app.config.update(db_settings)
 ```bash
 $ export SANIC_REQUEST_TIMEOUT=10
 ```
+
 ```python
 >>> print(app.config.REQUEST_TIMEOUT)
 10
@@ -68,11 +69,13 @@ $ export SANIC_REQUEST_TIMEOUT=10
 ```bash
 $ export MYAPP_REQUEST_TIMEOUT=10
 ```
+
 ```python
 >>> app = Sanic(__name__, load_env='MYAPP_')
 >>> print(app.config.REQUEST_TIMEOUT)
 10
 ```
+
 :---
 
 ---:1
@@ -84,6 +87,7 @@ $ export MYAPP_REQUEST_TIMEOUT=10
 ```python
 app = Sanic(__name__, load_env=False)
 ```
+
 :---
 
 ### 使用通用方法加载(Using Sanic.update_config)
@@ -103,6 +107,7 @@ app = Sanic(__name__, load_env=False)
 A = 1
 B = 2
 ```
+
 :---
 
 ---:1
@@ -116,6 +121,7 @@ B = 2
 >>> print(app.config.A)
 1
 ```
+
 :---
 
 ---:1
@@ -127,9 +133,11 @@ B = 2
 ```bash
 $ export my_path="/path/to"
 ```
+
 ```python
 app.update_config("${my_path}/my_config.py")
 ```
+
 :---
 
 ::: tip 小提示
@@ -182,33 +190,65 @@ app.update_config(MyConfig())
 
 :---
 
+### 类型转换(Type casting)
+
+从环境变量加载时，Sanic 将尝试将值转换为预期的 Python 类型。这尤其适用于:
+
+- `int`
+- `float`
+- `bool`
+
+对于“bool ”,允许使用以下 _不区分大小写_ 的值:
+
+- **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
+- **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
+
+---:1
+
+此外，Sanic 可以通过配置类型转换器来进行类型转换。这应该是一个能够返回任何值且能触发 `ValueError` 的可调用函数。
+
+:--:1
+
+```python
+app = Sanic(..., config=Config(converters=[UUID]))
+```
+
+:---
+
 ## 内置配置(Builtin values)
 
+| 变量名称                  | 默认值          | 说明                                               |
+| :------------------------ | --------------- | -------------------------------------------------- |
+| ACCESS_LOG                | True            | 访问日志开关                                       |
+| AUTO_EXTEND^              | True            | Sanic 拓展启用开关                                 |
+| AUTO_RELOAD               | True            | 自动重载开关                                       |
+| EVENT_AUTOREGISTER        | True            | 自动注册信号开关（开启后不存在的事件将会自动注册） |
+| FALLBACK_ERROR_FORMAT     | html            | 异常返回格式                                       |
+| FORWARDED_FOR_HEADER      | X-Forwarded-For | 客户端 IP 和代理 IP：X-Forwarded-For               |
+| FORWARDED_SECRET          | None            | 用于安全地识别特定的代理服务器（见下文）           |
+| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | 强制关闭非空闲连接的等待时间(秒)                   |
+| KEEP_ALIVE                | True            | 是否启用长连接                                     |
+| KEEP_ALIVE_TIMEOUT        | 5               | 长连接超时时间                                     |
+| MOTD^                     | True            | 是否在启动时展示 MOTD 信息                         |
+| MOTD_DISPLAY              | {}              | 键/值对显示 MOTD 中的附加任意数据                  |
+| NOISY_EXCEPTIONS ^        | False           | 强制禁止异常输出                                   |
+| PROXIES_COUNT             | None            | 应用程序钱代理服务器的数量（见下文）               |
+| REAL_IP_HEADER            | None            | 客户端真实 IP： X-Real-IP                          |
+| REGISTER                  | True            | 是否启用应用程序注册表                             |
+| REQUEST_BUFFER_QUEUE_SIZE | 100             | 请求流缓冲区队列大小                               |
+| REQUEST_ID_HEADER         | X-Request-ID    | 请求头中的请求 ID 名称：X-Request-ID               |
+| REQUEST_MAX_SIZE          | 100000000       | Request 的最大字节数                               |
+| REQUEST_TIMEOUT           | 60              | 请求超时时间                                       |
+| RESPONSE_TIMEOUT          | 60              | 响应超时时间                                       |
+| WEBSOCKET_MAX_SIZE        | 2^20            | websocket 传入消息最大字节数                       |
+| WEBSOCKET_PING_INTERVAL   | 20              | websocket ping 帧 发送间隔                         |
+| WEBSOCKET_PING_TIMEOUT    | 20              | websocket pong 帧 响应超时时间                     |
 
-| 变量名称                  | 默认值          | 说明                                     |
-| :------------------------ | --------------- | ---------------------------------------- |
-| REQUEST_MAX_SIZE          | 100000000       | Request 的最大字节数                     |
-| REQUEST_BUFFER_QUEUE_SIZE | 100             | 请求流缓冲区队列大小                     |
-| REQUEST_TIMEOUT           | 60              | 请求超时时间                             |
-| RESPONSE_TIMEOUT          | 60              | 响应超时时间                             |
-| KEEP_ALIVE                | True            | 是否启用长连接                           |
-| KEEP_ALIVE_TIMEOUT        | 5               | 长连接超时时间                           |
-| WEBSOCKET_MAX_SIZE        | 2^20            | websocket 传入消息最大字节数             |
-| WEBSOCKET_MAX_QUEUE       | 32              | websocket 传入消息最小字节数             |
-| WEBSOCKET_READ_LIMIT      | 2^16            | websocket 传入字节的缓冲区上限           |
-| WEBSOCKET_WRITE_LIMIT     | 2^16            | websocket 传出字节的缓冲区上限           |
-| WEBSOCKET_PING_INTERVAL   | 20              | websocket ping 帧 发送间隔               |
-| WEBSOCKET_PING_TIMEOUT    | 20              | websocket pong 帧 响应超时时间           |
-| GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | 强制关闭非空闲连接超时时间               |
-| ACCESS_LOG                | True            | 访问日志开关                             |
-| FORWARDED_SECRET          | None            | 用于安全地识别特定的代理服务器（见下文） |
-| PROXIES_COUNT             | None            | 应用程序钱代理服务器的数量（见下文）     |
-| FORWARDED_FOR_HEADER      | X-Forwarded-For | 客户端IP和代理IP：X-Forwarded-For        |
-| REAL_IP_HEADER            | None            | 客户端真实IP： X-Real-IP                 |
+::: tip
 
-::: tip 
+如果您使用 Gunicorn 运行，那么 `USE_UVLOOP` 将会被忽略。在不支持的平台(Windows)上该值默认为 False。
 
-如果您处于 ASGI 模式， 那么 `WEBSOCKET_` 的值将会被忽略 
+如果您处于 ASGI 模式， 那么 `WEBSOCKET_` 的值将会被忽略
 
 :::
 
@@ -230,17 +270,17 @@ app.update_config(MyConfig())
 
 在默认情况下，Sanic 中的 `Keep-Alive` 的值为 `True` 。如果您的应用程序不需要此功能，可以将其设置为 False。不过此举将导致 Sanic 无视 `Keep_Alive` 标头，且所有的客户端连接在响应发送完成之后被立即关闭。
 
-TCP连接打开的时长本质上由服务器自身决定，在 Sanic 中，使用 `KEEP_ALIVE_TIMEOUT` 作为该值。默认情况下它设置为 5 秒。这与 Apache 的默认值相同。该值足够客户端发送一个新的请求。如非必要请勿更改此项。如需更改，请勿超过 75 秒，除非您确认客户端支持TCP连接保持足够久。
+TCP 连接打开的时长本质上由服务器自身决定，在 Sanic 中，使用 `KEEP_ALIVE_TIMEOUT` 作为该值。默认情况下它设置为 5 秒。这与 Apache 的默认值相同。该值足够客户端发送一个新的请求。如非必要请勿更改此项。如需更改，请勿超过 75 秒，除非您确认客户端支持 TCP 连接保持足够久。
 
 小提示：
 
-* Apache httpd 服务器默认 KEEP_ALIVE_TIMEOUT = 5秒
-* Nginx 服务器默认 KEEP_ALIVE_TIMEOUT = 75秒
-* Nginx 性能调整准则使用 KEEP_ALIVE_TIMEOUT = 15秒
-* IE（5-9）客户端 KEEP_ALIVE_LIMIT = 60秒
-* Firefox 客户端 KEEP_ALIVE_LIMIT = 115秒
-* Opera 11 客户端 KEEP_ALIVE_LIMIT  = 120秒
-* Chrome 13+ 客户端 KEEP_ALIVE_LIMIT > 300+秒
+- Apache httpd 服务器默认 KEEP_ALIVE_TIMEOUT = 5 秒
+- Nginx 服务器默认 KEEP_ALIVE_TIMEOUT = 75 秒
+- Nginx 性能调整准则使用 KEEP_ALIVE_TIMEOUT = 15 秒
+- IE（5-9）客户端 KEEP_ALIVE_LIMIT = 60 秒
+- Firefox 客户端 KEEP_ALIVE_LIMIT = 115 秒
+- Opera 11 客户端 KEEP_ALIVE_LIMIT = 120 秒
+- Chrome 13+ 客户端 KEEP_ALIVE_LIMIT > 300+秒
 
 ## 代理配置(Proxy configuration)
 
