@@ -54,7 +54,7 @@ module.exports = {
         // "/zh/guide/deployment/server-choice.md",
         // "/zh/guide/deployment/asgi.md",
         "/zh/guide/deployment/nginx.md",
-        // "/zh/guide/deployment/docker.md",
+        "/zh/guide/deployment/docker.md",
         // "/zh/guide/deployment/kubernetes.md",
       ],
     },
