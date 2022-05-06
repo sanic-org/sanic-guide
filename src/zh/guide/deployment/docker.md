@@ -1,26 +1,36 @@
 # Docker 部署(Docker Deployment)
 
-## 介绍(introduction)
+## 介绍(Introduction)
 
-在服务器中构建 Sanic 所需的运行环境是一件麻烦事，您首先需要构建 Python3，其次安装相关的依赖。但是使用 docker 可以轻松的解决这些问题，如果您不了解 docker，可以先去[官方网站](https://www.docker.com/)了解相关信息
+长期以来，环境一直是部署的难题。如果您的项目中有冲突的配置，您将不得不花费大量时间来解决它们。幸运的是，虚拟化为我们提供了一个很好的解决思路。Docker 就是其中之一。如果您不了解 Docker，可以访问 [Docker 官网](https://www.docker.com/) 了解更多。
 
+## 构建镜像(Build Image)
 
+我们以一个最简单的 Sanic 工程作为例子。假设项目`SanicDocker` 的路径是`/path/to/SanicDocker`。
 
-## 构建镜像
+---:1
 
-我们以一个最简单的 Sanic 工程作为例子。假设项目`SanicDocker` 的路径是`/path/to/SanicDocker`
+目录结构如右侧所示：
 
-```
+:--:1
+
+```text
 # /path/to/SanicDocker
 SanicDocker
+├── requirements.txt
 ├── dockerfile
 └── server.py
 ```
 
-`server.py`代码如下：
+:---
+
+---:1
+
+`server.py`代码如右侧所示：
+
+:--:1
 
 ```python
-# ignore import
 app = Sanic("MySanicApp")
 
 @app.get('/')
@@ -28,75 +38,144 @@ async def hello(request):
     return text("OK!")
 
 if __name__ == '__main__':
-    # 请注意这里的 host 不能为 127.0.0.1
-    # 在 docker 容器中，127.0.0.1 只表示本机本容器中的一个虚拟网卡，只接受本容器中的应用相互通讯
-    app.run(host='0.0.0.0', port=9999, debug=False, access_log=False)
-
+    app.run(host='0.0.0.0', port=8000)
 ```
 
-Sanic 服务器将会监听本地`9999`端口，同时关闭了`debug`和`access_log`
+:---
 
-`dockerfile`中的内容如下：
+::: tip 小提示
 
-```dockerfile
-# Python3.7+
-FROM python:3.8
-# 工作目录
+请注意这里的 host 不能为 127.0.0.1 。在 docker 容器中，127.0.0.1 只表示本机本容器中的一个虚拟网卡，只接受本容器中的应用相互通讯。更多信息请参考 [Docker 网络](https://docs.docker.com/engine/reference/commandline/network/)
+
+:::
+
+代码准备好后，我们编写 `Dockerfile` 文件，其内容如下：
+
+```Dockerfile
+
+FROM sanicframework/sanic:3.8-latest
+
 WORKDIR /sanic
-# 将当前工程目录下的所有文件拷贝到容器的工作目录
+
 COPY . .
-# 查找python项目依赖并生成requirements.txt到当前目录
-# 如果pip下载过慢，可以换源
-# RUN pip install -i https://mirrors.aliyun.com/pypi/simple/ pipreqs
-RUN pip install pipreqs 
-RUN pipreqs .
-# 安装依赖，下面注释为使用清华源安装依赖的方式
+
 RUN pip install -r requirements.txt
-# 暴露 9999 端口
-EXPOSE 9999
-# 容器启动后运行 Sanic 服务
+
+EXPOSE 8000
+
 CMD ["python", "server.py"]
 ```
 
-接着，在工程目录下，使用`docker build -t sanic .`构建镜像，稍等片刻，一个名为`sanic`的镜像就构建完成了
-
-> `docker images`即可查看所有的镜像
-
-
-
-## 启动容器
-
-接下来，我们将用构建好的`sanic`镜像来启动容器
+运行下面的命令，构建镜像：
 
 ```shell
-docker run --name mysanic -p 9999:9999 -d sanic
+docker build -t my-sanic-image .
 ```
 
-使用`sanic`镜像启动了一个名为`mysanic`的容器，该容器将宿主机的 9999 端口映射到容器内的 9999 端口。
+## 启动容器(Start Container)
 
-> `docker container ls`即可查看当前的所有容器
+---:1
 
-此时，在浏览器中访问`http://localhost:9999/`即可看见 Sanic 服务器返回的`OK!`
+构建完镜像，我们将用构建好的 `my-sanic-image` 镜像来启动容器。
 
-
-
-## Nginx反向代理
-
-如果使用`docker`构建的`nginx`，请将`nginx`和`sanic`应用放在同个网段下（否则会出现 502 错误）。
-
-假设存在容器`mynginx`和`mysanic`，创建一个名为`sanic`的网络
+:--:1
 
 ```shell
-docker network create sanic
+docker run --name mysanic -p 8000:8000 -d my-sanic-image
 ```
 
-并将两个容器加入`sanic`网络中
+:---
+
+---:1
+
+此时，在浏览器中访问 `http://localhost:8000/` 即可看见 Sanic 服务器的返回结果
+
+:--:1
+
+```text
+OK!
+```
+
+:---
+
+## 使用 docker-compose 编排(Use docker-compose)
+
+当您的项目中涵盖了多个不同的组件或服务时，您可以使用 [docker-compose](https://docs.docker.com/compose/) 来编排容器。以刚才打包好的 `my-sanic-image` 和 `nginx` 为例，我们来实现通过 `nginx` 代理 `Sanic` 服务器。
+
+---:1
+
+首先我们需要准备 nginx 的配置文件，将其命名为 `mysanic.conf` 并写入内容：
+
+:--:1
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    location / {
+      proxy_pass http://mysanic:8000/;
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection upgrade;
+      proxy_set_header Accept-Encoding gzip;
+    }
+}
+```
+
+:---
+
+---:1
+
+然后我们来准备 `docker-compose.yml` 文件，其内容为：
+
+:--:1
+
+```yml
+version: "3"
+
+services:
+  mysanic:
+    image: my-sanic-image
+    ports:
+      - "8000:8000"
+    restart: always
+
+  mynginx:
+    image: nginx:1.13.6-alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - mysanic
+    volumes:
+      - ./mysanic.conf:/etc/nginx/conf.d/mysanic.conf
+    restart: always
+
+networks:
+  default:
+    driver: bridge
+```
+
+:---
+
+---:1
+
+接下来我们来启动容器：
+
+:--:1
 
 ```shell
-docker network connect mynginx sanic
-docker network connect mysanic sanic
+docker-compose up -d
 ```
 
-注意：请修改您的`nginx`配置文件，重启`nginx`后反向代理即可成功。
+:---
 
+---:1
 
+此时，在浏览器中访问 `http://localhost:80/` 即可看见 Sanic 服务器的返回结果
+
+:--:1
+
+```text
+OK!
+```
+
+:---
