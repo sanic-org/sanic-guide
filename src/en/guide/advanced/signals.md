@@ -40,6 +40,25 @@ async def my_signal_handler():
 :---
 
 ---:1
+If the signal requires conditions, make sure to add them while adding the handler.
+:--:1
+```python
+async def my_signal_handler1():
+    print("something happened")
+
+app.add_signal(
+    my_signal_handler,
+    "something.happened.ohmy1",
+    conditions={"some_condition": "value"}
+)
+
+@app.signal("something.happened.ohmy2", conditions={"some_condition": "value"})
+async def my_signal_handler2():
+    print("something happened")
+```
+:---
+
+---:1
 Signals can also be declared on blueprints
 :--:1
 ```python
