@@ -2,3 +2,17 @@ name: upload crowdin
 
 on:
   workflow_dispatch:
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3.2.0
+        with:
+          node-version: "16.x"
+          
+      - name: install lib
+        run: |
+          npm install @crowdin/cli@3
+          npx crowdin --help
