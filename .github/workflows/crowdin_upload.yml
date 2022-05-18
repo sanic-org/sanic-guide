@@ -1,0 +1,4 @@
+name: upload crowdin
+
+on:
+  workflow_dispatch:
