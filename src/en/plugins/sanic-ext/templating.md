@@ -15,7 +15,7 @@ Sanic Extensions will automatically setup and load Jinja for you if it is instal
 pip install Jinja2
 ```
 
-## Rendering a template
+## Rendering a template from a file
 
 There are three (3) ways for you:
 
@@ -90,6 +90,48 @@ async def handler(request: Request):
     return await render(context={"seq": ["five", "six"]}, status=400)
 ```
 :---
+
+## Rendering a template from a string
+
+---:1
+Sometimes you may want to write (or generate) your template inside of Python code and _not_ read it from an HTML file. In this case, you can still use the `render` function we saw above. Just use `template_source`.
+:--:1
+```python
+from sanic_ext import render
+from textwrap import dedent
+
+@app.get("/")
+async def handler(request):
+    template = dedent("""
+        <!DOCTYPE html>
+        <html lang="en">
+
+            <head>
+                <title>My Webpage</title>
+            </head>
+
+            <body>
+                <h1>Hello, world!!!!</h1>
+                <ul>
+                    {% for item in seq %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </body>
+
+        </html>
+    """)
+    return await render(
+        template_source=template,
+        context={"seq": ["three", "four"]},
+        app=app,
+    )
+```
+:---
+
+::: tip
+In this example, we use `textwrap.dedent` to remove the whitespace in the beginning of each line of the multi-line string. It is not necessary, but just a nice touch to keep both the code and the generated source clean.
+:::
 
 ## Development and auto-reload
 
