@@ -23,6 +23,30 @@ There are three (3) ways for you:
 1. Returning a rendered `HTTPResponse` object
 1. Hybrid pattern that creates a `LazyResponse`
 
+Let's imagine you have a file called `./templates/foo.html`:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>My Webpage</title>
+    </head>
+
+    <body>
+        <h1>Hello, world!!!!</h1>
+        <ul>
+            {% for item in seq %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+
+</html>
+```
+
+Let's see how you could render it with Sanic + Jinja.
+
 ### Option 1 - as a decorator
 
 ---:1
