@@ -29,13 +29,26 @@ But, remember, out of the box Sanic comes with everything you need to write, dep
 
 ---:1
 
-- Built in _fast_ web server
+### Core
+
+- Built in, **_fast_** web server
 - Production ready
 - Highly scalable
 - ASGI compliant
 - Simple and intuitive API design
 - By the community, for the community
+
 :--:1
+
+### Sanic Extensions [[learn more](../plugins/sanic-ext/getting-started.md)]
+
+- CORS protection
+- Template rendering with Jinja
+- Dependency injection into route handlers
+- OpenAPI documentation with Redoc and/or Swagger
+- Predefined, endpoint-specific response serializers
+- Request query arguments and body input validation
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 
 :---
 

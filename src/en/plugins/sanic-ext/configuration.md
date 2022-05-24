@@ -232,6 +232,18 @@ Be very careful if you place `*` here. Do not do this unless you know what you a
 - **Default**: `{"apisSorter": "alpha", "operationsSorter": "alpha", "docExpansion": "full"}`
 - **Description**: The Swagger documentation to be served to the frontend
 
+### `templating_enable_async`
+
+- **Type**: `bool`
+- **Default**: `True`
+- **Description**: Whether to set `enable_async` on the Jinja `Environment`
+
+### `templating_path_to_templates`
+
+- **Type**: `Union[str, os.PathLike, Sequence[Union[str, os.PathLike]]] `
+- **Default**: `templates`
+- **Description**: A single path, or multiple paths to where your template files are located
+
 ### `trace_excluded_headers`
 
 - **Type**: `Sequence[str]`
