@@ -4,12 +4,13 @@ Sanic Extensions is an *officially supported* plugin developed, and maintained b
 
 ## Features
 
-- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 - CORS protection
-- Predefined, endpoint-specific response serializers
-- Argument injection into route handlers
+- Template rendering with Jinja
+- Dependency injection into route handlers
 - OpenAPI documentation with Redoc and/or Swagger
+- Predefined, endpoint-specific response serializers
 - Request query arguments and body input validation
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 
 ## Minimum requirements
 

@@ -132,6 +132,7 @@ module.exports = {
           ],
         },
         "/en/plugins/sanic-ext/convenience.md",
+        "/en/plugins/sanic-ext/templating.md",
         "/en/plugins/sanic-ext/injection.md",
         {
           title: "OpenAPI",
