@@ -84,11 +84,25 @@ module.exports = {
       title: "Release Notes",
       sidebarDepth: 1,
       children: [
-        "/en/guide/release-notes/v22.3.md",
-        "/en/guide/release-notes/v21.12.md",
-        "/en/guide/release-notes/v21.9.md",
-        "/en/guide/release-notes/v21.6.md",
-        "/en/guide/release-notes/v21.3.md",
+        {
+          title: "2022",
+          sidebarDepth: 2,
+          children: [
+            "/en/guide/release-notes/v22.6.md",
+            "/en/guide/release-notes/v22.3.md",
+          ]
+        },
+
+        {
+          title: "2021",
+          sidebarDepth: 2,
+          children: [
+            "/en/guide/release-notes/v21.12.md",
+            "/en/guide/release-notes/v21.9.md",
+            "/en/guide/release-notes/v21.6.md",
+            "/en/guide/release-notes/v21.3.md",
+          ]
+        },
       ],
     },
     {

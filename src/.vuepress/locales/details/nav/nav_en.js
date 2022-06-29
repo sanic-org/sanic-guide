@@ -36,7 +36,7 @@ module.exports = [
           },
           {
             text: "Latest Release Notes",
-            link: "/en/guide/release-notes/v21.12.md",
+            link: "/en/guide/release-notes/v22.6.md",
           },
         ],
       },

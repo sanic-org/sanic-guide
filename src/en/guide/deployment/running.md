@@ -94,10 +94,11 @@ For example, if you initialized Sanic as app in a file named `server.py`, you co
 ```bash
 sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 ```
+
 :---
 
-
 Use `sanic --help` to see all the options.
+
 ```text
 $ sanic --help
 usage: sanic [-h] [--version] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX] [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
@@ -188,6 +189,7 @@ python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 
 ::: tip FYI
 With either method (CLI or module), you shoud *not* invoke `app.run()` in your Python file. If you do, make sure you wrap it so that it only executes when directly run by the interpreter.
+
 ```python
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1337, workers=4)
@@ -195,7 +197,7 @@ if __name__ == '__main__':
 :::
 
 
-#### Sanic Simple Server
+### Sanic Simple Server
 
 ---:1
 Sometimes you just have a directory of static files that need to be served. This especially can be handy for quickly standing up a localhost server. Sanic ships with a Simple Server, where you only need to point it at a directory.
@@ -212,6 +214,63 @@ This could also be paired with auto-reloading.
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
+
+
+::: new NEW in v22.6
+
+### HTTP/3
+
+
+Sanic server offers HTTP/3 support using [aioquic](https://github.com/aiortc/`aioquic`). This **must** be installed to use HTTP/3:
+
+```
+pip install sanic aioquic
+```
+
+```
+pip install sanic[http3]
+```
+
+To start HTTP/3, you must explicitly request it when running your application.
+
+---:1
+```
+$ sanic path.to.server:app --http=3
+```
+
+```
+$ sanic path.to.server:app -3
+```
+:--:1
+
+```python
+app.run(version=3)
+```
+:---
+
+To run both an HTTP/3 and HTTP/1.1 server simultaneously, you can use [application multi-serve](http://localhost:8080/en/guide/release-notes/v22.3.html#application-multi-serve) introduced in v22.3. This will automatically add an [Alt-Svc](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Alt-Svc) header to your HTTP/1.1 requests to let the client know that it is also available as HTTP/3.
+
+
+---:1
+```
+$ sanic path.to.server:app --http=3 --http=1
+```
+
+```
+$ sanic path.to.server:app -3 -1
+```
+:--:1
+
+```python
+app.prepre(version=3)
+app.prepre(version=1)
+Sanic.serve()
+```
+:---
+
+Because HTTP/3 requires TLS, you cannot start a HTTP/3 server without a TLS certificate. You should [set it up yourself](http://localhost:8080/en/guide/how-to/tls.html) or use `mkcert` if in `DEBUG` mode. Currently, automatic TLS setup for HTTP/3 is not compatible with `trustme`. See [development](./development.md) for more details.
+
+:::
 
 ## ASGI
 

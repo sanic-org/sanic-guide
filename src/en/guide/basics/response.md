@@ -91,28 +91,6 @@ You can also choose to override the file name:
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab Streaming
-
-**Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Streams data to a client
-
-```python
-from sanic.response import stream
-
-@app.route("/")
-async def handler(request):
-    return stream(streaming_fn)
-
-async def streaming_fn(response):
-    await response.write('foo')
-    await response.write('bar')
-```
-By default, Sanic will stream back to the client using chunked encoding if the client supports it. You can disable this:
-
-```python
-stream(streaming_fn, chunked=False)
-```
-:::
 ::: tab "File Streaming"
 
 **Default Content-Type**: N/A  
