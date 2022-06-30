@@ -194,13 +194,10 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
-::: new NEW in v22.3
-`str` will *not* match on empty strings. See `strorempty` for this behavior.
+Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for this behavior.
 
 :::
-::: tab "strorempty 🌟"
-
-::: new NEW in v22.3
+::: tab strorempty
 
 ```python
 @app.route("/path/to/<foo:strorempty>")
@@ -216,6 +213,7 @@ async def handler(request, foo: str):
 
 Unlike the `str` path parameter type, `strorempty` can also match on an empty string path segment.
 
+*Added in v22.3*
 :::
 ::: tab  int
 
@@ -320,9 +318,7 @@ async def handler(request, foo: UUID):
 
 :::
 
-::: tab "ext 🌟"
-
-::: new NEW in v22.3
+::: tab ext
 
 ```python
 @app.route("/path/to/<foo:ext>")
@@ -346,6 +342,7 @@ File extensions can be matched using the special `ext` parameter type. It uses a
 
 It does *not* support the `path` parameter type.
 
+*Added in v22.3*
 :::
 
 ::: tab regex

@@ -23,7 +23,8 @@
   },
   "scripts": {
     "docs:dev": "vuepress dev src",
-    "docs:build": "vuepress build src -d docs"
+    "docs:build": "vuepress build src -d docs",
+    "dev": "vuepress dev src"
   },
   "dependencies": {}
 }

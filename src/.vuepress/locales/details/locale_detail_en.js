@@ -6,7 +6,6 @@ module.exports = {
   editLinkText: "Edit this page on GitHub",
   helpText: "Help",
   algolia: {},
-  current: "Current with version 21.12",
   nav: nav_en,
   sidebar: sidebar_en,
 };

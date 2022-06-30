@@ -7,12 +7,12 @@ There are two (2) that run **only** on your main Sanic process (ie, once per cal
 - `main_process_start`
 - `main_process_stop`
 
-::: new NEW in v22.3
 There are also two (2) that run **only** in a reloader process if auto-reload has been turned on.
 
 - `reload_process_start`
 - `reload_process_stop`
-:::
+
+*Added `reload_process_start` and `reload_process_stop` in v22.3*
 
 There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
 
@@ -110,7 +110,6 @@ async def setup_db(app):
 ```
 :---
 
-::: new NEW in v22.3
 ---:1
 Prior to v22.3, both the application instance and the current event loop were injected into the function. However, only the application instance is injected by default. If your function signature will accept both, then both the application and the loop will be injected as shown here.
 :--:1
@@ -119,7 +118,7 @@ Prior to v22.3, both the application instance and the current event loop were in
 async def setup_db(app, loop):
     app.ctx.db = await db_setup()
 ```
-:::
+:---
 
 ---:1
 

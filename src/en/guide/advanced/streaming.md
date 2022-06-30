@@ -60,47 +60,9 @@ Only post, put and patch decorators have stream argument.
 ## Response streaming
 
 ---:1
-
-Sanic allows you to stream content to the client with an instance of `StreamingHTTPResponse`. There is also a `sanic.response.stream` convenience method.
-
-This method accepts a coroutine callback which is passed an object that can control writing to the client.
+Sanic allows you to stream content to the client.
 :--:1
-```python
-from sanic.response import stream
 
-@app.route("/")
-async def test(request):
-    async def sample_streaming_fn(response):
-        await response.write("foo,")
-        await response.write("bar")
-
-    return stream(sample_streaming_fn, content_type="text/csv")
-```
-:---
-
-This is useful in situations where you want to stream content to the client that originates in an external service, like a database. For example, you can stream database records to the client with the asynchronous cursor that `asyncpg` provides.
-
-```python
-@app.route("/")
-async def index(request):
-    async def stream_from_db(response):
-        conn = await asyncpg.connect(database='test')
-        async with conn.transaction():
-            async for record in conn.cursor('SELECT generate_series(0, 10)'):
-                await response.write(record[0])
-
-    return stream(stream_from_db)
-```
-
-::: tip FYI
-If a client supports HTTP/1.1, Sanic will use [chunked transfer encoding](https://en.wikipedia.org/wiki/Chunked_transfer_encoding); you can explicitly enable or disable it using chunked option of the stream function.
-:::
-
----:1
-
-The coroutine callback pattern using `stream` is not needed. It is the *old style* of streaming, and should be replaced with the newer inline streaming. You now are able to stream the response directly in the handler.
-
-:--:1
 ```python
 @app.route("/")
 async def test(request):
@@ -113,8 +75,21 @@ async def test(request):
 ```
 :---
 
-In the example above `await response.eof()` is called as a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client.
+This is useful in situations where you want to stream content to the client that originates in an external service, like a database. For example, you can stream database records to the client with the asynchronous cursor that `asyncpg` provides.
 
+```python
+@app.route("/")
+async def index(request):
+    response = await request.respond()
+    conn = await asyncpg.connect(database='test')
+    async with conn.transaction():
+        async for record in conn.cursor('SELECT generate_series(0, 10)'):
+            await response.send(record[0])
+```
+
+
+
+You can explicitly end a stream by calling `await response.eof()`. It a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client. While it is *optional* to use with Sanic server, if you are running Sanic in ASGI mode, then you **must** explicitly terminate the stream.
 
 ## File streaming
 

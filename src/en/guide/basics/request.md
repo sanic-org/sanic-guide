@@ -194,3 +194,49 @@ key1=val1&key2=val2&key1=val3
 
 Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
+
+::: new NEW in v22.6
+
+## Current request getter
+
+Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
+
+```python
+import logging
+
+from sanic import Request, Sanic, json
+from sanic.exceptions import SanicException
+from sanic.log import LOGGING_CONFIG_DEFAULTS
+
+LOGGING_FORMAT = (
+    "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: "
+    "%(request_id)s %(request)s %(message)s %(status)d %(byte)d"
+)
+
+old_factory = logging.getLogRecordFactory()
+
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.request_id = ""
+
+    try:
+        request = Request.get_current()
+    except SanicException:
+        ...
+    else:
+        record.request_id = str(request.id)
+
+    return record
+
+
+logging.setLogRecordFactory(record_factory)
+
+LOGGING_CONFIG_DEFAULTS["formatters"]["access"]["format"] = LOGGING_FORMAT
+
+app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
+```
+
+In this example, we are adding the `request.id` to every access log message.
+
+:::

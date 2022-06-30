@@ -6,7 +6,7 @@ One of the most commonly implemented features of a web application is user-input
 
 ### Validation with Dataclasses
 
-With the introduction of [Data Classes](https://docs.python.org/3/library/dataclasses.html), Python made it super simple to create objects that meet a defined schema. However, the standard library only supports type checking validation, **not** runtime validation. Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses`.
+With the introduction of [Data Classes](https://docs.python.org/3/library/dataclasses.html), Python made it super simple to create objects that meet a defined schema. However, the standard library only supports type checking validation, **not** runtime validation. Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses` out odf the box. If you also have either `pydantic` or `attrs` installed, you can alternatively use one of those libraries.
 
 ---:1
 
@@ -60,9 +60,6 @@ $ curl localhost:8000/search\?q=python
 
 ### Validation with Pydantic
 
-::: warning
-Currently, only JSON body validation supports Pydantic models.
-:::
 
 You can use Pydantic models also.
 
@@ -93,6 +90,56 @@ from sanic_ext import validate
 @validate(json=Person)
 async def handler(request, body: Person):
     return json(body.dict())
+```
+:---
+
+---:1
+
+You should now have validation on the incoming request.
+
+:--:1
+
+```
+$ curl localhost:8000/person -d '{"name": "Alice", "age": 21}' -X POST  
+{"name":"Alice","age":21}
+```
+
+:---
+
+### Validation with Attrs
+
+
+You can use Attrs also.
+
+---:1
+
+First, define a model.
+
+:--:1
+
+```python
+@attrs.define
+class Person:
+    name: str
+    age: int
+
+```
+
+:---
+
+---:1
+
+Then, attach it to your route
+
+:--:1
+
+```python
+from sanic_ext import validate
+
+@app.post("/person")
+@validate(json=Person)
+async def handler(request, body: Person):
+    return json(attrs.asdict(body))
 ```
 :---
 
