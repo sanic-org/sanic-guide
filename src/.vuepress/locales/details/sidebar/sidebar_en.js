@@ -53,7 +53,7 @@ module.exports = {
         "/en/guide/deployment/running.md",
         // "/guide/deployment/server-choice.md",
         "/en/guide/deployment/nginx.md",
-        // "/guide/deployment/docker.md",
+        "/en/guide/deployment/docker.md",
         // "/guide/deployment/kubernetes.md",
       ],
     },

@@ -3,7 +3,7 @@ const nav_ja = require("./nav/nav_ja");
 
 module.exports = {
    selectText: "Languages",
-   label: "Japanese",
+   label: "日本語",
    editLinkText: "Edit this page on GitHub",
    helpText: "Help",
    algolia: {},
