@@ -221,7 +221,7 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ### HTTP/3
 
 
-Sanic server offers HTTP/3 support using [aioquic](https://github.com/aiortc/`aioquic`). This **must** be installed to use HTTP/3:
+Sanic server offers HTTP/3 support using [aioquic](https://github.com/aiortc/aioquic). This **must** be installed to use HTTP/3:
 
 ```
 pip install sanic aioquic
