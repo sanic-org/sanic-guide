@@ -1,10 +1,10 @@
 # デコレーター
 
-スキーマにコンテンツを追加するための主なメカニズムは、エンドポイントを装飾することです。もしあなたが過去に `sanic-openapi` を使ったことがあるなら、これは馴染みのあるものでしょう。デコレータとその引数は [OAS v3.0 仕様](https://swagger.io/specification/) とほぼ同じです。
+スキーマにコンテンツを追加するための主なメカニズムは、エンドポイントを装飾することです。 もしあなたが過去に `sanic-openapi` を使ったことがあるなら、これは馴染みのあるものでしょう。 デコレータとその引数は [OAS v3.0 仕様](https://swagger.io/specification/) とほぼ同じです。
 
 ---:1
 
-表示されるすべての例は、ルート定義の周りにラップされます。これらを作成する際には、Sanic ルート・デコレーター (`@app.route` や `@app.get` など) が一番外側のデコレーターであることを確認する必要があります。つまり、最初にそれを置き、その後に以下のデコレータを1つ以上置く必要があります。
+表示されるすべての例は、ルート定義の周りにラップされます。 これらを作成する際には、Sanic ルート・デコレーター (`@app.route` や `@app.get` など) が一番外側のデコレーターであることを確認する必要があります。 つまり、最初にそれを置き、その後に以下のデコレータを1つ以上置く必要があります。
 
 :--:1
 
@@ -23,7 +23,7 @@ async def handler(request, somethind: str):
 
 ---:1
 
-また、以下の例の多くはモデルオブジェクトを参照していることがわかります。シンプルにするために、例では `UserProfile` を使用し、以下のようになります。重要なのは、型付けされたクラスであれば何でも良いということです。`dataclass`や他の種類のモデルオブジェクトであることは容易に想像がつくでしょう。
+また、以下の例の多くはモデルオブジェクトを参照していることがわかります。 シンプルにするために、例では `UserProfile` を使用し、以下のようになります。 重要なのは、型付けされたクラスであれば何でも良いということです。 `dataclass`や他の種類のモデルオブジェクトであることは容易に想像がつくでしょう。
 
 :--:1
 
@@ -40,24 +40,25 @@ class UserProfile:
 
 ### `@opanepi.definition`
 
-`@openapi.definition`デコレーターを使用すると、パス上の操作のすべての部分を一度に定義することができます。これは、他のデコレーターと同じように操作の定義を作成できるオムニバムデコレーターです。複数のフィールド固有のデコレータを使うか、あるいは単一のデコレータを使うかは、 開発者のスタイルによります。
+`@openapi.definition`デコレーターを使用すると、パス上の操作のすべての部分を一度に定義することができます。 これは、他のデコレーターと同じように操作の定義を作成できるオムニバムデコレーターです。 複数のフィールド固有のデコレータを使うか、あるいは単一のデコレータを使うかは、 開発者のスタイルによります。
 
 このフィールドは、操作の定義を容易にするために、意図的に複数のタイプを受け入れる寛容なものとなっています。
 
 **Arguments**
 
-| フィールド      | タイプ                                                                     |
-| ------------- | --------------------------------------------------------------------------|
-| `body`        | **dict, RequestBody, *ユーザー定義モデル***                                  |
-| `deprecated`  | **bool**                                                                  |
-| `description` | **str**                                                                   |
-| `document`    | **str, ExternalDocumentation**                                            | 
-| `exclude`     | **bool**                                                                  |
-| `operation`   | **str**                                                                   |
+| フィールド         | タイプ                                                                  |
+| ------------- | -------------------------------------------------------------------- |
+| `body`        | ***dict, RequestBody, ***ユーザー定義モデル******                             |
+| `deprecated`  | **bool**                                                             |
+| `description` | **str**                                                              |
+| `document`    | **str, ExternalDocumentation**                                       |
+| `exclude`     | **bool**                                                             |
+| `operation`   | **str**                                                              |
 | `parameter`   | **dict, Parameter, *ユーザー定義モデル*, [dict], [Parameter], [*ユーザー定義モデル*]** |
-| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]** |
-| `summary`     | **str**                                                                   |
-| `tag`         | **str, Tag, [str], [Tag]**                                                |
+| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]**   |
+| `summary`     | **str**                                                              |
+| `tag`         | **str, Tag, [str], [Tag]**                                           |
+| `secured`     | **Dict[str, Any]**                                                   |
 
 **Examples**
 
@@ -76,7 +77,7 @@ class UserProfile:
 
 :---
 
-*その他の例については、以下の例を参照してください。以下のデコレータの値は、対応するキーワード引数で使用することができます。*
+*その他の例については、以下の例を参照してください。 以下のデコレータの値は、対応するキーワード引数で使用することができます。*
 
 ## フィールド固有デコレーター
 
@@ -86,13 +87,13 @@ class UserProfile:
 
 :::tab body
 
-**引数**
+**Arguments**
 
-| フィールド    | タイプ                              |
+| フィールド       | タイプ                                |
 | ----------- | ---------------------------------- |
 | **content** | ***ユーザー定義モデル*, dict, RequestBody** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -124,11 +125,11 @@ class UserProfile:
 
 :::tab deprecated
 
-**引数**
+**Arguments**
 
 *None*
 
-**例**
+**Examples**
 
 ---:1
 
@@ -148,13 +149,13 @@ class UserProfile:
 
 :::tab description
 
-**引数**
+**Arguments**
 
-| フィールド | タイプ   |
+| フィールド  | タイプ     |
 | ------ | ------- |
 | `text` | **str** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -179,14 +180,14 @@ class UserProfile:
 
 :::tab document
 
-**引数**
+**Arguments**
 
-| フィールド      | タイプ   |
+| フィールド         | タイプ     |
 | ------------- | ------- |
 | `url`         | **str** |
 | `description` | **str** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -208,14 +209,14 @@ class UserProfile:
 
 他のすべてのデコレータと同様にルート定義で使用するか、ブループリントで呼び出すことができます。
 
-**引数**
+**Arguments**
 
-| フィールド | タイプ       | デフォルト |
+| フィールド  | タイプ           | デフォルト    |
 | ------ | ------------- | -------- |
 | `flag` | **bool**      | **True** |
 | `bp`   | **Blueprint** |          |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -237,13 +238,13 @@ openapi.exclude(bp=some_blueprint)
 
 オペレーションIDを設定します。
 
-**引数**
+**Arguments**
 
-| フィールド | タイプ |
+| フィールド  | タイプ     |
 | ------ | ------- |
 | `name` | **str** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -259,15 +260,15 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab parameter
 
-**引数**
+**Arguments**
 
-| フィールド   | タイプ                                     | デフォルト    |
+| フィールド      | タイプ                                       | デフォルト       |
 | ---------- | ----------------------------------------- | ----------- |
 | `name`     | **str**                                   |             |
 | `schema`   | ***type***                                | **str**     |
 | `location` | **"query", "header", "path" or "cookie"** | **"query"** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -295,18 +296,18 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab response
 
-**引数**
+**Arguments**
 
 `Responce`オブジェクトを使用する場合は、他の引数を渡してはいけません。
 
-| フィールド      | タイプ                         |
+| フィールド         | タイプ                           |
 | ------------- | ----------------------------- |
 | `status`      | **int**                       |
 | `content`     | ***type*, *YourModel*, dict** |
 | `description` | **str**                       |
 | `response`    | **Response**                  |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -356,13 +357,13 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab summary
 
-**引数**
+**Arguments**
 
-| フィールド | タイプ |
+| フィールド  | タイプ     |
 | ------ | ------- |
 | `text` | **str** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -378,13 +379,13 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab tag
 
-**引数**
+**Arguments**
 
-| フィールド | タイプ       |
+| フィールド   | タイプ          |
 | ------- | ------------ |
 | `*args` | **str, Tag** |
 
-**例**
+**Examples**
 
 ---:1
 
@@ -399,5 +400,47 @@ openapi.exclude(bp=some_blueprint)
 ```
 
 :---
+
+:::
+
+:::tab secured
+
+**Arguments**
+
+| Field             | Type                    |
+| ----------------- | ----------------------- |
+| `*args, **kwargs` | **str, Dict[str, Any]** |
+
+**Examples**
+
+---:1
+```python
+@openapi.secured()
+```
+:--:1 :---
+
+---:1
+```python
+@openapi.secured("foo")
+```
+:--:1
+```python
+@openapi.secured("token1", "token2")
+```
+:---
+
+---:1
+```python
+@openapi.secured({"my_api_key": []})
+```
+:--:1
+```python
+@openapi.secured(my_api_key=[])
+```
+:---
+
+Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
+
+:::
 
 ::::
