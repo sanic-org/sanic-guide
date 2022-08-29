@@ -2,7 +2,7 @@
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
 heroText: Build fast. Run Fast.
-tagline: 비동기 Python 3.7+ 웹 서버/프레임워크
+tagline: 차세대 비동기 Python 웹 서버/프레임워크
 actionText: 시작하기 →
 actionLink: /ko/guide/
 features:
@@ -23,7 +23,7 @@ features:
     details: Sanic은 PyPI에서 전반적으로 가장 인기있는 프레임 워크 중 하나이며 비동기를 지원하는 최고의 프레임워크입니다.
   - 
     title: 커뮤니티 중심
-    details: 이 프로젝트는 커뮤니티를 위해 커뮤니티에서 유지되고 운영됩니다.
+    details: 이 프로젝트는 커뮤니티에서 유지되고 커뮤니티를 위해 운영됩니다.
 pageClass: landing-page
 logo: false
 ---
