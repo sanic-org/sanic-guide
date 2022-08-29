@@ -32,8 +32,7 @@ Note over Worker: Deliver response
 
 ---:1
 
-これはもう見慣れたものになっているはずです。必要なのは、 「リクエスト」 または 「レスポンス」 のどちらでミドルウェアを実行するかを宣言することだけです。
-:--:1
+これはもう見慣れたものになっているはずです。 All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`. :--:1
 ```python
 async def extract_user(request):
     request.ctx.user = await extract_user_from_request(request)
@@ -44,8 +43,7 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-ここでも、`Sanic`アプリインスタンスには便利なデコレーターもある。
-:--:1
+ここでも、`Sanic`アプリインスタンスには便利なデコレーターもある。 :--:1 :--:1
 ```python
 @app.middleware("request")
 async def extract_user(request):
@@ -55,8 +53,7 @@ async def extract_user(request):
 
 ---:1
 
-レスポンス・ミドルウェアは`request`と`response`の両方の引数を受け取ります。
-:--:1
+レスポンス・ミドルウェアは`request`と`response`の両方の引数を受け取ります。 :--:1 :--:1
 ```python
 @app.middleware('response')
 async def prevent_xss(request, response):
@@ -66,8 +63,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-デコレーターをさらに短くすることができます。これは、オートコンプリート機能を備えたIDEがある場合に便利です。
-:--:1
+デコレーターをさらに短くすることができます。 これは、オートコンプリート機能を備えたIDEがある場合に便利です。 :--:1 :--:1
 ```python
 @app.on_request
 async def extract_user(request):
@@ -90,8 +86,7 @@ async def prevent_xss(request, response):
 1. Request middleware: `add_key`
 2. Route handler: `index`
 3. Response middleware: `prevent_xss`
-4. Response middleware: `custom_banner`
-:--:1
+4. Response middleware: `custom_banner` :--:1
 ```python
 @app.middleware("request")
 async def add_key(request):
@@ -117,9 +112,7 @@ async def index(request):
 :---
 
 
----:1
-`request.match_info`を変更できます。たとえば、ミドルウェアで`a-slug`を`a_slug`に変換するために使用できる便利な機能。
-:--:1
+---:1 `request.match_info`を変更できます。 たとえば、ミドルウェアで`a-slug`を`a_slug`に変換するために使用できる便利な機能。 :--:1 :--:1
 ```python
 @app.on_request
 def convert_slug_to_underscore(request: Request):
@@ -139,12 +132,9 @@ foo_bar_baz
 
 ---:1
 
-ミドルウェアが`HTTPResponse`オブジェクトを返す場合、リクエストは処理を停止し、レスポンスが返されます。これがルートハンドラに到達する前のリクエストで発生した場合、ハンドラは**not**呼び出されます。レスポンスを返すと、それ以降のミドルウェアの実行も妨げられます。
+ミドルウェアが`HTTPResponse`オブジェクトを返す場合、リクエストは処理を停止し、レスポンスが返されます。 これがルートハンドラに到達する前のリクエストで発生した場合、ハンドラは**not**呼び出されます。 レスポンスを返すと、それ以降のミドルウェアの実行も妨げられます。
 
-::: tip
-`None`値を返すと、ミドルウェアハンドラの実行を停止して、リクエストを通常どおりに処理できます。これは、アーリー・リターンを使用して、そのミドルウェア・ハンドラー内の要求の処理を回避する場合に便利です。
-:::
-:--:1
+::: tip `None`値を返すと、ミドルウェアハンドラの実行を停止して、リクエストを通常どおりに処理できます。 This can be useful when using early return to avoid processing requests inside of that middleware handler. ::: :--:1
 ```python
 @app.middleware("request")
 async def halt_request(request):
@@ -158,7 +148,7 @@ async def halt_response(request, response):
 
 #### Order of execution
 
-リクエスト・ミドルウェアは、宣言された順序で実行されます。レスポンス・ミドルウェアは、**逆順で実行されます**.
+リクエスト・ミドルウェアは、宣言された順序で実行されます。 レスポンス・ミドルウェアは、**逆順で実行されます**.
 
 次の設定では、コンソールにこのメッセージが表示されます。
 
@@ -183,7 +173,7 @@ async def middleware_3(request, response):
 @app.middleware("response")
 async def middleware_4(request, response):
     print("middleware_4")
-    
+
 @app.get("/handler")
 async def handler(request):
     print("~ handler ~")
