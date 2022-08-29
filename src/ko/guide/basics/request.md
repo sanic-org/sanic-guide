@@ -58,12 +58,9 @@ bar
 ['bar']
 ```
 
-::: tip FYI
+:bulb: `request.form` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.
 
-:bulb: `request.form` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
-
-대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
-:::
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다. :::
 
 ::: tab Uploaded
 
@@ -87,11 +84,9 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 >>> print(request.files.getlist("my_file"))
 [File(type='application/octet-stream', body=b'hello\n', name='TEST')]
 ```
-::: tip FYI
-:bulb: `request.files` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
+::: tip FYI :bulb: `request.files` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.
 
-대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
-:::
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다. :::
 
 ::::
 
@@ -123,9 +118,9 @@ async def hi_my_name_is(request):
 
 종종 API는 동일한 클라이언트에 여러 동시(또는 연속) 요청을 제공해야 합니다. 예를 들어, 이는 데이터를 얻기 위해 여러 엔드포인트를 쿼리해야 하는 점진적 웹 앱에서 매우 자주 발생합니다.
 
-HTTP 프로토콜은 [keep live headers](../deployment/configuration.md#keep-alive-timeout)를 사용하여 연결로 인한 오버헤드 시간의 완화를 요청합니다
+The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
 
-여러 요청이 단일 연결을 공유할 때 Sanic은 해당 요청이 상태를 공유할 수 있도록 컨텍스트 객체를 제공합니다.
+HTTP 프로토콜은 [keep live headers](../deployment/configuration.md#keep-alive-timeout)를 사용하여 연결로 인한 오버헤드 시간의 완화를 요청합니다
 
 :--:1
 ```python
@@ -150,9 +145,7 @@ request.conn_info.ctx.foo=3
 
 ## 매개변수 (Parameters)
 
----:1
-경로에서 추출된 값은 핸들러에 매개변수로, 더 구체적으로는 키워드 인수로 주입됩니다. [Routing section](./routing.md)에 이에 대한 자세한 내용이 있습니다.
-:--:1
+---:1 경로에서 추출된 값은 핸들러에 매개변수로, 더 구체적으로는 키워드 인수로 주입됩니다. [Routing section](./routing.md)에 이에 대한 자세한 내용이 있습니다. :--:1
 ```python
 @app.route('/tag/<tag>')
 async def tag_handler(request, tag):
@@ -190,8 +183,52 @@ key1=val1&key2=val2&key1=val3
 
 ```
 
-::: tip FYI
-:bulb: `request.args` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.  
+::: tip FYI :bulb: `request.args` 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다.
 
-대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다.
+대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다. :::
+
+::: new NEW in v22.6
+
+## Current request getter
+
+Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
+
+```python
+import logging
+
+from sanic import Request, Sanic, json
+from sanic.exceptions import SanicException
+from sanic.log import LOGGING_CONFIG_DEFAULTS
+
+LOGGING_FORMAT = (
+    "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: "
+    "%(request_id)s %(request)s %(message)s %(status)d %(byte)d"
+)
+
+old_factory = logging.getLogRecordFactory()
+
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.request_id = ""
+
+    try:
+        request = Request.get_current()
+    except SanicException:
+        ...
+    else:
+        record.request_id = str(request.id)
+
+    return record
+
+
+logging.setLogRecordFactory(record_factory)
+
+LOGGING_CONFIG_DEFAULTS["formatters"]["access"]["format"] = LOGGING_FORMAT
+
+app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
+```
+
+In this example, we are adding the `request.id` to every access log message.
+
 :::
