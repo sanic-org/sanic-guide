@@ -1,12 +1,12 @@
 # プロキシ構成
 
-リバースプロキシサーバー(nginxなど)を使用する場合、`request.ip`の値にはプロキシのIP(通常は`127.0.0.1`が含まれます。ほとんどの場合、これはあなたが望むものではありません。
+リバースプロキシサーバー(nginxなど)を使用する場合、`request.ip`の値にはプロキシのIP(通常は`127.0.0.1`が含まれます。 ほとんどの場合、これはあなたが望むものではありません。
 
-Sanicは、`request.remote_addr`として利用可能な真のクライアントIPを決定するためにプロキシヘッダーを使用するように構成できます。完全な外部URLは、ヘッダーフィールド_if available_からも構築されます。
+Sanicは、`request.remote_addr`として利用可能な真のクライアントIPを決定するためにプロキシヘッダーを使用するように構成できます。 完全な外部URLは、ヘッダーフィールド_if available_からも構築されます。
 
 ::: ヒント 注意
-適切な予防措置がなければ、悪意のあるクライアントはプロキシヘッダーを使用して独自のIPを偽装することができます。このような問題を回避するために、Sanicは明示的に有効になっていない限り、プロキシヘッダーを使用しません。
-:::
+適切な予防措置がなければ、悪意のあるクライアントはプロキシヘッダーを使用して独自のIPを偽装することができます。 このような問題を回避するために、Sanicは明示的に有効になっていない限り、プロキシヘッダーを使用しません。
+::: :::
 
 ---:1
 
@@ -14,8 +14,7 @@ Sanicは、`request.remote_addr`として利用可能な真のクライアント
 
 - `FORWARDED_SECRET`
 - `REAL_IP_HEADER`
-- `PROXIES_COUNT`
-:--:1
+- `PROXIES_COUNT` :--:1
 ```python
 app.config.FORWARDED_SECRET = "super-duper-secret"
 app.config.REAL_IP_HEADER = "CF-Connecting-IP"
@@ -25,7 +24,7 @@ app.config.PROXIES_COUNT = 2
 
 ## 転送されたヘッダー
 
-`Forwarded`ヘッダーを使用するには、信頼できるプロキシサーバーに知られている値に`app.config.FORWARDED_SECRET`を設定する必要があります。この秘密は、特定のプロキシサーバーを安全に識別するために使用されます。
+`Forwarded`ヘッダーを使用するには、信頼できるプロキシサーバーに知られている値に`app.config.FORWARDED_SECRET`を設定する必要があります。 この秘密は、特定のプロキシサーバーを安全に識別するために使用されます。
 
 29
 
@@ -33,23 +32,19 @@ app.config.PROXIES_COUNT = 2
 
 Sanicは秘密鍵のない要素を無視し、秘密が設定されていない場合、ヘッダーを解析することさえしません。
 
-他のすべてのプロキシヘッダーは、クライアントに関する完全な情報をすでに持っているため、信頼できる転送された要素が見つかると無視されます。
-
-`Forwarded`ヘッダーの詳細については、関連する[MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded)および[Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/)の記事をお読みください。
-
 ## 従来のプロキシヘッダー
 
 ### IP-Header
 
-プロキシが既知のヘッダーのIPアドレスを転送すると、「REAL_IP_HEADER」設定値でそれが何であるかをSanicに伝えることができます。
+他のすべてのプロキシヘッダーは、クライアントに関する完全な情報をすでに持っているため、信頼できる転送された要素が見つかると無視されます。
 
 ### X-Forwarded-For
 
-このヘッダーには、通常、プロキシの各レイヤーを介したIPアドレスのチェーンが含まれています。`PROXIES_COUNT`を設定すると、クライアントの実際のIPアドレスを取得する深さがSanicに指示されます。この値は、チェーン内のIPアドレスの_expected_数に等しいはずです。
+このヘッダーには、通常、プロキシの各レイヤーを介したIPアドレスのチェーンが含まれています。 `PROXIES_COUNT`を設定すると、クライアントの実際のIPアドレスを取得する深さがSanicに指示されます。 この値は、チェーン内のIPアドレスの_expected_数に等しいはずです。
 
 ### Other X-headers
 
-クライアントIPが次のいずれかの方法で見つかった場合、SanicはURL部分に次のヘッダーを使用します。
+プロキシが既知のヘッダーのIPアドレスを転送すると、「REAL_IP_HEADER」設定値でそれが何であるかをSanicに伝えることができます。
 
 - x-forwarded-proto
 - x-forwarded-host
@@ -59,7 +54,7 @@ Sanicは秘密鍵のない要素を無視し、秘密が設定されていない
 
 ## 例えば
 
-次の例では、すべての要求はエンドポイントが次のようになります。
+In the following examples, all requests will assume that the endpoint looks like this:
 ```python
 @app.route("/fwd")
 async def forwarded(request):
@@ -77,7 +72,7 @@ async def forwarded(request):
 ---
 
 ##### 例えば 1
-FORWARDED_SECRETが設定されていない場合、xヘッダーは尊重されるべきです
+次の例では、すべての要求はエンドポイントが次のようになります。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
