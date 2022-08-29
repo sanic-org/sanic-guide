@@ -42,12 +42,10 @@ server {
     }
 }
 ```
-
 ```bash
 $ docker-compose up -d
 $ sanic server.app --port=9999 --host=0.0.0.0
 ```
-
 ```bash
 $ curl localhost/api/foo
 URL: http://example.com/api/foo
