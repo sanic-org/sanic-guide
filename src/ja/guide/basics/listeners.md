@@ -1,20 +1,27 @@
 # Listeners
 
-Sanicは、アプリケーションのライフサイクルにオペレーションを注入する6つの機会を提供します。
+Sanicは、アプリケーションのライフサイクルにオペレーションを注入する6つの機会を提供します。 This does not include the [signals](../advanced/signals.md), which allow further injection customization.
 
-メインのSanicプロセスで**のみ**を実行するものが2つあります(つまり、`sanic server.app`への呼び出しごとに1回です。)。
+メインのSanicプロセスで**のみ**を実行するものが2つあります(つまり、`sanic server.app`への呼び出しごとに1回です。
 
 - `main_process_start`
 - `main_process_stop`
 
 サーバの起動時または終了時にスタートアップ/ティアダウンコードを実行できるようにするには、4つの方法があります。
 
+- `reload_process_start`
+- `reload_process_stop`
+
+*Added `reload_process_start` and `reload_process_stop` in v22.3*
+
+There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
+
 - `before_server_start`
 - `after_server_start`
 - `before_server_stop`
 - `after_server_stop`
 
-ワーカプロセスのライフサイクルは次のようになります。
+関数をリスナーとして設定するプロセスは、ルートの宣言に似ています。
 
 ```mermaid
 sequenceDiagram
@@ -60,16 +67,27 @@ loop
 end
 Note over Process: exit
 ```
+
+The reloader process live outside of this worker process inside of a process that is responsible for starting and stopping the Sanic processes. Consider the following example:
+
+```python
+async def setup_db(app, loop):
+    app.ctx.db = await db_setup()
+
+app.register_listener(setup_db, "before_server_start")
+```
+
+If this application were run with auto-reload turned on, the `reload_start` function would be called once. This is contrasted with `main_start`, which would be run every time a file is save and the reloader restarts the applicaition process.
+
 ## Attaching a listener
 
 ---:1
 
-関数をリスナーとして設定するプロセスは、ルートの宣言に似ています。
+`Sanic`アプリインスタンスにも便利なデコレーターがある。 :--:1
 
-注入される2つの引数は、現在実行中の`Sanic()`インスタンスと現在実行中のループです。
-:--:1
+The currently running `Sanic()` instance is injected into the listener. :--:1
 ```python
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
@@ -78,8 +96,15 @@ app.register_listener(setup_db, "before_server_start")
 
 ---:1
 
-`Sanic`アプリインスタンスにも便利なデコレーターがある。
-:--:1
+The `Sanic` app instance also has a convenience decorator. :--:1
+```python
+@app.before_server_start
+async def setup_db(app, loop):
+    app.ctx.db = await db_setup()
+```
+:---
+
+---:1 Prior to v22.3, both the application instance and the current event loop were injected into the function. However, only the application instance is injected by default. If your function signature will accept both, then both the application and the loop will be injected as shown here. :--:1
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
@@ -89,12 +114,12 @@ async def setup_db(app, loop):
 
 ---:1
 
-デコレーターをさらに短くすることができます。これは、オートコンプリート機能を備えたIDEがある場合に便利です。
+デコレーターをさらに短くすることができます。 これは、オートコンプリート機能を備えたIDEがある場合に便利です。
 
 :--:1
 ```python
 @app.before_server_start
-async def setup_db(app, loop):
+async def setup_db(app):
     app.ctx.db = await db_setup()
 ```
 :---
@@ -103,16 +128,16 @@ async def setup_db(app, loop):
 
 リスナーは、起動時に宣言された順序で実行され、ティアダウン時に宣言された順序とは逆の順序で実行されます。
 
-|                       | Phase           | Order   |
-|-----------------------|-----------------|---------|
-| `main_process_start`  | main startup    | regular :smiley: |
-| `before_server_start` | worker startup  | regular :smiley: |
-| `after_server_start`  | worker startup  | regular :smiley: |
+|                       | Phase           | Order                        |
+| --------------------- | --------------- | ---------------------------- |
+| `main_process_start`  | main startup    | regular :smiley:             |
+| `before_server_start` | worker startup  | regular :smiley:             |
+| `after_server_start`  | worker startup  | regular :smiley:             |
 | `before_server_stop`  | worker shutdown | reverse :upside_down_face: |
 | `after_server_stop`   | worker shutdown | reverse :upside_down_face: |
 | `main_process_stop`   | main shutdown   | reverse :upside_down_face: |
 
-次の設定では、2人のワーカーを実行した場合にコンソールにこのメッセージが表示されます。
+実際には、`before_server_start`ハンドラの最初のリスナーがデータベース接続を設定すると、その後に登録されたリスナーは、起動時と停止時の両方でその接続が有効であることを信頼できます。
 
 ---:1
 
@@ -182,18 +207,16 @@ async def listener_8(app, loop):
 - `pid: 1111111` - Worker 1
 - `pid: 1222222` - Worker 2
 
-*この例では、1つのワーカーをすべてグループ化し、次に別のワーカーをすべてグループ化していますが、実際にはこれらのワーカーは別々のプロセスで実行されているため、プロセス間の順序付けは保証されません。ただし、1人のワーカーが常にその順序を維持することは確実です。*
-:---
+*この例では、1つのワーカーをすべてグループ化し、次に別のワーカーをすべてグループ化していますが、実際にはこれらのワーカーは別々のプロセスで実行されているため、プロセス間の順序付けは保証されません。 ただし、1人のワーカーが常にその順序を維持することは確実です。 * :---
 
 
-::: tip FYI
-The practical result of this is that if the first listener in `before_server_start` handler setups a database connection, listeners that are registered after it can rely upon that connection being alive both when they are started and stopped.
-:::
+::: tip FYI The practical result of this is that if the first listener in `before_server_start` handler setups a database connection, listeners that are registered after it can rely upon that connection being alive both when they are started and stopped. :::
 
 ## ASGI Mode
 
-実際には、`before_server_start`ハンドラの最初のリスナーがデータベース接続を設定すると、その後に登録されたリスナーは、起動時と停止時の両方でその接続が有効であることを信頼できます。
+If you are running your application with an ASGI server, then make note of the following changes:
 
-- `main_process_start`と`main_process_stop`は**無視されます。**
-- `before_server_start`はできるだけ早く動きます。,そして`after_server_start`の前に実行されます。, しかし、技術的には、サーバーはすでにその時点で実行されています
 - `after_server_stop`はできるだけ遅く実行され、`before_server_stop`の後になりますが、技術的には、サーバーはまだその時点で実行されています
+- `main_process_start`と`main_process_stop`は**無視されます。 **
+- `before_server_start`はできるだけ早く動きます。 ,そして`after_server_start`の前に実行されます。 , しかし、技術的には、サーバーはすでにその時点で実行されています
+- `after_server_stop` will run as late as it can, and will be after `before_server_stop`, but technically, the server is still running at that point
