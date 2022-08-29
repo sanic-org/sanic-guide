@@ -91,28 +91,6 @@ You can also choose to override the file name:
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab Streaming
-
-**Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Streams data to a client
-
-```python
-from sanic.response import stream
-
-@app.route("/")
-async def handler(request):
-    return stream(streaming_fn)
-
-async def streaming_fn(response):
-    await response.write('foo')
-    await response.write('bar')
-```
-By default, Sanic will stream back to the client using chunked encoding if the client supports it. You can disable this:
-
-```python
-stream(streaming_fn, chunked=False)
-```
-:::
 ::: tab "File Streaming"
 
 **Default Content-Type**: N/A  
@@ -126,8 +104,7 @@ async def handler(request):
     return await file_stream("/path/to/whatever.mp4")
 ```
 
-Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file.
-:::
+Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file. :::
 ::: tab Raw
 
 **Default Content-Type**: `application/octet-stream`  
@@ -168,13 +145,12 @@ async def handler(request):
     return empty()
 ```
 
-Defaults to a `204` status.
-:::
+Defaults to a `204` status. :::
 ::::
 
 ## Default status
 
-レスポンスのデフォルトのHTTPステータス・コードは`200`です。変更が必要な場合は、レスポンス方式で行うことができます。
+レスポンスのデフォルトのHTTPステータス・コードは`200`です。 変更が必要な場合は、レスポンス方式で行うことができます。
 
 
 ```python
