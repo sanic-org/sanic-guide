@@ -18,9 +18,7 @@ async def handle_registration(request):
 
 ## signalを追加する
 
----:1
-信号を追加するためのAPIは、ルートの追加と非常によく似ています。
-:--:1
+---:1 信号を追加するためのAPIは、ルートの追加と非常によく似ています。 :--:1 :--:1
 ```python
 async def my_signal_handler():
     print("something happened")
@@ -29,9 +27,7 @@ app.add_signal(my_signal_handler, "something.happened.ohmy")
 ```
 :---
 
----:1
-ただし、おそらくもう少し便利な方法は、組み込みのデコレータを使用することです。
-:--:1
+---:1 ただし、おそらくもう少し便利な方法は、組み込みのデコレータを使用することです。 :--:1 :--:1
 ```python
 @app.signal("something.happened.ohmy")
 async def my_signal_handler():
@@ -39,9 +35,24 @@ async def my_signal_handler():
 ```
 :---
 
----:1
-信号は設計図で宣言することもできます
-:--:1
+---:1 If the signal requires conditions, make sure to add them while adding the handler. :--:1
+```python
+async def my_signal_handler1():
+    print("something happened")
+
+app.add_signal(
+    my_signal_handler,
+    "something.happened.ohmy1",
+    conditions={"some_condition": "value"}
+)
+
+@app.signal("something.happened.ohmy2", conditions={"some_condition": "value"})
+async def my_signal_handler2():
+    print("something happened")
+```
+:---
+
+---:1 信号は設計図で宣言することもできます :--:1
 ```python
 bp = Blueprint("foo")
 
@@ -53,10 +64,10 @@ async def my_signal_handler():
 
 ## signalsを設計する
 
-新しい信号を作成することに加えて、Sanic自体からディスパッチされる組み込み信号がいくつかあります。これらの信号は、開発者に要求とサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
+新しい信号を作成することに加えて、Sanic自体からディスパッチされる組み込み信号がいくつかあります。 これらの信号は、開発者に要求とサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
 
----:1
-新しいシグナルを作成することに加えて、Sanic自体からディスパッチされる多くの組み込みシグナルがあります。これらのシグナルは、開発者がリクエストとサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
+---:1 おそらく、例は説明しやすいです: :--:1
+
 
 他のシグナルと同じように、アプリケーションまたはブループリントインスタンスにアタッチできます。
 
@@ -72,7 +83,7 @@ async def my_signal_handler(conn_info):
 これらの信号は、ハンドラーが取る引数、およびアタッチする条件(存在する場合)とともに、利用可能な信号です。
 
 
-| イベント名                   | 変数                             | 条件                                                |
+| イベント名                      | 変数                              | 条件                                                        |
 | -------------------------- | ------------------------------- | --------------------------------------------------------- |
 | `http.routing.before`      | request                         |                                                           |
 | `http.routing.after`       | request, route, kwargs, handler |                                                           |
@@ -92,10 +103,7 @@ async def my_signal_handler(conn_info):
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: new NEW in v21.12
----:1
-ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。
-:--:1
+::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1 :--:1
 ```python
 from sanic.signals import Event
 
@@ -107,26 +115,20 @@ async def my_signal_handler(conn_info):
 
 ## イベント
 
----:1
-信号は_event_に基づいています。イベントは、単に次のパターンの文字列です。
-:--:1
+---:1 信号は_event_に基づいています。 イベントは、単に次のパターンの文字列です。 :--:1
 ```
 namespace.reference.action
 ```
 :---
 
-::: 次に
-イベントには3つの部分が必要です。何を使うべきかわからない場合は、次のパターンを試してください。
+::: 次に イベントには3つの部分が必要です。 何を使うべきかわからない場合は、次のパターンを試してください。
 
 - `my_app.something.happened`
-- `sanic.notice.hello`
-:::
+- `sanic.notice.hello` :::
 
 ### イベントパラメータ
 
----:1
-イベントは「動的」であり、[pathパラメータ](../basics/routing.md#path-parameters)と同じ構文を使用して宣言できます。これにより、任意の値に基づいてマッチングできます。
-:--:1
+---:1 イベントは「動的」であり、[pathパラメータ](../basics/routing.md#path-parameters)と同じ構文を使用して宣言できます。 これにより、任意の値に基づいてマッチングできます。 :--:1 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
 async def signal_handler(thing):
@@ -139,28 +141,22 @@ async def trigger(request):
 ```
 :---
 
-許可された型定義の詳細については、[pathパラメータ](../basics/routing.md#path-parameters)をチェックしてください。
+---:1 シグナルハンドラの実行に加えて、アプリケーションはイベントがトリガーされるのを待つことができます。 :--:1
 
-::: 注意
-イベントの3番目の部分(「アクション」)のみが動的です。
+::: 注意 イベントの3番目の部分(「アクション」)のみが動的です。
 
 - `foo.bar.<thing>` :ok:
-- `foo.<bar>.baz` :x:
-:::
+- `foo.<bar>.baz` :x: :::
 
 ### 待つ
 
----:1
-シグナルハンドラの実行に加えて、アプリケーションはイベントがトリガーされるのを待つことができます。
-:--:1
+---:1 In addition to executing a signal handler, your application can wait for an event to be triggered. :--:1
 ```python
 await app.event("foo.bar.baz")
 ```
 :---
 
----:1
-**大事**: 待つことはブロッキング機能です。したがって、これを[バックグラウンドタスク](../basics/tasks.md)で実行する必要があります。
-:--:1
+---:1 **大事**: 待つことはブロッキング機能です。 したがって、これを[バックグラウンドタスク](../basics/tasks.md)で実行する必要があります。 :--:1 :--:1
 ```python
 async def wait_for_event(app):
     while True:
@@ -174,9 +170,7 @@ async def after_server_start(app, loop):
 ```
 :---
 
----:1
-イベントが動的パスで定義されている場合は、`*`を使用して任意のアクションをキャッチできます。
-:--:1
+---:1 イベントが動的パスで定義されている場合は、`*`を使用して任意のアクションをキャッチできます。 :--:1 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
 
@@ -190,12 +184,10 @@ await app.event("foo.bar.*")
 
 *将来的には、Sanicは開発者がライフサイクルイベントに参加するのを支援するために、いくつかのイベントを自動的にディスパッチします。*
 
----:1
-イベントをDispatchすると、2つのことを行います。
+---:1 イベントをDispatchすると、2つのことを行います。
 
 1. イベントで定義されたシグナルハンドラを実行し、
-2. イベントが完了するまで「待っている」ことをすべて解決します。
-:--:1
+2. イベントが完了するまで「待っている」ことをすべて解決します。 :--:1 :--:1
 ```python
 @app.signal("foo.bar.<thing>")
 async def foo_bar(thing):
@@ -210,9 +202,7 @@ thing=baz
 
 ### Context
 
----:1
-場合によっては、信号ハンドラに余分な情報を渡す必要があるかもしれません。上記の最初の例では、電子メール登録プロセスにユーザーの電子メールアドレスを指定してほしかった。
-:--:1
+---:1 場合によっては、信号ハンドラに余分な情報を渡す必要があるかもしれません。 上記の最初の例では、電子メール登録プロセスにユーザーの電子メールアドレスを指定してほしかった。 :--:1 :--:1
 ```python
 @app.signal("user.registration.created")
 async def send_registration_email(**context):
@@ -230,15 +220,13 @@ await app.dispatch(
 
 ::: tip FYI
 信号はバックグラウンドタスクでディスパッチされます。
-:::
+::: :::
 
 ### Blueprints
 
-青写真信号のdispatchは、[middleware](../basics/middleware.md)と同様に機能します。アプリレベルから行われるものは、青写真まで流れ落ちます。ただし、青写真でディスパッチすると、その青写真で定義されている信号のみが実行されます。
+青写真信号のdispatchは、[middleware](../basics/middleware.md)と同様に機能します。 アプリレベルから行われるものは、青写真まで流れ落ちます。 ただし、青写真でディスパッチすると、その青写真で定義されている信号のみが実行されます。
 
----:1
-おそらく、例は説明しやすいです:
-:--:1
+---:1 `app.dispatch("foo.bar.baz")`を実行すると、両方の信号が実行されます。 :--:1
 ```python
 bp = Blueprint("bp")
 
@@ -257,9 +245,7 @@ def bp_signal():
 ```
 :---
 
----:1
-`app.dispatch("foo.bar.baz")`を実行すると、両方の信号が実行されます。
-:--:1
+---:1 Running `app.dispatch("foo.bar.baz")` will execute both signals. :--:1
 ```python
 await app.dispatch("foo.bar.baz")
 assert app_counter == 1
@@ -267,9 +253,7 @@ assert bp_counter == 1
 ```
 :---
 
----:1
-`bp.dispatch("foo.bar.baz")`を実行すると、ブループリント信号のみが実行されます。
-:--:1
+---:1 `bp.dispatch("foo.bar.baz")`を実行すると、ブループリント信号のみが実行されます。 :--:1 :--:1
 ```python
 await bp.dispatch("foo.bar.baz")
 assert app_counter == 1
