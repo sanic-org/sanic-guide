@@ -8,9 +8,6 @@ title: 跨域资源共享(CORS)
 > 我该如何配置跨域资源共享？
 
 :::: tabs
-
-::: tab server.py
-
 ```python
 from sanic import Sanic, text
 
@@ -30,12 +27,15 @@ app.register_listener(setup_options, "before_server_start")
 
 # Fill in CORS headers
 app.register_middleware(add_cors_headers, "response")
+
+
+# Add OPTIONS handlers to any route that is missing it
+app.register_listener(setup_options, "before_server_start")
+
+# Fill in CORS headers
+app.register_middleware(add_cors_headers, "response")
 ```
-
-:::
-
-::: tab cors.py
-
+::: tab server.py
 ```python
 from typing import Iterable
 
@@ -65,11 +65,7 @@ def add_cors_headers(request, response):
         ]
         _add_cors_headers(response, methods)
 ```
-
 :::
-
-::: tab options.py
-
 ```python
 from collections import defaultdict
 from typing import Dict, FrozenSet
@@ -117,13 +113,42 @@ def setup_options(app: Sanic, _):
             uri,
             methods=["OPTIONS"],
         )
+    app.router.finalize() You will need to change this for older versions.
+    for route in routes.values():
+        if "OPTIONS" not in route.methods:
+            needs_options[route.uri].extend(route.methods)
+
+    return {
+        uri: frozenset(methods) for uri, methods in dict(needs_options).items()
+    }
+
+
+def _options_wrapper(handler, methods):
+    def wrapped_handler(request, *args, **kwargs):
+        nonlocal methods
+        return handler(request, methods)
+
+    return wrapped_handler
+
+
+async def options_handler(request, methods) -> response.HTTPResponse:
+    resp = response.empty()
+    _add_cors_headers(resp, methods)
+    return resp
+
+
+def setup_options(app: Sanic, _):
+    app.router.reset()
+    needs_options = _compile_routes_needing_options(app.router.routes_all)
+    for uri, methods in needs_options.items():
+        app.add_route(
+            _options_wrapper(options_handler, methods),
+            uri,
+            methods=["OPTIONS"],
+        )
     app.router.finalize()
 ```
-
-:::
-
-::::
-
+::: tab cors.py
 ```
 $ curl localhost:9999/ -i
 HTTP/1.1 200 OK
@@ -144,8 +169,15 @@ Access-Control-Allow-Origin: mydomain.com
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Headers: origin, content-type, accept, authorization, x-xsrf-token, x-request-id
 connection: keep-alive
-```
 
-同时，您可以查看一下社区内提供的资源：
+$ curl localhost:9999/ -i -X OPTIONS     
+HTTP/1.1 204 No Content
+Access-Control-Allow-Methods: GET,POST,OPTIONS
+Access-Control-Allow-Origin: mydomain.com
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: origin, content-type, accept, authorization, x-xsrf-token, x-request-id
+connection: keep-alive
+```
+:::
 
 - [Awesome Sanic](https://github.com/mekicha/awesome-sanic/blob/master/README.md#frontend) 
