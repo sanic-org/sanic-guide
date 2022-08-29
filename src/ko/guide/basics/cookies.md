@@ -4,27 +4,21 @@
 
 ---:1
 
-쿠키는 `Request` 객체의 `cookies` 사전(dict)을 통해 액세스 할 수 있습니다.
-
-:--:1
-
+쿠키는 `Request` 객체의 `cookies` 사전(dict)을 통해 액세스 할 수 있습니다. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
     test_cookie = request.cookies.get("test")
     return text("Test cookie: {}".format(test_cookie))
 ```
-
 :---
+
 
 ## 쓰기(Writing)
 
 ---:1
 
-응답을 반환할 때 `Response`객체인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(dict)인 `CookieJar`의 인스턴스입니다.
-
-:--:1
-
+응답을 반환할 때 `Response`객체인 `response.cookies`에 쿠키를 설정할 수 있습니다. 이 객체는 응답 헤더를 자동으로 작성하는 특별한 종류의 사전(dict)인 `CookieJar`의 인스턴스입니다. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -34,10 +28,9 @@ async def test(request):
     response.cookies["test"]["httponly"] = True
     return response
 ```
-
 :---
 
-응답 쿠키는 사전 값과 같이 설정할 수 있으며 다음 매개변수들을 사용할 수 있습니다.:
+:--:1
 
 - `expires: datetime` - 클라이언트의 브라우저에서 쿠키가 만료되는 시간입니다.
 - `path: str` - 이 쿠키가 적용되는 URL의 하위 집합입니다. 기본값은 `/`입니다.
@@ -52,10 +45,7 @@ async def test(request):
 
 ---:1
 
-쿠키는 의미적으로 또는 명시적으로 제거할 수 있습니다.
-
-:--:1
-
+Cookies can be removed semantically or explicitly. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -76,9 +66,8 @@ async def test(request):
 
     return response
 ```
-
 :---
 
 ## 먹기(Eating)
 
-저는 쿠키를 좋아합니다 :cookie:
+쿠키는 의미적으로 또는 명시적으로 제거할 수 있습니다.
