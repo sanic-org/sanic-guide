@@ -4,8 +4,7 @@
 
 ---:1
 
-クッキーは、`Request`オブジェクトの`cookies`辞書を介してアクセスできます。
-:--:1
+クッキーは、`Request`オブジェクトの`cookies`辞書を介してアクセスできます。 :--:1 :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -19,8 +18,7 @@ async def test(request):
 
 ---:1
 
-応答を返すとき、クッキーは`Response`オブジェクトに設定できます: `response.cookies`。このオブジェクトは、応答ヘッダーを自動的に書き込む特別な種類の辞書である「CookieJar」のインスタンスです。
-:--:1
+応答を返すとき、クッキーは`Response`オブジェクトに設定できます: `response.cookies`。 このオブジェクトは、応答ヘッダーを自動的に書き込む特別な種類の辞書である「CookieJar」のインスタンスです。 :--:1 :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -35,9 +33,9 @@ async def test(request):
 応答クッキーは辞書の値のように設定でき、次のパラメータを使用できます。
 
 - `expires: datetime` - クライアントのブラウザでクッキーが期限切れになる時間。
-- `path: str` - このクッキーが適用されるURLのサブセット。デフォルトは `/` です。
+- `path: str` - このクッキーが適用されるURLのサブセット。 デフォルトは `/` です。
 - `comment: str` - コメント(メタデータ)。
-- `domain: str` - クッキーが有効なドメインを指定します。明示的に指定されたドメインは常にドットで始まる必要があります。
+- `domain: str` - クッキーが有効なドメインを指定します。 明示的に指定されたドメインは常にドットで始まる必要があります。
 - `max-age: int` - クッキーが存息する秒数。
 - `secure: bool` - クッキーがHTTPS経由でのみ送信されるかどうかを指定します。
 - `httponly: bool` - クッキーをJavaScriptで読み取ることができないかどうかを指定します。
@@ -47,8 +45,7 @@ async def test(request):
 
 ---:1
 
-クッキーは意味的または明示的に削除できます。
-:--:1
+クッキーは意味的または明示的に削除できます。 :--:1 :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
