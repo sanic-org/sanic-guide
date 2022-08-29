@@ -7,8 +7,7 @@ Sanicは、[websockets](https://websockets.readthedocs.io/en/stable/)の上に�
 
 ---:1
 
-Websocketハンドラーは、通常のハンドラと同様にルーターに接続できます。
-:--:1
+Websocketハンドラーは、通常のハンドラと同様にルーターに接続できます。 :--:1 :--:1
 ```python
 async def feed(request, ws):
     pass
@@ -31,8 +30,7 @@ async def feed(request, ws):
 
 その後、ハンドラーに注入された2番目のオブジェクトで `send()` メソッドと `recv()` メソッドを使用できます。
 
-この例は、受信したクライアントメッセージにエコーバックする単純なエンドポイントです。
-:--:1
+この例は、受信したクライアントメッセージにエコーバックする単純なエンドポイントです。 :--:1 :--:1
 ```python
 
 @app.websocket("/feed")
