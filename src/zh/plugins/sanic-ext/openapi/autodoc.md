@@ -4,12 +4,7 @@
 
 ## 总结和描述（Summary and description）
 
----:1
-
-函数的文档字符串将用于创建摘要和描述。从这个例子中可以看出，文档字符串已经被解析，使用第一行作为摘要，字符串的剩余部分作为描述。
-
-:--:1
-
+函数的文档字符串将用于创建摘要和描述。 从这个例子中可以看出，文档字符串已经被解析，使用第一行作为摘要，字符串的剩余部分作为描述。 :--:1
 ```python
 @app.get("/foo")
 async def handler(request, something: str):
@@ -22,8 +17,12 @@ async def handler(request, something: str):
     - two
     - three"""
     return text(">>>")
-```
 
+    - one
+    - two
+    - three"""
+    return text(">>>")
+```
 ```json
 {
   "paths": {
@@ -42,19 +41,13 @@ async def handler(request, something: str):
   }
 }
 ```
-
 :---
 
 ## YAML 级操作（Operation level YAML）
 
----:1
+您可以通过在文档字符串中添加有效的 OpenAPI YAML 来对此进行扩展。 只需添加一行包含 `openapi:` 的内容，后跟您的 YAML。
 
-您可以通过在文档字符串中添加有效的 OpenAPI YAML 来对此进行扩展。只需添加一行包含 `openapi:` 的内容，后跟您的 YAML。
-
-示例中显示的 `---` 不是必需的。它只是在那里帮助视觉识别 YAML 作为文档字符串的一个独特部分。
-
-:--:1
-
+示例中显示的 `---` 不是必需的。 它只是在那里帮助视觉识别 YAML 作为文档字符串的一个独特部分。 :--:1
 ```python
 @app.get("/foo")
 async def handler(request, something: str):
@@ -82,7 +75,6 @@ async def handler(request, something: str):
     """
     return text("...")
 ```
-
 ```json
 {
   "paths": {
@@ -120,31 +112,23 @@ async def handler(request, something: str):
 
 :---
 
-::: tip 小提示
-
-当 YAML 文档和装饰器都被使用时，在生成文档时将优先使用装饰器中的内容。
-
-:::
+当 YAML 文档和装饰器都被使用时，在生成文档时将优先使用装饰器中的内容。 :::
 
 ## 排除文档字符串（Excluding docstrings）
 
----:1
-
 有时，函数的文档字符串中可能包含并不打算展示在文档中的字符串。
-
-**选项 1**: 在配置文件中设置 `app.config.OAS_AUTODOC = False` 禁用整个项目的文档自动生成功能
-
-**选项 2**: 使用 `@openapi.no_autodoc` 装饰器为某个指定的响应程序禁用自动文档生成功能。
 
 :--:1
 
+**选项 2**: 使用 `@openapi.no_autodoc` 装饰器为某个指定的响应程序禁用自动文档生成功能。
 ```python
 @app.get("/foo")
 @openapi.no_autodoc
 async def handler(request, something: str):
     """This is a docstring about internal info only. Do not parse it.
     """
+    return text("...") Do not parse it.
+    """
     return text("...")
 ```
-
 :---
