@@ -37,6 +37,10 @@
           <span class="sr-only">(opens new window)</span></span
         >
       </a>
+      <p>
+        Check out our
+        <a href="/en/org/feature_requests.html">feature requests</a>
+      </p>
     </div>
   </aside>
 </template>
