@@ -23,7 +23,7 @@ async def handler(request, somethind: str):
 
 ---:1
 
-您还将看到以下许多示例都引用了模型对象。 为简单起见，示例将使用如下所示的 `UserProfile`。 这是一个非常简单的模型类。您可以轻易的将其联想到 `数据类` 或其他的任何类型的模型对象。
+您还将看到以下许多示例都引用了模型对象。 为简单起见，示例将使用如下所示的 `UserProfile`。 这是一个非常简单的模型类。 您可以轻易的将其联想到 `数据类` 或其他的任何类型的模型对象。
 
 :--:1
 
@@ -44,22 +44,23 @@ class UserProfile:
 
 这些字段特意允许接受多种类型，使您可以最轻松的定义您的文档。
 
-**参数：**
+**Arguments**
 
-| 参数名称        |                                参数类型                              |
-|:--------------|:-------------------------------------------------------------------:|
-| `body`        |                     **dict, RequestBody, *YourModel***              |
-| `deprecated`  |                              **bool**                               |
-| `description` |                               **str**                               |
-| `document`    |                     **str, ExternalDocumentation**                  |
-| `exclude`     |                               **bool**                              |
-| `operation`   |                                **str**                              |
-| `parameter`   |**dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]** |
-| `response`    |**dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**   |
-| `summary`     |                                **str**                              |
-| `tag`         |                        **str, Tag, [str], [Tag]**                   |
+| 参数名称          | 参数类型                                                                 |
+| ------------- | -------------------------------------------------------------------- |
+| `body`        | ***dict, RequestBody, ***YourModel******                             |
+| `deprecated`  | **bool**                                                             |
+| `description` | **str**                                                              |
+| `document`    | **str, ExternalDocumentation**                                       |
+| `exclude`     | **bool**                                                             |
+| `operation`   | **str**                                                              |
+| `parameter`   | **dict, Parameter, *YourModel*, [dict], [Parameter], [*YourModel*]** |
+| `response`    | **dict, Response, *YourModel*, [dict], [Response], [*YourModel*]**   |
+| `summary`     | **str**                                                              |
+| `tag`         | **str, Tag, [str], [Tag]**                                           |
+| `secured`     | **Dict[str, Any]**                                                   |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -86,13 +87,13 @@ class UserProfile:
 
 ::: tab body
 
-**参数：**
+**Arguments**
 
-|   参数名称    |             参数类型                | 
-|-------------|------------------------------------| 
+| 参数名称        | 参数类型                               |
+| ----------- | ---------------------------------- |
 | **content** | ***YourModel*, dict, RequestBody** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -124,11 +125,11 @@ class UserProfile:
 
 ::: tab deprecated
 
-**参数：**
+**Arguments**
 
 *None*
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -150,8 +151,8 @@ class UserProfile:
 
 **Arguments**
 
-| 参数名称 | 参数名称 |
-|--------|---------|
+| 参数名称   | 参数名称    |
+| ------ | ------- |
 | `text` | **str** |
 
 **Examples**
@@ -161,6 +162,14 @@ class UserProfile:
 ```python
 @openapi.description(
     """This is a **description**.
+
+## You can use `markdown`
+
+- And
+- make
+- lists.
+"""
+)
 
 ## You can use `markdown`
 
@@ -179,14 +188,14 @@ class UserProfile:
 
 ::: tab document
 
-**参数：**
+**Arguments**
 
-|    参数名称    |  参数类型 | 
-|---------------|---------| 
-|      `url`    | **str** | 
+| 参数名称          | 参数类型    |
+| ------------- | ------- |
+| `url`         | **str** |
 | `description` | **str** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -208,14 +217,14 @@ class UserProfile:
 
 可以像其他所有装饰器一样用在响应函数上，也可以作用在蓝图上
 
-**参数：**
+**Arguments**
 
-| 参数名称 |     参数类型   |  默认值   |
-|--------|---------------|----------| 
-| `flag` |   **bool**    | **True** |
-|  `bp`  | **Blueprint** |          |
+| 参数名称   | 参数类型          | 默认值      |
+| ------ | ------------- | -------- |
+| `flag` | **bool**      | **True** |
+| `bp`   | **Blueprint** |          |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -237,13 +246,13 @@ openapi.exclude(bp=some_blueprint)
 
 设置操作 ID。
 
-**参数：**
+**Arguments**
 
-| 参数名称 | 参数类型 | 
-|--------|---------| 
+| 参数名称   | 参数类型    |
+| ------ | ------- |
 | `name` | **str** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -259,15 +268,15 @@ openapi.exclude(bp=some_blueprint)
 
 ::: tab parameter
 
-**参数：**
+**Arguments**
 
-|   参数名称   |                   参数类型                 | 默认值
-|------------|-------------------------------------------|--------------| 
-|   `name`   |                   **str**                 |              |
-|  `schema`  |                ***type***                 | **str**      | 
-| `location` | **"query", "header", "path" or "cookie"** |  **"query"** |
+| 参数名称       | 参数类型                                      | 默认值         |
+| ---------- | ----------------------------------------- | ----------- |
+| `name`     | **str**                                   |             |
+| `schema`   | ***type***                                | **str**     |
+| `location` | **"query", "header", "path" or "cookie"** | **"query"** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -295,18 +304,18 @@ openapi.exclude(bp=some_blueprint)
 
 ::: tab response
 
-**参数：**
+**Arguments**
 
 如果使用 `Response` 对象，则不应传递任何其他参数。
 
-|    参数名称     |             参数类型           | 
-|---------------|-------------------------------|
-|    `status`   |              **int**          | 
-|   `content`   | ***type*, *YourModel*, dict** | 
-| `description` |              **str**          | 
-|   `response`  |            **Response**       |
+| 参数名称          | 参数类型                          |
+| ------------- | ----------------------------- |
+| `status`      | **int**                       |
+| `content`     | ***type*, *YourModel*, dict** |
+| `description` | **str**                       |
+| `response`    | **Response**                  |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -356,13 +365,13 @@ openapi.exclude(bp=some_blueprint)
 
 ::: tab summary
 
-**参数名称：**
+**Arguments**
 
-| 参数名称 | 参数类型  |
-|---------|---------|
-| `text`  | **str** |
+| 参数名称   | 参数类型    |
+| ------ | ------- |
+| `text` | **str** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -378,13 +387,13 @@ openapi.exclude(bp=some_blueprint)
 
 ::: tab tag
 
-**参数：**
+**Arguments**
 
-| 参数名称 |    参数类型    |
-|---------|--------------|
+| 参数名称    | 参数类型         |
+| ------- | ------------ |
 | `*args` | **str, Tag** |
 
-**示例：**
+**Examples**
 
 ---:1
 
@@ -399,6 +408,46 @@ openapi.exclude(bp=some_blueprint)
 ```
 
 :---
+
+:::
+
+:::tab secured
+
+**Arguments**
+
+| Field             | Type                    |
+| ----------------- | ----------------------- |
+| `*args, **kwargs` | **str, Dict[str, Any]** |
+
+**Examples**
+
+---:1
+```python
+@openapi.secured()
+```
+:--:1 :---
+
+---:1
+```python
+@openapi.secured("foo")
+```
+:--:1
+```python
+@openapi.secured("token1", "token2")
+```
+:---
+
+---:1
+```python
+@openapi.secured({"my_api_key": []})
+```
+:--:1
+```python
+@openapi.secured(my_api_key=[])
+```
+:---
+
+Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
 
 :::
 
