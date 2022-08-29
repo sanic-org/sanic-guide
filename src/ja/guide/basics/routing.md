@@ -4,8 +4,7 @@
 
 これまでに様々な形の装飾家を見てきました。
 
-でも何なの?どうやって使うのか?
-:--:1
+But what is it? And how do we use it? :--:1
 ```python
 @app.route("/stairway")
 ...
@@ -24,8 +23,7 @@
 
 ハンドラをエンドポイントに接続する最も基本的な方法は、`app.add_route()`を使用することです。
 
-詳細については、[API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for)を参照してください。
-:--:1
+詳細については、[API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for)を参照してください。 :--:1 :--:1
 ```python
 async def handler(request):
     return text("OK")
@@ -36,8 +34,7 @@ app.add_route(handler, "/test")
 
 ---:1
 
-デフォルトでは、ルートはHTTP`GET`コールとして使用できます。1つ以上のHTTPメソッドに応答するようにハンドラを変更できます。
-:--:1
+デフォルトでは、ルートはHTTP`GET`コールとして使用できます。 1つ以上のHTTPメソッドに応答するようにハンドラを変更できます。 :--:1 :--:1
 ```python
 app.add_route(
     handler,
@@ -49,8 +46,7 @@ app.add_route(
 
 ---:1
 
-デコレータ構文を使用する場合、前の例はこれと同じです。
-:--:1
+でも何なの?どうやって使うのか? :--:1
 ```python
 @app.route('/test', methods=["POST", "PUT"])
 async def handler(request):
@@ -71,8 +67,7 @@ async def handler(request):
     return text('OK')
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/GET) :::
 ::: tab POST
 
 ```python
@@ -81,8 +76,7 @@ async def handler(request):
     return text('OK')
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) :::
 ::: tab PUT
 
 ```python
@@ -91,8 +85,7 @@ async def handler(request):
     return text('OK')
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PUT) :::
 ::: tab PATCH
 
 ```python
@@ -101,8 +94,7 @@ async def handler(request):
     return text('OK')
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/PATCH) :::
 ::: tab DELETE
 
 ```python
@@ -111,8 +103,7 @@ async def handler(request):
     return text('OK')
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/DELETE) :::
 ::: tab HEAD
 
 ```python
@@ -121,8 +112,7 @@ async def handler(request):
     return empty()
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD) :::
 ::: tab OPTIONS
 
 ```python
@@ -131,12 +121,10 @@ async def handler(request):
     return empty()
 ```
 
-[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
-:::
+[MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS) :::
 ::::
 
-::: warning
-デフォルトでは、Sanic は安全でない HTTP メソッド (`POST`、`PUT`、`PATCH`) で受信したリクエストボディ**のみ**を消費します。他のメソッドでHTTPリクエストのデータを受け取りたい場合は、以下の2つのオプションのいずれかを実行する必要があります。
+::: warning デフォルトでは、Sanic は安全でない HTTP メソッド (`POST`、`PUT`、`PATCH`) で受信したリクエストボディ**のみ**を消費します。 他のメソッドでHTTPリクエストのデータを受け取りたい場合は、以下の2つのオプションのいずれかを実行する必要があります。
 
 **オプション#1 - `ignore_body`を使用してSanicにボディを消費するように指示する。**
 ```python
@@ -157,8 +145,7 @@ async def handler(request: Request):
 
 ---:1
 
-Sanicでは、パターンマッチングやURLパスからの値の抽出が可能です。これらのパラメータは、キーワード引数としてルートハンドラに挿入されます。
-:--:1
+Sanicでは、パターンマッチングやURLパスからの値の抽出が可能です。 これらのパラメータは、キーワード引数としてルートハンドラに挿入されます。 :--:1 :--:1
 ```python
 @app.get("/tag/<tag>")
 async def tag_handler(request, tag):
@@ -168,8 +155,7 @@ async def tag_handler(request, tag):
 
 ---:1
 
-パラメータの型を宣言できます。これはマッチング時に強制され、変数を型キャストします。
-:--:1
+パラメータの型を宣言できます。 これはマッチング時に強制され、変数を型キャストします。 :--:1 :--:1
 ```python
 @app.get("/foo/<foo_id:uuid>")
 async def uuid_handler(request, foo_id: UUID):
@@ -194,10 +180,31 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
+Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for this behavior.
 
-以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
 :::
-::: tab  int
+::: tab strorempty
+
+```python
+async def handler(request, ws):
+    messgage = "Start"
+    while True:
+        await ws.send(message)
+        message = ws.recv()
+
+app.add_websocket_route(handler, "/test")
+```
+**Regular expression applied**: `r"[^/]*")`  
+**Cast type**: `str`  
+**Example matches**:
+- `/path/to/Bob`
+- `/path/to/Python%203`
+- `/path/to/`
+
+Unlike the `str` path parameter type, `strorempty` can also match on an empty string path segment.
+
+以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。 :::
+::: tab alpha
 
 ```python
 @app.route("/path/to/<foo:int>")
@@ -210,8 +217,7 @@ async def handler(request, foo: int):
 - `/path/to/10`
 - `/path/to/-10`
 
-_Does not match float, hex, octal, etc_
-:::
+_Does not match float, hex, octal, etc_ :::
 ::: tab float
 
 ```python
@@ -226,7 +232,6 @@ async def handler(request, foo: float):
 - `/path/to/-10`
 - `/path/to/1.5`
 
-以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
 :::
 ::: tab alpha
 
@@ -241,8 +246,7 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python`
 
-_Does not match a digit, or a space or other special character_
-:::
+_Does not match a digit, or a space or other special character_ :::
 ::: tab slug
 
 ```python
@@ -271,10 +275,9 @@ async def handler(request, foo: str):
 - `/path/to/hello.txt`
 - `/path/to/hello/world.txt`
 
-::: warning
-これは`/`で一致するため、`path`を使用するパターンを慎重に徹底的にテストして、別のエンドポイント向けのトラフィックをキャプチャしないようにする必要があります。
-:::
+::: warning これは`/`で一致するため、`path`を使用するパターンを慎重に徹底的にテストして、別のエンドポイント向けのトラフィックをキャプチャしないようにする必要があります。 :::
 ::: tab ymd
+::: ::: tab ymd
 
 ```python
 @app.route("/path/to/<foo:ymd>")
@@ -284,8 +287,7 @@ async def handler(request, foo: datetime.date):
 **Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
 **Cast type**: `datetime.date`  
 **Example matches**:
-- `/path/to/2021-03-28`
-:::
+- `/path/to/2021-03-28` :::
 
 ::: tab uuid
 
@@ -301,6 +303,152 @@ async def handler(request, foo: UUID):
 
 :::
 
+複雑なルーティングと比較すると、上記の例は単純すぎることが多く、まったく異なるルーティングマッチングパターンを使用するため、ここではregexマッチングの高度な使用方法について詳しく説明します。
+
+```python
+@app.websocket("/test")
+async def handler(request, ws):
+    messgage = "Start"
+    while True:
+        await ws.send(message)
+        message = ws.recv()
+```
+ルートの一部を照合する場合があります。
+
+<table spaces-before="0">
+  <tr>
+    <th>
+      definition
+    </th>
+    
+    <th>
+      example
+    </th>
+    
+    <th>
+      filename
+    </th>
+    
+    <th>
+      extension
+    </th>
+  </tr>
+  
+  <tr>
+    <td>
+      \<file:ext>
+    </td>
+    
+    <td>
+      page.txt
+    </td>
+    
+    <td>
+      <code>"page"</code>
+    </td>
+    
+    <td>
+      <code>"txt"</code>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      \<file:ext=jpg>
+    </td>
+    
+    <td>
+      cat.jpg
+    </td>
+    
+    <td>
+      <code>"cat"</code>
+    </td>
+    
+    <td>
+      <code>"jpg"</code>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      \<file:ext=jpg\
+    </td>
+    
+    <td>
+      png\
+    </td>
+    
+    <td>
+      gif\
+    </td>
+    
+    <td>
+      svg>    | cat.jpg     | <code>"cat"</code>     | <code>"jpg"</code>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <file=int:ext>
+    </td>
+    
+    <td>
+      123.txt
+    </td>
+    
+    <td>
+      <code>123</code>
+    </td>
+    
+    <td>
+      <code>"txt"</code>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <file=int:ext=jpg\
+    </td>
+    
+    <td>
+      png\
+    </td>
+    
+    <td>
+      gif\
+    </td>
+    
+    <td>
+      svg> | 123.svg     | <code>123</code>       | <code>"svg"</code>
+    </td>
+  </tr>
+  
+  <tr>
+    <td>
+      <file=float:ext=tar.gz>
+    </td>
+    
+    <td>
+      3.14.tar.gz
+    </td>
+    
+    <td>
+      <code>3.14</code>
+    </td>
+    
+    <td>
+      <code>"tar.gz"</code>
+    </td>
+  </tr>
+</table>
+
+File extensions can be matched using the special `ext` parameter type. It uses a special format that allows you to specify other types of parameter types as the file name, and one or more specific extensions as shown in the example table above.
+
+さらに、これらはすべて許容可能です。
+
+また、名前付き一致グループを使用する場合は、セグメントラベルと同じである必要があります。
+
 ::: tab regex
 
 ```python
@@ -313,9 +461,9 @@ async def handler(request, foo: str):
 **Example matches**:
 - `/path/to/2021-01-01`
 
-これにより、ユースケースの特定のマッチング・パターンを自由に定義できます。
-この例では、YYYY-MM-DD形式の日付を探しています。
+This gives you the freedom to define specific matching patterns for your use case.
 
+これにより、ユースケースの特定のマッチング・パターンを自由に定義できます。 この例では、YYYY-MM-DD形式の日付を探しています。
 
 ::::
 
@@ -323,9 +471,9 @@ async def handler(request, foo: str):
 
 
 
-複雑なルーティングと比較すると、上記の例は単純すぎることが多く、まったく異なるルーティングマッチングパターンを使用するため、ここではregexマッチングの高度な使用方法について詳しく説明します。
+More often than not, compared with complex routing, the above example is too simple, and we use a completely different routing matching pattern, so here we will explain the advanced usage of regex matching in detail.
 
-ルートの一部を照合する場合があります。
+Sometimes, you want to match a part of a route:
 
 ```text
 /image/123456789.jpg
@@ -337,7 +485,7 @@ async def handler(request, foo: str):
 app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 ```
 
-さらに、これらはすべて許容可能です。
+また、1つのクエリキーに複数の値を渡すこともサポートされています。 :--:1
 
 ```python
 @app.get(r"/<foo:[a-z]{3}.txt>")                # matching on the full pattern
@@ -346,7 +494,7 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 @app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
 ```
 
-また、名前付き一致グループを使用する場合は、セグメントラベルと同じである必要があります。
+Also, if using a named matching group, it must be the same as the segment label.
 
 ```python
 @app.get(r"/<foo:(?P<foo>\d+).jpg>")  # OK
@@ -359,14 +507,13 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 
 ---:1
 
-Sanicは、ハンドラメソッド名`app.url_for()`に基づいてURLを生成するメソッドを提供しています。これは、アプリケーションへのURLパスをハードコーディングしない場合に便利です。代わりに、ハンドラ名を参照することができます。
-:--:1
+Sanicは、ハンドラメソッド名`app.url_for()`に基づいてURLを生成するメソッドを提供しています。 これは、アプリケーションへのURLパスをハードコーディングしない場合に便利です。 代わりに、ハンドラ名を参照することができます。 :--:1
 ```python
 @app.route('/')
 async def index(request):
     # generate a URL for the endpoint `post_handler`
     url = app.url_for('post_handler', post_id=5)
-    
+
     # Redirect to `/posts/5`
     return redirect(url)
 
@@ -378,8 +525,7 @@ async def post_handler(request, post_id):
 
 ---:1
 
-任意の数のキーワード引数を渡すことができます。_not_a要求パラメータであるものはすべて、クエリ文字列の一部として実装されます。
-:--:1
+任意の数のキーワード引数を渡すことができます。 _not_a要求パラメータであるものはすべて、クエリ文字列の一部として実装されます。 :--:1 :--:1
 ```python
 >>> app.url_for(
     "post_handler",
@@ -393,8 +539,7 @@ async def post_handler(request, post_id):
 
 ---:1
 
-また、1つのクエリキーに複数の値を渡すこともサポートされています。
-:--:1
+Also supported is passing multiple values for a single query key. :--:1
 ```python
 >>> app.url_for(
     "post_handler",
@@ -430,8 +575,7 @@ See [API Docs]() for more details.
 
 ---:1
 
-カスタムルート名は、ルートの登録時に`name`引数を渡すことで使用できます。
-:--:1
+カスタムルート名は、ルートの登録時に`name`引数を渡すことで使用できます。 :--:1 :--:1
 ```python
 @app.get("/get", name="get_handler")
 def handler(request):
@@ -441,8 +585,7 @@ def handler(request):
 
 ---:1
 
-ここで、このカスタム名を使用してURLを取得します。
-:--:1
+ここで、このカスタム名を使用してURLを取得します。 :--:1
 ```python
 >>> app.url_for("get_handler", foo="bar")
 '/get?foo=bar'
@@ -453,14 +596,13 @@ def handler(request):
 
 ---:1
 
-WebsocketルーティングはHTTPメソッドと同様に動作します。
-:--:1
+WebsocketルーティングはHTTPメソッドと同様に動作します。 :--:1 :--:1
 ```python
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 
 app.add_websocket_route(handler, "/test")
 ```
@@ -468,15 +610,14 @@ app.add_websocket_route(handler, "/test")
 
 ---:1
 
-便利なデコレーターも付いています。
-:--:1
+It also has a convenience decorator. :--:1
 ```python
 @app.websocket("/test")
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 ```
 :---
 
@@ -487,7 +628,7 @@ async def handler(request, ws):
 
 ---:1
 
-Sanicルートは、末尾のスラッシュがあるかどうかに厳密に一致するように設定できます。これはいくつかのレベルで設定でき、次の優先順位に従います。
+Sanicルートは、末尾のスラッシュがあるかどうかに厳密に一致するように設定できます。 これはいくつかのレベルで設定でき、次の優先順位に従います。
 
 1. Route
 2. Blueprint
@@ -542,8 +683,7 @@ Sanicから静的ファイルを提供するには、`app.static()`を使用し�
 1. ファイルが提供されるルート
 2. サーバー上のファイルへのパス
 
-詳しくは[API docs]()を見てください。
-:--:1
+詳しくは[API docs]()を見てください。 :--:1 :--:1
 ```python
 app.static("/static", "/path/to/directory")
 ```
@@ -551,8 +691,7 @@ app.static("/static", "/path/to/directory")
 
 ---:1
 
-個々のファイルを提供することもできます。
-:--:1
+個々のファイルを提供することもできます。 :--:1 :--:1
 ```python
 app.static("/", "/path/to/index.html")
 ```
@@ -560,8 +699,7 @@ app.static("/", "/path/to/index.html")
 
 ---:1
 
-また、エンドポイントに名前を付けると便利な場合もあります。
-:--:1
+また、エンドポイントに名前を付けると便利な場合もあります。 :--:1
 ```python
 app.static(
     "/user/uploads",
@@ -573,8 +711,7 @@ app.static(
 
 ---:1
 
-URLの取得は、ハンドラと同様に機能します。ただし、ディレクトリ内に特定のファイルが必要な場合は、`filename`引数を追加することもできます。
-:--:1
+URLの取得は、ハンドラと同様に機能します。 ただし、ディレクトリ内に特定のファイルが必要な場合は、`filename`引数を追加することもできます。 :--:1 :--:1
 ```python
 >>> app.url_for(
     "static",
@@ -594,8 +731,7 @@ URLの取得は、ハンドラと同様に機能します。ただし、ディ�
 ```
 :---
 
-::: tip
-複数の`static()`ルートを使用する場合は、手動で名前を付けることを推奨します。これにより、バグを発見するのが難しい可能性がほぼ確実に軽減されます。
+::: tip 複数の`static()`ルートを使用する場合は、手動で名前を付けることを推奨します。 これにより、バグを発見するのが難しい可能性がほぼ確実に軽減されます。
 
 ```python
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
@@ -604,11 +740,8 @@ app.static("/user/profile", "/path/to/profile", name="profile_pics")
 :::
 
 ## ルートコンテキスト
-::: new NEW in v21.12
 
----:1
-ルートが定義されるとき、`ctx_` という接頭辞を持つキーワード引数をいくつでも追加することができます。これらの値はルートの `ctx` オブジェクトにインジェクションされます。
-:--:1
+---:1 ルートが定義されるとき、`ctx_` という接頭辞を持つキーワード引数をいくつでも追加することができます。 これらの値はルートの `ctx` オブジェクトにインジェクションされます。 :--:1 :--:1
 ```python
 @app.get("/1", ctx_label="something")
 async def handler1(request):
