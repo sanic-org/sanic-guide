@@ -2,10 +2,9 @@
 
 > SQLAlchemyをSanicと共に使用する方法?
 
-すべてのORMツールはSanicで動作しますが、非同期ORMツールはSanicのパフォーマンスに影響します。
-これをサポートするormパッケージがいくつかあります。
+すべてのORMツールはSanicで動作しますが、非同期ORMツールはSanicのパフォーマンスに影響します。 これをサポートするormパッケージがいくつかあります。 There are some orm packages who support
 
-現在、非同期性をサポートするORMはたくさんあります。一般的なライブラリには、次の2つがあります。
+現在、非同期性をサポートするORMはたくさんあります。 一般的なライブラリには、次の2つがあります。
 
 - [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
 - [tortoise-orm](https://github.com/tortoise/tortoise-orm)
@@ -14,14 +13,14 @@
 
 ## SQLAlchemy
 
-[SQLAlchemy 1.4関数](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)が`asyncio`のネイティブサポートを追加したので、SanicはついにSQLAlchemyでうまく動作するようになりました。SQLAlchemyプロジェクトでは、この機能はまだ*ベータ*と見なされていることに注意してください。
+[SQLAlchemy 1.4関数](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)が`asyncio`のネイティブサポートを追加したので、SanicはついにSQLAlchemyでうまく動作するようになりました。 SQLAlchemyプロジェクトでは、この機能はまだ*ベータ*と見なされていることに注意してください。
 
 
 ---:1
 
 ### 依存関係
 
-まず、必要な依存関係をインストールする必要があります。以前は、インストールされる依存関係は`sqlalchemy'と`pymysql'でしたが、現在は`sqlalchemy'と`aiomysql'が必要です。
+まず、必要な依存関係をインストールする必要があります。 以前は、インストールされる依存関係は`sqlalchemy'と`pymysql'でしたが、現在は`sqlalchemy'と`aiomysql'が必要です。
 
 :--:1
 
@@ -76,8 +75,7 @@ class Car(BaseModel):
 
 ### Sanicアプリケーションと非同期エンジンの作成
 
-ここではデータベースとしてmysqlを使用しますが、PostgreSQL/SQLiteを選択することもできます。ドライバを`aiomysql`から`asyncpg`/`aiosqlite`に変更することに注意してください。
-:--:1
+ここではデータベースとしてmysqlを使用しますが、PostgreSQL/SQLiteを選択することもできます。 ドライバを`aiomysql`から`asyncpg`/`aiosqlite`に変更することに注意してください。 :--:1 :--:1
 
 
 ```python
