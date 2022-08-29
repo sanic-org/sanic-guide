@@ -116,7 +116,11 @@ module.exports = {
     {
       title: "Organization",
       sidebarDepth: 1,
-      children: ["/en/org/policies.md", "/en/org/scope.md"],
+      children: [
+        "/en/org/feature_requests.md",
+        "/en/org/policies.md",
+        "/en/org/scope.md"
+      ],
     },
   ],
 
@@ -175,7 +179,11 @@ module.exports = {
     {
       title: "Organization",
       sidebarDepth: 1,
-      children: ["/en/org/policies.md", "/en/org/scope.md"],
+      children: [
+        "/en/org/feature_requests.md",
+        "/en/org/policies.md",
+        "/en/org/scope.md"
+      ],
     },
   ],
 
@@ -204,7 +212,11 @@ module.exports = {
       title: "Organization",
       sidebarDepth: 1,
       collapsable: false,
-      children: ["/en/org/policies.md", "/en/org/scope.md"],
+      children: [
+        "/en/org/feature_requests.md",
+        "/en/org/policies.md",
+        "/en/org/scope.md"
+      ],
     },
   ],
 };

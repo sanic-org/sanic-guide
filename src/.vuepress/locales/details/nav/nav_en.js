@@ -66,6 +66,10 @@ module.exports = [
         text: "Org Docs",
         items: [
           {
+            text: "Feature Requests",
+            link: "/en/org/feature_requests.md",
+          },
+          {
             text: "Policies",
             link: "/en/org/policies.md",
           },
