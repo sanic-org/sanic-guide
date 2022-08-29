@@ -79,8 +79,7 @@ async def handler(request):
     return await file("/path/to/whatever.png")
 ```
 
-Sanic은 파일을 검사하고 MIME 유형을 추측하고 콘텐츠 유형에 적절한 값을 사용합니다. 
-원하는 경우 명시적일 수 있습니다:
+Sanic은 파일을 검사하고 MIME 유형을 추측하고 콘텐츠 유형에 적절한 값을 사용합니다. 원하는 경우 명시적일 수 있습니다:
 
 ```python
 file("/path/to/whatever.png", mime_type="image/png")
@@ -92,34 +91,10 @@ file("/path/to/whatever.png", mime_type="image/png")
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab Streaming
+::: tab "File Streaming"
 
 **기본 콘텐츠 유형**: `text/plain; charset=utf-8`  
 **설명**: 클라이언트에 데이터 스트리밍
-
-```python
-from sanic.response import stream
-
-@app.route("/")
-async def handler(request):
-    return stream(streaming_fn)
-
-async def streaming_fn(response):
-    await response.write('foo')
-    await response.write('bar')
-```
-
-기본적으로 Sanic은 클라이언트가 지원하는 경우 청크 인코딩을 사용하여 클라이언트로 다시 스트리밍합니다. 
-비활성화할수도 있습니다:
-
-```python
-stream(streaming_fn, chunked=False)
-```
-:::
-::: tab "File Streaming"
-
-**기본 콘텐츠 유형**: N/A  
-**설명**: 파일을 클라이언트로 스트리밍하며, 동영상과 같은 대용량 파일을 스트리밍할 때 유용합니다.
 
 ```python
 from sanic.response import file_stream
@@ -129,8 +104,7 @@ async def handler(request):
     return await file_stream("/path/to/whatever.mp4")
 ```
 
-`file()` 메소드와 마찬가지로 `file_stream()`은 파일의 MIME 유형을 결정하려고 시도합니다.
-:::
+`file()` 메소드와 마찬가지로 `file_stream()`은 파일의 MIME 유형을 결정하려고 시도합니다. :::
 ::: tab Raw
 
 **기본 콘텐츠 유형**: `application/octet-stream`  
@@ -170,8 +144,8 @@ from sanic.response import empty
 async def handler(request):
     return empty()
 ```
-기본값은 `204` 상태입니다.
-:::
+
+기본값은 `204` 상태입니다. :::
 ::::
 
 ## 기본 상태 (Default status)
