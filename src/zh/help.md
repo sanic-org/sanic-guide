@@ -4,7 +4,7 @@ layout: BlankLayout
 
 # Need some help?
 
-As an active community of developers, we try to support each other. If you need some help, try one of the following:
+As an active community of developers, we try to support each other. If you need some help, try one of the following: If you need some help, try one of the following:
 
 ---:1
 
