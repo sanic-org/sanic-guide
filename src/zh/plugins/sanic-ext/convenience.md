@@ -4,7 +4,7 @@
 
 ---:1
 
-通常在开发应用程序的时候，总会有一些路由返回相同类型的响应。在这种情况下，您可以在响应程序上定义一个返回序列化程序，之后您只需要返回响应内容即可。
+通常在开发应用程序的时候，总会有一些路由返回相同类型的响应。 在这种情况下，您可以在响应程序上定义一个返回序列化程序，之后您只需要返回响应内容即可。
 
 :--:1
 
@@ -22,12 +22,13 @@ async def hello_world(request, name: str):
 
 :---
 
+
+
 ---:1
 
 `serializer` 装饰器同样支持设置 HTTP 状态码
 
 :--:1
-
 ```python
 from sanic_ext import serializer
 
@@ -37,10 +38,10 @@ from sanic_ext import serializer
 async def create_something(request):
     ...
 ```
-
 :---
 
 ## 自定义序列化器（Custom serializer）
+
 
 ---:1
 
