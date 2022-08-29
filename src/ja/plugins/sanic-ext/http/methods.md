@@ -2,8 +2,7 @@
 
 ## 自動エンドポイント
 
-デフォルトの動作は、すべての`GET`ルートに`HEAD`エンドポイントを、そして全ルートに`OPTIONS`エンドポイントを自動的に生成することです。
-さらに、`TRACE`エンドポイントを自動的に生成するオプションもあります。しかし、これらは初期状態では有効ではありません。
+デフォルトの動作は、すべての`GET`ルートに`HEAD`エンドポイントを、そして全ルートに`OPTIONS`エンドポイントを自動的に生成することです。 さらに、`TRACE`エンドポイントを自動的に生成するオプションもあります。 Additionally, there is the option to automatically generate `TRACE` endpoints. しかし、これらは初期状態では有効ではありません。
 
 ::::tabs
 
@@ -12,8 +11,7 @@
 - **Configuration**: `AUTO_HEAD` (default `True`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
 
-`HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。
-しかし、実際にはボディを返しません。
+`HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。 しかし、実際にはボディを返しません。 However, it does not actually return the body.
 
 ```python
 @app.get("/")
@@ -49,8 +47,7 @@ async def hello_world(request):
 
 上記のルート定義があれば、Sanic Extensionsはここで見られるように`HEAD`レスポンスを有効にします。
 
-この例では、`access-control-allow-origins`も表示されていることに注意することが重要です。
-これは、[CORS保護](cors.md)がデフォルトで有効になっているためです。
+この例では、`access-control-allow-origins`も表示されていることに注意することが重要です。 これは、[CORS保護](cors.md)がデフォルトで有効になっているためです。 This is because the [CORS protection](cors.md) is enabled by default.
 
 ```
 $ curl localhost:8000 -X OPTIONS -i
@@ -60,7 +57,7 @@ access-control-allow-origin: *
 connection: keep-alive
 ```
 
-::: tip Sanic Extensionsがこれらのルートを自動的にセットアップしてくれるとしても、手動で `@app.options` ルートを作成することにした場合、それは オーバーライド**されません**。
+::: tip Sanic Extensionsがこれらのルートを自動的にセットアップしてくれるとしても、手動で `@app.options` ルートを作成することにした場合、それは オーバーライド**されません**。 :::
 :::
 
 :::tab TRACE
@@ -68,7 +65,7 @@ connection: keep-alive
 - **Configuration**: `AUTO_TRACE` (default `False`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/TRACE)
 
-デフォルトでは、`TRACE`エンドポイントは自動的に作成**されません**。しかし、Sanic Extensions では、必要であれば作成することができます。これはバニラSanicでは許可されていないことである。
+デフォルトでは、`TRACE`エンドポイントは自動的に作成**されません**。 しかし、Sanic Extensions では、必要であれば作成することができます。 これはバニラSanicでは許可されていないことである。
 
 ```python
 @app.route("/", methods=["trace"])
@@ -94,8 +91,7 @@ User-Agent: curl/7.76.1
 Accept: */*
 ```
 
-::: tip `AUTO_TRACE` を設定すると、特にアプリケーションがプロキシの後ろに配置されている場合、非常に便利です。
-は、プロキシがどのように動作しているかを判断するのに役立ちます。
+::: tip `AUTO_TRACE` を設定すると、特にアプリケーションがプロキシの後ろに配置されている場合、非常に便利です。 は、プロキシがどのように動作しているかを判断するのに役立ちます。 :::
 :::
 
 ::::
@@ -116,11 +112,9 @@ Accept: */*
 
 ---:1
 
-しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。
-Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。
+しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。 Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。 Sanic Extensions will allow you to build endpoints using these methods, which would otherwise not be allowed.
 
-これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするものではないことに注意してください。
-この例で示されているように、`@app.route`を使用する必要があります。
+これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするものではないことに注意してください。 この例で示されているように、`@app.route`を使用する必要があります。 You need to use `@app.route` as shown in the example here.
 
 :--:1
 
