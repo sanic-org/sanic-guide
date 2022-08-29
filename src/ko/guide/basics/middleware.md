@@ -32,9 +32,7 @@ Note over Worker: Deliver response
 
 ---:1
 
-이것은 아마 지금쯤 친숙해 보일 것입니다. 당신이 해야 할 일은 미들웨어가 실행되기를 원하는 때를 선언하는 것뿐입니다: `request` 또는 `response`.
-
-:--:1
+이것은 아마 지금쯤 친숙해 보일 것입니다. 당신이 해야 할 일은 미들웨어가 실행되기를 원하는 때를 선언하는 것뿐입니다: `request` 또는 `response`. :--:1
 ```python
 async def extract_user(request):
     request.ctx.user = await extract_user_from_request(request)
@@ -45,9 +43,7 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-다시 말하지만, `Sanic` 앱 인스턴스에는 편리한 데코레이터도 있습니다.
-
-:--:1
+다시 말하지만, `Sanic` 앱 인스턴스에는 편리한 데코레이터도 있습니다. :--:1
 ```python
 @app.middleware("request")
 async def extract_user(request):
@@ -57,9 +53,7 @@ async def extract_user(request):
 
 ---:1
 
-응답 미들웨어는 `request` 및 `response` 인수를 모두 받습니다.
-
-:--:1
+응답 미들웨어는 `request` 및 `response` 인수를 모두 받습니다. :--:1
 ```python
 @app.middleware('response')
 async def prevent_xss(request, response):
@@ -69,9 +63,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-데코레이터를 더 줄일 수 있습니다. 이는 자동 완성 기능이 있는 IDE가 있는 경우에 유용합니다.
-:::
-:--:1
+데코레이터를 더 줄일 수 있습니다. 이는 자동 완성 기능이 있는 IDE가 있는 경우에 유용합니다. ::: :--:1
 ```python
 @app.on_request
 async def extract_user(request):
@@ -91,13 +83,10 @@ async def prevent_xss(request, response):
 
 #### 실행 순서(Order of execution)
 
-
 1. 미들웨어 요청: `add_key`
 2. 라우트 핸들러: `index`
 3. 응답 미들웨어: `prevent_xss`
 4. 응답 미들웨어: `custom_banner`
-   
-:--:1
 ```python
 @app.middleware("request")
 async def add_key(request):
@@ -123,11 +112,7 @@ async def index(request):
 :---
 
 
----:1
-
-`request.match_info`를 수정할 수 있습니다. 예를 들어 미들웨어에서 `a-slug`를 `a_slug`로 변환하는 데 사용할 수 있는 유용한 기능입니다.
-
-:--:1
+`request.match_info`를 수정할 수 있습니다. 예를 들어 미들웨어에서 `a-slug`를 `a_slug`로 변환하는 데 사용할 수 있는 유용한 기능입니다. :--:1
 ```python
 @app.on_request
 def convert_slug_to_underscore(request: Request):
@@ -149,7 +134,7 @@ foo_bar_baz
 
 미들웨어가 `HTTPResponse` 객체를 반환하면 요청 처리가 중지되고 응답이 반환됩니다. 라우트 핸들러에 도달하기 전에 요청에 이 문제가 발생하면 핸들러가 호출되지 **않습니다**. 응답을 반환하면 더 이상 미들웨어가 실행되지 않습니다.
 
-:--:1
+::: tip You can return a `None` value to stop the execution of the middleware handler to allow the request to process as normal. This can be useful when using early return to avoid processing requests inside of that middleware handler. ::: :--:1
 ```python
 @app.middleware("request")
 async def halt_request(request):
@@ -162,7 +147,6 @@ async def halt_response(request, response):
 :---
 
 #### 실행 순서(Order of execution)
-
 
 요청 미들웨어는 선언된 순서대로 실행됩니다. 응답 미들웨어는 **역순**으로 실행됩니다.
 
@@ -189,7 +173,7 @@ async def middleware_3(request, response):
 @app.middleware("response")
 async def middleware_4(request, response):
     print("middleware_4")
-    
+
 @app.get("/handler")
 async def handler(request):
     print("~ handler ~")
