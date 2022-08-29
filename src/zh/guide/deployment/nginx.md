@@ -2,19 +2,15 @@
 
 ## 介绍(Introduction)
 
-尽管 Sanic 可以直接运行在 Internet 中，但是使用代理服务器可能会更好。
-例如在 Sanic 服务器之前添加 Nginx 代理服务器。这将有助于在同一台机器上同时提供多个不同的服务。
-这样做还可以简单快捷的提供静态文件。包括 SSL 和 HTTP2 等协议也可以在此类代理上轻松实现。
 
-我们将 Sanic 应用部署在本地，监听 `127.0.0.1`，
-然后使用 Nginx 代理 `/var/www` 下的静态文件，
-最后使用 Nginx 绑定域名 `example.com` 向公网提供服务
+尽管 Sanic 可以直接运行在 Internet 中，但是使用代理服务器可能会更好。 例如在 Sanic 服务器之前添加 Nginx 代理服务器。 This is particularly useful for running multiple virtual hosts on the same IP, serving NodeJS or other services beside a single Sanic app, and it also allows for efficient serving of static files. 包括 SSL 和 HTTP2 等协议也可以在此类代理上轻松实现。
+
+我们将 Sanic 应用部署在本地，监听 `127.0.0.1`， 然后使用 Nginx 代理 `/var/www` 下的静态文件， 最后使用 Nginx 绑定域名 `example.com` 向公网提供服务 Static files will be served from `/var/www/`.
+
 
 ## 代理 Sanic(Proxied Sanic app)
 
-被代理的应用应该设置 `FORWARDED_SECRET`（受信任代理的密钥）用于识别真实的客户端 IP 以及其他信息。
-这可以有效的防止网络中发送的伪造标头来隐藏其 IP 地址的请求。
-您可以设置任意随机字符串，同时，您需要在 Nginx 中进行相同的配置。
+被代理的应用应该设置 `FORWARDED_SECRET`（受信任代理的密钥）用于识别真实的客户端 IP 以及其他信息。 这可以有效的防止网络中发送的伪造标头来隐藏其 IP 地址的请求。 您可以设置任意随机字符串，同时，您需要在 Nginx 中进行相同的配置。
 
 ```python
 from sanic import Sanic
@@ -43,11 +39,9 @@ if __name__ == "__main__":
 
 允许快速透明代理需要相当多的配置，但是在大多数情况下，这些并不需要修改。
 
-在单独的 `upstream` 模块中配置 `keepalive` 来启用长连接，这可以极大的提高性能，而不是直接在 `server` 中 配置 `proxy_pass`。
-在此示例中，`upstream` 命名为 `server_name` 及域名，该名称将通过 Host 标头传递给 Sanic， 您可以按需修改该名称，也可以提供多个服务器以达到负载均衡和故障转移。
+在单独的 `upstream` 模块中配置 `keepalive` 来启用长连接，这可以极大的提高性能，而不是直接在 `server` 中 配置 `proxy_pass`。 在此示例中，`upstream` 命名为 `server_name` 及域名，该名称将通过 Host 标头传递给 Sanic， 您可以按需修改该名称，也可以提供多个服务器以达到负载均衡和故障转移。 You may change the naming as you see fit. Multiple servers may also be provided for load balancing and failover.
 
-将两次出现的 `example.com` 更改为您的域名，然后
-将 `YOUR SECRET` 替换为您应用中配置的 `FORWARDED_SECRET`
+将两次出现的 `example.com` 更改为您的域名，然后 将 `YOUR SECRET` 替换为您应用中配置的 `FORWARDED_SECRET`
 
 ```nginx
 upstream example.com {
@@ -80,9 +74,7 @@ server {
 }
 ```
 
-为避免 Cookie 可见性问题和搜索引擎上的地址不一致的问题，
-您可以使用以下方法将所有的访问都重定向到真实的域名上。
-以确保始终为 HTTPS 访问：
+为避免 Cookie 可见性问题和搜索引擎上的地址不一致的问题， 您可以使用以下方法将所有的访问都重定向到真实的域名上。 以确保始终为 HTTPS 访问：
 
 ```nginx
 # Redirect all HTTP to HTTPS with no-WWW
@@ -109,6 +101,16 @@ server {
 除此之外，复制并粘贴以下内容到 `nginx/conf.d/forwarded.conf` 中：
 
 ```nginx
+# RFC 7239 Forwarded header for Nginx proxy_pass
+
+# Add within your server or location block:
+#    proxy_set_header forwarded "$proxy_forwarded;secret=\"YOUR SECRET\"";
+
+# Configure your upstream web server to identify this proxy by that password
+# because otherwise anyone on the Internet could spoof these headers and fake
+# their real IP address and other information to your service.
+
+
 # RFC 7239 Forwarded header for Nginx proxy_pass
 
 # Add within your server or location block:
@@ -147,31 +149,25 @@ map $http_forwarded $proxy_add_forwarded {
 }
 ```
 
-::: tip 小提示
+::: tip Note For installs that don't use `conf.d` and `sites-available`, all of the above configs may also be placed inside the `http` section of the main `nginx.conf`. :::
 
 如果您的 Nginx 中不使用 `conf.d` 和 `sites-available`，以上配置也可以放在 `nginx.conf` 的 `http` 中。
-
-:::
-
-保存修改之后，重新启动 Nginx 服务：
 
 ```bash
 sudo nginx -s reload
 ```
 
-现在，您应该可以在 `https://example.com/` 上访问您的应用了。
-任何的 404 以及类似的错误都将交由 Sanic 进行处理。
-静态文件存储在指定的目录下，将由 Nginx 提供访问。
+现在，您应该可以在 `https://example.com/` 上访问您的应用了。 任何的 404 以及类似的错误都将交由 Sanic 进行处理。 静态文件存储在指定的目录下，将由 Nginx 提供访问。
 
 ## SSL 证书(SSL certificates)
 
-如果您尚未在服务器上配置有效证书，您可以安装 `certbot` 和 `python3-certbot-nginx` 以使用免费的 SSL/TLS 证书，然后运行:
+If you haven't already configured valid certificates on your server, now is a good time to do so. Install `certbot` and `python3-certbot-nginx`, then run
 
 ```bash
 certbot --nginx -d example.com -d www.example.com
 ```
 
-相关资料请参考：[使用免费的 SSL/TLS 证书](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
+如果您尚未在服务器上配置有效证书，您可以安装 `certbot` 和 `python3-certbot-nginx` 以使用免费的 SSL/TLS 证书，然后运行:_
 
 ## 作为服务运行(Running as a service)
 
@@ -191,7 +187,7 @@ Restart=always
 WantedBy=multi-user.target
 ```
 
-之后重新加载服务文件，启动服务并允许开机启动：
+相关资料请参考：[使用免费的 SSL/TLS 证书](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 ```bash
 sudo systemctl daemon-reload
