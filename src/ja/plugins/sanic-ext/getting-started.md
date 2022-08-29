@@ -1,6 +1,6 @@
 # スタートアップ
 
-Sanic Extensionsは、SCOが開発し、保守している*公式サポート*のプラグインです。このプロジェクトの主な目的は、Web API と Web アプリケーションの開発を容易にするための追加機能を提供することです。
+Sanic Extensionsは、SCOが開発し、保守している*公式サポート*のプラグインです。 このプロジェクトの主な目的は、Web API と Web アプリケーションの開発を容易にするための追加機能を提供することです。
 
 ## 機能
 
@@ -10,6 +10,7 @@ Sanic Extensionsは、SCOが開発し、保守している*公式サポート*�
 - ルートハンドラへの引数挿入
 - RedocやSwaggerを使ったOpenAPIドキュメンテーション
 - リクエストのクエリ引数とボディ入力のバリデーション
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 
 ## 最低要件
 
@@ -34,12 +35,9 @@ pip install sanic-ext
 
 Sanic Extensionsは、特別な操作なしに、たくさんの機能を有効にしてくれます。
 
-::: new NEW in v21.12
----:1
-Sanic Extensions (v21.12+) をセットアップするために必要なこと: **何もない**。環境にインストールされていれば、セットアップが完了し、すぐに使えるようになっています。
+::: new NEW in v21.12 ---:1 Sanic Extensions (v21.12+) をセットアップするために必要なこと: **何もない**。 If it is installed in the environment, it is setup and ready to go.
 
-このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリを変更せずにそのまま使用しています_。
-:--:1
+このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリを変更せずにそのまま使用しています_。 :--:1 :--:1
 ```python
 from sanic import Sanic
 from sanic.response import text
@@ -50,16 +48,13 @@ app = Sanic("MyHelloWorldApp")
 async def hello_world(request):
     return text("Hello, world.")
 ```
-:---
-:::
+:--- :::
 
----:1
-**古い非推奨の設定**
+---:1 **古い非推奨の設定**
 
 v21.9 では、`Extend` でインスタンス化するのが最も簡単な方法です。
 
-Sanic Getting Started page](../../guide/getting-started.md) の Hello, world アプリを見返してみると、ここで追加されているのはハイライトした2行だけであることがわかると思います。
-:--:1
+Sanic Getting Started page](../../guide/getting-started.md) の Hello, world アプリを見返してみると、ここで追加されているのはハイライトした2行だけであることがわかると思います。 :--:1 :--:1
 
 ```python{3,6}
 from sanic import Sanic
@@ -75,4 +70,4 @@ async def hello_world(request):
 ```
 :---
 
-どのように設定されているかに関わらず、これでOpenAPIのドキュメントを閲覧し、機能の一部を確認することができるはずです。[http://localhost:8000/docs](http://localhost:8000/docs)
+どのように設定されているかに関わらず、これでOpenAPIのドキュメントを閲覧し、機能の一部を確認することができるはずです。 [http://localhost:8000/docs](http://localhost:8000/docs)
