@@ -155,7 +155,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "127.0.0.2",
   "scheme": "ws",
@@ -171,8 +171,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 4
-Header present but not matching anything
+##### 例4
+ヘッダーが存在しますが、何も一致しない場合。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -198,8 +198,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 5
-Forwarded header present but no matching secret -> use X-headers
+##### 例5
+Forwarded ヘッダーは存在するが、一致するシークレットはない場合 -> Xヘッダを使用
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -212,7 +212,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "127.0.0.2",
   "scheme": "http",
@@ -227,8 +227,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 6
-Different formatting and hitting both ends of the header
+##### 例6
+フォーマットが異なり、ヘッダーの両端がヒットする場合
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -240,7 +240,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "127.0.0.4",
   "scheme": "http",
@@ -257,8 +257,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 7
-Test escapes (modify this if you see anyone implementing quoted-pairs)
+##### 例7
+エスケープをテストする場合(quoted-pairsを実装していたら修正する)。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -270,7 +270,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "test",
   "scheme": "http",
@@ -287,8 +287,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 8
-Secret insulated by malformed field #1
+##### 例8
+不正なフィールドによってシークレットが隔離される例 #1
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -300,7 +300,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "test",
   "scheme": "http",
@@ -316,8 +316,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 9
-Secret insulated by malformed field #2
+##### 例9
+不正なフィールドによってシークレットが隔離される例 #2
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -329,7 +329,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -345,8 +345,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 10
-Unexpected termination should not lose existing acceptable values
+##### 例10
+予期しない終了で、既存の許容可能な値を失うことはありません。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -358,7 +358,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -374,8 +374,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 11
-Field normalization
+##### 例11
+フィールドの正規化
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -387,7 +387,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -406,8 +406,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 12
-Using "by" field as secret
+##### 例12
+"by"フィールドをシークレットとして使用する場合。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -419,7 +419,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "1.2.3.4",
   "scheme": "http",
