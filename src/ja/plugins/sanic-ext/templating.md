@@ -1,36 +1,36 @@
-# Templating
+# テンプレートの使用
 
-Sanic Extensions can easily help you integrate templates into your route handlers.
+Sanic Extensionsは、テンプレートをルートハンドラに簡単に統合するのに役立ちます。
 
 
-## Dependencies
+## 依存関係
 
-**Currently, we only support [Jinja](https://github.com/pallets/jinja/).**
+**現在、 [Jinja](https://github.com/pallets/jinja/) のみサポートしています。**
 
-[Read the Jinja docs first](https://jinja.palletsprojects.com/en/3.1.x/) if you are unfamiliar with how to create templates.
+テンプレートの作成に慣れていない場合は、まず [Jinjaドキュメント](https://jinja.palletsprojects.com/en/3.1.x/) を読んでください。
 
-Sanic Extensions will automatically setup and load Jinja for you if it is installed in your environment. Therefore, the only setup that you need to do is install Jinja:
+Sanic Extensionsは、Jinjaが環境にインストールされている場合、自動的にセットアップしてロードします。 したがって、必要なセットアップはJinjaのインストールだけです:
 
 ```
 pip install Jinja2
 ```
 
-## Rendering a template from a file
+## ファイルからテンプレートをレンダリングする
 
-There are three (3) ways for you:
+3つの方法があります:
 
-1. Using a decorator to pre-load the template file
-1. Returning a rendered `HTTPResponse` object
-1. Hybrid pattern that creates a `LazyResponse`
+1. テンプレートファイルを事前にロードするデコレータを使用する
+1. レンダリングされた `HTTPResponse` オブジェクトを返す
+1. `LazyResponse` を生成するハイブリッドなパターン
 
-Let's imagine you have a file called `./templates/foo.html`:
+`./templates/foo.html` というファイルがあるとしましょう。
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
-        <title>My Webpage</title>
+        <title>僕のwebページ</title>
     </head>
 
     <body>
@@ -45,11 +45,11 @@ Let's imagine you have a file called `./templates/foo.html`:
 </html>
 ```
 
-Let's see how you could render it with Sanic + Jinja.
+Sanic + Jinjaでどのようにレンダリングできるか見てみましょう。
 
 ### Option 1 - as a decorator
 
----:1 The benefit of this approach is that the templates can be predefined at startup time. This will mean that less fetching needs to happen in the handler, and should therefore be the fastest option. :--:1
+---:1 このアプローチの利点は、テンプレートを起動時にあらかじめ定義できることです。 This will mean that less fetching needs to happen in the handler, and should therefore be the fastest option. :--:1
 ```python
 @app.get("/")
 @app.ext.template("foo.html")
