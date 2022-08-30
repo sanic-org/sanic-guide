@@ -22,7 +22,6 @@
 ここでは、いくつかの使用例を探ってみましょう。
 
 ::: warning v21.12より前に依存性インジェクションを使用していた場合、低レベルAPIメソッドは `injection` と呼ばれていました。 その後、 `add_dependency` に名前が変更され、 v21.12 からは `injection` は `add_dependency` のエイリアスになっています。 `injection` メソッドは非推奨となりv22.6で削除されます。 :::
-:::
 
 ## 基本的な実装
 
@@ -40,7 +39,7 @@ class IceCream:
     flavor: str
 
     def __str__(self) -> str:
-        return f"{self.flavor.title()} (Yum!)"
+        return f"{self.flavor.title()} (おいしい!)"
 
 
 app.ext.add_dependency(IceCream)
@@ -48,16 +47,16 @@ app.ext.add_dependency(IceCream)
 
 @app.get("/<flavor:str>")
 async def ice_cream(request, flavor: IceCream):
-    return text(f"You chose: {flavor}")
+    return text(f"あなたの選択: {flavor}")
 ```
 
 ```
 $ curl localhost:8000/chocolate
-You chose Chocolate (Yum!)
+あなたの選択: Chocolate (おいしい!)
 ```
 :---
 
----:1 これは、コンストラクタにキーワード引数 `type` を渡すことで動作します。 前の例はこれと同等です。 :--:1 :--:1
+---:1 これは、コンストラクタにキーワード引数 `type` を渡すことで動作します。 前の例はこれと同等です。 :--:1
 ```python
 flavor = IceCream(flavor="chocolate")
 ```
@@ -87,7 +86,7 @@ class Person:
 
     @classmethod
     async def create(cls, request: Request, person_id: int):
-        return cls(person_id=PersonID(person_id), name="noname", age=111)
+        return cls(person_id=PersonID(person_id), name="名無し", age=111)
 
 
 
@@ -104,7 +103,7 @@ async def person_details(
 ```
 $ curl localhost:8000/person/123
 PersonID(person_id=123)
-Person(person_id=PersonID(person_id=123), name='noname', age=111)
+Person(person_id=PersonID(person_id=123), name='名無し', age=111)
 ```
 :---
 
@@ -132,7 +131,7 @@ await request.receive_body()
 - ミドルウェアを使用して、前処理と `request.ctx` への追加を行う。
 - デコレータを使用して、前処理とリクエストハンドラへの引数の注入を行う。
 
-この例では、`compule_profile` コンストラクタで `Request` オブジェクトを使用して、偽の DB クエリを実行して `UserProfile` オブジェクトを生成し、それを返します。 :--:1 :--:1
+この例では、`compule_profile` コンストラクタで `Request` オブジェクトを使用して、偽の DB クエリを実行して `UserProfile` オブジェクトを生成し、それを返します。 :--:1
 
 ```python
 @dataclass
@@ -183,11 +182,11 @@ async def update_profile(request, profile: UserProfile):
 ```
 
 ```
-$ curl localhost:8000/profile -X PATCH -d '{"name": "Alice", "birthday": "2000-01-01"}'
+$ curl localhost:8000/profile -X PATCH -d '{"name": "Taro", "birthday": "2000-01-01"}'
 {
-    "name":"Alice",
-    "age":21,
-    "email":"alice@something.com"
+    "name":"Taro",
+    "age":22,
+    "email":"Taro@something.com"
 }
 ```
 :---
