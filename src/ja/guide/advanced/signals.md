@@ -31,14 +31,14 @@ app.add_signal(my_signal_handler, "something.happened.ohmy")
 ```python
 @app.signal("something.happened.ohmy")
 async def my_signal_handler():
-    print("something happened")
+    print("何かが起こった")
 ```
 :---
 
----:1 If the signal requires conditions, make sure to add them while adding the handler. :--:1
+---:1 信号に条件が必要な場合は、ハンドラを追加する際に必ず追加してください。 :--:1
 ```python
 async def my_signal_handler1():
-    print("something happened")
+    print("何かが起こった")
 
 app.add_signal(
     my_signal_handler,
@@ -48,7 +48,7 @@ app.add_signal(
 
 @app.signal("something.happened.ohmy2", conditions={"some_condition": "value"})
 async def my_signal_handler2():
-    print("something happened")
+    print("何かが起こった")
 ```
 :---
 
@@ -58,7 +58,7 @@ bp = Blueprint("foo")
 
 @bp.signal("something.happened.ohmy")
 async def my_signal_handler():
-    print("something happened")
+    print("何かが起こった")
 ```
 :---
 
@@ -76,32 +76,32 @@ async def my_signal_handler():
 ```python
 @app.signal("http.lifecycle.complete")
 async def my_signal_handler(conn_info):
-    print("Connection has been closed")
+    print("接続が閉じた")
 ```
 :---
 
 これらの信号は、ハンドラーが取る引数、およびアタッチする条件(存在する場合)とともに、利用可能な信号です。
 
 
-| イベント名                      | 変数                              | 条件                                                        |
-| -------------------------- | ------------------------------- | --------------------------------------------------------- |
-| `http.routing.before`      | request                         |                                                           |
-| `http.routing.after`       | request, route, kwargs, handler |                                                           |
-| `http.lifecycle.begin`     | conn_info                       |                                                           |
-| `http.lifecycle.read_head` | head                            |                                                           |
-| `http.lifecycle.request`   | request                         |                                                           |
-| `http.lifecycle.handle`    | request                         |                                                           |
-| `http.lifecycle.read_body` | body                            |                                                           |
-| `http.lifecycle.exception` | request, exception              |                                                           |
-| `http.lifecycle.response`  | request, response               |                                                           |
-| `http.lifecycle.send`      | data                            |                                                           |
-| `http.lifecycle.complete`  | conn_info                       |                                                           |
-| `http.middleware.before`   | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
-| `http.middleware.after`    | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
-| `server.init.before`       | app, loop                       |                                                           |
-| `server.init.after`        | app, loop                       |                                                           |
-| `server.shutdown.before`   | app, loop                       |                                                           |
-| `server.shutdown.after`    | app, loop                       |                                                           |
+| イベント名                    | 変数                              | 条件                                                         |
+| ------------------------ | ------------------------------- | ---------------------------------------------------------- |
+| `http.routing.before`    | request                         |                                                            |
+| `http.routing.after`     | request, route, kwargs, handler |                                                            |
+| `http.lifycle.begin`     | conn_info                       |                                                            |
+| `http.lifycle.read_head` | head                            |                                                            |
+| `http.lifycle.request`   | request                         |                                                            |
+| `http.lifycle.handle`    | request                         |                                                            |
+| `http.lifycle.read_body` | body                            |                                                            |
+| `http.lifycle.exception` | request, exception              |                                                            |
+| `http.lifycle.response`  | request, response               |                                                            |
+| `http.lifycle.send`      | data                            |                                                            |
+| `http.lifycle.complete`  | conn_info                       |                                                            |
+| `http.middleware.before` | request, response               | `{"attach_to": "request"}` または `{"attach_to": "response"}` |
+| `http.middleware.after`  | request, response               | `{"attach_to": "request"}` または `{"attach_to": "response"}` |
+| `server.init.before`     | app, loop                       |                                                            |
+| `server.init.after`      | app, loop                       |                                                            |
+| `server.shutdown.before` | app, loop                       |                                                            |
+| `server.shutdown.after`  | app, loop                       |                                                            |
 
 ::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1 :--:1
 ```python
@@ -109,7 +109,7 @@ from sanic.signals import Event
 
 @app.signal(Event.HTTP_LIFECYCLE_COMPLETE)
 async def my_signal_handler(conn_info):
-    print("Connection has been closed")
+    print("接続が閉じた")
 ```
 :---
 
@@ -123,7 +123,7 @@ namespace.reference.action
 
 ::: 次に イベントには3つの部分が必要です。 何を使うべきかわからない場合は、次のパターンを試してください。
 
-- `my_app.something.happened`
+- `my_app.something.happen`
 - `sanic.notice.hello` :::
 
 ### イベントパラメータ
@@ -137,7 +137,7 @@ async def signal_handler(thing):
 @app.get("/")
 async def trigger(request):
     await app.dispatch("foo.bar.baz")
-    return response.text("Done.")
+    return response.text("終了。")
 ```
 :---
 
@@ -150,13 +150,13 @@ async def trigger(request):
 
 ### 待つ
 
----:1 In addition to executing a signal handler, your application can wait for an event to be triggered. :--:1
+---:1 アプリケーションは、シグナルハンドラを実行するだけでなく、イベントがトリガーされるのを待つこともできます。 :--:1
 ```python
 await app.event("foo.bar.baz")
 ```
 :---
 
----:1 **大事**: 待つことはブロッキング機能です。 したがって、これを[バックグラウンドタスク](../basics/tasks.md)で実行する必要があります。 :--:1 :--:1
+---:1 **重要**: 待つことはブロッキング機能です。 したがって、これを[バックグラウンドタスク](../basics/tasks.md)で実行する必要があります。 :--:1 :--:1
 ```python
 async def wait_for_event(app):
     while True:
@@ -180,7 +180,7 @@ await app.event("foo.bar.*")
 ```
 :---
 
-## Dispatching
+## ディスパッチ中
 
 *将来的には、Sanicは開発者がライフサイクルイベントに参加するのを支援するために、いくつかのイベントを自動的にディスパッチします。*
 
@@ -200,7 +200,7 @@ thing=baz
 ```
 :---
 
-### Context
+### コンテキスト
 
 ---:1 場合によっては、信号ハンドラに余分な情報を渡す必要があるかもしれません。 上記の最初の例では、電子メール登録プロセスにユーザーの電子メールアドレスを指定してほしかった。 :--:1 :--:1
 ```python
