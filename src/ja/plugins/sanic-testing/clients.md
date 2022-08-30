@@ -8,15 +8,16 @@
 
 これは Sanic アプリケーションがテストされる典型的な方法です。
 
----:1 Sanic Testing をインストールすると、通常の `SanicTestClient` をそのまま使用できるようになります。 これは、Sanicが縁の下であなたのために裏の働きを行うからです。 :--: :--:
+---:1 Sanic Testing をインストールすると、通常の `SanicTestClient` をそのまま使用できるようになります。 これは、Sanicが縁の下であなたのために裏の働きを行うからです。 :--:
 ```python
 app.test_client.get("/path/to/endpoint")
 ```
 :---
 
----:1 しかし、クライアントを自分でインスタンス化することが望ましいと思われるかもしれません。 :--: :--:
+---:1 しかし、クライアントを自分でインスタンス化することが望ましいと思われるかもしれません。 :--:
 ```python
 from sanic_testing.testing import SanicTestClient
+
 test_client = SanicTestClient(app)
 test_client.get("/path/to/endpoint")
 ```
@@ -27,9 +28,10 @@ test_client.get("/path/to/endpoint")
 :--:
 ```python
 from sanic_testing import TestManager
+
 mgr = TestManager(app)
 app.test_client.get("/path/to/endpoint")
-# or
+# もしくは
 mgr.test_client.get("/path/to/endpoint")
 ```
 :---
@@ -54,9 +56,9 @@ test_client.request("/path/to/endpoint", http_method="get")
 
 ## ASGI非同期クライアント: `SanicASGITestClient`
 
-リクエストごとにサーバーを起動する `SanicTestClient` とは異なり、`SanicASGITestClient` はそうではありません。 その代わり、`httpx` ライブラリを利用して、Sanic を ASGI アプリケーションとして実行し、内部に到達してルートハンドラを実行する。
+リクエストごとにサーバーを起動する `SanicTestClient` とは異なり、`SanicASGITestClient` はそうしません。 代わりに、 `httpx` ライブラリを利用して、SanicをASGIアプリケーションとして実行し、内部からルートハンドラを実行します。
 
----:1 このテストクライアントは、`SanicTestClient` と同じメソッドを提供し、一般的に動作します。 唯一の違いは、各コールに `await` を追加する必要があることです。 :--:
+---:1 このテストクライアントは、`SanicTestClient` と全て同じメソッドを提供し、基本的に同じ動作をします。 唯一の違いは、各コールに `await` を追加する必要があることです。 :--:
 ```python
 await app.test_client.get("/path/to/endpoint")
 ```
@@ -64,8 +66,7 @@ await app.test_client.get("/path/to/endpoint")
 
 `SanicASGITestClient` は `SanicTestClient` と全く同じ3つの方法で使用することができます。
 
-::: tip Note `SanicASGITestClient` は ASGI アプリケーションにのみ使用する必要はありません。 同様に、`SanicTestClient` は、同期エンドポイントのみをテストする必要はありません。 これらのクライアントはどちらも *あらゆる* Sanic アプリケーションをテストすることが可能です。 :::
-:::
+::: tip メモ `SanicASGITestClient` はASGIアプリケーションにのみ使用する必要はありません。 同様に、`SanicTestClient` は、同期エンドポイントのみをテストする必要はありません。 これらのクライアントはどちらも *あらゆる* Sanic アプリケーションをテストすることが可能です。 :::
 
 ## 永続的なサービスクライアント: `ReusableClient`
 
@@ -76,19 +77,22 @@ await app.test_client.get("/path/to/endpoint")
 ---:1 他の2つのクライアントとは異なり、このクライアントは使用するためにインスタンス化**しなければなりません**。 :--:
 ```python
 from sanic_testing.reusable import ReusableClient
+
 client = ReusableClient(app)
 ```
 :---
 
 
----:1 作成したら、クライアントをコンテキスト・マネージャの内部で使用することになります。 マネージャの範囲外に出ると、サーバはシャットダウンします。 :--: :--:
+---:1 作成したら、クライアントをコンテキスト・マネージャの内部で使用することになります。 マネージャの範囲外に出ると、サーバはシャットダウンします。 :--:
 ```python
 from sanic_testing.reusable import ReusableClient
+
 def test_multiple_endpoints_on_same_server(app):
     client = ReusableClient(app)
     with client:
         _, response = client.get("/path/to/1")
         assert response.status == 200
+
         _, response = client.get("/path/to/2")
         assert response.status == 200
 ```
