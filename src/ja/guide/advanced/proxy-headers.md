@@ -16,35 +16,35 @@ Sanicは、 `request.remote_addr` として利用可能な本当のクライア�
 - `REAL_IP_HEADER`
 - `PROXIES_COUNT` :--:1
 ```python
-app.config.FORWARDED_SECRET = "super-duper-secret"
-app.config.REAL_IP_HEADER = "CF-Connecting-IP"
+app.config.FORWARDED_SECRET = "めっちゃくちゃのシークレット"
+app.config.REAL_IP_HEADER = "CF接続IP"
 app.config.PROXIES_COUNT = 2
 ```
 :---
 
-## 転送されたヘッダー
+## Forwarded ヘッダー
 
-`Forwarded`ヘッダーを使用するには、信頼できるプロキシサーバーに知られている値に`app.config.FORWARDED_SECRET`を設定する必要があります。 この秘密は、特定のプロキシサーバーを安全に識別するために使用されます。
+`Forwarded` ヘッダーを使用するには、信頼できるプロキシサーバーに設定されている値を`app.config.FORWARDED_SECRET`に設定する必要があります。 このシークレットは、特定のプロキシサーバーを安全に識別するために使用されます。
 
-29
+Sanicはシークレットキーのない要素を無視し、シークレットが設定されていない場合はヘッダーを解析することもありません。
 
-30
+信頼された転送要素が見つかると、他のすべてのプロキシヘッダは無視されます。クライアントに関する完全な情報をすでに運んでいるからです。
 
-Sanicは秘密鍵のない要素を無視し、秘密が設定されていない場合、ヘッダーを解析することさえしません。
+`Forwarded` ヘッダーの詳細については、関連する [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) および [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/) の記事を参照してください。
 
 ## 従来のプロキシヘッダー
 
-### IP-Header
+### IP ヘッダー
 
-他のすべてのプロキシヘッダーは、クライアントに関する完全な情報をすでに持っているため、信頼できる転送された要素が見つかると無視されます。
+プロキシが既知のヘッダーにIPアドレスを転送するとき `REAL_IP_HEADER` の値を指定すると、Sanicにそれが何かを教えることができます。
 
 ### X-Forwarded-For
 
-このヘッダーには、通常、プロキシの各レイヤーを介したIPアドレスのチェーンが含まれています。 `PROXIES_COUNT`を設定すると、クライアントの実際のIPアドレスを取得する深さがSanicに指示されます。 この値は、チェーン内のIPアドレスの_expected_数に等しいはずです。
+このヘッダーには、通常、プロキシの各レイヤーを介したIPアドレスのチェーンが含まれています。 `PROXIES_COUNT`を設定すると、クライアントの実際のIPアドレスを取得する深さがSanicに指示されます。 この値は、チェーン内のIPアドレスの _期待される_ 数に等しいはずです。
 
-### Other X-headers
+### その他のXヘッダー
 
-プロキシが既知のヘッダーのIPアドレスを転送すると、「REAL_IP_HEADER」設定値でそれが何であるかをSanicに伝えることができます。
+クライアントIPがこれらのメソッドのいずれかで見つかった場合、Sanicは以下のURLパーツのヘッダを使用します:
 
 - x-forwarded-proto
 - x-forwarded-host
@@ -52,9 +52,9 @@ Sanicは秘密鍵のない要素を無視し、秘密が設定されていない
 - x-forwarded-path
 - x-scheme
 
-## 例えば
+## 例
 
-In the following examples, all requests will assume that the endpoint looks like this:
+以下の例では、すべてのリクエストはエンドポイントが次のようになると仮定します。
 ```python
 @app.route("/fwd")
 async def forwarded(request):
@@ -71,8 +71,8 @@ async def forwarded(request):
 ---:1
 ---
 
-##### 例えば 1
-次の例では、すべての要求はエンドポイントが次のようになります。
+##### 例1
+FORWARDED_SECRETが設定されていない場合、Xヘッダは尊重されます。
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -87,7 +87,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "127.0.0.2",
   "scheme": "ws",
@@ -103,8 +103,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### 例えば 2
-FORWARDED_SECRETが設定されました
+##### 例2
+FORWARDED_SECRETが設定された場合
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -120,7 +120,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# curlの応答
 {
   "remote_addr": "[::2]",
   "scheme": "https",
@@ -139,8 +139,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### 例えば 3
-空の転送ヘッダー - > Xヘッダーを使用する
+##### 例3
+空の転送ヘッダー -> Xヘッダーを使用する
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
