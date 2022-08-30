@@ -1,31 +1,31 @@
 # 設定
 
-Sanic Extensions can be configured in all of the same ways that [you can configure Sanic](../../guide/deployment/configuration.md). That makes configuring Sanic Extensions very easy.
+Sanic Extensionsは、 [Sanic](../../guide/deployment/configuration.md)と同じ方法で設定できます。 これにより、Sanic Extensionsの設定が非常に簡単になります。
 
 ```python
 app = Sanic("MyApp")
 app.config.OAS_URL_PREFIX = "/apidocs"
 ```
 
-However, there are a few more configuration options that should be considered.
+しかし、検討すべき設定オプションはいくつかあります。
 
-## Manual `extend`
+## マニュアル`拡張`
 
----:1 Even though Sanic Extensions will automatically attach to your application, you can manually choose `extend`. When you do that, you can pass all of the configuration values as a keyword arguments (lowercase). :--:
+---:1 Sanic Extensionsは自動的にアプリケーションにアタッチしますが、手動で `拡張`を選択することができます。 これを行うと、すべての設定値をキーワード引数(小文字) として渡すことができます。 :--:
 ```python
 app = Sanic("MyApp")
 app.extend(oas_url_prefix="/apidocs")
 ```
 :---
 
----:1 Or, alternatively they could be passed all at once as a single `dict`. :--:
+---:1 または、代わりに、 `dict` で一度にすべてを渡すことができます。 :--:
 ```python
 app = Sanic("MyApp")
 app.extend(config={"oas_url_prefix": "/apidocs"})
 ```
 :---
 
----:1 Both of these solutions suffers from the fact that the names of the configuration settings are not discoverable by an IDE. Therefore, there is also a type annotated object that you can use. This should help the development experience. :--:
+---:1 どちらのソリューションも、構成設定の名前がIDEによって検出できないという事実に苦しんでいます。 したがって、使用できる型注釈付きオブジェクトもあります。 これは、開発の経験に役立つはずです。 :--:
 ```python
 from sanic_ext import Config
 
@@ -34,85 +34,85 @@ app.extend(config=Config(oas_url_prefix="/apidocs"))
 ```
 :---
 
-## Settings
+## 設定
 
 ### `cors`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to enable CORS protection
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: CORS保護を有効にするかどうか
 
 ### `cors_allow_headers`
 
-- **Type**: `str`
-- **Default**: `"*"`
-- **Description**: Value of the header: `access-control-allow-headers`
+- **型**: `str`
+- **デフォルト**: `"*"`
+- **説明**: `access-control-allow-headers`ヘッダーの値
 
 ### `cors_always_send`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to always send the header: `access-control-allow-origin`
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: 常に`access-control-allow-origin`ヘッダーを送信するかどうか
 
 ### `cors_automatic_options`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to automatically generate `OPTIONS` endpoints for routes that do *not* already have one defined
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: `OPTIONS` ルートの *まだ定義されていない* エンドポイントを自動的に生成するかどうか
 
 ### `cors_expose_headers`
 
-- **Type**: `str`
-- **Default**: `""`
-- **Description**: Value of the header: `access-control-expose-headers`
+- **型**: `str`
+- **デフォルト**: `""`
+- **説明**: `access-control-expose-headers`ヘッダーの値
 
 ### `cors_max_age`
 
-- **Type**: `int`
-- **Default**: `5`
-- **Description**: Value of the header: `access-control-max-age`
+- **型**: `int`
+- **デフォルト**: `5`
+- **説明**: `access-control-max-age`ヘッダーの値
 
 ### `cors_methods`
 
-- **Type**: `str`
-- **Default**: `""`
-- **Description**: Value of the header: `access-control-access-control-allow-methods`
+- **型**: `str`
+- **デフォルト**: `""`
+- **説明**: `access-control-allow-methods`ヘッダーの値
 
 ### `cors_origins`
 
-- **Type**: `str`
-- **Default**: `""`
-- **Description**: Value of the header: `access-control-allow-origin`
+- **型**: `str`
+- **デフォルト**: `""`
+- **説明**: `access-control-allow-origin`ヘッダーの値
 
-::: warning Be very careful if you place `*` here. Do not do this unless you know what you are doing as it can be a security issue. :::
+::: warning `*` をここに置く場合は注意してください。 セキュリティの問題である可能性があるため、何をしているかを知っていない限り、これをしないでください。 :::
 
 ### `cors_send_wildcard`
 
-- **Type**: `bool`
-- **Default**: `False`
-- **Description**: Whether to send a wildcard origin instead of the incoming request origin
+- **型**: `bool`
+- **デフォルト**: `False`
+- **説明**: リクエスト元の代わりにワイルドカードを送信するかどうか
 
 ### `cors_supports_credentials`
 
-- **Type**: `bool`
-- **Default**: `False`
-- **Description**: Value of the header: `access-control-allow-credentials`
+- **型**: `bool`
+- **デフォルト**: `False`
+- **説明**: `access-control-allow-credentials`ヘッダーの値
 
 ### `cors_vary_header`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to add the `vary` header
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: `vary` (訳注:「変化」) ヘッダーを追加するかどうか
 
 ### `http_all_methods`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Adds the HTTP `CONNECT` and `TRACE` methods as allowable
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: HTTP `CONNECT` と `TRACE` メソッドを allowable として追加する。
 
 ### `http_auto_head`
 
-- **Type**: `bool`
+- **型**: `bool`
 - **Default**: `True`
 - **Description**: Automatically adds `HEAD` handlers to any `GET` routes
 
