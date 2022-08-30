@@ -9,7 +9,7 @@
 :::tab HEAD
 
 - **設定**: `AUTO_HEAD` (デフォルト `True`)
-- **MDN**: [続きを読む](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
+- **MDN**: [詳細を読む](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
 
 `HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。 しかし、実際にはボディを返しません。
 
@@ -34,8 +34,8 @@ content-type: text/plain; charset=utf-8
 
 :::tab OPTIONS
 
-- **Configuration**: `AUTO_OPTIONS` (default `True`)
-- **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
+- **設定**: `AUTO_OPTIONS` (デフォルト `True`)
+- **MDN**: [詳細を読む](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
 
 `OPTIONS` リクエストは、クライアントが与えられたエンドポイントとの通信をどのように許可されるかの詳細を受信者に提供します。
 
@@ -47,7 +47,7 @@ async def hello_world(request):
 
 上記のルート定義があれば、Sanic Extensionsはここで見られるように`HEAD`レスポンスを有効にします。
 
-この例では、`access-control-allow-origins`も表示されていることに注意することが重要です。 これは、[CORS保護](cors.md)がデフォルトで有効になっているためです。 This is because the [CORS protection](cors.md) is enabled by default.
+この例では、`access-control-allow-origins`も表示されていることに注意することが重要です。 これは、[CORS保護](cors.md)がデフォルトで有効になっているためです。 これは、 [CORS 保護](cors.md) がデフォルトで有効になっているためです。
 
 ```
 $ curl localhost:8000 -X OPTIONS -i
@@ -57,15 +57,14 @@ access-control-allow-origin: *
 connection: keep-alive
 ```
 
-::: tip Sanic Extensionsがこれらのルートを自動的にセットアップしてくれるとしても、手動で `@app.options` ルートを作成することにした場合、それは オーバーライド**されません**。 :::
-:::
+::: tip Sanic Extensionsがこれらのルートを自動的にセットアップしてくれるとしても、手動で `@app.options` ルートを作成することにした場合、それは オーバーライド*されません*。 :::
 
 :::tab TRACE
 
-- **Configuration**: `AUTO_TRACE` (default `False`)
-- **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/TRACE)
+- **構成**: `AUTO_TRACE` (デフォルト `False`)
+- **MDN**: [詳細を読む](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/TRACE)
 
-デフォルトでは、`TRACE`エンドポイントは自動的に作成**されません**。 しかし、Sanic Extensions では、必要であれば作成することができます。 これはバニラSanicでは許可されていないことである。
+デフォルトでは、`TRACE`エンドポイントは自動的に作成**されません**。 しかし、Sanic Extensions では、必要であれば作成することができます。 これはバニラSanicでは許可されていないことです。
 
 ```python
 @app.route("/", methods=["trace"])
@@ -78,7 +77,7 @@ async def handler(request):
 ```python
 from sanic_ext import Extend, Config
 
-Extend(app, config=Config(auto_trace=True))
+app.extend(config=Config(http_auto_trace=True))
 ```
 
 さて、いくつかのエンドポイントが設定されていると仮定して、以下のようにトレースすることができます。
@@ -92,7 +91,6 @@ Accept: */*
 ```
 
 ::: tip `AUTO_TRACE` を設定すると、特にアプリケーションがプロキシの後ろに配置されている場合、非常に便利です。 は、プロキシがどのように動作しているかを判断するのに役立ちます。 :::
-:::
 
 ::::
 
@@ -112,9 +110,9 @@ Accept: */*
 
 ---:1
 
-しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。 Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。 Sanic Extensions will allow you to build endpoints using these methods, which would otherwise not be allowed.
+しかし、さらに2つの「標準的な」HTTPメソッドがあります: `TRACE` と `CONNECT` です。 Sanic Extensions は、これらのメソッドを使用したエンドポイントの構築を可能にするもので、他の方法では許可されません。
 
-これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするものではないことに注意してください。 この例で示されているように、`@app.route`を使用する必要があります。 You need to use `@app.route` as shown in the example here.
+これは便利なメソッドである `@app.trace` や `@app.connect` を有効にするもの*ではない*ことに注意してください。 この例で示されているように、`@app.route`を使用する必要があります。
 
 :--:1
 
