@@ -7,16 +7,6 @@
 ---:1 関数のdocstringは、要約と説明を作成するために使用されます。 この例からわかるように、docstringは最初の行を要約として、残りの文字列を説明として使用するように解析されます。 :--:1
 ```python
 @app.get("/foo")
-@openapi.no_autodoc
-async def handler(request, something: str):
-    """このdocstringは情報専用。
-
-    autodocしないでね。
-    """
-    return text("...")
-```
-```json
-@app.get("/foo")
 async def handler(request, something: str):
     """これはシンプルなfooハンドラです。
 
@@ -28,13 +18,29 @@ async def handler(request, something: str):
     - さん"""
     return text(">>>")
 ```
+```json
+"paths": {
+  "/foo": {
+    "get": {
+      "summary": "これはシンプルなfooハンドラです。",
+      "description": "docstringの内部で**markdown**を使用することも可能であることを知っておくと<br>便利です。<br><br>- いち<br>- に<br>- さん",
+      "responses": {
+        "default": {
+          "description": "OK"
+        }
+      },
+      "operationId": "get_handler"
+    }
+  }
+}
+```
 :---
 
 ## 動作レベルYAML
 
 ---:1 docstringに有効なOpenAPIのYAMLを追加することで、これを拡張することができます。 単に `openapi:` を含む行を追加し、その後にあなたのYAMLを追加します。
 
-この例で示されている `---` は必要ありません。 これは YAML が docstring の個別のセクションであることを視覚的に識別するために存在します。 :--:1 :--:1
+この例で示されている `---` は必要ありません。 これは YAML が docstring の個別のセクションであることを視覚的に識別するために存在します。 :--:1
 ```python
 @app.get("/foo")
 async def handler(request, something: str):
@@ -99,7 +105,7 @@ async def handler(request, something: str):
 
 ::: tip
 YAML ドキュメントとデコレータの両方が使用された場合、 ドキュメントを生成する際に優先されるのはデコレータからのコンテンツです。
-::: :::
+:::
 
 ## docstringの除外
 
@@ -112,7 +118,7 @@ YAML ドキュメントとデコレータの両方が使用された場合、 �
 @app.get("/foo")
 @openapi.no_autodoc
 async def handler(request, something: str):
-    """This is a docstring about internal info only. Do not parse it.
+    """このdocstringは情報専用。 autodocしないでね。
     """
     return text("...")
 ```
