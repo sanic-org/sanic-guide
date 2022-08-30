@@ -62,7 +62,7 @@ def message(retval, request, action, status):
 @app.post("/<action>")
 @serializer(message)
 async def do_action(request, action: str):
-    return "This is a message"
+    return "これはメッセージです"
 ```
 
 :---
@@ -78,7 +78,7 @@ $ curl localhost:8000/eat_cookies -X POST
 {
   "request_id": "ef81c45b-235c-46dd-9dbd-b550f8fa77f9",
   "action": "eat_cookies",
-  "message": "This is a message"
+  "message": "これはメッセージです"
 }
 
 ```
