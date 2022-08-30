@@ -13,8 +13,8 @@ from sanic_ext import openapi
 
 
 @app.get("/path/to/<something>")
-@openapi.summary("This is a summary")
-@openapi.description("This is a description")
+@openapi.summary("これは概要です")
+@openapi.description("これは説明です")
 async def handler(request, somethind: str):
     ...
 ```
@@ -44,30 +44,30 @@ class UserProfile:
 
 このフィールドは、操作の定義を容易にするために、意図的に複数のタイプを受け入れる寛容なものとなっています。
 
-**Arguments**
+**引数**
 
-| フィールド         | タイプ                                                                  |
-| ------------- | -------------------------------------------------------------------- |
-| `body`        | ***dict, RequestBody, ***ユーザー定義モデル******                             |
-| `deprecated`  | **bool**                                                             |
-| `description` | **str**                                                              |
-| `document`    | **str, ExternalDocumentation**                                       |
-| `exclude`     | **bool**                                                             |
-| `operation`   | **str**                                                              |
-| `parameter`   | **dict, Parameter, *ユーザー定義モデル*, [dict], [Parameter], [*ユーザー定義モデル*]** |
-| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]**   |
-| `summary`     | **str**                                                              |
-| `tag`         | **str, Tag, [str], [Tag]**                                           |
-| `secured`     | **Dict[str, Any]**                                                   |
+| フィールド         | 型                                                                  |
+| ------------- | ------------------------------------------------------------------ |
+| `body`        | ***dict, RequestBody, ***ユーザー定義モデル******                           |
+| `deprecated`  | **bool**                                                           |
+| `description` | **str**                                                            |
+| `document`    | **str, ExternalDocumentation**                                     |
+| `exclude`     | **bool**                                                           |
+| `operation`   | **str**                                                            |
+| `parameter`   | **str, dict, Parameter, [str], [dict], [Parameter]**               |
+| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]** |
+| `summary`     | **str**                                                            |
+| `tag`         | **str, Tag, [str], [Tag]**                                         |
+| `secured`     | **Dict[str, Any]**                                                 |
 
-**Examples**
+**例**
 
 ---:1
 
 ```python
 @openapi.definition(
     body=RequestBody(UserProfile, required=True),
-    summary="User profile update",
+    summary="ユーザープロファイルの更新",
     tag="one",
     response=[Success, Response(Failure, status=400)],
 )
@@ -87,13 +87,13 @@ class UserProfile:
 
 :::tab body
 
-**Arguments**
+**引数**
 
-| フィールド       | タイプ                                |
+| フィールド       | 型                                  |
 | ----------- | ---------------------------------- |
 | **content** | ***ユーザー定義モデル*, dict, RequestBody** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -125,11 +125,11 @@ class UserProfile:
 
 :::tab deprecated
 
-**Arguments**
+**引数**
 
-*None*
+*なし*
 
-**Examples**
+**例**
 
 ---:1
 
@@ -149,25 +149,25 @@ class UserProfile:
 
 :::tab description
 
-**Arguments**
+**引数**
 
-| フィールド  | タイプ     |
+| フィールド  | 型       |
 | ------ | ------- |
 | `text` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
 ```python
 @openapi.description(
-    """This is a **description**.
+    """これは**説明**です。
 
-## You can use `markdown`
+## `markdown`も使えます。
 
-- And
-- make
-- lists.
+- そして
+- リストも
+- 作れます。
 """
 )
 ```
@@ -180,14 +180,14 @@ class UserProfile:
 
 :::tab document
 
-**Arguments**
+**引数**
 
-| フィールド         | タイプ     |
+| フィールド         | 型       |
 | ------------- | ------- |
 | `url`         | **str** |
 | `description` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -209,14 +209,14 @@ class UserProfile:
 
 他のすべてのデコレータと同様にルート定義で使用するか、ブループリントで呼び出すことができます。
 
-**Arguments**
+**引数**
 
-| フィールド  | タイプ           | デフォルト    |
+| フィールド  | 型             | デフォルト    |
 | ------ | ------------- | -------- |
 | `flag` | **bool**      | **True** |
 | `bp`   | **Blueprint** |          |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -238,13 +238,13 @@ openapi.exclude(bp=some_blueprint)
 
 オペレーションIDを設定します。
 
-**Arguments**
+**引数**
 
 | フィールド  | タイプ     |
 | ------ | ------- |
 | `name` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -260,15 +260,15 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab parameter
 
-**Arguments**
+**引数**
 
-| フィールド      | タイプ                                       | デフォルト       |
-| ---------- | ----------------------------------------- | ----------- |
-| `name`     | **str**                                   |             |
-| `schema`   | ***type***                                | **str**     |
-| `location` | **"query", "header", "path" or "cookie"** | **"query"** |
+| フィールド      | 型                                           | デフォルト       |
+| ---------- | ------------------------------------------- | ----------- |
+| `name`     | **str**                                     |             |
+| `schema`   | ***type***                                  | **str**     |
+| `location` | **"query", "header", "path" もしくは "cookie"** | **"query"** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -296,23 +296,23 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab response
 
-**Arguments**
+**引数**
 
 `Responce`オブジェクトを使用する場合は、他の引数を渡してはいけません。
 
-| フィールド         | タイプ                           |
-| ------------- | ----------------------------- |
-| `status`      | **int**                       |
-| `content`     | ***type*, *YourModel*, dict** |
-| `description` | **str**                       |
-| `response`    | **Response**                  |
+| フィールド         | 型                          |
+| ------------- | -------------------------- |
+| `status`      | **int**                    |
+| `content`     | ***型*, *ユーザー定義モデル*, dict** |
+| `description` | **str**                    |
+| `response`    | **Response**               |
 
-**Examples**
+**例**
 
 ---:1
 
 ```python
-@openapi.response(200, str, "This is endpoint returns a string")
+@openapi.response(200, str, "stringを返すエンドポイントです")
 ```
 
 ```python
@@ -347,7 +347,7 @@ openapi.exclude(bp=some_blueprint)
     {
         "application/json": UserProfile,
     },
-    "Description...",
+    "説明...",
 )
 ```
 
@@ -357,18 +357,18 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab summary
 
-**Arguments**
+**引数**
 
-| フィールド  | タイプ     |
+| フィールド  | 型       |
 | ------ | ------- |
 | `text` | **str** |
 
-**Examples**
+**例**
 
 ---:1
 
 ```python
-@openapi.summary("This is an endpoint")
+@openapi.summary("これはエンドポイントです")
 ```
 
 :--:1
@@ -379,13 +379,13 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab tag
 
-**Arguments**
+**引数**
 
-| フィールド   | タイプ          |
+| フィールド   | 型            |
 | ------- | ------------ |
 | `*args` | **str, Tag** |
 
-**Examples**
+**例**
 
 ---:1
 
@@ -405,13 +405,13 @@ openapi.exclude(bp=some_blueprint)
 
 :::tab secured
 
-**Arguments**
+**引数**
 
-| Field             | Type                    |
+| フィールド             | 型                       |
 | ----------------- | ----------------------- |
 | `*args, **kwargs` | **str, Dict[str, Any]** |
 
-**Examples**
+**例**
 
 ---:1
 ```python
@@ -439,7 +439,7 @@ openapi.exclude(bp=some_blueprint)
 ```
 :---
 
-Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
+`add_security_scheme` を使用することを忘れないでください。 詳細は [セキュリティ](./security.md) を参照してください。
 
 :::
 
