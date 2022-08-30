@@ -113,131 +113,131 @@ app.extend(config=Config(oas_url_prefix="/apidocs"))
 ### `http_auto_head`
 
 - **型**: `bool`
-- **Default**: `True`
-- **Description**: Automatically adds `HEAD` handlers to any `GET` routes
+- **デフォルト**: `True`
+- **説明**: 任意の `GET` ルートに `HEAD` ハンドラーを自動的に追加する。
 
 ### `http_auto_options`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Automatically adds `OPTIONS` handlers to any routes without
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: 自動的に `OPTIONS` ハンドラーを任意のルートに追加する
 
 ### `http_auto_trace`
 
-- **Type**: `bool`
-- **Default**: `False`
-- **Description**: Automatically adds `TRACE` handlers to any routes without
+- **型**: `bool`
+- **デフォルト**: `False`
+- **説明**: 自動的に `TRACE` ハンドラーを任意のルートに追加する
 
 ### `oas`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to enable OpenAPI specification generation
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: OpenAPI仕様の生成を有効にするか
 
 ### `oas_autodoc`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to automatically extract OpenAPI details from the docstring of a route function
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: ルート関数のdocstringからOpenAPIの詳細を自動的に抽出するかどうか
 
 ### `oas_ignore_head`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: WHen `True`, it will not add `HEAD` endpoints into the OpenAPI specification
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: `True`なら, OpenAPI 仕様に `HEAD` エンドポイントを追加しません
 
 ### `oas_ignore_options`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: WHen `True`, it will not add `OPTIONS` endpoints into the OpenAPI specification
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: `True`なら, OpenAPI 仕様に `OPTIONS` エンドポイントを追加しません
 
 ### `oas_path_to_redoc_html`
 
-- **Type**: `Optional[str]`
-- **Default**: `None`
-- **Description**: Path to HTML file to override the existing Redoc HTML
+- **型**: `Optional[str]`
+- **デフォルト**: `None`
+- **説明**: 既存の Redoc HTML をオーバーライドする HTML ファイルへのパス
 
 ### `oas_path_to_swagger_html`
 
-- **Type**: `Optional[str]`
-- **Default**: `None`
-- **Description**: Path to HTML file to override the existing Swagger HTML
+- **型**: `Optional[str]`
+- **デフォルト**: `None`
+- **説明**: 既存の Swagger HTML をオーバーライドする HTML ファイルへのパス
 
 ### `oas_ui_default`
 
-- **Type**: `Optional[str]`
-- **Default**: `"redoc"`
-- **Description**: Which OAS documentation to serve on the bare `oas_url_prefix` endpoint; when `None` there will be no documentation at that location
+- **型**: `Optional[str]`
+- **デフォルト**: `"redoc"`
+- **説明**: `oas_url_prefix`エンドポイントにどのOASドキュメントを提供するか; `None`の場合、その場所にドキュメントはありません
 
 ### `oas_ui_redoc`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to enable the Redoc UI
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: Redoc UI を有効にするかどうか
 
 ### `oas_ui_swagger`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to enable the Swagger UI
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: Swagger UI を有効にするかどうか
 
 ### `oas_ui_swagger_version`
 
-- **Type**: `str`
-- **Default**: `"4.1.0"`
-- **Description**: Which Swagger version to use
+- **型**: `str`
+- **デフォルト**: `"4.1.0"`
+- **説明**: 使用するSwaggerバージョン
 
 ### `oas_uri_to_config`
 
-- **Type**: `str`
-- **Default**: `"/swagger-config"`
-- **Description**: Path to serve the Swagger configurtaion
+- **型**: `str`
+- **デフォルト**: `"/swagger-config"`
+- **説明**: Swaggerの設定を提供するパス
 
 ### `oas_uri_to_json`
 
-- **Type**: `str`
-- **Default**: `"/openapi.json"`
-- **Description**: Path to serve the OpenAPI JSON
+- **型**: `str`
+- **デフォルト**: `"/openapi.json"`
+- **説明**: OpenAPI JSON を提供するパス
 
 ### `oas_uri_to_redoc`
 
-- **Type**: `str`
-- **Default**: `"/redoc"`
-- **Description**: Path to Redoc
+- **型**: `str`
+- **デフォルト**: `"/redoc"`
+- **説明**: Redocのパス
 
 ### `oas_uri_to_swagger`
 
-- **Type**: `str`
-- **Default**: `"/swagger"`
-- **Description**: Path to Swagger
+- **型**: `str`
+- **デフォルト**: `"/swagger"`
+- **説明**: Swagger のパス
 
 ### `oas_url_prefix`
 
-- **Type**: `str`
-- **Default**: `"/docs"`
-- **Description**: URL prefix for the Blueprint that all of the OAS documentation witll attach to
+- **型**: `str`
+- **デフォルト**: `"/docs"`
+- **説明**: OASドキュメントのすべてのwitllが添付するブループリントのURL接頭辞。
 
 ### `swagger_ui_configuration`
 
-- **Type**: `Dict[str, Any]`
-- **Default**: `{"apisSorter": "alpha", "operationsSorter": "alpha", "docExpansion": "full"}`
-- **Description**: The Swagger documentation to be served to the frontend
+- **型**: `Dict[str, Any]`
+- **デフォルト**: `{"apisSorter": "alpha", "operationsSorter": "alpha", "docExpansion": "full"}`
+- **説明**: フロントエンドに提供される Swagger ドキュメント
 
 ### `templating_enable_async`
 
-- **Type**: `bool`
-- **Default**: `True`
-- **Description**: Whether to set `enable_async` on the Jinja `Environment`
+- **型**: `bool`
+- **デフォルト**: `True`
+- **説明**: Jinjaの `Environment` で `enable_async` を設定するかどうか
 
 ### `templating_path_to_templates`
 
-- **Type**: `Union[str, os.PathLike, Sequence[Union[str, os.PathLike]]]`
-- **Default**: `templates`
-- **Description**: A single path, or multiple paths to where your template files are located
+- **型**: `Union[str, os.PathLike, Sequence[Union[str, os.PathLike]]]`
+- **デフォルト**: `templates`
+- **説明**: テンプレートファイルがある場所への単一のパス、または複数のパス
 
 ### `trace_excluded_headers`
 
-- **Type**: `Sequence[str]`
-- **Default**: `("authorization", "cookie")`
-- **Description**: Which headers should be suppresed from responses to `TRACE` requests
+- **型**: `Sequence[str]`
+- **デフォルト**: `("authorization", "cookie")`
+- **説明**: `TRACE` リクエストに対するレスポンスから抑制されるヘッダー。
