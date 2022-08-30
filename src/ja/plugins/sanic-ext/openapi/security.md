@@ -12,9 +12,9 @@ _セキュリティはv21.12.2以降で利用可能です。_
 add_security_scheme("<NAME>", "<TYPE>")
 ```
 
-The `type` should correspond to one of the allowed security schemes: `"apiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"`. You can then pass appropriate keyword arguments as allowed by the specification.
+`type`は、許可されたセキュリティスキームのいずれかに対応する必要があります: `"apiKey"`, `"http"`, `"oauth2"`, `"openIdConnect"` その後、仕様で許可されているキーワード引数を渡すことができます。
 
-You should consult the [OpenAPI Specification](https://swagger.io/specification/) for details on what values are appropriate. :--:1
+適切な値の詳細については、 [OpenAPIの仕様](https://swagger.io/specification/) を参照してください。 :--:1
 ```python
 app.ext.openapi.add_security_scheme("api_key", "apiKey")
 app.ext.openapi.add_security_scheme(
@@ -36,9 +36,9 @@ app.ext.openapi.add_security_scheme(
         "implicit": {
             "authorizationUrl": "http://example.com/auth",
             "scopes": {
-                "on:two": "something",
-                "three:four": "something else",
-                "threefour": "something else...",
+                "on:two": "何か",
+                "three:four": "それ以外",
+                "threefour": "それ以外...",
             },
         }
     },
@@ -48,7 +48,7 @@ app.ext.openapi.add_security_scheme(
 
 ## エンドポイントを文書化する
 
----:1 2つのオプションがあり、_all_ endpointsをdocumentします。
+---:1 2つのオプションがあり、1つは_全ての_エンドポイントを文章化することです。
 
 :--:1
 ```python
@@ -57,7 +57,7 @@ app.ext.openapi.secured("token")
 ```
 :---
 
----:1 あるいは、特定の経路だけを記録する。 :--:1 :--:1
+---:1 もしくは、特定のルートだけを記録できます。 :--:1
 ```python
 @app.route("/one")
 async def handler1(request):
