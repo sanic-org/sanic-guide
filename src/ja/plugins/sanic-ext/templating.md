@@ -47,9 +47,9 @@ pip install Jinja2
 
 Sanic + Jinjaでどのようにレンダリングできるか見てみましょう。
 
-### Option 1 - as a decorator
+### 方法1 - デコレータ
 
----:1 このアプローチの利点は、テンプレートを起動時にあらかじめ定義できることです。 This will mean that less fetching needs to happen in the handler, and should therefore be the fastest option. :--:1
+---:1 このアプローチの利点は、テンプレートを起動時にあらかじめ定義できることです。 これは、ハンドラで起こるフェッチがより少ないことを意味し、したがって最速の方法になります。 :--:1
 ```python
 @app.get("/")
 @app.ext.template("foo.html")
@@ -58,9 +58,9 @@ async def handler(request: Request):
 ```
 :---
 
-### Option 2 - as a return object
+### 方法2 - 戻り値オブジェクト
 
----:1 This is meant to mimic the `text`, `json`, `html`, `file`, etc pattern of core Sanic. It will allow the most customization to the response object since it has direct control of it. Just like in other `HTTPResponse` objects, you can control headers, cookies, etc. :--:1
+---:1 これは、コアSanicの`text`、`json`、`html`、`file`などのパターンを模倣することを意味します。 直接制御しているので、レスポンスオブジェクトに最も深いカスタマイズを可能にします。 他の `HTTPResponse` オブジェクトと同じように、ヘッダー、クッキーなどを制御できます。 :--:1
 ```python
 from sanic_ext import render
 
@@ -72,9 +72,9 @@ async def handler(request: Request):
 ```
 :---
 
-### Option 3 - hybrid/lazy
+### 方法3 - ハイブリッド/遅延型
 
----:1 In this approach, the template is defined up front and not inside the handler (for performance). Then, the `render` function returns a `LazyResponse` that can be used to build a proper `HTTPResponse` inside the decorator. :--:1
+---:1 このアプローチでは、テンプレートはハンドラ内ではなく、前面に定義されます(パフォーマンスのため)。 次に、 `render` 関数は、デコレータ内で適切な `HTTPResponse` を構築するために使用できる `LazyResponse` を返します。 :--:1
 ```python
 from sanic_ext import render
 
@@ -85,9 +85,9 @@ async def handler(request: Request):
 ```
 :---
 
-## Rendering a template from a string
+## 文字列からテンプレートをレンダリングする
 
----:1 Sometimes you may want to write (or generate) your template inside of Python code and _not_ read it from an HTML file. In this case, you can still use the `render` function we saw above. Just use `template_source`. :--:1
+---:1 HTMLファイルから_読み取らない_で、Pythonコードの中でテンプレートを書きたい(もしくは生成したい)ことがあります。 この場合でも、上記の `render` 関数を使用することができます。 `template_source` を使用するだけです。 :--:1
 ```python
 from sanic_ext import render
 from textwrap import dedent
@@ -99,11 +99,11 @@ async def handler(request):
         <html lang="en">
 
             <head>
-                <title>My Webpage</title>
+                <title>僕のWebページ</title>
             </head>
 
             <body>
-                <h1>Hello, world!!!!</h1>
+                <h1>こんにちは、世界!!!!</h1>
                 <ul>
                     {% for item in seq %}
                     <li>{{ item }}</li>
@@ -121,12 +121,12 @@ async def handler(request):
 ```
 :---
 
-::: tip In this example, we use `textwrap.dedent` to remove the whitespace in the beginning of each line of the multi-line string. It is not necessary, but just a nice touch to keep both the code and the generated source clean. :::
+::: tip この例では、 `textwrap.dedent` を使用して、マルチライン文字列の各行の先頭の空白を削除します。 必要ではありませんが、コードと生成されたソースの両方をきれいに保つためにちょうどいいタッチです。 :::
 
-## Development and auto-reload
+## 開発とオートリロード
 
-If auto-reload is turned on, then changes to your template files should trigger a reload of the server.
+オートリロードがオンになっている場合、テンプレートファイルへの変更によりサーバーの再読み込みが実行されます。
 
-## Configuration
+## 設定
 
-See `templating_enable_async` and `templating_path_to_templates` in [settings](./configuration.md#settings).
+`templating_enable_async` および `templating_path_to_templates` を [設定](./configuration.md#settings) で参照してください。
