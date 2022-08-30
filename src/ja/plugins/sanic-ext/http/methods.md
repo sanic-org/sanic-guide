@@ -2,16 +2,16 @@
 
 ## 自動エンドポイント
 
-デフォルトの動作は、すべての`GET`ルートに`HEAD`エンドポイントを、そして全ルートに`OPTIONS`エンドポイントを自動的に生成することです。 さらに、`TRACE`エンドポイントを自動的に生成するオプションもあります。 Additionally, there is the option to automatically generate `TRACE` endpoints. しかし、これらは初期状態では有効ではありません。
+デフォルトの動作は、すべての`GET`ルートに`HEAD`エンドポイントを、そして全ルートに`OPTIONS`エンドポイントを自動的に生成することです。 さらに、`TRACE`エンドポイントを自動的に生成するオプションもあります。 しかし、これらは初期状態では有効ではありません。
 
 ::::tabs
 
 :::tab HEAD
 
-- **Configuration**: `AUTO_HEAD` (default `True`)
-- **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
+- **設定**: `AUTO_HEAD` (デフォルト `True`)
+- **MDN**: [続きを読む](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
 
-`HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。 しかし、実際にはボディを返しません。 However, it does not actually return the body.
+`HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。 しかし、実際にはボディを返しません。
 
 ```python
 @app.get("/")
