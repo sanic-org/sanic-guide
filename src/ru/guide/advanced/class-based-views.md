@@ -1,10 +1,10 @@
-# Представления на основе классов
+# Объекты представления на основе классов
 
 ## Зачем их использовать?
 
 ---:1
 
-### The problem
+### Проблема
 
 Стандартным шаблоном при проектировании API является наличие у одного и того же эндпоинта разной функциональности, которая зависит от HTTP метода.
 
@@ -37,7 +37,7 @@ async def bar(request):
 
 ### Решение
 
-Class-based views are simply classes that implement response behavior to requests. They provide a way to compartmentalize handling of different HTTP request types at the same endpoint. :--:1
+Объекты представления на основе классов - это просто классы, которые реализуют поведение ответов на запросы. Они обеспечивают способ разделения обработки различных типов HTTP-запросов в одном и том же эндпоинте. :--:1
 ```python
 from sanic.views import HTTPMethodView
 
@@ -55,15 +55,15 @@ app.add_route(FooBar.as_view(), "/foobar")
 ```
 :---
 
-## Defining a view
+## Определение представления
 
-A class-based view should subclass `HTTPMethodView`. You can then implement class methods with the name of the corresponding HTTP method. If a request is received that has no defined method, a `405: Method not allowed` response will be generated.
+Объект представления на основе классов должен быть подклассом `HTTPMethodView`. Затем вы можете реализовать методы класса с названием соответствующего HTTP-метода. Если запрос содержит метод, который не был определен в представлении, будет сгенерирован ответ `405: Method not allowed`.
 
 ---:1
 
-To register a class-based view on an endpoint, the `app.add_route` method is used. The first argument should be the defined class with the method `as_view` invoked, and the second should be the URL endpoint.
+Для регистрации объекта представления на основе классов в эндпоинте используется метод `app.add_route`. Первым аргументом должен быть заданный класс с методом `as_view`, а вторым должен быть URL-путь к эндпоинту.
 
-The available methods are:
+Доступные методы включают в себя:
 
 - get
 - post
@@ -98,7 +98,7 @@ app.add_route(SimpleView.as_view(), "/")
 ```
 :---
 
-## Path parameters
+## Параметры пути
 
 ---:1
 
