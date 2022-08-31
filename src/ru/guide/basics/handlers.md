@@ -1,18 +1,18 @@
-# Handlers
+# Хендлеры (обработчики)
 
-The next important building block are your _handlers_. These are also sometimes called "views".
+Следующий важный кирпичик — ваши _хендлеры (обработчики)_. Они также иногда называются "объекты представления".
 
-In Sanic, a handler is any callable that takes at least a `Request` instance as an argument, and returns either an `HTTPResponse` instance, or a coroutine that does the same.
+Обработчик в Sanic - это любой вызываемый объект, который принимает в качестве аргумента как минимум экземпляр объекта `Request`, и возвращает экземпляр `HTTPResponse` или корутину, которая делает то же самое.
 
 
 
 ---:1
 
-Huh? :confused:
+В смысле? :confused:
 
-It is a **function**; either synchronous or asynchronous.
+Это **функция**; либо синхронная, либо асинхронная.
 
-The job of the handler is to respond to an endpoint and do something. This is where the majority of your business logic will go. :--:1
+Задача хендлера заключается в том, чтобы ответить эндпоинту и что-то сделать. Здесь будет находиться большая часть вашей бизнес-логики. :--:1
 ```python
 def i_am_a_handler(request):
     return HTTPResponse()
@@ -22,14 +22,14 @@ async def i_am_ALSO_a_handler(request):
 ```
 :---
 
-::: tip Heads up If you want to learn more about encapsulating your logic, checkout [class based views](/guide/advanced/class-based-views.md). ::: ---:1 Then, all you need to do is wire it up to an endpoint. We'll learn more about [routing soon](./routing.md).
+::: Совет Внимание! Если вы хотите узнать больше о инкапсуляции вашей логики, изучите [Объекты представления на основе классов](/guide/advanced/class-based-views.md). ::: ---:1 Таким образом, всё, что вам нужно сделать, это присоединить его к эндпоинту. Подробнее мы скоро разберёмся с этим в разделе [Маршрутизация](./routing.md).
 
-Let's look at a practical example.
+Рассмотрим практический пример.
 
-- We use a convenience decorator on our app instance: `@app.get()`
-- And a handy convenience method for generating out response object: `text()`
+- Мы используем в нашем приложении удобный декоратор: `@app.get()`
+- И не менее удобный метод для генерации объекта ответа: `text()`
 
-Mission accomplished :muscle: :--:1
+Миссия выполнена :muscle: :--:1
 ```python
 from sanic.response import text
 
@@ -41,18 +41,18 @@ async def foo_handler(request):
 
 ---
 
-## A word about _async_...
+## Несколько слов об _асинхронной парадигме_...
 
 ---:1
 
-It is entirely possible to write handlers that are synchronous.
+Разумеется, писать синхронные обработчики абсолютно допустимо.
 
-In this example, we are using the _blocking_ `time.sleep()` to simulate 100ms of processing time. Perhaps this represents fetching data from a DB, or a 3rd-party website.
+В этом примере мы используем _блокирующий_ `time.sleep()` для моделирования 100 мс времени обработки. Например, это представляет собой получение данных из БД или со стороннего веб-сайта.
 
-Using four (4) worker processes and a common benchmarking tool:
+Используя четыре (4) рабочих процесса и общей механизм бенчмаркинга, получаем:
 
-- **956** requests in 30.10s
-- Or, about **31.76** requests/second :--:1
+- **956** запросов за 30.10 сек
+- Или около **31.76** запросов в секунду :--:1
 ```python
 @app.get("/sync")
 def sync_handler(request):
@@ -63,20 +63,20 @@ def sync_handler(request):
 
 ---:1
 
-Just by changing to the asynchronous alternative `asyncio.sleep()`, we see an incredible change in performance. :rocket:
+Просто переписав код в асинхронный `asyncio.sleep()`, мы видим невероятное изменение производительности. :rocket:
 
-Using the same four (4) worker processes:
+Используя те же четыре (4) рабочих процесса, получаем:
 
-- **115,590** requests in 30.08s
-- Or, about **3,843.17** requests/second
+- **115,590** запроса за 30.08 сек
+- или около **3,843.17** запросов в секунду
 
 :flushed:
 
-Okay... this is a ridiculously overdramatic result. And any benchmark you see is inherently very biased. This example is meant to over-the-top show the benefit of `async/await` in the web world. Results will certainly vary. Tools like Sanic and other async Python libraries are not magic bullets that make things faster. They make them _more efficient_.
+Ладно... Это до смешного чересчур драматичный результат. И любой бенчмарк, который вы видите, по сути очень предвзятый. Этот пример предназначен для демонстрации общего преимущества `async/await` в веб-мире. Полученные результаты, безусловно, будут различными. Инструменты, такие как Sanic и другие асинхронные библиотеки Python, не являются волшебными пулями, делающими вещи быстрее. Они делают их _более эффективными_.
 
-In our example, the asynchronous version is so much better because while one request is sleeping, it is able to start another one, and another one, and another one, and another one...
+В нашем примере асинхронная версия гораздо лучше, потому что пока один запрос спит, она способна начать выполнять другой, и другой, и другой, и другой...
 
-But, this is the point! Sanic is fast because it takes the available resources and squeezes performance out of them. It can handle many requests concurrently, which means more requests per second.
+Но в этом-то всё дело! Sanic быстрый, потому что он берет все доступные ресурсы и выжимает из них производительность. Он может одновременно обрабатывать много запросов, что означает больше запросов в секунду.
 
 :--:1
 ```python
@@ -87,21 +87,21 @@ async def async_handler(request):
 ```
 :---
 
-::: warning A common mistake!
+::: Предупреждение Распространенная ошибка!
 
-Don't do this! You need to ping a website. What do you use? `pip install your-fav-request-library` :see_no_evil:
+Не делайте этого! Вам нужно пинговать веб-страницу. Что вы используете? `pip install ваша-любимая-request-библиотека` :see_no_evil:
 
-Instead, try using a client that is `async/await` capable. Your server will thank you. Avoid using blocking tools, and favor those that play well in the asynchronous ecosystem. If you need recommendations, check out [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
+Вместо этого попробуйте использовать клиент, умеющий в `async/await`. Ваш сервер будет вам благодарен. Избегайте использования блокирующих инструментов, предпочитая те, которые хорошо работают в асинхронной экосистеме. Если вам нужны рекомендации, ознакомьтесь с [Awesome Sanic](https://github.com/mekicha/awesome-sanic).
 
-Sanic uses [httpx](https://www.python-httpx.org/) inside of its testing package (sanic-testing) :wink:.
+Sanic использует [httpx](https://www.python-httpx.org/) внутри пакета тестирования (sanic-testing) :wink:.
 
 :::
 
 ---
 
-## A fully annotated handler
+## Полностью аннотированный обработчик
 
-For those that are using type annotations...
+Для тех, кто использует аннотации типов...
 
 ```python
 from sanic.response import HTTPResponse, text
