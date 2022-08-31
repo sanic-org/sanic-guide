@@ -1,1 +1,1 @@
-connecting to data sources
+подключение к источникам данных
