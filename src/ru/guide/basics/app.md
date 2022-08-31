@@ -2,7 +2,7 @@
 
 ## Экземпляр объекта
 
----:1 Экземпляр объекта приложения `Sanic()` является самым основным кирпичиком. It is not required, but the custom is to instantiate this in a file called `server.py`. :--:1
+---:1 Экземпляр объекта приложения `Sanic()` является самым основным кирпичиком. Это не обязательно, но обычно создание экземпляра приложения происходит в файле, называемом `server.py`. :--:1
 ```python
 # /path/to/server.py
 
@@ -12,32 +12,33 @@ app = Sanic("MyHelloWorldApp")
 ```
 :---
 
-## Application context
+## Контекст приложения
 
-Most applications will have the need to share/reuse data or objects across different parts of the code base. The most common example is DB connections.
+Большинство приложений будут иметь необходимость совместного или повторного использования данных или объектов в различных местах кода. Наиболее распространенным примером является соединение с базой данных.
 
----:1 In versions of Sanic prior to v21.3, this was commonly done by attaching an attribute to the application instance :--:1
+---:1 В версиях Sanic до v21.3 это делалось путем добавления атрибута к экземпляру приложения :--:1
 ```python
-# Raises a warning as deprecated feature in 21.3
+# Выкидывает предупреждение об исключении подобного использования в версии 21.3
 app = Sanic("MyApp")
 app.db = Database()
 ```
 :---
 
----:1 Because this can create potential problems with name conflicts, and to be consistent with [request context](./request.md#context) objects, v21.3 introduces application level context object. :--:1
+---:1 В связи с возможностью возникновения потенциальных проблем с конфликтами имён, v21.3 вводит объект контекста на уровне самого приложения для сохранения консистентности объектов [контекста запроса](./request.md#context). :--:1
 ```python
-# Correct way to attach objects to the application
+# Правильный способ прикрепления объектов к приложению
 app = Sanic("MyApp")
 app.ctx.db = Database()
 ```
 :---
 
-## App Registry
+## Реестр приложений
 
 ---:1
 
-When you instantiate a Sanic instance, that can be retrieved at a later time from the Sanic app registry. This can be useful, for example, if you need to access your Sanic instance from a location where it is not otherwise accessible. :--:1
+Когда вы создаете экземпляр Sanic, его можно будет позже позже из реестра приложения Sanic. Это может быть полезно, например, если вам нужен доступ к вашему экземпляру Sanic из места, где он недоступен. :--:1
 ```python
+
 # ./path/to/server.py
 from sanic import Sanic
 
@@ -52,7 +53,7 @@ app = Sanic.get_app("my_awesome_server")
 
 ---:1
 
-If you call `Sanic.get_app("non-existing")` on an app that does not exist, it will raise `SanicException` by default. You can, instead, force the method to return a new instance of Sanic with that name. :--:1
+Если вы вызовете `Sanic.get_app("non-existing")` в приложении, которое не существует, то по умолчанию это вызовет `SanicException`. Однако, вместо этого вы можете принудительно вернуть новый экземпляр Sanic с таким именем. :--:1
 ```python
 app = Sanic.get_app(
     "non-existing",
@@ -61,7 +62,7 @@ app = Sanic.get_app(
 ```
 :---
 
----:1 If there is **only one** Sanic instance registered, then calling `Sanic.get_app()` with no arguments will return that instance :--:1
+---:1 Если **зарегистрирован только один** экземпляр Sanic, то вызов без аргументов `Sanic.get_app()` возвращает этот экземпляр :--:1
 ```python
 Sanic("My only app")
 
@@ -69,9 +70,9 @@ app = Sanic.get_app()
 ```
 :---
 
-## Configuration
+## Настройки
 
----:1 Sanic holds the configuration in the `config` attribute of the `Sanic` instance. Configuration can be modified **either** using dot-notation **OR** like a dictionary. :--:1
+---:1 Настройки экземпляра приложения `Sanic` располагаются в атрибуте `config`. Конфигурация может быть изменена посредством **ЛИБО** точечной **ЛИБО** словарной нотации. :--:1
 ```python
 app = Sanic('myapp')
 
@@ -87,26 +88,26 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip Heads up Config keys _should_ be uppercase. But, this is mainly by convention, and lowercase will work most of the time.
+::: Совет Конфигурационные ключи _должны_ быть указаны заглавными буквами. Но это общее следование конвенции. В нижнем регистре в целом тоже будет работать.
 ```
 app.config.GOOD = "yay!"
 app.config.bad = "boo"
 ```
 :::
 
-There is much [more detail about configuration](/guide/deployment/configuration.md) later on.
+Далее есть [более подробное описание настроек](/guide/deployment/configuration.md).
 
 
-## Customization
+## Персональные настройки
 
-The Sanic application instance can be customized for your application needs in a variety of ways at instantiation.
+Экземпляр приложения Sanic может быть настроен различными способами в момент его создания с учетом потребностей вашего приложения.
 
-### Custom configuration
+### Пользовательская конфигурация
 ---:1
 
-This simplest form of custom configuration would be to pass your own object directly into that Sanic application instance
+Простейшей формой пользовательской конфигурации будет являться передача своего собственного объекта непосредственно в экземпляр приложения Sanic
 
-If you create a custom configuration object, it is *highly* recommended that you subclass the Sanic `Config` option to inherit its behavior. You could use this option for adding properties, or your own set of custom logic.
+Если вы создаете пользовательский объект конфигурации, *настоятельно* рекомендуется наследовать его от объекта Sanic `Config`, чтобы перенять его поведение. Вы можете использовать эту опцию для добавления свойств или вашего собственного набора пользовательской логики.
 
 :--:1
 ```python
@@ -119,7 +120,7 @@ app = Sanic(..., config=MyConfig())
 ```
 :---
 
----:1 A useful example of this feature would be if you wanted to use a config file in a form that differs from what is [supported](../deployment/configuration.md#using-sanic-update-config). :--:1
+---:1 Например, вы хотите использовать конфигурационный файл в форме, отличающейся от того, что изначально [ поддерживается](../deployment/configuration.md#using-sanic-update-config). :--:1
 ```python
 from sanic import Sanic, text
 from sanic.config import Config
@@ -152,10 +153,10 @@ toml_config = TomlConfig(path="/path/to/config.toml")
 app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
-### Custom context
+### Переопределение контекста
 ---:1
 
-By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. However, you also have the option of passing any object whatsoever instead.
+По умолчанию, контекст приложения является объектом [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace), который позволяет вам добавить в него любые свойства, которые вы хотите. Тем не менее, у вас также есть возможность передать любой объект по вашему выбору.
 
 :--:1
 ```python
@@ -173,12 +174,12 @@ class MyContext:
 app = Sanic(..., ctx=MyContext())
 ```
 :---
-### Custom requests
----:1 It is sometimes helpful to have your own `Request` class, and tell Sanic to use that instead of the default. One example is if you wanted to modify the default `request.id` generator.
+### Переопределение объекта запроса
+---:1 Иногда может быть полезно иметь собственный класс `Request` и передать его Sanic для использования вместо стандартного. Например, вы хотите изменить поведение стандартного генератора `request.id`.
 
-::: tip Important
+::: Совет Важно
 
-It is important to remember that you are passing the *class* not an instance of the class.
+Важно помнить, что вы передаёте объект *class*, а не экземпляр класса.
 
 ::: :--:1
 ```python
@@ -202,16 +203,16 @@ async def handler(request):
 ```
 :---
 
-### Custom error handler
+### Переопределение обработчика ошибок
 
----:1 See [exception handling](../best-practices/exceptions.md#custom-error-handling) for more :--:1
+---:1 Более подробная информация в разделе [Обработка исключений](../best-practices/exceptions.md#custom-error-handling) :--:1
 ```python
 from sanic.handlers import ErrorHandler
 
 class CustomErrorHandler(ErrorHandler):
     def default(self, request, exception):
-        ''' handles errors that have no error handlers assigned '''
-        # You custom error handling logic...
+        ''' Обрабатывает ошибки, для которых нет иных назначенных обработчиков '''
+        # Здесь ваша собственная логика обработки...
         return super().default(request, exception)
 
 app = Sanic(..., error_handler=CustomErrorHandler())
