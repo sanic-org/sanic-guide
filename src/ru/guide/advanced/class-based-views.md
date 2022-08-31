@@ -102,7 +102,7 @@ app.add_route(SimpleView.as_view(), "/")
 
 ---:1
 
-You can use path parameters exactly as discussed in [the routing section](/guide/basics/routing.md). :--:1
+Вы можете использовать параметры пути точно так же, как это обсуждалось в разделе [Маршрутизация](/guide/basics/routing.md). :--:1
 ```python
 class NameView(HTTPMethodView):
 
@@ -113,23 +113,23 @@ app.add_route(NameView.as_view(), "/<name>")
 ```
 :---
 
-## Decorators
+## Декораторы
 
-As discussed in [the decorators section](/guide/best-practices/decorators.md), often you will need to add functionality to endpoints with the use of decorators. You have two options with CBV:
+Как обсуждалось в разделе [Декораторы](/guide/best-practices/decorators.md), часто вам нужно добавить функционал в эндпоинты с использованием декораторов. С объектами представления на основе классов у вас есть два варианта:
 
-1. Apply to _all_ HTTP methods in the view
-2. Apply individually to HTTP methods in the view
+1. Применить ко _всем_ HTTP-методам в представлении
+2. Индивидуально применить к конкретным HTTP-методам
 
-Let's see what the options look like:
+Давайте посмотрим, как это выглядит:
 
 ---:1
 
-### Apply to all methods
+### Применение ко всем методам
 
-If you want to add any decorators to the class, you can set the `decorators` class variable. These will be applied to the class when `as_view` is called. :--:1
+Если вы хотите добавить какие-то декораторы к классу целиком, вы можете определить переменную класса `decorators`. Эти декораторы будут применены к классу, когда вызывается `as_view`. :--:1
 ```python
 class ViewWithDecorator(HTTPMethodView):
-  decorators = [some_decorator_here]
+  decorators = [список_объектов_декораторов]
 
   def get(self, request, name):
     return text("Hello I have a decorator")
@@ -143,9 +143,9 @@ app.add_route(ViewWithDecorator.as_view(), "/url")
 
 ---:1
 
-### Apply to individual methods
+### Применение к отдельным методам
 
-But if you just want to decorate some methods and not all methods, you can as shown here. :--:1
+Но если вы просто хотите задекорировать не все, а отдельные методы, вы можете сделать это так, как показано ниже. :--:1
 ```python
 class ViewWithSomeDecorator(HTTPMethodView):
 
@@ -163,10 +163,10 @@ class ViewWithSomeDecorator(HTTPMethodView):
 ```
 :---
 
-## Generating a URL
+## Создание URL
 ---:1
 
-This works just like [generating any other URL](/guide/basics/routing.md#generating-a-url), except that the class name is a part of the endpoint. :--:1
+Это работает аналогично [созданию любого другого URL](/guide/basics/routing.md#generating-a-url) за исключением того, что имя класса является частью эндпоинта. :--:1
 ```python
 @app.route("/")
 def index(request):
