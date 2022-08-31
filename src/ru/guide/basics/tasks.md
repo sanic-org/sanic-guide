@@ -1,7 +1,7 @@
-# Background tasks
+# Фоновые задачи
 
-## Creating Tasks
-It is often desirable and very convenient to make usage of [tasks](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task) in async Python. Sanic provides a convenient method to add tasks to the currently **running** loop. It is somewhat similar to `asyncio.create_task`. For adding tasks before the 'App' loop is running, see next section.
+## Создание задач
+Часто в асинхронном Python хочется использовать [задачи](https://docs.python.org/3/library/asyncio-task.html#asyncio.create_task), и это очень удобно. Sanic предоставляет удобный метод добавления задач к текущему **запущенному** циклу событий. Он чем-то похож на `asyncio.create_task`. For adding tasks before the 'App' loop is running, see next section.
 
 ```python
 async def notify_server_started_after_five_seconds():
