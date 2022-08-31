@@ -1,3 +1,3 @@
-# Testing
+# Тестирование
 
-See [sanic-testing](../../plugins/sanic-testing/getting-started.md)
+Смотри раздел [sanic-testing](../../plugins/sanic-testing/getting-started.md)
