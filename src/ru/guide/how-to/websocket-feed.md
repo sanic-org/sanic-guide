@@ -1,1 +1,1 @@
-websocket feed
+Канал веб-сокета
