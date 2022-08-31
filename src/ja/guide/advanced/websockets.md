@@ -3,11 +3,11 @@
 Sanicは、[websockets](https://websockets.readthedocs.io/en/stable/)の上に使いやすい抽象化を提供します。
 
 
-## Routing
+## ルーティング
 
 ---:1
 
-Websocketハンドラーは、通常のハンドラと同様にルーターに接続できます。 :--:1 :--:1
+Websocketハンドラーは、通常のハンドラと同様にルーターに接続できます。 :--:1
 ```python
 async def feed(request, ws):
     pass
@@ -21,16 +21,16 @@ async def feed(request, ws):
 ```
 :---
 
-## Handler
+## ハンドラ
 
 
 ---:1
 
-通常、Websocketハンドラはループを開きたいと思うでしょう。
+通常、WebSocketハンドラは開いたループを保持します。
 
 その後、ハンドラーに注入された2番目のオブジェクトで `send()` メソッドと `recv()` メソッドを使用できます。
 
-この例は、受信したクライアントメッセージにエコーバックする単純なエンドポイントです。 :--:1 :--:1
+この例は、受信したクライアントメッセージにエコーするシンプルなエンドポイントです。 :--:1
 ```python
 
 @app.websocket("/feed")
@@ -43,9 +43,9 @@ async def feed(request, ws):
         print("Received: " + data)
 ```
 :---
-## Configuration
+## 設定
 
-詳細については、[構成セクション](/guide/deployment/configuration.md)を参照してください。
+詳細は [設定セクション](/guide/deployment/configuration.md) を参照してください。
 ```python
 app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
 app.config.WEBSOCKET_MAX_QUEUE = 32
