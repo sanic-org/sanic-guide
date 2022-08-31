@@ -1,4 +1,4 @@
-# Versioning
+# バージョン進行
 
 API構築では、エンドポイントにバージョンを追加するのが標準プラクティスです。 これにより、APIを断りなく変更しようとすると、互換性のないエンドポイントを簡単に区別できます。
 
@@ -10,29 +10,29 @@ API構築では、エンドポイントにバージョンを追加するのが�
 - `1.1`, `2.25`, `3.0`
 - `"1"`, `"v1"`, `"v1.1"`
 
-## Per route
+## ルートごとのバージョン
 
 ---:1
 
-バージョン番号をルートに直接渡すことができます。 :--:1 :--:1
+バージョン番号をルートに直接渡すことができます。 :--:1
 ```python
 # /v1/text
 @app.route("/text", version=1)
 def handle_request(request):
-    return response.text("Hello world! Version 1")
+    return response.text("Hello world! バージョン1")
 
 # /v2/text
 @app.route("/text", version=2)
 def handle_request(request):
-    return response.text("Hello world! Version 2")
+    return response.text("Hello world! バージョン2")
 ```
 :---
 
-## Per Blueprint
+## Blueprintごとのバージョン
 
 ---:1
 
-ブループリントにバージョン番号を渡すこともできます。 これは、そのブループリント内のすべてのルートに適用されます。 :--:1 :--:1
+Blueprintにバージョン番号を渡すこともできます。 これは、そのBlueprint内のすべてのルートに適用されます。 :--:1
 ```python
 bp = Blueprint("test", url_prefix="/foo", version=1)
 
@@ -43,17 +43,17 @@ def handle_request(request):
 ```
 :---
 
-## Per Blueprint Group
+## Blueprintグループごとのバージョン
 
----:1 バージョン管理を簡素化するために、ブループリントにバージョン番号を提供できます グループ。 青写真がまだ上書きされていない場合、その下にグループ化されたすべての青写真にも同じことが継承されます ブループリントインスタンスの作成中に指定された値と同じ情報。
+---:1 バージョン化されたブループリントの管理を簡素化するために、グループにバージョン番号を提供できます。 Blueprintインスタンスを作成する際に指定された値で同じ情報を上書きしない場合、 その下方でグループ化されたすべてのblueprintにも同じ情報が継承されます。
 
-バージョンの管理にブループリントグループを使用する場合は、バージョンプレフィックスを登録されているルート。
+バージョン管理にblueprintグループを使用する場合、登録中の経路にVersionプレフィックスを適用するには、以下の順序で行います。
 
 1. ルートレベルの設定
-2. ブループリントレベルの構成
-3. ブループリントグループレベルの構成
+2. Blueprintレベルの構成
+3. Blueprintグループレベルの構成
 
-より尖ったバージョニング仕様を見つけたら、より一般的なバージョニング仕様よりもそれを選びますブループリントまたはブループリントグループの下で提供
+もし、より尖ったバージョン管理仕様が見つかれば、BlueprintやBlueprintグループの下で提供される一般的なバージョン管理仕様よりも、そちらを選ぶことになります。 :--:1
 ```python
 from sanic.blueprints import Blueprint
 from sanic.response import json
@@ -91,30 +91,30 @@ async def handle_endpoint_2_bp2(request):
 ```
 :---
 
-## Version prefix
+## バージョンプレフィックス
 
-上記のように、ルートに適用される `version` は、生成された URI パスの最初のセグメントを **常に** です。 したがって、バージョンの前にパスセグメントを追加できるように、`version`引数が渡されるすべての場所で、`version_prefix`を渡すこともできます。
+上で見たように、ルートに適用される`バージョン`は、**常に**生成されたURIパスの最初のセグメントになります。 したがって、バージョンの前にパスセグメントを追加できるように、`version`引数が渡されるすべての場所で、`version_prefix`を渡すこともできます。
 
 `version_prefix`引数は次のように定義できます。
 
-- `app.route` and `bp.route` decorators (and all the convenience decorators also)
-- `Blueprint` instantiation
-- `Blueprint.group` constructor
-- `BlueprintGroup` instantiation
-- `app.blueprint` registration
+- `app.route` と `bp.route` デコレータ (そして、すべての便利なデコレータ)
+- `Blueprint`のインスタンス化
+- `Blueprint.group`コンストラクタ
+- `BlueprintGroup`のインスタンス化
+- `app.blueprint`の登録
 
 複数の場所に定義がある場合、より具体的な定義はより一般的な定義を上書きします。 このリストはその階層を提供します。
 
 `version_prefix`のデフォルト値は`/v`です。
 
----:1 頻繁に要求される機能は、バージョン管理されたルートを `/api` にマウントできるようにすることです。 これは「version_prefix」で簡単に実現できます。 :--:1 :--:1
+---:1 頻繁に要求される機能は、バージョン管理されたルートを `/api` にマウントできるようにすることです。 これは`version_prefix`で簡単に実現できます。 :--:1
 ```python
 # /v1/my/path
 app.route("/my/path", version=1, version_prefix="/api/v")
 ```
 :---
 
----:1 おそらく、より説得力のある使用法は、すべての「/api」ルートを単一の「BlueprintGroup」にロードすることです。 :--:1 :--:1
+---:1 おそらく、より説得力のある使用法は、すべての`/api`ルートを単一の`BlueprintGroup`にロードすることです。 :--:1
 ```python
 # /v1/my/path
 app = Sanic(__name__)
@@ -133,10 +133,10 @@ app.blueprint(api)
 したがって、ルートのURIは次のとおりです。
 
 ```
-version_prefix + version + url_prefix + URI definition
+version_prefix + version + url_prefix + URI定義
 ```
 
-::: tip `url_prefix`と同様に、`version_prefix`内にパスパラメータを定義することができます。 これを行うことは完全に合法です。 すべてのルートには、そのパラメータがハンドラーに注入されることを覚えておいてください。
+::: tip `url_prefix`と同様に、`version_prefix`内にパスパラメータを定義することができます。 これを行うのは完全に正当なことです。 すべてのルートには、そのパラメータがハンドラーに注入されることを覚えておいてください。
 
 ```python
 version_prefix="/<foo:str>/v"
