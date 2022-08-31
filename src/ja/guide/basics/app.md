@@ -16,9 +16,9 @@ app = Sanic("My Hello, world app")
 
 ほとんどのアプリケーションでは、コード・ベースのさまざまな部分でデータやオブジェクトを共有/再利用する必要があります。 最も一般的な例はDB接続です。 ---:1 v21.3より前のバージョンのSanicでは、これは通常、属性をアプリケーションインスタンスにアタッチすることによって行われていました。 :--:1
 
----:1 In versions of Sanic prior to v21.3, this was commonly done by attaching an attribute to the application instance :--:1
+---:1 Sanicのv21.3以前のバージョンでは、これは一般的にアプリケーションのインスタンスに属性を添付することによって行われました。 :--:1
 ```python
-# Raises a warning as deprecated feature in 21.3
+# 21.3では非推奨として警告を出します。
 app = Sanic("MyApp")
 app.db = Database()
 ```
@@ -26,7 +26,7 @@ app.db = Database()
 
 ---:1 これにより、名前の競合に関する潜在的な問題が発生したり、[要求コンテキスト](./request.md#context)オブジェクトv 21.3では、アプリケーションレベルのコンテキストオブジェクトが導入されました。 :--:1 :--:1
 ```python
-# Correct way to attach objects to the application
+# アプリケーションにオブジェクトを添付する正しい方法
 app = Sanic("MyApp")
 app.ctx.db = Database()
 ```
@@ -69,9 +69,9 @@ app = Sanic.get_app()
 ```
 :---
 
-## Configuration
+## 構成
 
----:1 Sanic holds the configuration in the `config` attribute of the `Sanic` instance. Configuration can be modified **either** using dot-notation **OR** like a dictionary. ---:1
+---:1 Sanicは、`Sanic`インスタンスの`config`属性に設定を保持します。 Configuration can be modified **either** using dot-notation **OR** like a dictionary. ---:1
 ```python
 app = Sanic('myapp')
 
@@ -96,14 +96,14 @@ app.config.GOOD = "yay!" app.config.bad = "boo"
 カスタム設定の最も単純な形式は、独自のオブジェクトを直接そのSanicアプリケーションインスタンスに渡すことです。
 
 
-## Customization
+## カスタマイズ
 
 Sanicアプリケーションインスタンスは、インスタンス化時にさまざまな方法でアプリケーションのニーズに合わせてカスタマイズできます。
 
-### Custom configuration
+### カスタムな構成
 ---:1
 
-This simplest form of custom configuration would be to pass your own object directly into that Sanic application instance
+この最も単純なカスタム設定の方法は、独自のオブジェクトを直接Sanicアプリケーションのインスタンスに渡すことです。
 
 カスタム設定オブジェクトを作成する場合は、Sanicの`Config`オプションをサブクラス化して、その動作を継承することを強くお勧めします。 このオプションを使用して、プロパティを追加することも、独自のカスタムロジックセットを追加することもできます。
 
@@ -151,7 +151,7 @@ toml_config = TomlConfig(path="/path/to/config.toml")
 app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
-### Custom context
+### カスタム コンテキスト
 ---:1
 
 デフォルトでは、アプリケーション・コンテキストは [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) であり、必要なプロパティを設定できます。 ただし、代わりに任意のオブジェクトを渡すこともできます。
@@ -166,16 +166,16 @@ app = Sanic(..., ctx={})
 ```
 
 ```python
-class MyContext:
+class CustomContext:
     ...
 
 app = Sanic(..., ctx=MyContext())
 ```
 :---
-### Custom requests
+### カスタムリクエスト
 ---:1 独自の 「Request」 クラスを用意し、デフォルトの代わりにそれを使用するようにSanicに指示すると便利な場合があります。 たとえば、デフォルトの`request.id`ジェネレータを変更する場合です。
 
-::: tip Important
+::: tip 重要
 
 クラスのインスタンスではなく、*クラス*を渡すことを覚えておくことが重要です。
 
@@ -201,7 +201,7 @@ async def handler(request):
 ```
 :---
 
-### Custom error handler
+### カスタムエラー処理
 
 ---:1 詳細については、[exception handling](../best-practices/exceptions.md#custom-error-handling)を参照してください。 :--:1
 ```python
@@ -209,8 +209,8 @@ from sanic.handlers import ErrorHandler
 
 class CustomErrorHandler(ErrorHandler):
     def default(self, request, exception):
-        ''' handles errors that have no error handlers assigned '''
-        # You custom error handling logic...
+        ''' エラーハンドラが割り当てられていないエラーを処理する '''
+        # あなた独自のエラーハンドリングロジック...
         return super().default(request, exception)
 
 app = Sanic(..., error_handler=CustomErrorHandler())
