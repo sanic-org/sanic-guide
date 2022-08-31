@@ -1,17 +1,17 @@
-# Response
+# Объект ответа
 
-All [handlers](./handlers.md) **must** return a response object, and [middleware](./middleware.md) may optionally return a response object.
+Все [хендлеры](./handlers.md) **обязаны** возвращать объект ответа, в то время как [middleware](./middleware.md) могут возвращать объект ответа опционально.
 
-## Methods
+## Методы
 
-The easiest way to generate a response object is to use one of the nine (9) convenience methods.
+Самый простой способ сгенерировать объект ответа - использовать один из девяти (9) удобных методов.
 
 :::: tabs
 
-::: tab Text
+::: tab Текст
 
 **Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Returns plain text
+**Описание**: Возвращает обычный текст
 
 ```python
 from sanic.response import text
@@ -24,7 +24,7 @@ async def handler(request):
 ::: tab HTML
 
 **Default Content-Type**: `text/html; charset=utf-8`  
-**Description**: Returns an HTML document
+**Описание**: Возвращает HTML документ
 
 ```python
 from sanic.response import html
@@ -37,7 +37,7 @@ async def handler(request):
 ::: tab JSON
 
 **Default Content-Type**: `application/json`  
-**Description**: Returns a JSON document
+**Описание**: Возвращает JSON документ
 
 ```python
 from sanic.response import json
@@ -47,7 +47,7 @@ async def handler(request):
     return json({"foo": "bar"})
 ```
 
-By default, Sanic ships with [`ujson`](https://github.com/ultrajson/ultrajson) as its JSON encoder of choice. It is super simple to change this if you want.
+По умолчанию Sanic поставляется с пакетом [`ujson`](https://github.com/ultrajson/ultrajson) в качестве выбранного кодировщика JSON. Если вы хотите это изменить - это супер просто.
 
 ```python
 from orjson import dumps
@@ -55,9 +55,9 @@ from orjson import dumps
 json({"foo": "bar"}, dumps=dumps)
 ```
 
-If `ujson` is not installed, it will fall back to the standard library `json` module.
+В случае, если `ujson` не установлен, будет использоваться `json` модуль из стандартной библиотеки.
 
-You may additionally declare which implementation to use globally across your application at initialization:
+Вы можете дополнительно определить, какую реализацию использовать во всем вашем приложении при его инициализации:
 
 ```python
 from orjson import dumps
@@ -68,7 +68,7 @@ app = Sanic(..., dumps=dumps)
 ::: tab File
 
 **Default Content-Type**: N/A  
-**Description**: Returns a file
+**Описание**: Возвращает файл
 
 
 ```python
@@ -79,22 +79,22 @@ async def handler(request):
     return await file("/path/to/whatever.png")
 ```
 
-Sanic will examine the file, and try and guess its mime type and use an appropriate value for the content type. You could be explicit, if you would like:
+Sanic исследует файл и попробует угадать его тип и использовать соответствующее значение для типа содержимого. Если хотите, вы можете указать это явно:
 
 ```python
 file("/path/to/whatever.png", mime_type="image/png")
 ```
 
-You can also choose to override the file name:
+Вы также можете переопределить имя файла:
 
 ```python
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab "File Streaming"
+::: tab "Потоковая передача файла"
 
 **Default Content-Type**: N/A  
-**Description**: Streams a file to a client, useful when streaming large files, like a video
+**Описание**: Передаёт файл клиенту в потоке; полезно при пересылке больших файлов, например видео
 
 ```python
 from sanic.response import file_stream
@@ -104,11 +104,11 @@ async def handler(request):
     return await file_stream("/path/to/whatever.mp4")
 ```
 
-Like the `file()` method, `file_stream()` will attempt to determine the mime type of the file. :::
-::: tab Raw
+Как и метод `file()`, `file_stream()` попытается определить тип содержимого файла. :::
+::: tab Сырые данные
 
 **Default Content-Type**: `application/octet-stream`  
-**Description**: Send raw bytes without encoding the body
+**Описание**: Отправляет сырые данные без кодирования тела ответа
 
 ```python
 from sanic.response import raw
@@ -118,10 +118,10 @@ async def handler(request):
     return raw(b"raw bytes")
 ```
 :::
-::: tab Redirect
+::: tab Перенаправление
 
 **Default Content-Type**: `text/html; charset=utf-8`  
-**Description**: Send a `302` response to redirect the client to a different path
+**Описание**: Отправляет ответ с кодом `302` с последующим перенаправлением запроса клиента по другому пути
 
 ```python
 from sanic.response import redirect
@@ -132,10 +132,10 @@ async def handler(request):
 ```
 
 :::
-::: tab Empty
+::: tab Пустой ответ
 
 **Default Content-Type**: N/A  
-**Description**: For responding with an empty message as defined by [RFC 2616](https://tools.ietf.org/search/rfc2616#section-7.2.1)
+**Описание**: Используется для отправки ответа с пустым сообщением, как описано в [RFC 2616](https://tools.ietf.org/search/rfc2616#section-7.2.1)
 
 ```python
 from sanic.response import empty
@@ -145,12 +145,12 @@ async def handler(request):
     return empty()
 ```
 
-Defaults to a `204` status. :::
+По умолчанию статус `204`. :::
 ::::
 
-## Default status
+## Код статуса по умолчанию
 
-The default HTTP status code for the response is `200`. If you need to change it, it can be done by the response method.
+По умолчанию HTTP-код статуса для ответа `200`. Если вам нужно его изменить, то это может быть сделано в методе ответа.
 
 
 ```python
