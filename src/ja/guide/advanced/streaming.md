@@ -1,6 +1,6 @@
-# Streaming
+# ストリーミング
 
-## Request streaming
+## ストリーミングのリクエスト
 
 Sanicを使用すると、クライアントから送信されたデータをストリーミングして、バイトが到着するとデータの処理を開始できます。
 
@@ -8,7 +8,7 @@ Sanicを使用すると、クライアントから送信されたデータをス
 
 エンドポイントで有効にすると、`await request.stream.read()`を使用してリクエストボディをストリーミングできます。
 
-That method will return `None` when the body is completed. :--:1
+そのメソッドは、ボディが完了すると `None` を返します。 :--:1
 ```python
 from sanic.views import stream
 
@@ -27,7 +27,7 @@ class SimpleView(HTTPMethodView):
 
 ---:1
 
-また、デコレータのキーワード引数で有効にすることもできます。 :--:1 :--:1
+また、デコレータのキーワード引数で有効にすることもできます。 :--:1
 ```python
 @app.post("/stream", stream=True)
 async def handler(request):
@@ -39,7 +39,7 @@ async def handler(request):
 
 ---:1
 
-... or the `add_route()` method. :--:1
+または `add_route()` メソッドを使う。 :--:1
 ```python
 bp.add_route(
     bp_handler,
@@ -51,12 +51,12 @@ bp.add_route(
 :---
 
 ::: tip FYI
-Post、put、patchデコレータのみがストリーム引数を持っています。
-::: :::
+post、put、patchデコレータのみがストリーム引数を持っています。
+:::
 
-## Response streaming
+## ストリーミングの応答
 
----:1 Sanic allows you to stream content to the client. :--:1
+---:1 Sanicではクライアントにコンテンツをストリーミングできます。 :--:1
 
 ```python
 from sanic.response import stream
@@ -87,15 +87,15 @@ async def index(request):
 
 
 
-You can explicitly end a stream by calling `await response.eof()`. 上記の例では、`await response.eof()` は `await response.send("", True)` を置き換える便利なメソッドとして呼び出されます。 ハンドラがクライアントに送り返すものが何も残っていないと判断した場合、** 1回** *after*を呼び出す必要があります。 While it is *optional* to use with Sanic server, if you are running Sanic in ASGI mode, then you **must** explicitly terminate the stream.
+`await response.eof()` を呼び出すことで、ストリームを明示的に終了させることができます。 上記の例では、`await response.eof()` は `await response.send("", True)` を置き換える便利なメソッドとして呼び出されます。 ハンドラがクライアントに送り返すものが何も残っていないと判断した場合、** 1回** *after*を呼び出す必要があります。 Sanicサーバで使用するのは*任意*ですが、SanicをASGIモードで動作させている場合は、**必ず**明示的にストリームを終了させなければなりません。
 
-## File streaming
+## ファイルストリーミング
 
 ---:1
 
 Sanicは、大きなファイルを送信する場合に便利な `sanic.response.file_stream` 関数を提供します。 `StreamingHTTPResponse`オブジェクトを返し、デフォルトでチャンク転送エンコーディングを使用します。 このため、Sanicは応答に`Content-Length` HTTPヘッダーを追加しません。
 
-典型的なユースケースは、ビデオファイルをストリーミングしている可能性があります。 :--:1 :--:1
+典型的なユースケースは、ビデオファイルをストリーミングしている場合です。 :--:1
 ```python
 @app.route("/mp4")
 async def handler_file_stream(request):
