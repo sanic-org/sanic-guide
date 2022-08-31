@@ -1,10 +1,10 @@
-# Cookies
+# Cookies (Куки)
 
-## Reading
+## Чтение
 
 ---:1
 
-Cookies can be accessed via the `Request` object’s `cookies` dictionary. :--:1
+Cookies можно получить через словарь `cookies` в объекте `Request`. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -14,11 +14,11 @@ async def test(request):
 :---
 
 
-## Writing
+## Запись
 
 ---:1
 
-When returning a response, cookies can be set on the `Response` object: `response.cookies`. This object is an instance of `CookieJar` which is a special sort of dictionary that automatically will write the response headers for you. :--:1
+При возврате ответа куки могут быть установлены в объекте `Response`: `response.cookies`. Этот объект является экземпляром `CookieJar`, который представляет собой особый вид словаря, который автоматически пишет для вас заголовки ответа. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -30,12 +30,12 @@ async def test(request):
 ```
 :---
 
-Response cookies can be set like dictionary values and have the following parameters available:
+В ответе cookie могут быть установлены в качестве значений словаря и иметь следующие параметры:
 
-- `expires: datetime` - The time for the cookie to expire on the client’s browser.
-- `path: str` - The subset of URLs to which this cookie applies. Defaults to `/`.
-- `comment: str` - A comment (metadata).
-- `domain: str` - Specifies the domain for which the cookie is valid. An explicitly specified domain must always start with a dot.
+- `expires: datetime` - Время истечения срока действия cookie в браузере клиента.
+- `path: str` - Подмножество URL-адресов, к которым применяется этот файл cookie. По умолчанию `/`.
+- `comment: str` - Комментарий (метаданные).
+- `domain: str` - определяет домен, для которого cookie является допустимым. Явно указанный домен должен всегда начинаться с точки.
 - `max-age: int` - Number of seconds the cookie should live for.
 - `secure: bool` - Specifies whether the cookie will only be sent via HTTPS.
 - `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
