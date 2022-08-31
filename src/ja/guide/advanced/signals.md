@@ -224,9 +224,9 @@ await app.dispatch(
 
 ### Blueprints
 
-Blueprintシグナルのディスパッチは、[middleware](../basics/middleware.md)と同様に機能します。 アプリレベルから行われるものは、blueprintまで流れ落ちます。 ただし、青写真でディスパッチすると、その青写真で定義されている信号のみが実行されます。
+Blueprintシグナルのディスパッチは、[middleware](../basics/middleware.md)と同様に機能します。 アプリレベルから行われるものは、blueprintまで流れ落ちます。 ただし、blueprintでディスパッチすると、そのblueprintで定義されているシグナルのみが実行されます。
 
----:1 `app.dispatch("foo.bar.baz")`を実行すると、両方の信号が実行されます。 :--:1
+---:1 おそらく例は説明しやすいでしょう: :--:1
 ```python
 bp = Blueprint("bp")
 
@@ -245,7 +245,7 @@ def bp_signal():
 ```
 :---
 
----:1 Running `app.dispatch("foo.bar.baz")` will execute both signals. :--:1
+---:1 `app.dispatch("foo.bar.baz")`を実行すると、両方のシグナルが実行されます。 :--:1
 ```python
 await app.dispatch("foo.bar.baz")
 assert app_counter == 1
@@ -253,7 +253,7 @@ assert bp_counter == 1
 ```
 :---
 
----:1 `bp.dispatch("foo.bar.baz")`を実行すると、ブループリント信号のみが実行されます。 :--:1 :--:1
+---:1 `bp.dispatch("foo.bar.baz")`を実行すると、ブループリント信号のみが実行されます。 :--:1
 ```python
 await bp.dispatch("foo.bar.baz")
 assert app_counter == 1
