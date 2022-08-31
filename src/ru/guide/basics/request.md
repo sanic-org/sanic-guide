@@ -1,6 +1,6 @@
-# Запрос
+# Объект запроса
 
-Объект `запроса` содержит **много** много полезной информации о его параметрах. Обратитесь к [документации по API](https://sanic.readthedocs.io/) для получения полной информации.
+Объект `запроса` содержит **много** полезной информации о его параметрах. Обратитесь к [документации по API](https://sanic.readthedocs.io/) для получения полной информации.
 
 ## Тело запроса
 
@@ -20,7 +20,7 @@ $ curl localhost:8000 -d '{"foo": "bar"}'
 ```
 :::
 
-::: tab Raw
+::: tab Сырые данные
 
 **Параметр**: `request.body`  
 **Описание**: Сырые байты в теле запроса
@@ -35,7 +35,7 @@ b'{"foo": "bar"}'
 ```
 :::
 
-::: tab Form
+::: tab Форма
 
 **Параметр**: `request.form`  
 **Описание**: Данные формы
@@ -94,9 +94,9 @@ File(type='application/octet-stream', body=b'hello\n', name='TEST')
 
 ### Контекст запроса
 
-The `request.ctx` object is your playground to store whatever information you need to about the request.
+Объект `request.ctx` является местом, куда вы можете сохранить любую необходимую информацию о запросе.
 
-This is often used to store items like authenticated user details. We will get more into [middleware](./middleware.md) later, but here is a simple example.
+Он часто используется для хранения таких элементов, как аутентификационные данные пользователя. Позже мы окунёмся глубже в понятие [middleware](./middleware.md), а пока простой пример.
 
 ```python
 @app.on_request
@@ -108,19 +108,19 @@ async def hi_my_name_is(request):
     return text("Hi, my name is {}".format(request.ctx.user.name))
 ```
 
-A typical use case would be to store the user object acquired from database in an authentication middleware. Keys added are accessible to all later middleware as well as the handler over the duration of the request.
+Типичным вариантом использования является сохранение объекта user, полученного из базы данных в middleware, отвечающем за аутентификацию. Добавленные ключи доступны в течение всего выполнения запроса для всех последующих middleware, а также для хендлера запроса.
 
-Custom context is reserved for applications and extensions. Sanic itself makes no use of it.
+Пользовательский контекст зарезервирован для приложений и расширений. Сам Sanic его не использует.
 
-### Connection context
+### Контекст подключения
 
 ---:1
 
-Often times your API will need to serve multiple concurrent (or consecutive) requests to the same client. This happens, for example, very often with progressive web apps that need to query multiple endpoints to get data.
+Зачастую вашему API придется обрабатывать несколько одновременных (или последовательных) запросов к одному и тому же клиенту. Это очень часто происходит, например, с прогрессивными веб-приложениями, которые должны запрашивать несколько эндпоинтов для получения данных.
 
-The HTTP protocol calls for an easing of overhead time caused by the connection with the use of [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
+Протокол HTTP требует уменьшения времени накладных расходов, вызванного соединением с использованием [keep alive headers](../deployment/configuration.md#keep-alive-timeout).
 
-When multiple requests share a single connection, Sanic provides a context object to allow those requests to share state.
+Когда несколько запросов имеют единое соединение, Sanic предоставляет объект контекста, позволяющий этим запросам обмениваться состоянием.
 
 :--:1
 ```python
@@ -143,9 +143,9 @@ request.conn_info.ctx.foo=3
 ```
 :---
 
-## Parameters
+## Параметры
 
----:1 Values that are extracted from the path are injected into the handler as parameters, or more specifically as keyword arguments. There is much more detail about this in the [Routing section](./routing.md). :--:1
+---:1 Значения, извлекаемые из пути, указываются в сигнатуре хендлера в качестве позиционных или именованных аргументов. Подробнее об этом читайте в [разделе Маршрутизация](./routing.md). :--:1
 ```python
 @app.route('/tag/<tag>')
 async def tag_handler(request, tag):
@@ -154,9 +154,9 @@ async def tag_handler(request, tag):
 :---
 
 
-## Arguments
+## Аргументы
 
-There are two attributes on the `request` instance to get query parameters:
+В объекте `request` есть два атрибута для получения параметров запроса:
 
 - `request.args`
 - `request.query_args`
@@ -183,15 +183,15 @@ key1=val1&key2=val2&key1=val3
 
 ```
 
-::: tip FYI :bulb: The `request.args` object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
+::: Совет FYI :bulb: Объект `request.args` - один из нескольких типов, представляющих собой словарь, каждое значение которого является списком. Это связано с тем, что HTTP позволяет повторно использовать один ключ для отправки нескольких значений.
 
-Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`. :::
+Чаще всего вы хотите использовать метод `.get()` для доступа к первому элементу, а не списку. Если вы хотите получить список всех элементов, можно использовать `.getlist()`. :::
 
-::: new NEW in v22.6
+::: new НОВИНКИ в v22.6
 
-## Current request getter
+## Геттер текущего запроса
 
-Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
+Иногда вам может понадобиться доступ к текущему запросу в вашем приложении в том месте, где он недоступен. Типичный пример может быть в формате `логирования`. Вы можете использовать `Request.get_current()` для получения текущего запроса (если он присутствует).
 
 ```python
 import logging
@@ -229,6 +229,6 @@ LOGGING_CONFIG_DEFAULTS["formatters"]["access"]["format"] = LOGGING_FORMAT
 app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
 ```
 
-In this example, we are adding the `request.id` to every access log message.
+В этом примере мы добавляем `request.id` к каждому сообщению в access log.
 
 :::
