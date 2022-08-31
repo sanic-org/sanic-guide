@@ -1,8 +1,8 @@
 # Приложение Sanic
 
-## Instance
+## Экземпляр объекта
 
----:1 The most basic building block is the `Sanic()` instance. It is not required, but the custom is to instantiate this in a file called `server.py`. :--:1
+---:1 Экземпляр объекта приложения `Sanic()` является самым основным кирпичиком. It is not required, but the custom is to instantiate this in a file called `server.py`. :--:1
 ```python
 # /path/to/server.py
 
