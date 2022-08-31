@@ -2,28 +2,28 @@
 layout: BlankLayout
 ---
 
-# Need some help?
+# Нужна помощь?
 
-As an active community of developers, we try to support each other. If you need some help, try one of the following:
+Будучи активным сообществом разработчиков, мы стараемся поддерживать друг друга. Если вам нужна помощь, попробуйте следующее:
 
 ---:1
 
 ### Discord :speech_balloon:
 
-Best place to turn for quick answers and live chat
+Лучшее место для быстрого получения ответов и общения в реальном времени
 
-`#sanic-support` channel on the [Discord server](https://discord.gg/FARQzAEMAA)
+`#sanic-support` канал на [Discord сервере](https://discord.gg/FARQzAEMAA)
 
 :--:1
 
-### Community Forums :busts_in_silhouette:
+### Форумы сообщества :busts_in_silhouette:
 
-Good for sharing snippets of code and longer support queries
+Подходит для обмена фрагментами кода и более длинными запросами поддержки
 
-`Questions and Help` category on the [Forums](https://community.sanicframework.org/c/questions-and-help/6)
+Разделы `Вопросы и Справка` на [форумах](https://community.sanicframework.org/c/questions-and-help/6)
 
 :---
 
 ---
 
-We also actively monitor the `[sanic]` tag on [Stack Overflow](https://stackoverflow.com/questions/tagged/sanic).
+Мы также активно отслеживаем тег `[sanic]` на [Stack Overflow](https://stackoverflow.com/questions/tagged/sanic).
