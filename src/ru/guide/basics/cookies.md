@@ -18,7 +18,7 @@ async def test(request):
 
 ---:1
 
-При возврате ответа куки могут быть установлены в объекте `Response`: `response.cookies`. Этот объект является экземпляром `CookieJar`, который представляет собой особый вид словаря, который автоматически пишет для вас заголовки ответа. :--:1
+При возврате ответа куки могут быть установлены в объекте `Response`: `response.cookies`. Этот объект является экземпляром `CookieJar`, представляющего собой особый вид словаря, который автоматически пишет для вас заголовки ответа. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -35,17 +35,17 @@ async def test(request):
 - `expires: datetime` - Время истечения срока действия cookie в браузере клиента.
 - `path: str` - Подмножество URL-адресов, к которым применяется этот файл cookie. По умолчанию `/`.
 - `comment: str` - Комментарий (метаданные).
-- `domain: str` - определяет домен, для которого cookie является допустимым. Явно указанный домен должен всегда начинаться с точки.
-- `max-age: int` - Number of seconds the cookie should live for.
-- `secure: bool` - Specifies whether the cookie will only be sent via HTTPS.
-- `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
-- `samesite: str` - Default is browser dependent, specification states (Lax, Strict, and None) are valid values.
+- `domain: str` - определяет домен, для которого cookie является допустимым. Явно указываемый домен должен всегда начинаться с точки.
+- `max-age: int` - Количество секунд, в течение которых cookie должны жить.
+- `secure: bool` - Указывает, будет ли cookie отправляться только через HTTPS.
+- `httponly: bool` - Указывает, что cookie не могут быть прочитаны JavaScript.
+- `samesite: str` - По умолчанию зависит от браузера, состояния, указанные в спецификации (Lax, Strict и None), являются допустимыми значениями.
 
-## Deleting
+## Удаление
 
 ---:1
 
-Cookies can be removed semantically or explicitly. :--:1
+Cookies могут быть удалены семантически или явно. :--:1
 ```python
 @app.route("/cookie")
 async def test(request):
@@ -68,6 +68,6 @@ async def test(request):
 ```
 :---
 
-## Eating
+## Питание
 
-I like cookies :cookie:
+Я люблю печеньки :cookie: *(Прим: дословный перевод слова "cookie" - печенье)*
