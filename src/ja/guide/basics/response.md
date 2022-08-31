@@ -1,8 +1,8 @@
-# Response
+# レスポンス
 
 すべての[ハンドラ](./handlers.md) **は**レスポンス・オブジェクトを返し、[ミドルウェア](./middleware.md)は、オプションで応答オブジェクトを返すことができます。
 
-## Methods
+## メソッド
 
 レスポンス・オブジェクトを生成する最も簡単な方法は、9つの便利なメソッドのいずれかを使用することです。
 
@@ -11,14 +11,14 @@
 ::: tab Text
 
 **Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Returns plain text
+**Description**: プレーンテキストを返す
 
 ```python
 from sanic.response import text
 
 @app.route("/")
 async def handler(request):
-    return text("Hi 😎")
+    return text("やあ 😎")
 ```
 :::
 ::: tab HTML
