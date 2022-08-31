@@ -1,7 +1,7 @@
 # Openapi
 
-- Adding documentation with decorators
-- Documenting CBV
-- Using autodoc
-- Rendering docs with redoc/swagger
-- Validation
+- Добавление документации при помощи декораторов
+- Документирование объектов представления на основе классов
+- Использование autodoc
+- Рендеринг документации при помощи redoc/swagger
+- Валидация
