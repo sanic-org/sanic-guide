@@ -1,29 +1,29 @@
 ---
 home: true
 heroImage: https://raw.githubusercontent.com/huge-success/sanic-assets/master/png/sanic-framework-logo-400x97.png
-heroText: Build fast. Run fast.
-tagline: Next generation Python web server/framework
-actionText: Get Started →
-actionLink: /en/guide/
+heroText: Быстро создаётся. Быстро работает.
+tagline: Веб-сервер/фреймворк Python следующего поколения
+actionText: Начать →
+actionLink: /ru/guide/
 features:
   - 
-    title: Simple and lightweight
-    details: Intuitive API with smart defaults and no bloat allows you to get straight to work building your app.
+    title: Простой и легковесный
+    details: Интуитивно понятный API с умными установками по умолчанию и без лишних наворотов позволяет вам быстро создать ваше приложение.
   - 
-    title: Unopinionated and flexible
-    details: Build the way you want to build without letting your tooling constrain you.
+    title: Ненавязчивый и гибкий
+    details: Разрабатывайте в той манере, в которой вы хотите, не позволяя вашему инструментарию вас ограничивать.
   - 
-    title: Performant and scalable
-    details: Built from the ground up with speed and scalability as a main concern. It is ready to power web applications big and small.
+    title: Производительный и масштабируемый
+    details: Создан с нуля с быстротой и масштабируемостью в качестве главной задачи. Готов к обслуживанию больших и маленьких веб-приложений.
   - 
-    title: Production ready
-    details: Out of the box, it comes bundled with a web server ready to power your web applications.
+    title: Готов к работе в продакшене
+    details: Из коробки поставляется в комплекте с веб-сервером, готовым к обслуживанию ваших веб-приложений.
   - 
-    title: Trusted by millions
-    details: Sanic is one of the overall most popular frameworks on PyPI, and the top async enabled framework
+    title: Доверие миллионов
+    details: Sanic является одним из самых популярных фреймворков на PyPI, а также самым популярным фреймворком с поддержкой асинхронной парадигмы
   - 
-    title: Community driven
-    details: The project is maintained and run by the community for the community.
+    title: Поддерживается сообществом
+    details: Проект поддерживается и управляется сообществом для сообщества.
 pageClass: landing-page
 logo: false
 ---
