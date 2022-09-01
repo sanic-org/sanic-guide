@@ -4,19 +4,19 @@
 
 ::: Совет К сведенью
 
-При обработке запроса ключи заголовков преобразуются в *в нижний регистр*. Применение заглавных букв в заголовках не предполагается.
+При обработке запроса ключи заголовков преобразуются в *в нижний регистр*. Написание имен заголовков с заглавной буквы не предполагается.
 
 :::
 
 ## Запрос
 
-Sanic does attempt to do some normalization on request headers before presenting them to the developer, and also make some potentially meaningful extractions for common use cases.
+Sanic пытается сделать некоторую нормализацию заголовков запроса, прежде чем представить их разработчику, а также сделать некоторые потенциально значимые выборки наиболее часто используемых вариантов.
 
 ---:1
 
-#### Tokens
+#### Токены
 
-Authorization tokens in the form `Token <token>` or `Bearer <token>` are extracted to the request object: `request.token`.
+Токены авторизации из форм `Token <token>` или `Bearer <token>` извлекаются в объект запроса: `request.token`.
 
 :--:1
 
@@ -42,19 +42,19 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 ---:1
 
-#### Proxy headers
+#### Заголовки прокси
 
-Sanic has special handling for proxy headers. See the [proxy headers](/guide/advanced/proxy-headers.md) section for more details.
+У Sanic есть специальная обработка заголовков прокси. Смотрите раздел [Заголовки прокси](/guide/advanced/proxy-headers.md) для получения более подробной информации.
 
-#### Host header and dynamic URL construction
+#### Заголовок "host" и динамическое формирование URL
 
-The *effective host* is available via `request.host`. This is not necessarily the same as the host header, as it prefers proxy-forwarded host and can be forced by the server name setting.
+*Принимающий хост* доступен через `request.host`. Он не обязательно совпадает со значением в заголовке host, так как он нацелен на прокси-перенаправленный хост и может быть принудительно изменен настройкой имени сервера.
 
-Webapps should generally use this accessor so that they can function the same no matter how they are deployed. The actual host header, if needed, can be found via `request.headers`
+Веб-приложения должны использовать в основном это свойство, чтобы они могли работать одинаково независимо от способа развёртывания на сервере. При необходимости реальный заголовок host можно найти через `request.headers`
 
-The effective host is also used in dynamic URL construction via `request.url_for`, which uses the request to determine the external address of a handler.
+Принимающий хост также используется в динамическом построении URL по запросу `request.url_for`, который использует запрос для определения внешнего адреса хендлера.
 
-::: tip Be wary of malicious clients These URLs can be manipulated by sending misleading host headers. `app.url_for` should be used instead if this is a concern. :::
+::: Совет Будьте осторожны с вредоносными клиентами. Их URL могут быть подменены путём отправки подложных заголовков хостов. Если это имеет значение `app.url_for` следует использовать. :::
 
 :--:1
 
@@ -86,9 +86,9 @@ $ curl localhost:8000/hosts
 :---
 
 ---:1
-#### Other headers
+#### Прочие заголовки
 
-All request headers are available on `request.headers`, and can be accessed in dictionary form. Capitalization is not considered for headers, and can be accessed using either uppercase or lowercase keys.
+Все заголовки запроса доступны в свойстве `request.headers`, и их можно получить в форме словарей. Написание имен заголовков с заглавной буквы не предполагается, в связи с этим используйте нижний или верхний регистр для доступка к ключам заголовков.
 
 :--:1
 
@@ -143,15 +143,15 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :---
 
-::: tip FYI 💡 The request.headers object is one of a few types that is a dictionary with each value being a list. This is because HTTP allows a single key to be reused to send multiple values.
+::: Совет К сведенью Объект request.headers - один из нескольких типов, представляющих собой словарь, каждое значение которого является списком. Это связано с тем, что HTTP позволяет повторно использовать один ключ для отправки нескольких значений.
 
-Most of the time you will want to use the .get() or .getone() methods to access the first element and not a list. If you do want a list of all items, you can use .getall(). :::
+Чаще всего вы хотите использовать метод .get() для доступа к первому элементу, а не списку. Если вы хотите получить список всех элементов, можно использовать .getlist(). :::
 
-#### Request ID
+#### ID запроса
 
 ---:1
 
-Often it is convenient or necessary to track a request by its `X-Request-ID` header. You can easily access that as: `request.id`.
+Часто бывает удобно или необходимо отслеживать запрос через его заголовок `X-Request-ID`. Вы можете легко получить доступ к нему посредством: `request.id`.
 
 :--:1
 
@@ -171,18 +171,18 @@ ABCDEF12345679
 
 ## Response
 
-Sanic will automatically set the following response headers (when appropriate) for you:
+Sanic автоматически установит для вас следующие заголовки ответов (при необходимости):
 
 - `content-length`
 - `content-type`
 - `connection`
 - `transfer-encoding`
 
-In most circumstances, you should never need to worry about setting these headers.
+В большинстве случаев вам не нужно беспокоиться об установке этих заголовков.
 
 ---:1
 
-Any other header that you would like to set can be done either in the route handler, or a response middleware.
+Любой другой заголовок, который вы хотите установить, можно сделать либо в соответствующем хендлере, либо в middleware.
 
 :--:1
 
@@ -200,9 +200,9 @@ async def add_csp(request, response):
 
 ---:1
 
-A common [middleware](middleware.md) you might want is to add a `X-Request-ID` header to every response. As stated above: `request.id` will provide the ID from the incoming request. But, even if no ID was supplied in the request headers, one will be automatically supplied for you.
+Скорее всего вы можете захотеть использовать [middleware](middleware.md), в котором к каждому ответу добавляется заголовок `X-Request-ID`. Как указано выше, `request.id` предоставит идентификатор входящего запроса. Но даже если идентификатор не был предоставлен в заголовках запроса, он будет предоставлен для вас автоматически.
 
-[See API docs for more details](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
+[Смотрите документацию API для более подробной информации](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
 
 :--:1
 
