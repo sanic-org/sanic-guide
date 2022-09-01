@@ -1,14 +1,14 @@
-# Headers
+# Заголовки
 
-Request and response headers are available in the `Request` and `HTTPResponse` objects, respectively. They make use of the [`multidict` package](https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict) that allows a single key to have multiple values.
+Заголовки запросов и ответов доступны в объектах `Request` и `HTTPResponse`, соответственно. Они используют [пакет `multidict`](https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict), который позволяет одному ключу иметь несколько значений.
 
-::: tip FYI
+::: Совет К сведенью
 
-Header keys are converted to *lowercase* when parsed. Capitalization is not considered for headers.
+При обработке запроса ключи заголовков преобразуются в *в нижний регистр*. Применение заглавных букв в заголовках не предполагается.
 
 :::
 
-## Request
+## Запрос
 
 Sanic does attempt to do some normalization on request headers before presenting them to the developer, and also make some potentially meaningful extractions for common use cases.
 
