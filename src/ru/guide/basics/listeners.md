@@ -1,8 +1,8 @@
-# Listeners
+# Обработчики событий
 
-Sanic provides you with eight (8) opportunities to inject an operation into the life cycle of your application server. This does not include the [signals](../advanced/signals.md), which allow further injection customization.
+Sanic предоставляет восемь (8) вариантов включения операции в жизненный цикл вашего сервера приложений. Это не включает [сигналы](../advanced/signals.md), которые позволяют продолжить настройку инъекций.
 
-There are two (2) that run **only** on your main Sanic process (ie, once per call to `sanic server.app`.)
+Два (2) из них запускают операции **только** в вашем главном процессе Sanic (то есть, один раз за вызов `sanic server.app`.)
 
 - `main_process_start`
 - `main_process_stop`
