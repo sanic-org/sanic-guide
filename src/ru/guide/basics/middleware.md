@@ -1,8 +1,8 @@
-# Middleware
+# Middleware (промежуточное ПО)
 
-Whereas listeners allow you to attach functionality to the lifecycle of a worker process, middleware allows you to attach functionality to the lifecycle of an HTTP stream.
+Если обработчики событий позволяют добавить некоторую функциональность к жизненному циклу воркера, то middleware позволяет добавить некоторую функциональность к жизненному циклу HTTP-потока.
 
-You can execute middleware either _before_ the handler is executed, or _after_.
+Middleware могут выполняться либо _до_ выполнения хендлера, либо _после_.
 
 ```mermaid
 sequenceDiagram
@@ -28,11 +28,11 @@ loop
 end
 Note over Worker: Deliver response
 ```
-## Attaching middleware
+## Подключение middleware
 
 ---:1
 
-This should probably look familiar by now. All you need to do is declare when you would like the middleware to execute: on the `request` or on the `response`. :--:1
+Пожалуй, это уже должно выглядеть знакомым. Все, что вам нужно сделать, это указать то событие, при котором middleware следует выполняться: `request` или `response`. :--:1
 ```python
 async def extract_user(request):
     request.ctx.user = await extract_user_from_request(request)
@@ -43,7 +43,7 @@ app.register_middleware(extract_user, "request")
 
 ---:1
 
-Again, the `Sanic` app instance also has a convenience decorator. :--:1
+Опять же, у экземпляра приложения `Sanic` есть для этого удобный декоратор. :--:1
 ```python
 @app.middleware("request")
 async def extract_user(request):
@@ -53,7 +53,7 @@ async def extract_user(request):
 
 ---:1
 
-Response middleware receives both the `request` and `response` arguments. :--:1
+Middleware, выполняющееся на ответе, получает в качестве аргументов и `request`, и `response`. :--:1
 ```python
 @app.middleware('response')
 async def prevent_xss(request, response):
@@ -63,7 +63,7 @@ async def prevent_xss(request, response):
 
 ---:1
 
-You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete. :--:1
+Декоратор можно сократить еще больше. Это полезно, если у вас есть IDE с автозавершением. :--:1
 ```python
 @app.on_request
 async def extract_user(request):
@@ -75,22 +75,22 @@ async def prevent_xss(request, response):
 ```
 :---
 
-## Modification
+## Изменения
 
 ---:1
 
-Middleware can modify the request or response parameter it is given, _as long as it does not return it_.
+Middleware может изменять переданные в него параметры запроса или ответа, _так как оно их не возвращает_.
 
-#### Order of execution
+#### Порядок выполнения
 
-1. Request middleware: `add_key`
-2. Route handler: `index`
-3. Response middleware: `prevent_xss`
-4. Response middleware: `custom_banner` :--:1
+1. Middleware запроса: `add_key`
+2. Хендлер маршрута: `index`
+3. Middleware ответа: `prevent_xss`
+4. Middleware ответа: `custom_banner` :--:1
 ```python
 @app.middleware("request")
 async def add_key(request):
-    # Arbitrary data may be stored in request context:
+    # В контекст запроса можно положить любые данные:
     request.ctx.foo = "bar"
 
 
@@ -112,7 +112,7 @@ async def index(request):
 :---
 
 
----:1 You can modify the `request.match_info`. A useful feature that could be used, for example, in middleware to convert `a-slug` to `a_slug`. :--:1
+---:1 Вы можете изменить объект `request.match_info`. Пример полезного использования middleware: преобразование `a-slug` в `a_slug`. :--:1
 ```python
 @app.on_request
 def convert_slug_to_underscore(request: Request):
@@ -128,13 +128,13 @@ $ curl localhost:9999/foo-bar-baz
 foo_bar_baz
 ```
 :---
-## Responding early
+## Раннее реагирование
 
 ---:1
 
-If middleware returns a `HTTPResponse` object, the request will stop processing and the response will be returned. If this occurs to a request before the route handler is reached, the handler will **not** be called. Returning a response will also prevent any further middleware from running.
+Если middleware возвращает объект `HTTPResponse`, запрос перестанет обрабатываться, и будет возвращен ответ. Если это произойдет до того, как запрос достигнет хендлера маршрута, хендлер **не** будет вызван. Возврат ответа также предотвращает выполнение любых последующих middleware.
 
-::: tip You can return a `None` value to stop the execution of the middleware handler to allow the request to process as normal. This can be useful when using early return to avoid processing requests inside of that middleware handler. ::: :--:1
+::: Совет Вы можете вернуть значение `None` для остановки выполнения обработчика middleware для того, чтобы запрос мог дальше обрабатываться в нормальном режиме. Это может быть полезно, например, если вы используете ранний возврат в целях избежания дальнейшей обработки запроса внутри этого middleware. ::: :--:1
 ```python
 @app.middleware("request")
 async def halt_request(request):
@@ -146,11 +146,11 @@ async def halt_response(request, response):
 ```
 :---
 
-#### Order of execution
+#### Порядок выполнения
 
-Request middleware is executed in the order declared. Response middleware is executed in **reverse order**.
+Middleware запросов выполняются в порядке их объявления. Middleware ответов выполняются в **обратном порядке**.
 
-Given the following setup, we should expect to see this in the console.
+Если мы запустим следующий код, то в консоли мы можем ожидать следующий вывод.
 
 ---:1
 
