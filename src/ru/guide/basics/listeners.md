@@ -2,26 +2,26 @@
 
 Sanic предоставляет восемь (8) вариантов включения операции в жизненный цикл вашего сервера приложений. Это не включает [сигналы](../advanced/signals.md), которые позволяют продолжить настройку инъекций.
 
-Два (2) из них запускают операции **только** в вашем главном процессе Sanic (то есть, один раз за вызов `sanic server.app`.)
+Два (2) из них выполняются **только** в вашем главном процессе Sanic (то есть, один раз за обращение к `sanic server.app`.)
 
 - `main_process_start`
 - `main_process_stop`
 
-There are also two (2) that run **only** in a reloader process if auto-reload has been turned on.
+Ещё два (2) выполняются **только** в процессе перезагрузки, если включена автоматическая перезагрузка.
 
 - `reload_process_start`
 - `reload_process_stop`
 
-*Added `reload_process_start` and `reload_process_stop` in v22.3*
+*`reload_process_start` и `reload_process_stop` добавлены в v22.3*
 
-There are four (4) that enable you to execute startup/teardown code as your server starts or closes.
+И наконец оставшиеся четыре (4) варианта, которые позволяют вам выполнить подготовительный/очищающий код при запуске или остановке сервера.
 
 - `before_server_start`
 - `after_server_start`
 - `before_server_stop`
 - `after_server_stop`
 
-The life cycle of a worker process looks like this:
+Жизненный цикл рабочего процесса выглядит так:
 
 ```mermaid
 sequenceDiagram
@@ -68,7 +68,7 @@ end
 Note over Process: exit
 ```
 
-The reloader process live outside of this worker process inside of a process that is responsible for starting and stopping the Sanic processes. Consider the following example:
+Процесс перезагрузчика существует не в этом процессе, а внутри процесса, который отвечает за запуск и остановку Sanic процессов. Рассмотрим следующий пример:
 
 ```python
 @app.reload_process_start
@@ -81,15 +81,15 @@ async def main_start(*_):
     print(">>>>>> main_start <<<<<<")
 ```
 
-If this application were run with auto-reload turned on, the `reload_start` function would be called once. This is contrasted with `main_start`, which would be run every time a file is save and the reloader restarts the applicaition process.
+Если это приложение было запущено с включенной автоматической перезагрузкой, функция `reload_start` будет вызвана один раз. Это контрастирует с `main_start`, который будет запускаться каждый раз при сохранении файла и перезапуске перезагрузчиком процесса приложения.
 
-## Attaching a listener
+## Подключение обработчика событий
 
 ---:1
 
-The process to setup a function as a listener is similar to declaring a route.
+Процесс настройки функции в качестве обработчика событий похож на определение маршрута.
 
-The currently running `Sanic()` instance is injected into the listener. :--:1
+В обработчик пробрасывается экземпляр текущего запущенного приложения `Sanic()`. :--:1
 ```python
 async def setup_db(app):
     app.ctx.db = await db_setup()
@@ -100,7 +100,7 @@ app.register_listener(setup_db, "before_server_start")
 
 ---:1
 
-The `Sanic` app instance also has a convenience decorator. :--:1
+У экземпляра приложения `Sanic` также есть удобный декоратор для этого. :--:1
 ```python
 @app.listener("before_server_start")
 async def setup_db(app):
@@ -108,7 +108,7 @@ async def setup_db(app):
 ```
 :---
 
----:1 Prior to v22.3, both the application instance and the current event loop were injected into the function. However, only the application instance is injected by default. If your function signature will accept both, then both the application and the loop will be injected as shown here. :--:1
+---:1 До v22.3 в функцию необходимо было пробрасывать и экземпляр приложения, и текущий цикл событий. Тем не менее, по умолчанию требуется только экземпляр приложения. Если сигнатура функции будет принимать и то, и другое, то оба этих параметра будут использованы, как показано ниже. :--:1
 ```python
 @app.listener("before_server_start")
 async def setup_db(app, loop):
@@ -118,7 +118,7 @@ async def setup_db(app, loop):
 
 ---:1
 
-You can shorten the decorator even further. This is helpful if you have an IDE with autocomplete.
+Декоратор же можно сократить еще больше. Это полезно, если у вас есть IDE с автозавершением.
 
 :--:1
 ```python
@@ -128,20 +128,20 @@ async def setup_db(app):
 ```
 :---
 
-## Order of execution
+## Порядок выполнения
 
-Listeners are executed in the order they are declared during startup, and reverse order of declaration during teardown
+Во время запуска обработчики событий выполняются в порядке, в котором они объявлены и в обратном порядке во время остановки сервера
 
-|                       | Phase           | Order                        |
-| --------------------- | --------------- | ---------------------------- |
-| `main_process_start`  | main startup    | regular :smiley:             |
-| `before_server_start` | worker startup  | regular :smiley:             |
-| `after_server_start`  | worker startup  | regular :smiley:             |
-| `before_server_stop`  | worker shutdown | reverse :upside_down_face: |
-| `after_server_stop`   | worker shutdown | reverse :upside_down_face: |
-| `main_process_stop`   | main shutdown   | reverse :upside_down_face: |
+|                       | Этап                        | Порядок                       |
+| --------------------- | --------------------------- | ----------------------------- |
+| `main_process_start`  | запуск главного процесса    | обычный :smiley:              |
+| `before_server_start` | запуск воркера              | обычный :smiley:              |
+| `after_server_start`  | запуск воркера              | обычный :smiley:              |
+| `before_server_stop`  | остановка воркера           | обратный :upside_down_face: |
+| `after_server_stop`   | остановка воркера           | обратный :upside_down_face: |
+| `main_process_stop`   | остановка главного процесса | обратный :upside_down_face: |
 
-Given the following setup, we should expect to see this in the console if we run two workers.
+Если мы запустим два воркера с указанными ниже настройками, то в консоли мы можем ожидать следующий вывод.
 
 ---:1
 
@@ -205,22 +205,23 @@ async def listener_8(app, loop):
 [pid: 1000000] [INFO] listener_9
 [pid: 1000000] [INFO] Server Stopped
 ```
-In the above example, notice how there are three processes running:
+В приведенном примере обратите внимание на то, как выполняются три процесса:
 
 - `pid: 1000000` - The *main* process
 - `pid: 1111111` - Worker 1
 - `pid: 1222222` - Worker 2
 
-*Just because our example groups all of one worker and then all of another, in reality since these are running on separate processes, the ordering between processes is not guaranteed. But, you can be sure that a single worker will **always** maintain its order.* :---
+*Здесь это выглядит так только потому, что в нашем примере все выводы каждого из воркеров сгруппированы. На самом же деле, поскольку они выполняются в отдельных процессах, такой порядок вывода не гарантируется. Но вы можете быть уверены, что любой отдельно взятый воркер **всегда** будет сохранять свой порядок выполнения.* :---
 
 
-::: tip FYI The practical result of this is that if the first listener in `before_server_start` handler setups a database connection, listeners that are registered after it can rely upon that connection being alive both when they are started and stopped. :::
+::: Совет К сведенью Практический результат всего этого в том, что если первый обработчик в `before_server_start` устанавливает соединение с базой данных, то обработчики, которые зарегистрированы после этого события, могут использовать это установленное соединение и в момент их запуска, и в момент остановки. :::
+:::
 
-## ASGI Mode
+## Режим ASGI
 
-If you are running your application with an ASGI server, then make note of the following changes:
+Если вы запускаете приложение с ASGI сервером, то обратите внимание на следующие изменения:
 
-- `reload_process_start` and `reload_process_stop` will be **ignored**
-- `main_process_start` and `main_process_stop` will be **ignored**
-- `before_server_start` will run as early as it can, and will be before `after_server_start`, but technically, the server is already running at that point
-- `after_server_stop` will run as late as it can, and will be after `before_server_stop`, but technically, the server is still running at that point
+- `reload_process_start` и `reload_process_stop` будут игнорироваться ****
+- `main_process_start` и `main_process_stop` будут **игнорироваться**
+- `before_server_start` будет запущен настолько рано, насколько это возможно, и в любом случае раньше `after_server_start`, но технически сам сервер в этот момент уже запущен
+- `after_server_stop` будет запущен настолько поздно, насколько это возможно, и в любом случае позже `before_server_stop`, но технически сервер в этой точке все еще работает
