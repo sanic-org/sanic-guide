@@ -4,7 +4,7 @@
 
 До сих пор мы часто встречали этот декоратор в различных формах.
 
-But what is it? And how do we use it? :--:1
+Но что это такое? И как мы это используем? :--:1
 ```python
 @app.route("/stairway")
 ...
@@ -17,13 +17,13 @@ But what is it? And how do we use it? :--:1
 ```
 :---
 
-## Adding a route
+## Добавление маршрута
 
 ---:1
 
-The most basic way to wire up a handler to an endpoint is with `app.add_route()`.
+Самым простым способом привязать обработчик к эндпоинту является `app.add_route()`.
 
-See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) for more details. :--:1
+Смотрите [API документацию](https://sanic.readthedocs.io/en/stable/sanic/api_reference.html#sanic.app.Sanic.url_for) для получения более подробной информации. :--:1
 ```python
 async def handler(request):
     return text("OK")
@@ -34,7 +34,7 @@ app.add_route(handler, "/test")
 
 ---:1
 
-By default, routes are available as an HTTP `GET` call. You can change a handler to respond to one or more HTTP methods. :--:1
+По умолчанию маршрут присваивается в качестве HTTP `GET` вызова. Вы можете настроить хендлер для ответа на один или несколько HTTP-методов. :--:1
 ```python
 app.add_route(
     handler,
@@ -46,7 +46,7 @@ app.add_route(
 
 ---:1
 
-Using the decorator syntax, the previous example is identical to this. :--:1
+Предыдущий пример соответствует следующему примеру с использованием синтаксис декоратора. :--:1
 ```python
 @app.route('/test', methods=["POST", "PUT"])
 async def handler(request):
@@ -54,9 +54,9 @@ async def handler(request):
 ```
 :---
 
-## HTTP methods
+## HTTP методы
 
-Each of the standard HTTP methods has a convenience decorator.
+Каждый из стандартных методов HTTP имеет удобный декоратор.
 
 :::: tabs
 ::: tab GET
@@ -124,16 +124,16 @@ async def handler(request):
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS) :::
 ::::
 
-::: warning By default, Sanic will **only** consume the incoming request body on non-safe HTTP methods (`POST`, `PUT`, `PATCH`). If you want to receive data in the HTTP request on any other method, you will need to do one of the following two options:
+::: предупреждение по умолчанию, Sanic **будет ожидать** входящее тело запроса на небезопасных методах HTTP (`POST`, `PUT`, `PATCH`). Если вы хотите получать данные в HTTP-запросе любым другим методом, вам нужно выбрать один из следующих двух вариантов:
 
-**Option #1 - Tell Sanic to consume the body using `ignore_body`**
+**Вариант #1 - Сказать Sanic ожидать тело с помощью `ignore_body`**
 ```python
 @app.delete("/path", ignore_body=False)
 async def handler(_):
     ...
 ```
 
-**Option #2 - Manually consume the body in the handler using `receive_body`**
+**Вариант #2 - Получать тело вручную внутри обработчика с помощью `receive_body`**
 ```python
 @app.delete("/path")
 async def handler(request: Request):
@@ -141,11 +141,11 @@ async def handler(request: Request):
 ```
 :::
 
-## Path parameters
+## Параметры пути
 
 ---:1
 
-Sanic allows for pattern matching, and for extracting values from URL paths. These parameters are then injected as keyword arguments in the route handler. :--:1
+Sanic позволяет использовать встроенное сопоставление шаблонов и извлечение значений из URL-пути. Затем эти параметры передаются в обработчик маршрута в качестве ключевых аргументов. :--:1
 ```python
 @app.get("/tag/<tag>")
 async def tag_handler(request, tag):
@@ -155,7 +155,7 @@ async def tag_handler(request, tag):
 
 ---:1
 
-You can declare a type for the parameter. This will be enforced when matching, and also will type cast the variable. :--:1
+Вы можете указать тип параметра. Это будет применено при сопоставлении, а также приведёт переменную к соответствующему типу. :--:1
 ```python
 @app.get("/foo/<foo_id:uuid>")
 async def uuid_handler(request, foo_id: UUID):
@@ -163,7 +163,7 @@ async def uuid_handler(request, foo_id: UUID):
 ```
 :---
 
-### Supported types
+### Поддерживаемые типы
 
 :::: tabs
 
@@ -174,13 +174,13 @@ async def uuid_handler(request, foo_id: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/]+")`  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[^/]+")`  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
-Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for this behavior.
+Начиная с версии 22.3 `str` *не определяет * пустые строки. Для этого поведения смотрите `strorempty`.
 
 :::
 ::: tab strorempty
@@ -190,30 +190,30 @@ Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/]*")`  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[^/]*")`  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
 - `/path/to/`
 
-Unlike the `str` path parameter type, `strorempty` can also match on an empty string path segment.
+В отличие от типа параметра `str`, `strorempty` также может совпадать с пустым строковым сегментом пути.
 
-*Added in v22.3* :::
-::: tab  int
+*Добавлено в v22.3* :::
+::: int
 
 ```python
 @app.route("/path/to/<foo:int>")
 async def handler(request, foo: int):
     ...
 ```
-**Regular expression applied**: `r"-?\d+")`  
-**Cast type**: `int`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"-?\d+")`  
+**Тип приведения**: `int`  
+**Пример соответствия**:
 - `/path/to/10`
 - `/path/to/-10`
 
-_Does not match float, hex, octal, etc_ :::
+_Не соответствует float, hex, octal, и т. д._ :::
 ::: tab float
 
 ```python
@@ -221,9 +221,9 @@ _Does not match float, hex, octal, etc_ :::
 async def handler(request, foo: float):
     ...
 ```
-**Regular expression applied**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
-**Cast type**: `float`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
+**Тип приведения**: `float`  
+**Пример соответствия**:
 - `/path/to/10`
 - `/path/to/-10`
 - `/path/to/1.5`
@@ -236,13 +236,13 @@ async def handler(request, foo: float):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[A-Za-z]+")`  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[A-Za-z]+")`  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/Bob`
 - `/path/to/Python`
 
-_Does not match a digit, or a space or other special character_ :::
+_Не соответствует цифре, пробелу или другому специальному символу_ :::
 ::: tab slug
 
 ```python
@@ -250,9 +250,9 @@ _Does not match a digit, or a space or other special character_ :::
 async def handler(request, article: str):
     ...
 ```
-**Regular expression applied**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
 
@@ -264,14 +264,14 @@ async def handler(request, article: str):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/].*?")`  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[^/].*?")`  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/hello`
 - `/path/to/hello.txt`
 - `/path/to/hello/world.txt`
 
-::: warning Because this will match on `/`, you should be careful and thoroughly test your patterns that use `path` so they do not capture traffic intended for another endpoint. :::
+::: предупреждение Поскольку соспоставление проводится по `/`, вам следует очень тщательно протестировать шаблоны, которые используют `path`, чтобы они не перехватывали трафик, предназначенный для другого эндпоинта. :::
 ::: tab ymd
 
 ```python
@@ -279,9 +279,9 @@ async def handler(request, foo: str):
 async def handler(request, foo: datetime.date):
     ...
 ```
-**Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
-**Cast type**: `datetime.date`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))`  
+**Тип приведения**: `datetime.date`  
+**Пример соответствия**:
 - `/path/to/2021-03-28` :::
 
 ::: tab uuid
@@ -291,9 +291,9 @@ async def handler(request, foo: datetime.date):
 async def handler(request, foo: UUID):
     ...
 ```
-**Regular expression applied**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
-**Cast type**: `UUID`  
-**Example matches**:
+**Применяемое регулярное выражение**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
+**Тип приведения**: `UUID`  
+**Пример соответствия**:
 - `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
 
 :::
@@ -305,26 +305,26 @@ async def handler(request, foo: UUID):
 async def handler(request, foo: UUID):
     ...
 ```
-**Regular expression applied**: n/a  
-**Cast type**: *varies*  
-**Example matches**:
+**Применяемое регулярное выражение**: n/a  
+**Тип приведения**: `вариативный`  
+**Пример соответствия**:
 
 <table spaces-before="0">
   <tr>
     <th>
-      definition
+      определение
     </th>
     
     <th>
-      example
+      пример
     </th>
     
     <th>
-      filename
+      имя файла
     </th>
     
     <th>
-      extension
+      расширение
     </th>
   </tr>
   
@@ -437,11 +437,11 @@ async def handler(request, foo: UUID):
   </tr>
 </table>
 
-File extensions can be matched using the special `ext` parameter type. It uses a special format that allows you to specify other types of parameter types as the file name, and one or more specific extensions as shown in the example table above.
+Используя специальный тип параметра `ext`, можно сопоставлять расширения файлов. Он использует специальный формат, который позволяет вам указывать другие типы для параметра имени файла, и одно или несколько конкретных расширений, как показано в приведенной выше таблице.
 
-It does *not* support the `path` parameter type.
+Он *не* поддерживает параметры типа `path`.
 
-*Added in v22.3* :::
+*Добавлено в v22.3* :::
 
 ::: tab regex
 
@@ -450,24 +450,24 @@ It does *not* support the `path` parameter type.
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: _whatever you insert_  
-**Cast type**: `str`  
-**Example matches**:
+**Применяемое регулярное выражение**: _любое по вашему выбору_  
+**Тип приведения**: `str`  
+**Пример соответствия**:
 - `/path/to/2021-01-01`
 
-This gives you the freedom to define specific matching patterns for your use case.
+Это дает вам свободу определять подходящие шаблоны для вашего варианта использования.
 
-In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
+В показанном примере мы ищем дату в формате `YYYY-MM-DD`.
 
 ::::
 
-### Regex Matching
+### Сопоставление по регулярному выражению
 
 
 
-More often than not, compared with complex routing, the above example is too simple, and we use a completely different routing matching pattern, so here we will explain the advanced usage of regex matching in detail.
+По сравнению со сложной маршрутизацией, приведенный выше пример слишком прост, и чаще мы используем совершенно другой шаблон соответствия для маршрута. Поэтому здесь мы подробно опишем расширенное использование регулярных выражений.
 
-Sometimes, you want to match a part of a route:
+Иногда вы хотите сопоставить часть маршрута:
 
 ```text
 /image/123456789.jpg
