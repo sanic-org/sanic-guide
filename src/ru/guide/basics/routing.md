@@ -1,8 +1,8 @@
-# Routing
+# Маршрутизация
 
 ---:1
 
-So far we have seen a lot of this decorator in different forms.
+До сих пор мы часто встречали этот декоратор в различных формах.
 
 But what is it? And how do we use it? :--:1
 ```python
