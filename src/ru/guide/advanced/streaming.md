@@ -1,14 +1,14 @@
-# Streaming
+# Потоковая передача
 
-## Request streaming
+## Потоковая передача в запросе
 
-Sanic allows you to stream data sent by the client to begin processing data as the bytes arrive.
+Sanic позволяет получать поток данных, отправленных клиентом, чтобы начать их обработку по мере прибытия пакетов.
 
 ---:1
 
-When enabled on an endpoint, you can stream the request body using `await request.stream.read()`.
+Если это определено эндпоинтом, внутри него вы можете получать тело запроса при помощи `await request.stream.read()`.
 
-That method will return `None` when the body is completed. :--:1
+После завершения загрузки тела этот метод вернет `None`. :--:1
 ```python
 from sanic.views import stream
 
@@ -27,7 +27,7 @@ class SimpleView(HTTPMethodView):
 
 ---:1
 
-It also can be enabled with a keyword argument in the decorator... :--:1
+Также это можно включить, передав соответствующий параметр в декораторе... :--:1
 ```python
 @app.post("/stream", stream=True)
 async def handler(request):
@@ -39,7 +39,7 @@ async def handler(request):
 
 ---:1
 
-... or the `add_route()` method. :--:1
+... или в методе `add_route()`. :--:1
 ```python
 bp.add_route(
     bp_handler,
@@ -50,13 +50,13 @@ bp.add_route(
 ```
 :---
 
-::: tip FYI
-Only post, put and patch decorators have stream argument.
+::: Совет FYI
+Только декораторы post, put и patch имеют аргумент stream.
 :::
 
-## Response streaming
+## Потоковая передача в ответе
 
----:1 Sanic allows you to stream content to the client. :--:1
+---:1 Sanic позволяет отправлять клиенту контент в потоке. :--:1
 
 ```python
 @app.route("/")
@@ -65,12 +65,12 @@ async def test(request):
     await response.send("foo,")
     await response.send("bar")
 
-    # Optionally, you can explicitly end the stream by calling:
+    # Опционально вы можете явно завершить потоковую передачу путём вызова:
     await response.eof()
 ```
 :---
 
-This is useful in situations where you want to stream content to the client that originates in an external service, like a database. For example, you can stream database records to the client with the asynchronous cursor that `asyncpg` provides.
+Это полезно в ситуациях, когда вы хотите передавать клиенту контент, который исходит внешних сервисов, например из базы данных. Например, вы можете транслировать записи базы данных клиенту с помощью асинхронного курсора `asyncpg`.
 
 ```python
 @app.route("/")
@@ -84,15 +84,15 @@ async def index(request):
 
 
 
-You can explicitly end a stream by calling `await response.eof()`. It a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client. While it is *optional* to use with Sanic server, if you are running Sanic in ASGI mode, then you **must** explicitly terminate the stream.
+Вы можете явно завершить потоковую передачу, вызвав `await response.eof()`. Это удобный метод замены `await response.send("", True)`. Его следует вызвать **один раз** *после* того, как ваш обработчик определил, что у него ничего не осталось для отправки клиенту. Хотя это и *необязательно* для использования с сервером Sanic, если вы используете Sanic в режиме ASGI, тогда вы **должны** явно завершить потоковую передачу.
 
-## File streaming
+## Потоковая передача файлов
 
 ---:1
 
-Sanic provides `sanic.response.file_stream` function that is useful when you want to send a large file. It returns a `StreamingHTTPResponse` object and will use chunked transfer encoding by default; for this reason Sanic doesn’t add `Content-Length` HTTP header in the response.
+Sanic предоставляет функцию `sanic.response.file_stream`, которая полезна при отправке большого файла. Она возвращает объект `StreamingHTTPResponse` и по умолчанию использует кодировку передачи в чанках. По этой причине Sanic не добавляет к ответу HTTP-заголовок `Content-Length`.
 
-A typical use case might be streaming an video file. :--:1
+Типичным примером использования может быть потоковая передача видео-файла. :--:1
 ```python
 @app.route("/mp4")
 async def handler_file_stream(request):
@@ -110,7 +110,7 @@ async def handler_file_stream(request):
 
 ---:1
 
-If you want to use the `Content-Length` header, you can disable chunked transfer encoding and add it manually simply by adding the `Content-Length` header.
+Если вы хотите использовать заголовок `Content-Length`, вы можете добавить его вручную, просто добавив заголовок `Content-Length` и отключить кодировку передачи в чанках.
 
 :--:1
 ```python
