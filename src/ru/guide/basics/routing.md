@@ -34,7 +34,7 @@ app.add_route(handler, "/test")
 
 ---:1
 
-По умолчанию маршрут присваивается в качестве HTTP `GET` вызова. Вы можете настроить хендлер для ответа на один или несколько HTTP-методов. :--:1
+По умолчанию маршрут обрабатывает HTTP `GET` вызов. Вы можете настроить хендлер для ответа на один или несколько HTTP-методов. :--:1
 ```python
 app.add_route(
     handler,
@@ -46,7 +46,7 @@ app.add_route(
 
 ---:1
 
-Предыдущий пример соответствует следующему примеру с использованием синтаксис декоратора. :--:1
+Предыдущий пример соответствует следующему варианту с использованием синтаксиса декоратора. :--:1
 ```python
 @app.route('/test', methods=["POST", "PUT"])
 async def handler(request):
@@ -124,16 +124,16 @@ async def handler(request):
 [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS) :::
 ::::
 
-::: предупреждение по умолчанию, Sanic **будет ожидать** входящее тело запроса на небезопасных методах HTTP (`POST`, `PUT`, `PATCH`). Если вы хотите получать данные в HTTP-запросе любым другим методом, вам нужно выбрать один из следующих двух вариантов:
+::: Предупреждение По умолчанию, Sanic **будет ожидать** входящее тело запроса на небезопасных методах HTTP (`POST`, `PUT`, `PATCH`). Если вы хотите получать данные в HTTP-запросе любым другим методом, вам нужно выбрать один из следующих двух вариантов:
 
-**Вариант #1 - Сказать Sanic ожидать тело с помощью `ignore_body`**
+**Вариант #1 - Сказать Sanic ожидать тело с помощью параметра `ignore_body`**
 ```python
 @app.delete("/path", ignore_body=False)
 async def handler(_):
     ...
 ```
 
-**Вариант #2 - Получать тело вручную внутри обработчика с помощью `receive_body`**
+**Вариант #2 - Получать тело вручную внутри обработчика с помощью метода запроса `receive_body`**
 ```python
 @app.delete("/path")
 async def handler(request: Request):
@@ -145,7 +145,7 @@ async def handler(request: Request):
 
 ---:1
 
-Sanic позволяет использовать встроенное сопоставление шаблонов и извлечение значений из URL-пути. Затем эти параметры передаются в обработчик маршрута в качестве ключевых аргументов. :--:1
+Sanic позволяет использовать встроенное сопоставление шаблонов и извлечение значений из URL-пути. Затем эти значения передаются в обработчик маршрута в качестве ключевых аргументов. :--:1
 ```python
 @app.get("/tag/<tag>")
 async def tag_handler(request, tag):
@@ -180,7 +180,7 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
-Начиная с версии 22.3 `str` *не определяет * пустые строки. Для этого поведения смотрите `strorempty`.
+Начиная с версии 22.3 `str` *не определяет * пустые строки. Для этого поведения используйте `strorempty`.
 
 :::
 ::: tab strorempty
@@ -197,7 +197,7 @@ async def handler(request, foo: str):
 - `/path/to/Python%203`
 - `/path/to/`
 
-В отличие от типа параметра `str`, `strorempty` также может совпадать с пустым строковым сегментом пути.
+В отличие от типа параметра `str`, `strorempty` также может определять пустой строковый сегмент пути.
 
 *Добавлено в v22.3* :::
 ::: int
@@ -271,7 +271,7 @@ async def handler(request, foo: str):
 - `/path/to/hello.txt`
 - `/path/to/hello/world.txt`
 
-::: предупреждение Поскольку соспоставление проводится по `/`, вам следует очень тщательно протестировать шаблоны, которые используют `path`, чтобы они не перехватывали трафик, предназначенный для другого эндпоинта. :::
+::: Предупреждение Поскольку соспоставление проводится по `/`, вам следует очень тщательно протестировать шаблоны, которые используют `path`, чтобы они не перехватывали трафик, предназначенный для другого эндпоинта. :::
 ::: tab ymd
 
 ```python
@@ -465,7 +465,7 @@ async def handler(request, foo: str):
 
 
 
-По сравнению со сложной маршрутизацией, приведенный выше пример слишком прост, и чаще мы используем совершенно другой шаблон соответствия для маршрута. Поэтому здесь мы подробно опишем расширенное использование регулярных выражений.
+По сравнению со сложной маршрутизацией приведенный выше пример слишком прост, и чаще мы используем совершенно другой шаблон соответствия для маршрута. Поэтому здесь мы подробно опишем расширенное использование регулярных выражений.
 
 Иногда вы хотите сопоставить часть маршрута:
 
@@ -501,7 +501,7 @@ app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 
 ---:1
 
-Sanic предоставляет метод генерации URL-маршрутов, основанных на имени метода обработчика: `app.url_for()`. Это полезно, если вы хотите избежать жесткого прописывания путей url в вашем приложение; вместо этого вы можете просто сослаться на имя хендлера. :--:1
+Sanic предоставляет метод генерации URL-маршрутов, основанных на имени обработчика: `app.url_for()`. Это полезно, если вы хотите избежать жесткого прописывания url-путей в вашем приложении; вместо этого вы можете просто сослаться на имя хендлера. :--:1
 ```python
 @app.route('/')
 async def index(request):
@@ -622,7 +622,7 @@ async def handler(request, ws):
 
 ---:1
 
-Маршруты Sanic могут быть настроены на обязательное наличие слэша в конце: `/`. Это может быть настроено на нескольких уровнях и в следующем порядке:
+Маршруты Sanic могут быть настроены на обязательное наличие слэша в конце: `/`. Это может быть указано на нескольких уровнях и в следующем порядке:
 
 1. Route
 2. Blueprint
@@ -659,25 +659,25 @@ bp2 = Blueprint(
     strict_slashes=False,
 )
 
-# This will enforce strict slashes check on the routes
-# under bp1 but ignore bp2 as that has an explicitly
-# set the strict slashes check to false
-group = Blueprint.group([bp1, bp2], strict_slashes=True)
+# Это включит строгую проверку наличия слэша в маршрутах bp1
+# но будет её игнорировать в bp2 
+# так как в его параметре strict_slashes явно указан False
+group = Blueprint. roup([bp1, bp2], strict_slashes=True)
 ```
 :---
 
-## Static files
+## Статичные файлы
 
 ---:1
 
-In order to serve static files from Sanic, use `app.static()`.
+Для обработки статичных файлов используйте `app.static()`.
 
-The order of arguments is important:
+Порядок аргументов имеет важное значение:
 
-1. Route the files will be served from
-2. Path to the files on the server
+1. Маршрут, в котором файлы будут обрабатываться
+2. Путь к файлам на сервере
 
-See [API docs]() for more details. :--:1
+Смотрите [API документацию]() для получения более подробной информации. :--:1
 ```python
 app.static("/static", "/path/to/directory")
 ```
@@ -685,7 +685,7 @@ app.static("/static", "/path/to/directory")
 
 ---:1
 
-You can also serve individual files. :--:1
+Вы также можете обрабатывать отдельные файлы. :--:1
 ```python
 app.static("/", "/path/to/index.html")
 ```
@@ -693,7 +693,7 @@ app.static("/", "/path/to/index.html")
 
 ---:1
 
-It is also sometimes helpful to name your endpoint :--:1
+Также иногда полезно придать вашему эндпоинту конкретное имя :--:1
 ```python
 app.static(
     "/user/uploads",
@@ -705,7 +705,7 @@ app.static(
 
 ---:1
 
-Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory. :--:1
+Получение URL-адресов работает аналогично обработчикам. Но мы также можем добавить аргумент `filename`, когда нам нужен определенный файл внутри директории. :--:1
 ```python
 >>> app.url_for(
     "static",
@@ -725,7 +725,7 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 ```
 :---
 
-::: tip If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
+::: Совет: Если вы собираетесь иметь несколько `static()` маршрутов, тогда *настоятельно* рекомендуется называть их вручную. Это почти наверняка облегчит поиск трудновыявляемых ошибки.
 
 ```python
 app.static("/user/uploads", "/path/to/uploads", name="uploads")
@@ -733,9 +733,9 @@ app.static("/user/profile", "/path/to/profile", name="profile_pics")
 ```
 :::
 
-## Route context
+## Контекст маршрута
 
----:1 When a route is defined, you can add any number of keyword arguments with a `ctx_` prefix. These values will be injected into the route `ctx` object. :--:1
+---:1 Когда маршрут определен, вы можете добавить в него любое количество аргументов с префиксом `ctx_`. Эти значения будут добавлены в объект маршрута `ctx`. :--:1
 ```python
 @app.get("/1", ctx_label="something")
 async def handler1(request):
