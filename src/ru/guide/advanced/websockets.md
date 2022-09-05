@@ -1,13 +1,13 @@
-# Websockets
+# Веб-сокеты
 
-Sanic provides an easy to use abstraction on top of [websockets](https://websockets.readthedocs.io/en/stable/).
+Для [веб-сокетов](https://websockets.readthedocs.io/en/stable/) Sanic предоставляет легкую в использовании абстракцию.
 
 
-## Routing
+## Маршрутизация
 
 ---:1
 
-Websocket handlers can be hooked up to the router similar to regular handlers. :--:1
+Обработчики веб-сокетов могут быть подключены к маршрутизатору аналогичным для обычных хендлеров способом. :--:1
 ```python
 async def feed(request, ws):
     pass
@@ -21,16 +21,16 @@ async def feed(request, ws):
 ```
 :---
 
-## Handler
+## Хендлер (обработчик)
 
 
 ---:1
 
-Typically, a websocket handler will want to hold open a loop.
+Обычно обработчик веб-сокета работает в бесконечном цикле.
 
-It can then use the `send()` and `recv()` methods on the second object injected into the handler.
+Таким образом он может использовать методы `send()` и `recv()` для второго объекта, переданного в него.
 
-This example is a simple endpoint that echos back to the client messages that it receives. :--:1
+Этот пример представляет собой простой эндпоинт, который отправляет клиенту получаемые сообщения. :--:1
 ```python
 
 @app.websocket("/feed")
@@ -43,9 +43,9 @@ async def feed(request, ws):
         print("Received: " + data)
 ```
 :---
-## Configuration
+## Конфигурация
 
-See [configuration section](/guide/deployment/configuration.md) for more details.
+Смотрите раздел [Конфигурации](/guide/deployment/configuration.md) для получения более подробной информации.
 ```python
 app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
 app.config.WEBSOCKET_MAX_QUEUE = 32
