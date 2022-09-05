@@ -473,42 +473,42 @@ async def handler(request, foo: str):
 /image/123456789.jpg
 ```
 
-If you wanted to match the file pattern, but only capture the numeric portion, you need to do some regex fun 😄:
+Если вы хотите сопоставить паттерн файла, но только в его числовой части, вам придётся немного развлечься с регулярными выражениями 😄:
 
 ```python
 app.route(r"/image/<img_id:(?P<img_id>\d+)\.jpg>")
 ```
 
-Further, these should all be acceptable:
+Всё нижеуказанное должно подходить:
 
 ```python
-@app.get(r"/<foo:[a-z]{3}.txt>")                # matching on the full pattern
-@app.get(r"/<foo:([a-z]{3}).txt>")              # defining a single matching group
-@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       # defining a single named matching group
-@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # defining a single named matching group, with one or more non-matching groups
+@app.get(r"/<foo:[a-z]{3}.txt>")                # сопоставление полного паттерна
+@app.get(r"/<foo:([a-z]{3}).txt>")              # определение единственной группы выборки
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).txt>")       # определение единственной именнованной группы выборки
+@app.get(r"/<foo:(?P<foo>[a-z]{3}).(?:txt)>")   # определение единственной именнованной группы выборки с одной или более несопоставляемыми группами
 ```
 
-Also, if using a named matching group, it must be the same as the segment label.
+Также, если используется именованная группа выборки, то она должна совпадать с меткой сегмента.
 
 ```python
 @app.get(r"/<foo:(?P<foo>\d+).jpg>")  # OK
 @app.get(r"/<foo:(?P<bar>\d+).jpg>")  # NOT OK
 ```
 
-For more regular usage methods, please refer to [Regular expression operations](https://docs.python.org/3/library/re.html)
+Для получения дополнительной информации о методах использования обратитесь к разделу [Операции регулярных выражений](https://docs.python.org/3/library/re.html) официальной библиотеки Python
 
-## Generating a URL
+## Создание URL
 
 ---:1
 
-Sanic provides a method to generate URLs based on the handler method name: `app.url_for()`. This is useful if you want to avoid hardcoding url paths into your app; instead, you can just reference the handler name. :--:1
+Sanic предоставляет метод генерации URL-маршрутов, основанных на имени метода обработчика: `app.url_for()`. Это полезно, если вы хотите избежать жесткого прописывания путей url в вашем приложение; вместо этого вы можете просто сослаться на имя хендлера. :--:1
 ```python
 @app.route('/')
 async def index(request):
-    # generate a URL for the endpoint `post_handler`
+    # создаёт URL для эндпоинта `post_handler`
     url = app.url_for('post_handler', post_id=5)
 
-    # Redirect to `/posts/5`
+    # Перенаправление на `/posts/5`
     return redirect(url)
 
 @app.route('/posts/<post_id>')
@@ -519,7 +519,7 @@ async def post_handler(request, post_id):
 
 ---:1
 
-You can pass any arbitrary number of keyword arguments. Anything that is _not_ a request parameter will be implemented as a part of the query string. :--:1
+Вы можете передавать произвольное количество аргументов. Все, что _не_ является параметром запроса, будет трактоваться как часть запросной строки. :--:1
 ```python
 >>> app.url_for(
     "post_handler",
@@ -533,7 +533,7 @@ You can pass any arbitrary number of keyword arguments. Anything that is _not_ a
 
 ---:1
 
-Also supported is passing multiple values for a single query key. :--:1
+Также поддерживается передача нескольких значений для одного ключа запроса. :--:1
 ```python
 >>> app.url_for(
     "post_handler",
@@ -544,32 +544,32 @@ Also supported is passing multiple values for a single query key. :--:1
 ```
 :---
 
-### Special keyword arguments
+### Специальные аргументы
 
-See [API Docs]() for more details.
+Смотрите [API документацию]() для получения более подробной информации.
 
 ```python
 >>> app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
 '/posts/5?arg_one=one#anchor'
 
-# _external requires you to pass an argument _server or set SERVER_NAME in app.config if not url will be same as no _external
+# Параметр _external требует передачи аргумента _server or установки переменной SERVER_NAME в app.config в случае, если ни один url не будет совпадать с пустым _external
 >>> app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
 '//server/posts/5?arg_one=one'
 
-# when specifying _scheme, _external must be True
+# при указании параметра _scheme, параметр _external должен быть True
 >>> app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
 'http://server/posts/5?arg_one=one'
 
-# you can pass all special arguments at once
+# вы можете передать все специальные аргументы одновременно
 >>> app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
-### Customizing a route name
+### Настройка имени маршрута
 
 ---:1
 
-A custom route name can be used by passing a `name` argument while registering the route. :--:1
+Пользовательское имя маршрута может быть использовано при передаче аргумента `name` при регистрации маршрута. :--:1
 ```python
 @app.get("/get", name="get_handler")
 def handler(request):
@@ -579,18 +579,18 @@ def handler(request):
 
 ---:1
 
-Now, use this custom name to retrieve the URL :--:1
+Теперь используйте это имя для получения URL :--:1
 ```python
 >>> app.url_for("get_handler", foo="bar")
 '/get?foo=bar'
 ```
 :---
 
-## Websockets routes
+## Маршруты веб-сокетов
 
 ---:1
 
-Websocket routing works similar to HTTP methods. :--:1
+Маршрутизация веб-сокета работает аналогично методам HTTP. :--:1
 ```python
 async def handler(request, ws):
     message = "Start"
@@ -604,7 +604,7 @@ app.add_websocket_route(handler, "/test")
 
 ---:1
 
-It also has a convenience decorator. :--:1
+У него также есть удобный декоратор. :--:1
 ```python
 @app.websocket("/test")
 async def handler(request, ws):
@@ -615,14 +615,14 @@ async def handler(request, ws):
 ```
 :---
 
-Read the [websockets section](/guide/advanced/websockets.md) to learn more about how they work.
+Прочтите раздел [Веб-сокеты](/guide/advanced/websockets.md), чтобы узнать больше о том, как они работают.
 
-## Strict slashes
+## Строгий слэш
 
 
 ---:1
 
-Sanic routes can be configured to strictly match on whether or not there is a trailing slash: `/`. This can be configured at a few levels and follows this order of precedence:
+Маршруты Sanic могут быть настроены на обязательное наличие слэша в конце: `/`. Это может быть настроено на нескольких уровнях и в следующем порядке:
 
 1. Route
 2. Blueprint
@@ -631,23 +631,23 @@ Sanic routes can be configured to strictly match on whether or not there is a tr
 
 :--:1
 ```python
-# provide default strict_slashes value for all routes
-app = Sanic(__file__, strict_slashes=True)
+# указать значение strict_slashes по умолчанию для всех маршрутов
+= Sanic(__file__, strict_slashes=True)
 ```
 
 ```python
-# overwrite strict_slashes value for specific route
+# переопределить значение strict_slashes для определенного маршрута
 @app.get("/get", strict_slashes=False)
-def handler(request):
+обработчик def (запрос):
     return text("OK")
 ```
 
 ```python
-# it also works for blueprints
+# также работает для блюпринтов
 bp = Blueprint(__file__, strict_slashes=True)
 
 @bp.get("/bp/get", strict_slashes=False)
-def handler(request):
+def handler (request):
     return text("OK")
 ```
 
