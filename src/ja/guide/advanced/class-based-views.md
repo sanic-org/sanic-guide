@@ -152,14 +152,14 @@ class ViewWithSomeDecorator(HTTPMethodView):
     @staticmethod
     @some_decorator_here
     def get(request, name):
-        return text("やあ、デコレーター持ってるよ")
+        return text("Hello I have a decorator")
 
     def post(self, request, name):
-        return text("やあ、デコレーター持ってないんだ")
+        return text("Hello I do not have any decorators")
 
     @some_decorator_here
     def patch(self, request, name):
-        return text("やあ、デコレーター持ってるよ")
+        return text("Hello I have a decorator")
 ```
 :---
 
