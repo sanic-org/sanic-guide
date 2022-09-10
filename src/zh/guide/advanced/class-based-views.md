@@ -179,7 +179,7 @@ class ViewWithSomeDecorator(HTTPMethodView):
         return text("Hello I have a decorator")
 
     def post(self, request, name):
-        return text("Hello I don"t have any decorators")
+        return text("Hello I do not have any decorators")
 
     @some_decorator_here
     def patch(self, request, name):
