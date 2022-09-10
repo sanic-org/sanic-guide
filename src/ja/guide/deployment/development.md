@@ -29,7 +29,7 @@ Sanicのデバッグモードは、サーバのパフォーマンスを低下さ
 
 ---:1
 
-Sanicでは、Automatic Reloaderを手動で (デバッグモードから独立して) 有効または無効にする方法を提供しています。 `auto_reload`引数は、自動リローダーをアクティブまたは非アクティブにします。 :--:1 Every time a Python file is changed, the reloader will restart your application automatically. This is very convenient while developing. :--:1
+Sanicでは、Automatic Reloaderを手動で (デバッグモードから独立して) 有効または無効にする方法を提供しています。 `auto_reload`引数は、自動リローダーをアクティブまたは非アクティブにします。 Pythonファイルが変更されるたびに、リローダーはアプリケーションを自動的に再起動します。 これは開発中に非常に便利です。 :--:1
 ```python
 app.run(auto_reload=True)
 ```
