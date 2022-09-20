@@ -40,11 +40,11 @@ Sanic игнорирует любые элементы без секретног
 
 ### X-Forwarded-For
 
-This header typically contains a chain of IP addresses through each layer of a proxy. Setting `PROXIES_COUNT` tells Sanic how deep to look to get an actual IP address for the client. This value should equal the _expected_ number of IP addresses in the chain.
+Этот заголовок обычно содержит цепочку IP адресов через каждый слой прокси. Установка `PROXIES_COUNT` говорит Sanic как глубоко следует искать для получения фактического IP-адреса клиента. Это значение должно равняться _ожидаемому_ количеству IP-адресов в цепочке.
 
-### Other X-headers
+### Другие X-заголовки
 
-If a client IP is found by one of these methods, Sanic uses the following headers for URL parts:
+Если IP-адрес клиента найден в одном из этих методов, Sanic использует следующие заголовки для частей URL:
 
 - x-forwarded-proto
 - x-forwarded-host
@@ -52,9 +52,9 @@ If a client IP is found by one of these methods, Sanic uses the following header
 - x-forwarded-path
 - x-scheme
 
-## Examples
+## Примеры
 
-In the following examples, all requests will assume that the endpoint looks like this:
+В следующих примерах все запросы предполагают, что эндпоинт выглядит следующим образом:
 ```python
 @app.route("/fwd")
 async def forwarded(request):
@@ -71,8 +71,8 @@ async def forwarded(request):
 ---:1
 ---
 
-##### Example 1
-Without configured FORWARDED_SECRET, x-headers should be respected
+##### Пример 1
+X-заголовки должны учитываться без настроенного FORWARDED_SECRET
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -87,7 +87,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "127.0.0.2",
   "scheme": "ws",
@@ -103,8 +103,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 2
-FORWARDED_SECRET now configured
+##### Пример 2
+FORWARDED_SECRET теперь настроен
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -120,7 +120,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "[::2]",
   "scheme": "https",
@@ -139,8 +139,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 3
-Empty Forwarded header -> use X-headers
+##### Пример 3
+Пустой Forwarded header -> использование X-headers
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -155,7 +155,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "127.0.0.2",
   "scheme": "ws",
@@ -171,8 +171,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 4
-Header present but not matching anything
+##### Пример 4
+Заголовок присутствует, но ни с чем не совпадает
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -184,7 +184,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "",
   "scheme": "http",
@@ -198,8 +198,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 5
-Forwarded header present but no matching secret -> use X-headers
+##### Пример 5
+Заголовок Forwarded присутствует, но нет соответствующего секретного ключа -> использование X-заголовков
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -212,7 +212,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "127.0.0.2",
   "scheme": "http",
@@ -227,8 +227,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 6
-Different formatting and hitting both ends of the header
+##### Пример 6
+Разное форматирование и попадание в обе стороны заголовка
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -240,7 +240,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "127.0.0.4",
   "scheme": "http",
@@ -257,8 +257,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 7
-Test escapes (modify this if you see anyone implementing quoted-pairs)
+##### Пример 7
+Тест экранирования (измените это, если вы увидите, что кто-то заключает пары ключ-значение в кавычки)
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -270,7 +270,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "test",
   "scheme": "http",
@@ -287,8 +287,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 8
-Secret insulated by malformed field #1
+##### Пример 8
+Секретный ключ изолирован из-за неправильного формирования поля #1
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -300,7 +300,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "test",
   "scheme": "http",
@@ -316,8 +316,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 9
-Secret insulated by malformed field #2
+##### Пример 9
+Секретный ключ изолирован из-за неправильного формирования поля #2
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -329,7 +329,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -345,8 +345,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 10
-Unexpected termination should not lose existing acceptable values
+##### Пример 10
+Непредвиденное завершение не должно выражаться в потере существующих приемлемых значений
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -358,7 +358,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -374,8 +374,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 11
-Field normalization
+##### Пример 11
+Нормализация полей
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -387,7 +387,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "",
   "scheme": "wss",
@@ -406,8 +406,8 @@ $ curl localhost:8000/fwd \
 ---
 ---:1
 
-##### Example 12
-Using "by" field as secret
+##### Пример 12
+Использование поля "by" как секрета
 ```python
 app.config.PROXIES_COUNT = 1
 app.config.REAL_IP_HEADER = "x-real-ip"
@@ -419,7 +419,7 @@ $ curl localhost:8000/fwd \
 ```
 :--:1
 ```bash
-# curl response
+# ответ curl
 {
   "remote_addr": "1.2.3.4",
   "scheme": "http",
