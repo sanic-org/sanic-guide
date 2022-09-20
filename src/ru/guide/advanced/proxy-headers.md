@@ -1,16 +1,16 @@
-# Proxy configuration
+# Конфигурация прокси
 
-When you use a reverse proxy server (e.g. nginx), the value of `request.ip` will contain the IP of a proxy, typically `127.0.0.1`. Almost always, this is **not** what you will want.
+При использовании обратного прокси-сервера (например, nginx), значение `request.ip` будет содержать прокси IP-адрес, как правило, `127.0.0.1`. Чаще всего вы хотите получить **не** это.
 
-Sanic may be configured to use proxy headers for determining the true client IP, available as `request.remote_addr`. The full external URL is also constructed from header fields _if available_.
+Sanic может быть настроен на использование заголовков прокси для определения истинного IP-адреса клиента, доступного как `request.remote_addr`. Полный внешний URL также строится из полей заголовка, _если они имеются_.
 
-::: tip Heads up
-Without proper precautions, a malicious client may use proxy headers to spoof its own IP. To avoid such issues, Sanic does not use any proxy headers unless explicitly enabled.
+::: Подсказка Внимание
+Без надлежащих предосторожностей злонамеренный клиент может использовать заголовки прокси для исправления собственного IP. Чтобы избежать подобных проблем, Sanic не использует ни один прокси-сервер, если он явно не включен.
 :::
 
 ---:1
 
-Services behind reverse proxies must configure one or more of the following [configuration values](/guide/deployment/configuration.md):
+Сервисы за обратными прокси должны настроить один или несколько из следующих [параметров конфигурации](/guide/deployment/configuration.md):
 
 - `FORWARDED_SECRET`
 - `REAL_IP_HEADER`
@@ -22,21 +22,21 @@ app.config.PROXIES_COUNT = 2
 ```
 :---
 
-## Forwarded header
+## Заголовок Forwarded
 
-In order to use the `Forwarded` header, you should set `app.config.FORWARDED_SECRET` to a value known to the trusted proxy server. The secret is used to securely identify a specific proxy server.
+Чтобы использовать заголовок `Forwarded`, вы должны установить `app.config.FORWARDED_SECRET` на значение, известное доверенному прокси-серверу. Это секретное значение используется для надежной идентификации конкретного прокси-сервера.
 
-Sanic ignores any elements without the secret key, and will not even parse the header if no secret is set.
+Sanic игнорирует любые элементы без секретного ключа, и даже не будет разбирать заголовок, если секретный ключ не установлен.
 
-All other proxy headers are ignored once a trusted forwarded element is found, as it already carries complete information about the client.
+Все остальные заголовки прокси-сервера игнорируются при обнаружении доверенного переадресационного элемента, так как он уже несет полную информацию о клиенте.
 
-To learn more about the `Forwarded` header, read the related [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) and [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/) articles.
+Чтобы узнать больше о заголовке `Forwarded`, прочитайте связанные статьи [MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Forwarded) и [Nginx](https://www.nginx.com/resources/wiki/start/topics/examples/forwarded/).
 
-## Traditional proxy headers
+## Традиционные прокси-заголовки
 
-### IP Headers
+### Заголовки IP
 
-When your proxy forwards you the IP address in a known header, you can tell Sanic what that is with the `REAL_IP_HEADER` config value.
+Когда ваш прокси перенаправляет вам IP-адрес в известном заголовке, с помощью конфигурации `REAL_IP_HEADER` вы можете указать Sanic, что это такое.
 
 ### X-Forwarded-For
 
