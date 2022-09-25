@@ -305,10 +305,10 @@ hypercorn -k trio myapp:app
 
 [Gunicorn](http://gunicorn.org/) ("Green Unicorn") is a WSGI HTTP Server for UNIX based operating systems. It is a pre-fork worker model ported from Ruby’s Unicorn project.
 
-In order to run Sanic application with Gunicorn, you need to use the special `sanic.worker.GunicornWorker` for Gunicorn worker-class argument:
+In order to run Sanic application with Gunicorn, you need `pip install uvicorn` and use the special `uvicorn.workers.UvicornWorker` for Gunicorn worker-class argument:
 
 ```bash
-gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class sanic.worker.GunicornWorker
+gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class uvicorn.workers.UvicornWorker
 ```
 
 If your application suffers from memory leaks, you can configure Gunicorn to gracefully restart a worker after it has processed a given number of requests. This can be a convenient way to help limit the effects of the memory leak.
