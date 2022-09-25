@@ -305,7 +305,7 @@ hypercorn -k trio myapp:app
 
 [Gunicorn](http://gunicorn.org/) ("Green Unicorn") is a WSGI HTTP Server for UNIX based operating systems. It is a pre-fork worker model ported from Ruby’s Unicorn project.
 
-In order to run Sanic application with Gunicorn, you need `pip install uvicorn` and use the special `uvicorn.workers.UvicornWorker` for Gunicorn worker-class argument:
+In order to run Sanic application with Gunicorn, you need to `pip install uvicorn` and use the special `uvicorn.workers.UvicornWorker` for Gunicorn worker-class argument:
 
 ```bash
 gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class uvicorn.workers.UvicornWorker
