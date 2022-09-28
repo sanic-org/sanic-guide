@@ -1,6 +1,5 @@
-module.exports = {
-  "/en/guide/": [
-    {
+const userGuideFull = [
+  {
       title: "General",
       sidebarDepth: 1,
       children: ["/en/guide/", "/en/guide/getting-started.md"],
@@ -79,65 +78,18 @@ module.exports = {
         // "/guide/how-to/websocket-feed.md",
         // "/guide/how-to/server-sent-events.md",
       ],
-    },
-    {
-      title: "Release Notes",
-      sidebarDepth: 1,
-      children: [
-        {
-          title: "2022",
-          sidebarDepth: 2,
-          children: [
-            "/en/guide/release-notes/v22.6.md",
-            "/en/guide/release-notes/v22.3.md",
-          ]
-        },
-
-        {
-          title: "2021",
-          sidebarDepth: 2,
-          children: [
-            "/en/guide/release-notes/v21.12.md",
-            "/en/guide/release-notes/v21.9.md",
-            "/en/guide/release-notes/v21.6.md",
-            "/en/guide/release-notes/v21.3.md",
-          ]
-        },
-      ],
-    },
-    {
-      title: "Plugins",
-      sidebarDepth: 1,
-      children: [
-        ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-        ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
-      ],
-    },
-    {
-      title: "Organization",
-      sidebarDepth: 1,
-      children: [
-        "/en/org/feature_requests.md",
-        "/en/org/policies.md",
-        "/en/org/scope.md"
-      ],
-    },
-  ],
-
-  "/en/plugins/": [
-    {
-      title: "User Guide",
-      sidebarDepth: 1,
-      children: [
+    }
+]
+const userGuideShort = [
         ["/en/guide/", "General"],
         ["/en/guide/basics/app.md", "Basics"],
         ["/en/guide/advanced/class-based-views.md", "Advanced"],
         ["/en/guide/best-practices/blueprints.md", "Best Practices"],
         ["/en/guide/deployment/configuration.md", "Running & Deploying"],
         ["/en/guide/how-to/toc.md", "How to..."],
-      ],
-    },
-    {
+      ]
+const pluginsFull = [
+  {
       title: "Sanic Extensions",
       sidebarDepth: 1,
       children: [
@@ -175,48 +127,65 @@ module.exports = {
         "/en/plugins/sanic-testing/getting-started.md",
         "/en/plugins/sanic-testing/clients.md",
       ],
-    },
-    {
-      title: "Organization",
-      sidebarDepth: 1,
-      children: [
+    }
+]
+const pluginsShort = [
+    ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
+    ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
+]
+const org = [
         "/en/org/feature_requests.md",
         "/en/org/policies.md",
         "/en/org/scope.md"
-      ],
-    },
+      ]
+const releaseNotes = [
+        {
+          title: "2022",
+          sidebarDepth: 2,
+          children: [
+            "/en/guide/release-notes/v22.6.md",
+            "/en/guide/release-notes/v22.3.md",
+          ]
+        },
+
+        {
+          title: "2021",
+          sidebarDepth: 2,
+          children: [
+            "/en/guide/release-notes/v21.12.md",
+            "/en/guide/release-notes/v21.9.md",
+            "/en/guide/release-notes/v21.6.md",
+            "/en/guide/release-notes/v21.3.md",
+          ]
+        },
+      ]
+
+module.exports = {
+  "/en/guide/": [
+    {"title": "User Guide", children: userGuideFull, collapsable: false},
+    {"title": "Plugins", children: pluginsFull, collapsable: false},
+    {"title": "Release Notes", children: releaseNotes},
+    {"title": "Organization", children: org},
+  ],
+
+  "/en/guide/release-notes/": [
+    {"title": "User Guide", children: userGuideShort, initialOpenGroupIndex: -1},
+    {"title": "Plugins", children: pluginsShort, initialOpenGroupIndex: -1},
+    {"title": "Release Notes", children: releaseNotes, collapsable: false},
+    {"title": "Organization", children: org},
+  ],
+
+  "/en/plugins/": [
+    {"title": "User Guide", children: userGuideFull, collapsable: false, initialOpenGroupIndex: -1},
+    {"title": "Plugins", children: pluginsFull, collapsable: false},
+    {"title": "Release Notes", children: releaseNotes},
+    {"title": "Organization", children: org},
   ],
 
   "/en/org/": [
-    {
-      title: "User Guide",
-      sidebarDepth: 1,
-      children: [
-        ["/en/guide/", "General"],
-        ["/en/guide/basics/app.md", "Basics"],
-        ["/en/guide/advanced/class-based-views.md", "Advanced"],
-        ["/en/guide/best-practices/blueprints.md", "Best Practices"],
-        ["/en/guide/deployment/configuration.md", "Running & Deploying"],
-        ["/en/guide/how-to/toc.md", "How to..."],
-      ],
-    },
-    {
-      title: "Plugins",
-      sidebarDepth: 1,
-      children: [
-        ["/en/plugins/sanic-ext/getting-started.md", "Sanic Extensions"],
-        ["/en/plugins/sanic-testing/getting-started.md", "Sanic Testing"],
-      ],
-    },
-    {
-      title: "Organization",
-      sidebarDepth: 1,
-      collapsable: false,
-      children: [
-        "/en/org/feature_requests.md",
-        "/en/org/policies.md",
-        "/en/org/scope.md"
-      ],
-    },
+    {"title": "User Guide", children: userGuideShort},
+    {"title": "Plugins", children: pluginsShort},
+    {"title": "Release Notes", children: releaseNotes},
+    {"title": "Organization", children: org, collapsable: false},
   ],
 };
