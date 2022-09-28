@@ -2,7 +2,7 @@
 
 The first thing that should be mentioned is that the webserver that is integrated into Sanic is **not** just a development server. 
 
-It is production ready, provided you are *not* in debug mode.
+It is production ready out-of-the-box, *unless you enable in debug mode*.
 
 ## Debug mode
 
