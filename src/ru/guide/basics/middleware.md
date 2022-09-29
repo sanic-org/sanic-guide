@@ -63,7 +63,11 @@ async def prevent_xss(request, response):
 
 ---:1
 
-Декоратор можно сократить еще больше. Это полезно, если у вас есть IDE с автозавершением. :--:1
+Декоратор можно сократить еще больше. Это полезно, если у вас есть IDE с автозавершением.
+
+This is the preferred usage, and is what we will use going forward.
+
+:--:1
 ```python
 @app.on_request
 async def extract_user(request):
@@ -88,18 +92,18 @@ Middleware может изменять переданные в него пара
 3. Middleware ответа: `prevent_xss`
 4. Middleware ответа: `custom_banner` :--:1
 ```python
-@app.middleware("request")
+@app.on_request
 async def add_key(request):
-    # В контекст запроса можно положить любые данные:
+    # Arbitrary data may be stored in request context:
     request.ctx.foo = "bar"
 
 
-@app.middleware("response")
+@app.on_response
 async def custom_banner(request, response):
     response.headers["Server"] = "Fake-Server"
 
 
-@app.middleware("response")
+@app.on_response
 async def prevent_xss(request, response):
     response.headers["x-xss-protection"] = "1; mode=block"
 
@@ -136,41 +140,40 @@ foo_bar_baz
 
 ::: Совет Вы можете вернуть значение `None` для остановки выполнения обработчика middleware для того, чтобы запрос мог дальше обрабатываться в нормальном режиме. Это может быть полезно, например, если вы используете ранний возврат в целях избежания дальнейшей обработки запроса внутри этого middleware. ::: :--:1
 ```python
-@app.middleware("request")
+@app.on_request
 async def halt_request(request):
     return text("I halted the request")
 
-@app.middleware("response")
+@app.on_response
 async def halt_response(request, response):
     return text("I halted the response")
 ```
 :---
 
-#### Порядок выполнения
+## Порядок выполнения
 
 Middleware запросов выполняются в порядке их объявления. Middleware ответов выполняются в **обратном порядке**.
 
 Если мы запустим следующий код, то в консоли мы можем ожидать следующий вывод.
 
 ---:1
-
 ```python
-@app.middleware("request")
+@app.on_request
 async def middleware_1(request):
     print("middleware_1")
 
 
-@app.middleware("request")
+@app.on_request
 async def middleware_2(request):
     print("middleware_2")
 
 
-@app.middleware("response")
+@app.on_response
 async def middleware_3(request, response):
     print("middleware_3")
 
 
-@app.middleware("response")
+@app.on_response
 async def middleware_4(request, response):
     print("middleware_4")
 
@@ -189,3 +192,18 @@ middleware_3
 [INFO][127.0.0.1:44788]: GET http://localhost:8000/handler  200 5
 ```
 :---
+
+::: new NEW in v22.9
+### Middleware priority
+
+---:1 You can modify the order of execution of middleware by assigning it a higher priority. This happens inside of the middleware definition. The higher the value, the earlier it will execute relative to other middleware. The default priority for middleware is `0`. :--:1
+```python
+@app.on_request
+async def low_priority(request):
+    ...
+
+@app.on_request(priority=99)
+async def high_priority(request):
+    ...
+```
+:--- :::
