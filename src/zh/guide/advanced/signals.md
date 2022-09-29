@@ -87,6 +87,8 @@ These signals are the signals that are available, along with the arguments that 
 | -------------------------- | ------------------------------- | --------------------------------------------------------- |
 | `http.routing.before`      | request                         |                                                           |
 | `http.routing.after`       | request, route, kwargs, handler |                                                           |
+| `http.handler.before`      | request                         |                                                           |
+| `http.handler.after`       | request                         |                                                           |
 | `http.lifecycle.begin`     | conn_info                       |                                                           |
 | `http.lifecycle.read_head` | head                            |                                                           |
 | `http.lifecycle.request`   | request                         |                                                           |
@@ -102,6 +104,8 @@ These signals are the signals that are available, along with the arguments that 
 | `server.init.after`        | app, loop                       |                                                           |
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
+
+::: new NEW in v22.9 `http.handler.before` and `http.handler.after` added in Version 22.9. :::
 
 为了更方便的使用内置信号，Sanic 设置了一个 `Enum` 对象，其中包含了所有允许的内置信号。 您无需记住字符串形式的事件名称即可直接使用。 :--:1
 ```python
