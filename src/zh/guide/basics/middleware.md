@@ -63,7 +63,11 @@ async def prevent_xss(request, response):
 
 ---:1
 
-您可以进一步缩短该装饰器的调用代码。 如果您的 IDE 有自动补全的话会很方便。 :--:1
+您可以进一步缩短该装饰器的调用代码。 如果您的 IDE 有自动补全的话会很方便。
+
+This is the preferred usage, and is what we will use going forward.
+
+:--:1
 ```python
 @app.on_request
 async def extract_user(request):
@@ -92,18 +96,18 @@ async def prevent_xss(request, response):
 3. 响应中间件：`prevent_xss`
 4. 响应中间件：`custom_banner`
 ```python
-@app.middleware("request")
+@app.on_request
 async def add_key(request):
     # Arbitrary data may be stored in request context:
     request.ctx.foo = "bar"
 
 
-@app.middleware("response")
+@app.on_response
 async def custom_banner(request, response):
     response.headers["Server"] = "Fake-Server"
 
 
-@app.middleware("response")
+@app.on_response
 async def prevent_xss(request, response):
     response.headers["x-xss-protection"] = "1; mode=block"
 
@@ -140,41 +144,40 @@ foo_bar_baz
 
 ::: tip 您可以返回 `None` 值来跳过某个中间件的执行，如果这样的话将不影响后续中间件的执行。 您可以将这个特性用于在提前响应中中间件的选择性执行。 :::
 ```python
-@app.middleware("request")
+@app.on_request
 async def halt_request(request):
     return text("I halted the request")
 
-@app.middleware("response")
+@app.on_response
 async def halt_response(request, response):
     return text("I halted the response")
 ```
 :---
 
-#### 执行顺序(Order of execution)
+## 执行顺序(Order of execution)
 
 请求中间件按照声明的顺序执行。 响应中间件按照声明顺序的 **逆序** 执行。
 
 Given the following setup, we should expect to see this in the console.
 
 ---:1
-
 ```python
-@app.middleware("request")
+@app.on_request
 async def middleware_1(request):
     print("middleware_1")
 
 
-@app.middleware("request")
+@app.on_request
 async def middleware_2(request):
     print("middleware_2")
 
 
-@app.middleware("response")
+@app.on_response
 async def middleware_3(request, response):
     print("middleware_3")
 
 
-@app.middleware("response")
+@app.on_response
 async def middleware_4(request, response):
     print("middleware_4")
 
@@ -193,3 +196,18 @@ middleware_3
 [INFO][127.0.0.1:44788]: GET http://localhost:8000/handler  200 5
 ```
 :---
+
+::: new NEW in v22.9
+### Middleware priority
+
+---:1 You can modify the order of execution of middleware by assigning it a higher priority. This happens inside of the middleware definition. The higher the value, the earlier it will execute relative to other middleware. The default priority for middleware is `0`. :--:1
+```python
+@app.on_request
+async def low_priority(request):
+    ...
+
+@app.on_request(priority=99)
+async def high_priority(request):
+    ...
+```
+:--- :::
