@@ -182,8 +182,6 @@ key1=val1&key2=val2&key1=val3
 
 大多数情况下您只需要使用 `.get()` 方法来获取列表中的第一个元素即可，如果您想获取列表中的全部元素，那么请使用 `.getlist()` 方法。 If you do want a list of all items, you can use `.getlist()`. :::
 
-在 HTTP 协议要求通过 [keep alive](../deployment/configuration.md#keep-alive-timeout) 请求头来减少频繁连接所造成的时间浪费。
-
 ## Current request getter
 
 Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
@@ -226,4 +224,4 @@ app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
 
 In this example, we are adding the `request.id` to every access log message.
 
-:::
+*Added in v22.6*
