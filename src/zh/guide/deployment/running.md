@@ -4,50 +4,83 @@ Sanic 自带了一个 Web 服务器。 在大多数情况下，推荐使用该�
 
 ## Sanic 服务器(Sanic Server)
 
-当定义了 `sanic.Sanic` 实例后，我们可以调用其 `run` 方法，该方法支持以下几个关键字参数：
+There are two main ways to run Sanic Server:
 
-|      参数名称      |      默认值       | 参数说明                                         |
-|:--------------:|:--------------:|:-------------------------------------------- |
-|    **host**    | `"127.0.0.1"`  | 服务器监听的地址。                                    |
-|    **port**    |     `8000`     | 服务器监听的端口。                                    |
-|    **unix**    |     `None`     | Unix 套接字文件（不是 TCP）。                          |
-|   **debug**    |    `False`     | 开启 DEBUG 输出 （降低服务器性能）。                       |
-|    **ssl**     |     `None`     | SSLContext，子进程用于 SSL 加密。                     |
-|    **sock**    |     `None`     | 服务器接受连接的套接字。                                 |
-|  **workers**   |      `1`       | 要生成的子进程数量。                                   |
-|    **loop**    |     `None`     | 一个兼容 asyncio 的事件循环。 如果没有指定，Sanic 会创建自己的事件循环。 |
-|  **protocol**  | `HttpProtocol` | asyncio.protocol 子类。                         |
-| **access_log** |     `True`     | 启用请求访问日志（显著降低服务器速度）。                         |
+1. Using `app.run`
+1. Using the [CLI](#sanic-cli)
 
----:1
+When using `app.run` you will just call your Python file like any other script.
 
-在该样例中，我们关闭输出访问日志来提升性能。
-
-:--:1
-
+---:1 `app.run` must be properly nested inside of a name-main block. :--:1
 ```python
 # server.py
-app = Sanic("My App")
-app.run(host='0.0.0.0', port=1337, access_log=False)
-```
+app = Sanic("MyApp")
 
+if __name__ == "__main__":
+    app.run()
+```
 :---
 
----:1
 
-现在，执行包含 `app.run(...)` 代码的 Python 脚本。
 
-:--:1
+当定义了 `sanic.Sanic` 实例后，我们可以调用其 `run` 方法，该方法支持以下几个关键字参数：
 
+|         参数名称         |      默认值       | 参数说明                                                                                |
+|:--------------------:|:--------------:|:----------------------------------------------------------------------------------- |
+|       **host**       | `"127.0.0.1"`  | 服务器监听的地址。                                                                           |
+|       **port**       |     `8000`     | 服务器监听的端口。                                                                           |
+|       **unix**       |     `None`     | Unix 套接字文件（不是 TCP）。                                                                 |
+|      **debug**       |    `False`     | 开启 DEBUG 输出 （降低服务器性能）。                                                              |
+|       **ssl**        |     `None`     | SSLContext，子进程用于 SSL 加密。                                                            |
+|       **sock**       |     `None`     | 服务器接受连接的套接字。                                                                        |
+|     **workers**      |      `1`       | 要生成的子进程数量。 Cannot be used with fast.                                                |
+|       **loop**       |     `None`     | 一个兼容 asyncio 的事件循环。 如果没有指定，Sanic 会创建自己的事件循环。                                        |
+|     **protocol**     | `HttpProtocol` | asyncio.protocol 子类。                                                                |
+|    **access_log**    |     `True`     | 启用请求访问日志（显著降低服务器速度）。                                                                |
+|    **reload_dir**    |     `None`     | A path or list of paths to directories the auto-reloader should watch.              |
+| **noisy_exceptions** |     `None`     | Whether to set noisy exceptions globally. None means leave as default.              |
+|       **motd**       |     `True`     | Whether to display the startup message.                                             |
+|   **motd_display**   |     `None`     | A dict with extra key/value information to display in the startup message           |
+|       **fast**       |    `False`     | Whether to maximize worker processes.  Cannot be used with workers.                 |
+|    **verbosity**     |      `0`       | Level of logging detail. Max is 2.                                                  |
+|     **auto_tls**     |    `False`     | Whether to auto-create a TLS certificate for local development. Not for production. |
+|  **single_process**  |    `False`     | Whether to run Sanic in a single process.                                           |
+
+---:1 In the above example, we decided to turn off the access log in order to increase performance. :--:1
+```python
+# server.py
+app = Sanic("MyApp")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=1337, access_log=False)
+```
+:---
+
+---:1 Now, just execute the python script that has `app.run(...)` :--:1
 ```bash
 python server.py
 ```
+:---
 
+For a slightly more advanced implementation, it is good to know that `app.run` will call `app.prepare` and `Sanic.serve` under the hood.
+
+---:1 Therefore, these are equivalent: :--:1
+```python
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=1337, access_log=False)
+```
+```python
+if __name__ == "__main__":
+    app.prepare(host='0.0.0.0', port=1337, access_log=False)
+    Sanic.serve()
+```
 :---
 
 ### 子进程(Workers)
 
-在默认情况下，Sanic 在主进程中只占用一个 CPU 核心进行服务的监听。 要想增加并发，只需在运行参数中指定 workers 的数量即可。 :--:1
+---:1 By default, Sanic runs a main process and a single worker process (see [worker manager](./manager.md) for more details).
+
+要想增加并发，只需在运行参数中指定 workers 的数量即可。 :--:1
 ```python
 app.run(host='0.0.0.0', port=1337, workers=4)
 ```
@@ -78,6 +111,14 @@ workers = multiprocessing.cpu_count()
 app.run(..., workers=workers)
 ```
 
+::: new NEW in v22.9 In version 22.9, Sanic introduced a new worker manager to provide more consistency and flexibility between development and production servers. Read [about the manager](./manager.md) for more details about workers.
+
+---:1 If you only want to run Sanic with a single process, specify `single_process` in the run arguments. This means that auto-reload, and the worker manager will be unavailable. :--:1
+```python
+app.run(host='0.0.0.0', port=1337, single_process=True)
+```
+:--- :::
+
 ### 通过命令行运行(Running via command)
 
 #### Sanic 命令行界面(Sanic CLI)
@@ -93,10 +134,17 @@ sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 
 或者，我们可以使用 Python 来获取该值：
 
+::: details Sanic CLI help output
+
 ```text
 $ sanic --help
-usage: sanic [-h] [--version] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX] [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
-             [-w WORKERS | --fast] [--access-logs | --no-access-logs] [--debug] [-d] [-r] [-R PATH] [--motd | --no-motd] [-v]
+usage: sanic [-h] [--version]
+             [--factory | -s | --inspect | --inspect-raw | --trigger-reload | --trigger-shutdown]
+             [--http {1,3}] [-1] [-3] [-H HOST] [-p PORT] [-u UNIX]
+             [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
+             [-w WORKERS | --fast | --single-process] [--legacy]
+             [--access-logs | --no-access-logs] [--debug] [-r] [-R PATH] [-d]
+             [--auto-tls] [--coffee | --no-coffee] [--motd | --no-motd] [-v]
              [--noisy-exceptions | --no-noisy-exceptions]
              module
 
@@ -122,100 +170,74 @@ usage: sanic [-h] [--version] [--factory] [-s] [-H HOST] [-p PORT] [-u UNIX] [--
 Required
 ========
   Positional:
-    module                         Path to your Sanic app. Example: path.to.server:app
-                                   If running a Simple Server, path to directory to serve. Example: ./
+    module              Path to your Sanic app. Example: path.to.server:app
+                        If running a Simple Server, path to directory to serve. Example: ./
 
 Optional
 ========
   General:
-    -h, --help                     show this help message and exit
-    --version                      show program's version number and exit
+    -h, --help          show this help message and exit
+    --version           show program's version number and exit
 
   Application:
-    --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
-    -s, --simple                   Run Sanic as a Simple Server, and serve the contents of a directory
-                                   (module arg should be a path)
+    --factory           Treat app as an application factory, i.e. a () -> <Sanic app> callable
+    -s, --simple        Run Sanic as a Simple Server, and serve the contents of a directory
+                        (module arg should be a path)
+    --inspect           Inspect the state of a running instance, human readable
+    --inspect-raw       Inspect the state of a running instance, JSON output
+    --trigger-reload    Trigger worker processes to reload
+    --trigger-shutdown  Trigger all processes to shutdown
+
+  HTTP version:
+    --http {1,3}        Which HTTP version to use: HTTP/1.1 or HTTP/3. Value should
+                        be either 1, or 3. [default 1]
+    -1                  Run Sanic server using HTTP/1.1
+    -3                  Run Sanic server using HTTP/3
 
   Socket binding:
-    -H HOST, --host HOST           Host address [default 127.0.0.1]
-    -p PORT, --port PORT           Port to serve on [default 8000]
-    -u UNIX, --unix UNIX           location of unix socket
+    -H HOST, --host HOST
+                        Host address [default 127.0.0.1]
+    -p PORT, --port PORT
+                        Port to serve on [default 8000]
+    -u UNIX, --unix UNIX
+                        location of unix socket
 
   TLS certificate:
-    --cert CERT                    Location of fullchain.pem, bundle.crt or equivalent
-    --key KEY                      Location of privkey.pem or equivalent .key file
-    --tls DIR                      TLS certificate folder with fullchain.pem and privkey.pem
-                                   May be specified multiple times to choose multiple certificates
-    --tls-strict-host              Only allow clients that send an SNI matching server certs
+    --cert CERT         Location of fullchain.pem, bundle.crt or equivalent
+    --key KEY           Location of privkey.pem or equivalent .key file
+    --tls DIR           TLS certificate folder with fullchain.pem and privkey.pem
+                        May be specified multiple times to choose multiple certificates
+    --tls-strict-host   Only allow clients that send an SNI matching server certs
 
   Worker:
-    -w WORKERS, --workers WORKERS  Number of worker processes [default 1]
-    --fast                         Set the number of workers to max allowed
-    --access-logs                  Display access logs
-    --no-access-logs               No display access logs
+    -w WORKERS, --workers WORKERS
+                        Number of worker processes [default 1]
+    --fast              Set the number of workers to max allowed
+    --single-process    Do not use multiprocessing, run server in a single process
+    --legacy            Use the legacy server manager
+    --access-logs       Display access logs
+    --no-access-logs    No display access logs
 
   Development:
-    --debug                        Run the server in debug mode
-    -d, --dev                      Currently is an alias for --debug. But starting in v22.3,
-                                   --debug will no longer automatically trigger auto_restart.
-                                   However, --dev will continue, effectively making it the
-                                   same as debug + auto_reload.
-    -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
-    -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
+    --debug             Run the server in debug mode
+    -r, --reload, --auto-reload
+                        Watch source directory for file changes and reload on changes
+    -R PATH, --reload-dir PATH
+                        Extra directories to watch and reload on changes
+    -d, --dev           debug + auto reload
+    --auto-tls          Create a temporary TLS certificate for local development (requires mkcert or trustme)
 
   Output:
-    --motd                         Show the startup display
-    --no-motd                      No show the startup display
-    -v, --verbosity                Control logging noise, eg. -vv or --verbosity=2 [default 0]
-    --noisy-exceptions             Output stack traces for all exceptions
-    --no-noisy-exceptions          No output stack traces for all exceptions Example: path.to.server:app
-                                   If running a Simple Server, path to directory to serve. Example: ./
-
-Optional
-========
-  General:
-    -h, --help                     show this help message and exit
-    --version                      show program's version number and exit
-
-  Application:
-    --factory                      Treat app as an application factory, i.e. a () -> <Sanic app> callable
-    -s, --simple                   Run Sanic as a Simple Server, and serve the contents of a directory
-                                   (module arg should be a path)
-
-  Socket binding:
-    -H HOST, --host HOST           Host address [default 127.0.0.1]
-    -p PORT, --port PORT           Port to serve on [default 8000]
-    -u UNIX, --unix UNIX           location of unix socket
-
-  TLS certificate:
-    --cert CERT                    Location of fullchain.pem, bundle.crt or equivalent
-    --key KEY                      Location of privkey.pem or equivalent .key file
-    --tls DIR                      TLS certificate folder with fullchain.pem and privkey.pem
-                                   May be specified multiple times to choose multiple certificates
-    --tls-strict-host              Only allow clients that send an SNI matching server certs
-
-  Worker:
-    -w WORKERS, --workers WORKERS  Number of worker processes [default 1]
-    --fast                         Set the number of workers to max allowed
-    --access-logs                  Display access logs
-    --no-access-logs               No display access logs
-
-  Development:
-    --debug                        Run the server in debug mode
-    -d, --dev                      Currently is an alias for --debug. But starting in v22.3, 
-                                   --debug will no longer automatically trigger auto_restart. 
-                                   However, --dev will continue, effectively making it the 
-                                   same as debug + auto_reload.
-    -r, --reload, --auto-reload    Watch source directory for file changes and reload on changes
-    -R PATH, --reload-dir PATH     Extra directories to watch and reload on changes
-
-  Output:
-    --motd                         Show the startup display
-    --no-motd                      No show the startup display
-    -v, --verbosity                Control logging noise, eg. -vv or --verbosity=2 [default 0]
-    --noisy-exceptions             Output stack traces for all exceptions
-    --no-noisy-exceptions          No output stack traces for all exceptions
+    --coffee            Uhm, coffee?
+    --no-coffee         No uhm, coffee?
+    --motd              Show the startup display
+    --no-motd           No show the startup display
+    -v, --verbosity     Control logging noise, eg. -vv or --verbosity=2 [default 0]
+    --noisy-exceptions  Output stack traces for all exceptions
+    --no-noisy-exceptions
+                        No output stack traces for all exceptions
 ```
+:::
 
 #### 作为模块运行 (As a module)
 
@@ -247,9 +269,6 @@ sanic ./path/to/dir --simple
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
-
-
-::: new NEW in v22.6
 
 ### HTTP/3
 
@@ -303,7 +322,7 @@ Sanic.serve()
 
 Because HTTP/3 requires TLS, you cannot start a HTTP/3 server without a TLS certificate. You should [set it up yourself](../how-to/tls.html) or use `mkcert` if in `DEBUG` mode. Currently, automatic TLS setup for HTTP/3 is not compatible with `trustme`. See [development](./development.md) for more details.
 
-:::
+*Added in v22.6*
 
 ## ASGI
 
@@ -336,17 +355,15 @@ hypercorn -k trio myapp:app
 
 [Gunicorn](http://gunicorn.org/) ("Green Unicorn") 是一个基于 UNIX 操作系统的 WSGI HTTP 服务器。 它是从 Ruby 的 Unicorn 项目中移植而来，采用的是 pre-fork worker 模型。
 
-当使用 ASGI 时，您需要关注以下几件事情：
+In order to run Sanic application with Gunicorn, you need to use it with the adapter from [uvicorn](https://www.uvicorn.org/). Make sure uvicorn is installed and run it with `uvicorn.workers.UvicornWorker` for Gunicorn worker-class argument:
 
 ```bash
-gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class sanic.worker.GunicornWorker
+gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class uvicorn.workers.UvicornWorker
 ```
-
-如果您的应用有内存泄漏的困扰，您可以通过配置 Gunicorn 使子进程在处理了一定数量的请求后平滑重启。 这种方法可以很方便得减少内存泄漏带来的影响。
 
 查看 [Gunicorn 文档](http://docs.gunicorn.org/en/latest/settings.html#max-requests) 来获取更多信息。
 
-当通过 `gunicorn` 运行 Sanic 时，您将失去 `async/await` 带来的诸多性能优势。 Weigh your considerations carefully before making this choice. 的确，Gunicorn 提供了很多配置选项，但它不是让 Sanic 全速运行的最佳坏境。 :::
+::: warning It is generally advised to not use `gunicorn` unless you need it. The Sanic Server is primed for running Sanic in production. Weigh your considerations carefully before making this choice. 的确，Gunicorn 提供了很多配置选项，但它不是让 Sanic 全速运行的最佳坏境。 :::
 
 ## 性能方面的考虑 (Performance considerations)
 
