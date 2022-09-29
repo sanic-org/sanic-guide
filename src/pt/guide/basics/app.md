@@ -217,3 +217,33 @@ class CustomErrorHandler(ErrorHandler):
 app = Sanic(..., error_handler=CustomErrorHandler())
 ```
 :---
+
+### Custom dumps function
+
+---:1 It may sometimes be necessary or desirable to provide a custom function that serializes an object to JSON data. :--:1
+```python
+import ujson
+
+dumps = partial(ujson.dumps, escape_forward_slashes=False)
+app = Sanic(__name__, dumps=dumps)
+```
+:---
+
+---:1 Or, perhaps use another library or create your own. :--:1
+```python
+from orjson import dumps
+
+app = Sanic(__name__, dumps=dumps)
+```
+:---
+
+::: new NEW in v 22.9
+### Custom loads function
+
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data. :--:1
+```python
+from orjson import loads
+
+app = Sanic(__name__, loads=loads)
+```
+:--- :::
