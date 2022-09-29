@@ -87,6 +87,8 @@ async def my_signal_handler(conn_info):
 | ------------------------ | ------------------------------- | ---------------------------------------------------------- |
 | `http.routing.before`    | request                         |                                                            |
 | `http.routing.after`     | request, route, kwargs, handler |                                                            |
+| `http.handler.before`    | request                         |                                                            |
+| `http.handler.after`     | request                         |                                                            |
 | `http.lifycle.begin`     | conn_info                       |                                                            |
 | `http.lifycle.read_head` | head                            |                                                            |
 | `http.lifycle.request`   | request                         |                                                            |
@@ -102,6 +104,8 @@ async def my_signal_handler(conn_info):
 | `server.init.after`      | app, loop                       |                                                            |
 | `server.shutdown.before` | app, loop                       |                                                            |
 | `server.shutdown.after`  | app, loop                       |                                                            |
+
+::: new NEW in v22.9 `http.handler.before` and `http.handler.after` added in Version 22.9. :::
 
 ::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1 :--:1
 ```python
