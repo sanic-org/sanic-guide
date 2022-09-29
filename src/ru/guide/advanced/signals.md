@@ -87,6 +87,8 @@ These signals are the signals that are available, along with the arguments that 
 | -------------------------- | ------------------------------- | --------------------------------------------------------- |
 | `http.routing.before`      | request                         |                                                           |
 | `http.routing.after`       | request, route, kwargs, handler |                                                           |
+| `http.handler.before`      | request                         |                                                           |
+| `http.handler.after`       | request                         |                                                           |
 | `http.lifecycle.begin`     | conn_info                       |                                                           |
 | `http.lifecycle.read_head` | head                            |                                                           |
 | `http.lifecycle.request`   | request                         |                                                           |
@@ -102,6 +104,8 @@ These signals are the signals that are available, along with the arguments that 
 | `server.init.after`        | app, loop                       |                                                           |
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
+
+::: new NEW in v22.9 `http.handler.before` and `http.handler.after` added in Version 22.9. :::
 
 ---:1 To make using the built-in signals easier, there is an `Enum` object that contains all of the allowed built-ins. With a modern IDE this will help so that you do not need to remember the full list of event names as strings. :--:1
 ```python
