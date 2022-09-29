@@ -109,9 +109,33 @@ Person(person_id=PersonID(person_id=123), name='noname', age=111)
 
 When a `constructor` is passed to `ext.add_dependency` (like in this example) that will be called. If not, then the object will be created by calling the `type`. A couple of important things to note about passing a `constructor`:
 
-1. A positional `request: Request` argument is expected. See the `Person.create` method above as an example.
+1. A positional `request: Request` argument is *usually* expected. See the `Person.create` method above as an example using a `request` and [arbitrary constructors](#arbitrary-constructors) for how to use a callable that does not require a `request`.
 1. All matched path parameters are injected as keyword arguments.
 1. Dependencies can be chained and nested. Notice how in the previous example the `Person` dataclass has a `PersonID`? That means that `PersonID` will be called first, and that value is added to the keyword arguments when calling `Person.create`.
+
+::: new NEW in v22.9
+## Arbitrary constructors
+
+---:1 Sometimes you may want to construct your injectable `without` the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
+
+This is very useful if you have services or other types of objects that should only exist for the lifetime of a single request. For example, you might use this pattern to pull a single connection from your database pool. :--:1
+```python
+class Alpha:
+    ...
+
+
+class Beta:
+    def __init__(self, alpha: Alpha) -> None:
+        self.alpha = alpha
+
+app.ext.add_dependency(Alpha)
+app.ext.add_dependency(Beta)
+
+@app.get("/beta")
+async def handler(request: Request, beta: Beta):
+    assert isinstance(beta.alpha, Alpha)
+```
+:--- :::
 
 ## Objects from the `Request`
 
@@ -266,3 +290,12 @@ result
 ```
 
 :---
+
+::: new NEW in v22.9
+## Configuration
+
+---:1 By default, dependencies will be injected after the `http.routing.after` [signal](../../guide/advanced/signals.md#built-in-signals). Starting in v22.9, you can change this to the `http.handler.before` signal. :--:1
+```python
+app.config.INJECTION_SIGNAL = "http.handler.before"
+```
+:--- :::
