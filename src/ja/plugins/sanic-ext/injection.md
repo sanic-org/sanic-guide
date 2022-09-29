@@ -109,9 +109,33 @@ Person(person_id=PersonID(person_id=123), name='名無し', age=111)
 
 この例のように `ext.add_dependency` に `constructor` が渡されると、それが呼び出されます。 そうでない場合は、 `type` を呼び出してオブジェクトを生成します。 `constructor`を渡す際に注意すべき点がいくつかある。
 
-1. `request: request` の位置専用引数が期待されます。 例として、上記の `Person.create` メソッドを参照してください。
+1. A positional `request: Request` argument is *usually* expected. See the `Person.create` method above as an example using a `request` and [arbitrary constructors](#arbitrary-constructors) for how to use a callable that does not require a `request`.
 1. マッチしたすべてのパスパラメータは、キーワード引数として注入されます。
 1. 依存関係は、連鎖したり、ネストしたりすることができます。 先ほどの例で、`Person`データクラスが`PersonID`を持っていることに注目しましたか？ これは、 `PersonID` が最初に呼び出され、その値が `Person.create` を呼び出す際のキーワード引数に追加されることを意味します。
+
+::: new NEW in v22.9
+## Arbitrary constructors
+
+---:1 Sometimes you may want to construct your injectable `without` the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
+
+This is very useful if you have services or other types of objects that should only exist for the lifetime of a single request. For example, you might use this pattern to pull a single connection from your database pool. :--:1
+```python
+class Alpha:
+    ...
+
+
+class Beta:
+    def __init__(self, alpha: Alpha) -> None:
+        self.alpha = alpha
+
+app.ext.add_dependency(Alpha)
+app.ext.add_dependency(Beta)
+
+@app.get("/beta")
+async def handler(request: Request, beta: Beta):
+    assert isinstance(beta.alpha, Alpha)
+```
+:--- :::
 
 ## `Request`からのオブジェクト
 
@@ -266,3 +290,12 @@ result
 ```
 
 :---
+
+::: new NEW in v22.9
+## Configuration
+
+---:1 By default, dependencies will be injected after the `http.routing.after` [signal](../../guide/advanced/signals.md#built-in-signals). Starting in v22.9, you can change this to the `http.handler.before` signal. :--:1
+```python
+app.config.INJECTION_SIGNAL = "http.handler.before"
+```
+:--- :::
