@@ -189,8 +189,6 @@ key1=val1&key2=val2&key1=val3
 ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。 すべての項目のリストが必要な場合は、`.getlist()`を使用できます。 :::
 :::
 
-::: new NEW in v22.6
-
 ## Current request getter
 
 Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
@@ -233,4 +231,4 @@ app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
 
 In this example, we are adding the `request.id` to every access log message.
 
-:::
+*Added in v22.6*
