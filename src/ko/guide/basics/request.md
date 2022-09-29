@@ -187,8 +187,6 @@ key1=val1&key2=val2&key1=val3
 
 대부분의 경우 `.get()` 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하기를 원할 것입니다. 모든 항목의 목록을 원하면 `.getlist()`를 사용할 수 있습니다. :::
 
-::: new NEW in v22.6
-
 ## Current request getter
 
 Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
@@ -231,4 +229,4 @@ app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
 
 In this example, we are adding the `request.id` to every access log message.
 
-:::
+*Added in v22.6*
