@@ -153,7 +153,6 @@ async def print_state(request: Request):
     print(request.app.m.workers)
 ```
 ```
-{'server': True, 'state': 'ACKED', 'pid': 99999, 'start_at': datetime.datetime(2022, 10, 1, 0, 0, 0, 0, tzinfo=datetime.timezone.utc), 'starts': 2, 'restart_at': datetime.datetime(2022, 10, 1, 0, 0, 12, 861332, tzinfo=datetime.timezone.utc)}
 {
     'Sanic-Main': {'pid': 99997},
     'Sanic-Server-0-0': {
@@ -255,3 +254,22 @@ async def ready(app: Sanic, _):
 ```
 :---
 
+## Single process mode
+
+
+---:1
+If you would like to opt out of running multiple processes, you can run Sanic in a single process only. In this case, the Manager will not run. You will also not have access to any features that require processes (auto-reload, the inspector, etc).
+:--:1
+```python
+if __name__ == "__main__":
+    app.run(single_process=True)
+```
+```python
+if __name__ == "__main__":
+    app.prepare(single_process=True)
+    Sanic.serve_single()
+```
+```
+sanic path.to.server:app --single-process
+```
+:---

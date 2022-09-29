@@ -295,9 +295,6 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
 
-
-::: new NEW in v22.6
-
 ### HTTP/3
 
 
@@ -350,7 +347,7 @@ Sanic.serve()
 
 Because HTTP/3 requires TLS, you cannot start a HTTP/3 server without a TLS certificate. You should [set it up yourself](../how-to/tls.html) or use `mkcert` if in `DEBUG` mode. Currently, automatic TLS setup for HTTP/3 is not compatible with `trustme`. See [development](./development.md) for more details.
 
-:::
+*Added in v22.6*
 
 ## ASGI
 
