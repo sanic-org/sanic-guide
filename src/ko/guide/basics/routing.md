@@ -309,7 +309,7 @@ async def handler(request, foo: UUID):
 
 ```python
 @app.route("/path/to/<foo:ext>")
-async def handler(request, foo: UUID):
+async def handler(request, foo: str, ext: str):
     ...
 ```
 때로는 경로의 일부를 일치시키고 싶을 때가 있습니다.
