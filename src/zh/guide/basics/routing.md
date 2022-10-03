@@ -279,7 +279,7 @@ async def handler(request, foo: UUID):
 
 ```python
 @app.route("/path/to/<foo:ext>")
-async def handler(request, foo: UUID):
+async def handler(request, foo: str, ext: str):
     ...
 ```
 **转换类型**: `str`
