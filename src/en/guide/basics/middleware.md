@@ -126,7 +126,7 @@ You can modify the `request.match_info`. A useful feature that could be used, fo
 ```python
 @app.on_request
 def convert_slug_to_underscore(request: Request):
-    request._match_info["slug"] = request._match_info["slug"].replace("-", "_")
+    request.match_info["slug"] = request.match_info["slug"].replace("-", "_")
 
 
 @app.get("/<slug:[a-z0-9]+(?:-[a-z0-9]+)*>")
