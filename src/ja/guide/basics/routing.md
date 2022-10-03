@@ -306,12 +306,9 @@ async def handler(request, foo: UUID):
 複雑なルーティングと比較すると、上記の例は単純すぎることが多く、まったく異なるルーティングマッチングパターンを使用するため、ここではregexマッチングの高度な使用方法について詳しく説明します。
 
 ```python
-@app.websocket("/test")
-async def handler(request, ws):
-    messgage = "Start"
-    while True:
-        await ws.send(message)
-        message = ws.recv()
+@app.route("/path/to/<foo:ext>")
+async def handler(request, foo: str, ext: str):
+    ...
 ```
 ルートの一部を照合する場合があります。
 
