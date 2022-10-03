@@ -129,7 +129,7 @@ def convert_slug_to_underscore(request: Request):
     request.match_info["slug"] = request.match_info["slug"].replace("-", "_")
 
 
-@app.get("/<slug:[a-z0-9]+(?:-[a-z0-9]+)*>")
+@app.get("/<slug:slug>")
 async def handler(request, slug):
     return text(slug)
 ```
