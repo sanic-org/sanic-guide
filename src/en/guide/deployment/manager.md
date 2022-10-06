@@ -234,7 +234,7 @@ If you intend to run another application, like a bot, then it is likely that it 
 ```python
 from time import sleep
 
-def my_process():
+def my_process(foo):
     try:
         while True:
             sleep(1)
