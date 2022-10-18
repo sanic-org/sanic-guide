@@ -41,6 +41,9 @@ Introduced in [v22.9](../release-notes/v22.9.md), Sanic has an `AppLoader` objec
 
 ---:1 An `AppLoader` can be passed a callable that returns a `Sanic` instance. That `AppLoader` could be used with the low-level application running API. :--:1
 ```python
+import sys
+from functools import partial
+
 from sanic import Request, Sanic, json
 from sanic.worker.loader import AppLoader
 
@@ -48,20 +51,24 @@ from sanic.worker.loader import AppLoader
 def attach_endpoints(app: Sanic):
     @app.get("/")
     async def handler(request: Request):
-        return json({"foo": "bar"})
+        return json({"app_name": request.app.name})
 
 
-def create_app() -> Sanic:
-    app = Sanic("TestApp")
+def create_app(app_name: str) -> Sanic:
+    app = Sanic(app_name)
     attach_endpoints(app)
     return app
 
 
 if __name__ == "__main__":
-    loader = AppLoader(factory=create_app)
+    app_name = sys.argv[-1]
+    loader = AppLoader(factory=partial(create_app, app_name))
     app = loader.load()
     app.prepare(port=9999, dev=True)
     Sanic.serve(primary=app, app_loader=loader)
+```
+```
+$ python path/to/server.py MyTestAppName
 ```
 :---
 
