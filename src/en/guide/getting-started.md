@@ -87,4 +87,4 @@ Starting in v21.12, Sanic will automatically setup Sanic Extensions if it is in 
 - `app.extend()` - used to configure Sanic Extensions
 - `app.ext` - the `Extend` instance attached to the application
 
-See [the plugin documenataion](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin
+See [the plugin documentation](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin
