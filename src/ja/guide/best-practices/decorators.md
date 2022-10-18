@@ -61,7 +61,7 @@ Pythonの禅を言い換えてこう言います: 「 (装飾家は) 素晴ら�
 
 ---:1
 
-これらのインポート文を忘れずに追加してください。 必要ではありませんが、`@wraps`を使用すると、ファンクションのメタデータの一部をそのまま保持できます。 [docs](https://docs.python.org/3/library/functools.html#functools.wraps) を参照してください。 また、ここでは 「isawaitable」 パターンを使用して、通常の関数または非同期関数によるルートハンドラの実行を許可します。
+これらのインポート文を忘れずに追加してください。 Although it is *not* necessary, using `@wraps` helps keep some of the metadata of your function intact. [docs](https://docs.python.org/3/library/functools.html#functools.wraps) を参照してください。 また、ここでは 「isawaitable」 パターンを使用して、通常の関数または非同期関数によるルートハンドラの実行を許可します。
 
 :--:1
 
