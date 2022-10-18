@@ -83,4 +83,4 @@ v21.12から、Sanicが同じ環境であれば、Sanic Extensionsを自動的�
 - `app.extend()` - Sanic Extensionsを設定するために使用されます。
 - `app.ext` - アプリケーションにアタッチされている `Extend` インスタンスです。
 
-プラグインの使用方法および作業方法の詳細については、[プラグイン ドキュメント](../plugins/sanic-ext/getting-started.md) を参照してください。
+See [the plugin documentation](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin
