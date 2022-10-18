@@ -81,4 +81,4 @@ $ pip install sanic sanic-ext
 - `app.extend()` - 用于配置 Sanic 拓展
 - `app.ext` - 注入到应用程序的扩展实例
 
-但是，为了 **帮助 API 开发者** ，Sanic 组织维护了一个名为 [Sanic Extensions](../plugins/sanic-ext/getting-started.md) 的项目来提供各种易用的功能，包括:
+See [the plugin documentation](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin
