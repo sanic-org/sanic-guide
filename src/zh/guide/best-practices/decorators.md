@@ -61,7 +61,7 @@ To make it easier to implement them, here are three examples of copy/pastable co
 
 ---:1
 
-Don't forget to add these import statements. Although it is *not* necessary, using `@wraps` helps keep some of the metadata of your function in tact. [See docs](https://docs.python.org/3/library/functools.html#functools.wraps). Also, we use the `isawaitable` pattern here to allow the route handlers to by regular or asynchronous functions.
+Don't forget to add these import statements. Although it is *not* necessary, using `@wraps` helps keep some of the metadata of your function intact. [See docs](https://docs.python.org/3/library/functools.html#functools.wraps). Also, we use the `isawaitable` pattern here to allow the route handlers to by regular or asynchronous functions.
 
 :--:1
 
