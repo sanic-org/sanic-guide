@@ -64,9 +64,6 @@ See [configuration section](/guide/deployment/configuration.md) for more details
 
 ```python
 app.config.WEBSOCKET_MAX_SIZE = 2 ** 20
-app.config.WEBSOCKET_MAX_QUEUE = 32
-app.config.WEBSOCKET_READ_LIMIT = 2 ** 16
-app.config.WEBSOCKET_WRITE_LIMIT = 2 ** 16
 app.config.WEBSOCKET_PING_INTERVAL = 20
 app.config.WEBSOCKET_PING_TIMEOUT = 20
 ```
