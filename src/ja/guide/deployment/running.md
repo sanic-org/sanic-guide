@@ -316,8 +316,8 @@ $ sanic path.to.server:app -3 -1
 :--:1
 
 ```python
-app.prepre(version=3)
-app.prepre(version=1)
+app.prepare(version=3)
+app.prepare(version=1)
 Sanic.serve()
 ```
 :---
