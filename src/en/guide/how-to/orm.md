@@ -5,12 +5,135 @@
 All ORM tools can work with Sanic, but non-async ORM tool have a impact on Sanic performance.
 There are some orm packages who support
 
-At present, there are many ORMs that support asynchronicity. Two of the more common libraries are：
+At present, there are many ORMs that support Python's `async`/`await` keywords. Some possible choices include：
 
+- [Mayim](https://ahopkins.github.io/mayim/)
 - [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_14.html)
 - [tortoise-orm](https://github.com/tortoise/tortoise-orm)
 
 Integration in to your Sanic application is fairly simple:
+
+## Mayim
+
+Mayim ships with [an extension for Sanic Extensions](https://ahopkins.github.io/mayim/guide/extensions.html#sanic), which makes it super simple to get started with Sanic. It is certainly possible to run Mayim with Sanic without the extension, but it is recommended because it handles all of the [lifecycle events](https://sanic.dev/en/guide/basics/listeners.html) and [dependency injections](https://sanic.dev/en/plugins/sanic-ext/injection.html).
+
+---:1
+### Dependencies
+
+First, we need to install the required dependencies. See [Mayim docs](https://ahopkins.github.io/mayim/guide/install.html#postgres) for the installation needed for your DB driver.
+:--:1
+```shell
+pip install sanic-ext
+pip install mayim[postgres]
+```
+:---
+
+---:1
+### Define ORM Model
+
+Mayim allows you to use whatever you want for models. Whether it is [dataclasses](https://docs.python.org/3/library/dataclasses.html), [pydantic](https://pydantic-docs.helpmanual.io/), [attrs](https://www.attrs.org/en/stable/), or even just plain `dict` objects. Since it works very nicely [out of the box with Pydantic](https://ahopkins.github.io/mayim/guide/pydantic.html), that is what we will use here.
+:--:1
+```python
+# ./models.py
+from pydantic import BaseModel
+
+
+class City(BaseModel):
+    id: int
+    name: str
+    district: str
+    population: int
+
+
+class Country(BaseModel):
+    code: str
+    name: str
+    continent: str
+    region: str
+    capital: City
+```
+:---
+
+---:1
+### Define SQL
+
+If you are unfamiliar, Mayim is different from other ORMs in that it is one-way, SQL-first. This means you define your own queries either inline, or in a separate `.sql` file, which is what we will do here.
+:--:1
+```sql
+-- ./queries/select_all_countries.sql
+SELECT country.code,
+    country.name,
+    country.continent,
+    country.region,
+    (
+        SELECT row_to_json(q)
+        FROM (
+                SELECT city.id,
+                    city.name,
+                    city.district,
+                    city.population
+            ) q
+    ) capital
+FROM country
+    JOIN city ON country.capital = city.id
+ORDER BY country.name ASC
+LIMIT $limit OFFSET $offset;
+```
+:---
+
+---:1
+### Create Sanic App and Async Engine
+
+We need to create the app instance and attach the `SanicMayimExtension` with any executors.
+:--:1
+```python
+# ./server.py
+from sanic import Sanic, Request, json
+from sanic_ext import Extend
+from mayim.executor import PostgresExecutor
+from mayim.extensions import SanicMayimExtension
+from models import Country
+
+
+class CountryExecutor(PostgresExecutor):
+    async def select_all_countries(
+        self, limit: int = 4, offset: int = 0
+    ) -> list[Country]:
+        ...
+
+
+app = Sanic("Test")
+Extend.register(
+    SanicMayimExtension(
+        executors=[CountryExecutor],
+        dsn="postgres://...",
+    )
+)
+```
+:---
+
+---:1
+### Register Routes
+
+Because we are using Mayim's extension for Sanic, we have the automatic `CountryExecutor` injection into the route handler. It makes for an easy, type-annotated development experience.
+:--:1
+```python
+@app.get("/")
+async def handler(request: Request, executor: CountryExecutor):
+    countries = await executor.select_all_countries()
+    return json({"countries": [country.dict() for country in co
+```
+:---
+
+---:1
+### Send Requests
+:--:1
+```sh
+curl 'http://127.0.0.1:8000'
+{"countries":[{"code":"AFG","name":"Afghanistan","continent":"Asia","region":"Southern and Central Asia","capital":{"id":1,"name":"Kabul","district":"Kabol","population":1780000}},{"code":"ALB","name":"Albania","continent":"Europe","region":"Southern Europe","capital":{"id":34,"name":"Tirana","district":"Tirana","population":270000}},{"code":"DZA","name":"Algeria","continent":"Africa","region":"Northern Africa","capital":{"id":35,"name":"Alger","district":"Alger","population":2168000}},{"code":"ASM","name":"American Samoa","continent":"Oceania","region":"Polynesia","capital":{"id":54,"name":"Fagatogo","district":"Tutuila","population":2323}}]}
+```
+:---
+
 
 ## SQLAlchemy
 
@@ -18,28 +141,21 @@ Because [SQLAlchemy 1.4](https://docs.sqlalchemy.org/en/14/changelog/changelog_1
 
 
 ---:1
-
 ### Dependencies
 
 First, we need to install the required dependencies. In the past, the dependencies installed were `sqlalchemy` and `pymysql`, but now `sqlalchemy` and `aiomysql` are needed.
-
 :--:1
-
 ```shell
 pip install -U sqlalchemy
 pip install -U aiomysql
 ```
-
 :---
 
 ---:1
-
 ### Define ORM Model
 
 ORM model creation remains the same.
-
 :--:1
-
 ```python
 # ./models.py
 from sqlalchemy import INTEGER, Column, ForeignKey, String
@@ -69,17 +185,13 @@ class Car(BaseModel):
     user_id = Column(ForeignKey("person.id"))
     user = relationship("Person", back_populates="cars")
 ```
-
 :---
 
 ---:1
-
 ### Create Sanic App and Async Engine
 
 Here we use mysql as the database, and you can also choose PostgreSQL/SQLite. Pay attention to changing the driver from `aiomysql` to `asyncpg`/`aiosqlite`.
 :--:1
-
-
 ```python
 # ./server.py
 from sanic import Sanic
@@ -89,20 +201,15 @@ app = Sanic("my_app")
 
 bind = create_async_engine("mysql+aiomysql://root:root@localhost/test", echo=True)
 ```
-
 :---
 
 ---:1
-
 ### Register Middlewares
 
 The request middleware creates an usable `AsyncSession` object and set it to `request.ctx` and `_base_model_session_ctx`.
 
 Thread-safe variable `_base_model_session_ctx` helps you to use the session object instead of fetching it from `request.ctx`.
-
-
 :--:1
-
 ```python
 # ./server.py
 from contextvars import ContextVar
@@ -126,17 +233,13 @@ async def close_session(request, response):
         _base_model_session_ctx.reset(request.ctx.session_ctx_token)
         await request.ctx.session.close()
 ```
-
 :---
 
 ---:1
-
 ### Register Routes
 
 According to sqlalchemy official docs, `session.query` will be legacy in 2.0, and the 2.0 way to query an ORM object is using `select`.
-
 :--:1
-
 ```python
 # ./server.py
 from sqlalchemy import select
@@ -169,11 +272,11 @@ async def get_user(request, pk):
 
     return json(person.to_dict())
 ```
-
 :---
 
+---:1
 ### Send Requests
-
+:--:1
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
@@ -183,32 +286,26 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"name":"foo","cars":[{"brand":"Tesla"}]}
 ```
+:---
 
 
 ## Tortoise-ORM
 
 ---:1
-
 ### Dependencies
 
 tortoise-orm's dependency is very simple, you just need install tortoise-orm.
-
 :--:1
-
 ```shell
 pip install -U tortoise-orm
 ```
-
 :---
 
 ---:1
-
 ### Define ORM Model
 
 If you are familiar with Django, you should find this part very familiar.
-
 :--:1
-
 ```python
 # ./models.py
 from tortoise import Model, fields
@@ -221,18 +318,14 @@ class Users(Model):
     def __str__(self):
         return f"I am {self.name}"
 ```
-
 :---
 
 
 ---:1
-
 ### Create Sanic App and Async Engine
 
 Tortoise-orm provides a set of registration interface, which is convenient for users, and you can use it to create database connection easily.
-
 :--:1
-
 ```python
 # ./main.py
 
@@ -247,17 +340,12 @@ register_tortoise(
 )
 
 ```
-
 :---
 
 ---:1
-
 ### Register Routes
-
 :--:1
-
 ```python
-
 # ./main.py
 
 from models import Users
@@ -278,11 +366,11 @@ async def get_user(request, pk):
 if __name__ == "__main__":
     app.run(port=5000)
 ```
-
 :---
 
+---:1
 ### Send Requests
-
+:--:1
 ```sh
 curl --location --request POST 'http://127.0.0.1:8000/user'
 {"users":["I am foo", "I am bar"]}
@@ -292,3 +380,5 @@ curl --location --request POST 'http://127.0.0.1:8000/user'
 curl --location --request GET 'http://127.0.0.1:8000/user/1'
 {"user": "I am foo"}
 ```
+:---
+
