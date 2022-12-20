@@ -6,7 +6,7 @@ One of the most commonly implemented features of a web application is user-input
 
 ### Validation with Dataclasses
 
-With the introduction of [Data Classes](https://docs.python.org/3/library/dataclasses.html), Python made it super simple to create objects that meet a defined schema. However, the standard library only supports type checking validation, **not** runtime validation. Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses` out odf the box. If you also have either `pydantic` or `attrs` installed, you can alternatively use one of those libraries.
+With the introduction of [Data Classes](https://docs.python.org/3/library/dataclasses.html), Python made it super simple to create objects that meet a defined schema. However, the standard library only supports type checking validation, **not** runtime validation. Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses` out of the box. If you also have either `pydantic` or `attrs` installed, you can alternatively use one of those libraries.
 
 ---:1
 
@@ -158,7 +158,7 @@ $ curl localhost:8000/person -d '{"name": "Alice", "age": 21}' -X POST
 
 ## What can be validated?
 
-The `validate` decorator can be used to validate incoming user date from three places: JSON body data (`request.json`), form body data (`request.form`), and query parameters (`request.args`).
+The `validate` decorator can be used to validate incoming user data from three places: JSON body data (`request.json`), form body data (`request.form`), and query parameters (`request.args`).
 
 ---:1
 As you might expect, you can attach your model using the keyword arguments of the decorator.
