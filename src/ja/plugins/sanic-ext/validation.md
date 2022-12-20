@@ -6,7 +6,7 @@ Webアプリケーションで最もよく実装される機能の1つが、ユ�
 
 ### データクラスによる検証
 
-[データクラス](https://docs.python.org/3/library/dataclasses.html) の導入により、Pythonは定義されたスキーマを満たすオブジェクトをとても簡単に作成することができるようになりました。 しかし、標準ライブラリは型チェックの検証のみをサポートし、実行時の検証はサポート**していません**。 Sanic Extensionsは`dataclasses`を使って、入力されたリクエストに対して実行時の検証を行う機能を追加します。 `pydantic` または `attrs` がインストールされている場合は、それらのライブラリのいずれかを使用することもできます。
+[データクラス](https://docs.python.org/3/library/dataclasses.html) の導入により、Pythonは定義されたスキーマを満たすオブジェクトをとても簡単に作成することができるようになりました。 しかし、標準ライブラリは型チェックの検証のみをサポートし、実行時の検証はサポート**していません**。 Sanic Extensions adds the ability to do runtime validations on incoming requests using `dataclasses` out of the box. `pydantic` または `attrs` がインストールされている場合は、それらのライブラリのいずれかを使用することもできます。
 
 ---:1
 
@@ -158,7 +158,7 @@ $ curl localhost:8000/person -d '{"name": "Alice", "age": 21}' -X POST
 
 ## 何が検証できるのか?
 
-`validate` デコレータを使用すると、3つの場所から入力されたユーザーデータを検証することができます。 JSON の本文(`request.json`)、フォームの本文(`request.form`)、そしてクエリパラメータ(`request.args`) です。
+The `validate` decorator can be used to validate incoming user data from three places: JSON body data (`request.json`), form body data (`request.form`), and query parameters (`request.args`).
 
 ---:1 あなたが期待するように、デコレータのキーワード引数を使用してモデルを添付することができます。
 
