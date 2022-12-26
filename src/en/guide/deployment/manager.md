@@ -41,12 +41,10 @@ The likely fix for this problem is nesting your Sanic run call inside of the `__
 
 ### Starting a worker
 
-All worker processes *must* send an acknowledgement when starting. This happens under the hood, and you as a developer do not need to do anything. However, the Manager will exist with a status code `1` if one or more workers do not send that `ack` message. By default, the Manager will wait for five (5) seconds to receive the `ack`.
-
-If your application crashes after five (5) seconds, likely the issue is some inability for your workers to start. You should review the traceback for errors related to your code.
+All worker processes *must* send an acknowledgement when starting. This happens under the hood, and you as a developer do not need to do anything. However, the Manager will exit with a status code `1` if one or more workers do not send that `ack` message, or a worker process throws an exception while trying to start. If no exceptions are encountered, the Manager will wait for up to thirty (30) seconds for the acknowledgement.
 
 ---:1
-In the situation when you know that you will need more than five (5) seconds to start, you can monkeypatch the Manager. The threshold does not include anything inside of a listener, and is limited to the execution time of everything in the global scope of your application.
+In the situation when you know that you will need more time to start, you can monkeypatch the Manager. The threshold does not include anything inside of a listener, and is limited to the execution time of everything in the global scope of your application.
 
 If you run into this issue, it may indicate a need to look deeper into what is causing the slow startup.
 :--:1
@@ -56,6 +54,58 @@ from sanic.worker.manager import WorkerManager
 WorkerManager.THRESHOLD = 100  # Value is in 0.1s
 ```
 :---
+
+See [worker ack](#worker-ack) for more information.
+
+---:1
+As stated above, Sanic will use [spawn](https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods) to start worker processes. If you would like to change this behavior and are aware of the implications of using different start methods, you can modify as shown here.
+:--:1
+```python
+from sanic import Sanic
+
+Sanic.start_method = "fork"
+```
+:---
+
+
+### Worker ack
+
+When all of your workers are running in a subprocess a potential problem is created: deadlock. This can occur when the child processes cease to function, but the main process is unaware that this happened. Therefore, Sanic servers will automatically send an `ack` message (short for acknowledge) to the main process after startup.
+
+In version 22.9, the `ack` timeout was short and limited to `5s`. In version 22.12, the timeout was lengthened to `30s`. If your application is shutting down after thirty seconds then it might be necessary to manually increase this threshhold.
+
+---:1
+The value of `WorkerManager.THRESHOLD` is in `0.1s` increments. Therefore, to set it to one minute, you should set the value to `600`.
+
+This value should be set as early as possible in your application, and should ideally happen in the global scope.  Setting it after the main process has started will not work.
+:--:1
+```python
+from sanic.worker.manager import WorkerManager
+
+WorkerManager.THRESHOLD = 600
+```
+:---
+
+
+
+
+::: new NEW in v22.12
+### Zero downtime restarts
+
+By default, when restarting workers, Sanic will teardown the existing process first before starting a new one. 
+
+If you are intending to use the restart functionality in production then you may be interested in having zero-downtime reloading. This can be accomplished by forcing the reloader to change the order to start a new process, wait for it to [ack](#worker-ack), and then teardown the old process.
+
+---:1
+From the multiplexer, use the `zero_downtime` argument
+:--:1
+```python
+app.m.restart(zero_downtime=True)
+```
+:---
+
+*Added in v22.12*
+:::
 
 ## Using shared context between worker processes
 
@@ -70,7 +120,7 @@ The `shared_ctx` will:
 - *NOT* share regular objects like `int`, `dict`, or `list`
 - *NOT* share state between Sanic instances running on different machines
 - *NOT* share state to non-worker processes
-- **only** share state between workers managed by the same Manager
+- **only** share state between server workers managed by the same Manager
 
 Attaching an inappropriate object to `shared_ctx` will likely result in a warning, and not an error. You should be careful to not accidentally add an unsafe object to `shared_ctx` as it may not work as expected. If you are directed here because of one of those warnings, you might have accidentally used an unsafe object in `shared_ctx`.
 
@@ -136,7 +186,7 @@ app.m.name.restart()
 app.m.name.restart("Sanic-Server-4-0,Sanic-Server-7-0")
 
 # restart ALL workers
-app.m.name.restart("__ALL_PROCESSES__")
+app.m.name.restart(all_workers=True)  # Available v22.12+
 ```
 :---
 
@@ -197,16 +247,16 @@ app.config.INSPECTOR = True
 You will now have access to execute any of these CLI commands:
 
 ```
-    --inspect                      Inspect the state of a running instance, human readable
-    --inspect-raw                  Inspect the state of a running instance, JSON output
-    --trigger-reload               Trigger worker processes to reload
-    --trigger-shutdown             Trigger all processes to shutdown
+sanic inspect reload                      Trigger a reload of the server workers
+sanic inspect shutdown                    Shutdown the application and all processes
+sanic inspect scale N                     Scale the number of workers to N
+sanic inspect <custom>                    Run a custom command
 ```
 
 ![](https://user-images.githubusercontent.com/166269/190099384-2f2f3fae-22d5-4529-b279-8446f6b5f9bd.png)
 
 ---:1
-This works by exposing a small TCP socket on your machine. You can control the location using configuration values:
+This works by exposing a small HTTP service on your machine. You can control the location using configuration values:
 :--:1
 ```python
 app.config.INSPECTOR_HOST =  "localhost"
@@ -214,11 +264,7 @@ app.config.INSPECTOR_PORT =  6457
 ```
 :---
 
-::: warning
-The inspector host and port should not be exposed outside of your local network. The protocol is not secured.
-
-It is expected that this will be secured in the future. However, it is advised to not enable this in production unless you are confident that you trust access to the running environment.
-:::
+[Learn more](./inspector.md) to find out what is possible with the Inspector.
 
 ## Running custom processes
 
@@ -247,13 +293,12 @@ That callable must be registered in the `main_process_ready` listener. It is imp
 ```python
 @app.main_process_ready
 async def ready(app: Sanic, _):
-    app.manager.manage("MyProcess", my_process, {"foo": "bar"})
 #   app.manager.manage(<name>, <callable>, <kwargs>)
+    app.manager.manage("MyProcess", my_process, {"foo": "bar"})
 ```
 :---
 
 ## Single process mode
-
 
 ---:1
 If you would like to opt out of running multiple processes, you can run Sanic in a single process only. In this case, the Manager will not run. You will also not have access to any features that require processes (auto-reload, the inspector, etc).

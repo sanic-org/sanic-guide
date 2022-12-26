@@ -52,6 +52,7 @@ const userGuideFull = [
         "/en/guide/deployment/running.md",
         "/en/guide/deployment/manager.md",
         "/en/guide/deployment/app-loader.md",
+        "/en/guide/deployment/inspector.md",
         // "/guide/deployment/server-choice.md",
         "/en/guide/deployment/nginx.md",
         "/en/guide/deployment/docker.md",

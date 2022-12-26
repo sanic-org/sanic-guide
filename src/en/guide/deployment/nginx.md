@@ -188,7 +188,7 @@ good time to do so. Install `certbot` and `python3-certbot-nginx`, then run
 certbot --nginx -d example.com -d www.example.com
 ```
 
-`<https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/>`_
+Reference: [Using Free Let’s Encrypt SSL/TLS Certificates with NGINX](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 ## Running as a service
 

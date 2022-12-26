@@ -155,3 +155,5 @@ Just like with `url_prefix`, it is possible to define path parameters inside a `
 version_prefix="/<foo:str>/v"
 ```
 :::
+
+*Added in v21.6*
