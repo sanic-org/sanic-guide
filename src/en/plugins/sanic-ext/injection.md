@@ -117,11 +117,10 @@ When a `constructor` is passed to `ext.add_dependency` (like in this example) th
 1. All matched path parameters are injected as keyword arguments.
 1. Dependencies can be chained and nested. Notice how in the previous example the `Person` dataclass has a `PersonID`? That means that `PersonID` will be called first, and that value is added to the keyword arguments when calling `Person.create`.
 
-::: new NEW in v22.9
 ## Arbitrary constructors
 
 ---:1
-Sometimes you may want to construct your injectable `without` the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
+Sometimes you may want to construct your injectable _without_ the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
 
 This is very useful if you have services or other types of objects that should only exist for the lifetime of a single request. For example, you might use this pattern to pull a single connection from your database pool.
 :--:1
@@ -142,7 +141,8 @@ async def handler(request: Request, beta: Beta):
     assert isinstance(beta.alpha, Alpha)
 ```
 :---
-:::
+
+*Added in v22.9*
 
 ## Objects from the `Request`
 
@@ -300,7 +300,6 @@ result
 
 :---
 
-::: new NEW in v22.9
 ## Configuration
 
 ---:1
@@ -310,4 +309,5 @@ By default, dependencies will be injected after the `http.routing.after` [signal
 app.config.INJECTION_SIGNAL = "http.handler.before"
 ```
 :---
-:::
+
+*Added in v22.9*

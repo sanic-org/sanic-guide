@@ -103,9 +103,9 @@ raise InvalidUsage("blah blah", quiet=True)
 :---
 
 ---:1
-
 Sometimes while debugging you may want to globally ignore the `quiet=True` property. You can force Sanic to log out all exceptions regardless of this property using `NOISY_EXCEPTIONS`
 
+*Added in v21.12*
 :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
@@ -113,11 +113,11 @@ app.config.NOISY_EXCEPTIONS = True
 :---
 
 ---:1
-
 ### `extra`
 
 See [contextual exceptions](./exceptions.md#contextual-exceptions)
 
+*Added in v21.12*
 :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
@@ -125,11 +125,11 @@ raise SanicException(..., extra={"name": "Adam"})
 :---
 
 ---:1
-
 ### `context`
 
 See [contextual exceptions](./exceptions.md#contextual-exceptions)
 
+*Added in v21.12*
 :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
@@ -193,11 +193,10 @@ app.error_handler.add(Exception, server_error_handler)
 Sanic ships with three formats for exceptions: HTML, JSON, and text. You can see examples of them below in the [Fallback handler](#fallback-handler) section.
 
 ---:1
-
 You can control _per route_ which format to use with the `error_format` keyword argument.
 
+*Added in v21.9*
 :--:1
-
 ```python
 @app.request("/", error_format="text")
 async def handler(request):
@@ -407,6 +406,8 @@ But this lacks two things:
 
 1. A dynamic and predictable message format
 2. The ability to add additional context to an error message (more on this in a moment)
+
+*Added in v21.12*
 
 ### Dynamic and predictable message using `extra`
 

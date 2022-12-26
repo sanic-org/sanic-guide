@@ -202,7 +202,6 @@ middleware_3
 ```
 :---
 
-::: new NEW in v22.9
 ### Middleware priority
 
 ---:1
@@ -218,4 +217,5 @@ async def high_priority(request):
     ...
 ```
 :---
-:::
+
+*Added in v22.9*

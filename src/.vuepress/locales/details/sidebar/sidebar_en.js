@@ -148,6 +148,7 @@ const releaseNotes = [
           title: "2022",
           sidebarDepth: 2,
           children: [
+            "/en/guide/release-notes/v22.12.md",
             "/en/guide/release-notes/v22.9.md",
             "/en/guide/release-notes/v22.6.md",
             "/en/guide/release-notes/v22.3.md",

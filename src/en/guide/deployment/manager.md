@@ -1,10 +1,8 @@
 # Worker Manager
 
-::: new NEW in v22.9
 The worker manager and its functionality was introduced in version 22.9.
 
 *The details of this section are intended for more advanced usages and **not** necessary to get started.*
-:::
 
 The purpose of the manager is to create consistency and flexibility between development and production environments. Whether you intend to run a single worker, or multiple workers, whether with, or without auto-reload: the experience will be the same.
 

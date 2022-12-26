@@ -91,6 +91,8 @@ async def index(request):
 
 You can explicitly end a stream by calling `await response.eof()`. It a convenience method to replace `await response.send("", True)`. It should be called **one time** *after* your handler has determined that it has nothing left to send back to the client. While it is *optional* to use with Sanic server, if you are running Sanic in ASGI mode, then you **must** explicitly terminate the stream.
 
+*Calling `eof` became optional in v21.6*
+
 ## File streaming
 
 ---:1
