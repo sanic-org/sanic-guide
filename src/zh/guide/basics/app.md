@@ -108,7 +108,7 @@ The Sanic application instance can be customized for your application needs in a
 
 如果您使用了自定义配置对象类，*强烈建议* 您将自定义类继承 Sanic 的 `Config` 类，以保持与父类行为一致。 You could use this option for adding properties, or your own set of custom logic.
 
-:--:1
+*Added in v21.6* :--:1
 ```python
 from sanic.config import Config
 
@@ -157,11 +157,9 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
 ### 自定义上下文(Custom context)
----:1
+---:1 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. 然而，您也可以选择使用其他对象来代替。
 
-在默认情况下，应用程序上下文是一个 [`SimpleNamespace`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) 实例，它允许您在上面设置任何您想要的属性。 然而，您也可以选择使用其他对象来代替。
-
-:--:1
+*Added in v21.6* :--:1
 ```python
 app = Sanic(..., ctx=1)
 ```
@@ -250,13 +248,14 @@ app = Sanic(__name__, dumps=dumps)
 ```
 :---
 
-::: new NEW in v 22.9
 ### Custom loads function
 
----:1 Similar to `dumps`, you can also provide a custom function for deserializing data. :--:1
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data.
+
+*Added in v22.9* :--:1
 ```python
 from orjson import loads
 
 app = Sanic(__name__, loads=loads)
 ```
-:--- :::
+:---
