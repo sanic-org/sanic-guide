@@ -99,35 +99,31 @@ raise InvalidUsage("blah blah", quiet=True)
 ```
 :---
 
----:1
+---:1 Sometimes while debugging you may want to globally ignore the `quiet=True` property. このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。 ::: :--:1
 
----:1 ::: new NEW in v21.12 デバッグ中に、`quiet=True` プロパティをグローバルに無視したいことがあるかもしれません。 このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。 ::: :--:1
-
-:--:1
+*Added in v21.12* :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
 ```
 :---
 
 ---:1
-
 ### `extra`
 
 ---:1 ::: new NEW in v21.12
 
-:--:1
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
 ```
 :---
 
 ---:1
-
 ### `context`
 
 Sanicはこのためのデコレータを提供しており、これはSanic標準の例外だけでなく、アプリケーションがスローする可能性のある**任意の**例外にも適用されます。
 
-:--:1
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
 ```
@@ -189,12 +185,9 @@ app.error_handler.add(Exception, server_error_handler)
 
 Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が用意されています。 以下の [Fallback handler](#fallback-handler) セクションに例があります。
 
----:1
+---:1 You can control _per route_ which format to use with the `error_format` keyword argument.
 
-Sanicには3つのフォールバック例外ハンドラがあります。
-
-:--:1
-
+*Added in v21.9* :--:1
 ```python
 @app.request("/", error_format="text")
 async def handler(request):
@@ -404,6 +397,8 @@ raise TeapotError
 
 1. ダイナミックで予測可能なメッセージのフォーマット
 2. エラーメッセージに追加のコンテキストを追加する機能（詳細は後述します）
+
+*Added in v21.12*
 
 ### `Extra` を使用した動的で予測可能なメッセージ
 
