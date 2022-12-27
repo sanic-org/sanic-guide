@@ -30,11 +30,8 @@ If you used dependency injection prior to v21.12, the lower level API method was
 The simplest use case would be simply to recast a value.
 
 ---:1
-
 This could be useful if you have a model that you want to generate based upon the matched path parameters.
-
 :--:1
-
 ```python
 @dataclass
 class IceCream:
@@ -69,13 +66,10 @@ flavor = IceCream(flavor="chocolate")
 ## Additional constructors
 
 ---:1
-
 Sometimes you may need to also pass a constructor. This could be a function, or perhaps even a classmethod that acts as a constructor. In this example, we are creating an injection that will call `Person.create` first.
 
 Also important to note on this example, we are actually injecting **two (2)** objects! It of course does not need to be this way, but we will inject objects based upon the function signature.
-
 :--:1
-
 ```python
 @dataclass
 class PersonID:
@@ -147,7 +141,6 @@ async def handler(request: Request, beta: Beta):
 ## Objects from the `Request`
 
 ---:1
-
 Sometimes you may want to extract details from the request and preprocess them. You could, for example, cast the request JSON to a Python object, and then add some additional logic based upon DB queries.
 
 ::: warning
@@ -165,7 +158,6 @@ This could be used in cases where you otherwise might:
 
 In this example, we are using the `Request` object in the `compule_profile` constructor to run a fake DB query to generate and return a `UserProfile` object.
 :--:1
-
 ```python
 @dataclass
 class User:
@@ -229,13 +221,10 @@ $ curl localhost:8000/profile -X PATCH -d '{"name": "Alice", "birthday": "2000-0
 It is a common pattern to create things like database connection pools and store them on the `app.ctx` object. This makes them available throughout your application, which is certainly a convenience. One downside, however, is that you no longer have a typed object to work with. You can use dependency injections to fix this. First we will show the concept using the lower level `add_dependency` like we have been using in the previous examples. But, there is a better way using the higher level `dependency` method.
 
 ---:1
-
 ### The lower level API using `add_dependency`
 
 This works very similar to the [last example](#objects-from-the-request) where the goal is the extract something from the `Request` object. In this example, a database object was created on the `app.ctx` instance, and is being returned in the dependency injection constructor.
-
 :--:1
-
 ```python
 class FakeConnection:
     async def execute(self, query: str, **arguments):
@@ -263,19 +252,15 @@ async def handler(request, conn: FakeConnection):
 $ curl localhost:8000/
 result
 ```
-
 :---
 
 ---:1
-
 ### The higher level API using `dependency`
 
 Since we have an actual *object* that is available when adding the dependency injection, we can use the higher level `dependency` method. This will make the pattern much easier to write.
 
 This method should always be used when you want to inject something that exists throughout the lifetime of the application instance and is not request specific. It is very useful for services, third party clients, and connection pools since they are not request specific.
-
 :--:1
-
 ```python
 class FakeConnection:
     async def execute(self, query: str, **arguments):
@@ -297,7 +282,59 @@ async def handler(request, conn: FakeConnection):
 $ curl localhost:8000/
 result
 ```
+:---
 
+## Generic types
+
+Be carefule when using a [generic type](https://docs.python.org/3/library/typing.html#typing.Generic). The way that Sanic's dependency injection works is by matching the entire type definition. Therefore, `Foo` is not the same as `Foo[str]`. This can be particularly tricky when trying to use the [higher-level `dependency` method](#the-higher-level-api-using-dependency) since the type is inferred.
+
+---:1
+For example, this will **NOT** work as expected since there is no definition for `Test[str]`.
+:--:1
+```python{12,16}
+import typing
+from sanic import Sanic, text
+
+T = typing.TypeVar("T")
+
+
+class Test(typing.Generic[T]):
+    test: T
+
+
+app = Sanic("testapp")
+app.ext.dependency(Test())
+
+
+@app.get("/")
+def test(request, test: Test[str]):
+    ...
+```
+:---
+
+---:1
+To get this example to work, you will need to add an explicit definition for the type you intend to be injected.
+:--:1
+```python{13}
+import typing
+from sanic import Sanic, text
+
+T = typing.TypeVar("T")
+
+
+class Test(typing.Generic[T]):
+    test: T
+
+
+app = Sanic("testapp")
+_singleton = Test()
+app.ext.add_dependency(Test[str], lambda: _singleton)
+
+
+@app.get("/")
+def test(request, test: Test[str]):
+    ...
+```
 :---
 
 ## Configuration
