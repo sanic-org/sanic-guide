@@ -1,8 +1,6 @@
 # Health monitor
 
-::: new NEW in v22.9
 The health monitor requires both `sanic>=22.9` and `sanic-ext>=22.9`.
-:::
 
 You can setup Sanic Extensions to monitor the health of your worker processes. This requires that you not be in [single process mode](../../guide/deployment/manager.md#single-process-mode).
 
