@@ -105,7 +105,7 @@ Sanic 애플리케이션 인스턴스는 인스턴스화 할 경우 다양한 �
 
 사용자 지정 구성 객체를 생성하는 경우 Sanic `Config` 옵션을 하위 클래스로 지정하여 해당 동작을 상속하는 것이 *매우* 권장됩니다. 속성을 추가하거나 고유한 사용자 정의 로직을 추가하는 데 이 옵션을 사용할 수 있습니다.
 
-:--:1
+*Added in v21.6* :--:1
 ```python
 from sanic.config import Config
 
@@ -150,11 +150,9 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
 ### 사용자 정의 컨텍스트(Custom context)
----:1
+---:1 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. 그러나 대신 객체를 전달할 수도 있습니다.
 
-기본적으로 애플리케이션 컨텍스트는 원하는 속성을 설정할 수 있는 [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace)입니다. 그러나 대신 객체를 전달할 수도 있습니다.
-
-:--:1
+*Added in v21.6* :--:1
 ```python
 app = Sanic(..., ctx=1)
 ```
@@ -234,13 +232,14 @@ app = Sanic(__name__, dumps=dumps)
 ```
 :---
 
-::: new NEW in v 22.9
 ### Custom loads function
 
----:1 Similar to `dumps`, you can also provide a custom function for deserializing data. :--:1
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data.
+
+*Added in v22.9* :--:1
 ```python
 from orjson import loads
 
 app = Sanic(__name__, loads=loads)
 ```
-:--- :::
+:---
