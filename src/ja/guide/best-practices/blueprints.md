@@ -52,12 +52,7 @@ async def bp_root(request):
 :---
 ## Copying
 
----:1
-
-`copy()`メソッドを使用すると、設計図とそれにアタッチされているすべてのものを新しいインスタンスにコピーできます。 唯一必要な引数は、新しい`name`を渡すことです。 ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。
-
-:--:1
-
+---:1 Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. 唯一必要な引数は、新しい`name`を渡すことです。 ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。 :--:1
 ```python
 v1 = Blueprint("Version1", version=1)
 
@@ -77,8 +72,9 @@ Available routes:
 /v2/something
 
 ```
-
 :---
+
+*Added in v21.9*
 
 ## Blueprintグループ
 
@@ -323,7 +319,7 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 `Blueprint`は複数のグループに登録することができ、`BlueprintGroup`自体もそれぞれ登録してさらにネストすることができる。 これにより、無限の可能性を持つ`Blueprint`コンポジションが作成されます。
 
----:1 この例を見て、2つのハンドラーが実際には5つの異なるルートとしてマウントされていることを確認してください。 :--:1 :--:1
+*Added in v21.6* ---:1 Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes. :--:1
 ```python
 app = Sanic(__name__)
 blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
