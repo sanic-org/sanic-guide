@@ -2,9 +2,7 @@
 
 It is possible to create your own custom extensions.
 
-::: new NEW in v22.9
 Version 22.9 added the `Extend.register` [method](#extension-preregistration). This makes it extremely easy to add custom expensions to an application.
-:::
 
 ## Anatomy of an extension
 
@@ -70,7 +68,6 @@ async def handler(request: Request):
 ```
 
 
-::: new NEW in v22.9
 ## Extension preregistration
 
 ---:1
@@ -85,4 +82,5 @@ class MyCustomExtension(Extension):
 Extend.register(MyCustomExtension())
 ```
 :---
-:::
+
+*Added in v22.9*

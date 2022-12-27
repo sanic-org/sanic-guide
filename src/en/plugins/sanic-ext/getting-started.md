@@ -35,11 +35,10 @@ pip install sanic-ext
 
 Out of the box, Sanic Extensions will enable a bunch of features for you. 
 
-::: new NEW in v21.12
 ---:1
 To setup Sanic Extensions (v21.12+), you need to do: **nothing**. If it is installed in the environment, it is setup and ready to go.
 
-This code is the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md) _without any changes_.
+This code is the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md) _without any changes_, but using Sanic Extensions with `sanic-ext` installed in the background.
 :--:1
 ```python
 from sanic import Sanic
@@ -51,8 +50,8 @@ app = Sanic("MyHelloWorldApp")
 async def hello_world(request):
     return text("Hello, world.")
 ```
+
 :---
-:::
 
 ---:1
 **_OLD DEPRECATED SETUP_**

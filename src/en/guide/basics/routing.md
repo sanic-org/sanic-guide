@@ -273,6 +273,7 @@ async def handler(request, article: str):
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
 
+*Added in v21.6*
 :::
 ::: tab path
 
@@ -626,7 +627,7 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
     filename="file.txt",
 )
 '/static/file.txt'
-
+```
 ```python
 >>> app.url_for(
     "static",
@@ -671,3 +672,4 @@ async def do_something(request):
         ...
 ```
 :---
+*Added in v21.12*

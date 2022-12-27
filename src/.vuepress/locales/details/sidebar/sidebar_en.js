@@ -52,6 +52,7 @@ const userGuideFull = [
         "/en/guide/deployment/running.md",
         "/en/guide/deployment/manager.md",
         "/en/guide/deployment/app-loader.md",
+        "/en/guide/deployment/inspector.md",
         // "/guide/deployment/server-choice.md",
         "/en/guide/deployment/nginx.md",
         "/en/guide/deployment/docker.md",
@@ -148,6 +149,7 @@ const releaseNotes = [
           title: "2022",
           sidebarDepth: 2,
           children: [
+            "/en/guide/release-notes/v22.12.md",
             "/en/guide/release-notes/v22.9.md",
             "/en/guide/release-notes/v22.6.md",
             "/en/guide/release-notes/v22.3.md",

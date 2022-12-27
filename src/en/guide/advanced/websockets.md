@@ -50,9 +50,10 @@ async def feed(request: Request, ws: Websocket):
 ```
 :---
 
-::: new NEW in v22.9
 ---:1
 You can simplify your loop by just iterating over the `Websocket` object in a for loop.
+
+*Added in v22.9*
 :--:1
 ```python
 from sanic import Request, Websocket
@@ -63,7 +64,7 @@ async def feed(request: Request, ws: Websocket):
         await ws.send(msg)
 ```
 :---
-:::
+
 
 ## Configuration
 
