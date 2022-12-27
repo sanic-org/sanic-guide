@@ -7,6 +7,8 @@ title: 跨域资源共享(CORS)
 
 > 我该如何配置跨域资源共享？
 
+The best solution is to use [Sanic Extensions](../../plugins/sanic-ext/http/cors.md). However, if you would like to build your own version, you could use this limited example.
+
 :::: tabs
 ```python
 from sanic import Sanic, text
