@@ -7,6 +7,8 @@ title: CORS
 
 > アプリケーションをCORS用に構成する方法は?
 
+The best solution is to use [Sanic Extensions](../../plugins/sanic-ext/http/cors.md). However, if you would like to build your own version, you could use this limited example.
+
 :::: tabs
 ::: tab server.py
 ```python
