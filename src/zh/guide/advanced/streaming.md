@@ -93,6 +93,8 @@ async def index(request):
 
 You can explicitly end a stream by calling `await response.eof()`. 在上述例子中调用 `await response.eof()` 方法可以替代之前的 `await response.send("", True)` 方法。 为客户端传输完数据*后*，您应该在响应函数内调用**一次**该方法。 While it is *optional* to use with Sanic server, if you are running Sanic in ASGI mode, then you **must** explicitly terminate the stream.
 
+*Calling `eof` became optional in v21.6*
+
 ## 文件流(File streaming)
 
 ---:1
