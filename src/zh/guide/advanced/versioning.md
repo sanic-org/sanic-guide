@@ -151,3 +151,5 @@ version_prefix + version + url_prefix + URI definition
 version_prefix = "/<foo:str>/v"
 ```
 :::
+
+*Added in v21.6*
