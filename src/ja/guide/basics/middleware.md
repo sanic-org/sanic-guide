@@ -193,7 +193,6 @@ middleware_3
 ```
 :---
 
-::: new NEW in v22.9
 ### Middleware priority
 
 ---:1 You can modify the order of execution of middleware by assigning it a higher priority. This happens inside of the middleware definition. The higher the value, the earlier it will execute relative to other middleware. The default priority for middleware is `0`. :--:1
@@ -206,4 +205,6 @@ async def low_priority(request):
 async def high_priority(request):
     ...
 ```
-:--- :::
+:---
+
+*Added in v22.9*
