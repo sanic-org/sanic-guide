@@ -167,7 +167,7 @@ If you haven't already configured valid certificates on your server, now is a go
 certbot --nginx -d example.com -d www.example.com
 ```
 
-如果您尚未在服务器上配置有效证书，您可以安装 `certbot` 和 `python3-certbot-nginx` 以使用免费的 SSL/TLS 证书，然后运行:_
+Reference: [Using Free Let’s Encrypt SSL/TLS Certificates with NGINX](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 ## 作为服务运行(Running as a service)
 
