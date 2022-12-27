@@ -148,7 +148,11 @@ In regards to `bool`, the following _case insensitive_ values are allowed:
 - **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
 - **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
 
----:1 Additionally, Sanic can be configured to cast additional types using additional type converters. This should be any callable that returns the value or raises a `ValueError`. :--:1
+If a value cannot be cast, it will default to a `str`.
+
+---:1 Additionally, Sanic can be configured to cast additional types using additional type converters. This should be any callable that returns the value or raises a `ValueError`.
+
+*Added in v21.12* :--:1
 ```python
 app = Sanic(..., config=Config(converters=[UUID]))
 ```
@@ -160,18 +164,24 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | **Variable**                | **Default**     | **Description**                                                                                                                       |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
 | ACCESS_LOG                  | True            | Disable or enable access log                                                                                                          |
-| AUTO_EXTEND ^               | True            | Control whether [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) will load if it is in the existing virtual environment |
+| AUTO_EXTEND                 | True            | Control whether [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) will load if it is in the existing virtual environment |
 | AUTO_RELOAD                 | True            | Control whether the application will automatically reload when a file changes                                                         |
 | EVENT_AUTOREGISTER          | True            | When `True` using the `app.event()` method on a non-existing signal will automatically create it and not raise an exception           |
 | FALLBACK_ERROR_FORMAT     | html            | Format of error response if an exception is not caught and handled                                                                    |
 | FORWARDED_FOR_HEADER      | X-Forwarded-For | The name of "X-Forwarded-For" HTTP header that contains client and proxy ip                                                           |
 | FORWARDED_SECRET            | None            | Used to securely identify a specific proxy server (see below)                                                                         |
 | GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | How long to wait to force close non-idle connection (sec)                                                                             |
-| KEEP_ALIVE                  | True            | Disables keep-alive when False                                                                                                        |
+| INSPECTOR                   | False           | Whether to enable the Inspector                                                                                                       |
+| INSPECTOR_HOST              | localhost       | The host for the Inspector                                                                                                            |
+| INSPECTOR_PORT              | 6457            | The port for the Inspector                                                                                                            |
+| INSPECTOR_TLS_KEY         | -               | The TLS key for the Inspector                                                                                                         |
+| INSPECTOR_TLS_CERT        | -               | The TLS certificate for the Inspector                                                                                                 |
+| INSPECTOR_API_KEY         | -               | The API key for the Inspector                                                                                                         |
 | KEEP_ALIVE_TIMEOUT        | 5               | How long to hold a TCP connection open (sec)                                                                                          |
-| MOTD ^                      | True            | Whether to display the MOTD (message of the day) at startup                                                                           |
-| MOTD_DISPLAY ^              | {}              | Key/value pairs to display additional, arbitrary data in the MOTD                                                                     |
-| NOISY_EXCEPTIONS ^          | False           | Force all `quiet` exceptions to be logged                                                                                             |
+| KEEP_ALIVE                  | True            | Disables keep-alive when False                                                                                                        |
+| MOTD                        | True            | Whether to display the MOTD (message of the day) at startup                                                                           |
+| MOTD_DISPLAY                | {}              | Key/value pairs to display additional, arbitrary data in the MOTD                                                                     |
+| NOISY_EXCEPTIONS            | False           | Force all `quiet` exceptions to be logged                                                                                             |
 | PROXIES_COUNT               | None            | The number of proxy servers in front of the app (e.g. nginx; see below)                                                               |
 | REAL_IP_HEADER            | None            | The name of "X-Real-IP" HTTP header that contains real client ip                                                                      |
 | REGISTER                    | True            | Whether the app registry should be enabled                                                                                            |
@@ -187,7 +197,10 @@ app = Sanic(..., config=Config(converters=[UUID]))
 
 ::: tip FYI
 - The `USE_UVLOOP` value will be ignored if running with Gunicorn. Defaults to `False` on non-supported platforms (Windows).
-- The `WEBSOCKET_` values will be ignored if in ASGI mode. :::
+- The `WEBSOCKET_` values will be ignored if in ASGI mode.
+- v21.12 added: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
+- v22.9 added: `INSPECTOR`
+- v22.12 added: `INSPECTOR_HOST`, `INSPECTOR_PORT`, `INSPECTOR_TLS_KEY`, `INSPECTOR_TLS_CERT`, `INSPECTOR_API_KEY` :::
 
 ## Timeouts
 
