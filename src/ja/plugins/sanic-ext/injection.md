@@ -27,12 +27,7 @@
 
 最も単純な使用例は、単に値を再キャストすることです。
 
----:1
-
-これは、マッチしたパスパラメータに基づいて生成したいモデルがある場合に便利です。
-
-:--:1
-
+---:1 This could be useful if you have a model that you want to generate based upon the matched path parameters. :--:1
 ```python
 @dataclass
 class IceCream:
@@ -64,14 +59,9 @@ flavor = IceCream(flavor="chocolate")
 
 ## 追加コンストラクタ
 
----:1
+---:1 Sometimes you may need to also pass a constructor. これは関数でもいいですし、クラスメソッドでコンストラクタとして動作させることもできます。 この例では、最初に `Person.create` を呼び出すインジェクションを作成します。
 
-時には、コンストラクタを渡す必要があるかもしれません。 これは関数でもいいですし、クラスメソッドでコンストラクタとして動作させることもできます。 この例では、最初に `Person.create` を呼び出すインジェクションを作成します。
-
-また、この例で重要なのは、実際に**2個**のオブジェクトをインジェクションしていることです! もちろん、このようにする必要はありませんが、関数のサインに基づいてオブジェクトをインジェクトすることになります。
-
-:--:1
-
+また、この例で重要なのは、実際に**2個**のオブジェクトをインジェクションしていることです! もちろん、このようにする必要はありませんが、関数のサインに基づいてオブジェクトをインジェクトすることになります。 :--:1
 ```python
 @dataclass
 class PersonID:
@@ -113,10 +103,9 @@ Person(person_id=PersonID(person_id=123), name='名無し', age=111)
 1. マッチしたすべてのパスパラメータは、キーワード引数として注入されます。
 1. 依存関係は、連鎖したり、ネストしたりすることができます。 先ほどの例で、`Person`データクラスが`PersonID`を持っていることに注目しましたか？ これは、 `PersonID` が最初に呼び出され、その値が `Person.create` を呼び出す際のキーワード引数に追加されることを意味します。
 
-::: new NEW in v22.9
 ## Arbitrary constructors
 
----:1 Sometimes you may want to construct your injectable `without` the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
+---:1 Sometimes you may want to construct your injectable _without_ the `Request` object. This is useful if you have arbitrary classes or functions that create your objects. If the callable does have any required arguments, then they should themselves be injectable objects.
 
 This is very useful if you have services or other types of objects that should only exist for the lifetime of a single request. For example, you might use this pattern to pull a single connection from your database pool. :--:1
 ```python
@@ -135,13 +124,13 @@ app.ext.add_dependency(Beta)
 async def handler(request: Request, beta: Beta):
     assert isinstance(beta.alpha, Alpha)
 ```
-:--- :::
+:---
+
+*Added in v22.9*
 
 ## `Request`からのオブジェクト
 
----:1
-
-時には、リクエストから詳細を抽出し、前処理を行いたい場合があります。 例えば、リクエストのJSONをPythonのオブジェクトにキャストし、DBクエリに基づいていくつかの追加ロジックを追加することができます。
+---:1 Sometimes you may want to extract details from the request and preprocess them. 例えば、リクエストのJSONをPythonのオブジェクトにキャストし、DBクエリに基づいていくつかの追加ロジックを追加することができます。
 
 ::: warning このメソッドを使うつもりなら、Sanic がリクエストボディを読む機会がある**前**に、 インジェクションが実際に起こるということに注意すべきです。 ヘッダはすでに消費されているはずです。 したがって、ボディにアクセスしたい場合、この例で見られるように手動で消費する必要があります。
 
@@ -156,7 +145,6 @@ await request.receive_body()
 - デコレータを使用して、前処理とリクエストハンドラへの引数の注入を行う。
 
 この例では、`compule_profile` コンストラクタで `Request` オブジェクトを使用して、偽の DB クエリを実行して `UserProfile` オブジェクトを生成し、それを返します。 :--:1
-
 ```python
 @dataclass
  class User:
@@ -220,13 +208,9 @@ $ curl localhost:8000/profile -X PATCH -d '{"name": "Taro", "birthday": "2000-01
 データベースのコネクションプールのようなものを作成して、それを `app.ctx` オブジェクトに格納するのはよくあるパターンです。 これにより、アプリケーション全体でそれらを利用できるようになり、確かに便利です。 しかし、1つの欠点は、型付けされたオブジェクトを扱うことができなくなることです。 これを解決するために、依存性注入を使用することができます。 まず、これまでの例で使ってきたような低レベルの `add_dependency` を使って、そのコンセプトを紹介します。 しかし、より高いレベルの `dependency` メソッドを使用することで、より良い方法があります。
 
 ---:1
-
 ### `add_dependency` を使った低レベル API
 
-これは [最後の例](#objects-from-the-request) と非常によく似た動作で、ゴールは `Request` オブジェクトから何かを抽出することです。 この例では、データベースオブジェクトが `app.ctx` インスタンスに作成され、依存性注入のコンストラクタで返されています。
-
-:--:1
-
+これは [最後の例](#objects-from-the-request) と非常によく似た動作で、ゴールは `Request` オブジェクトから何かを抽出することです。 この例では、データベースオブジェクトが `app.ctx` インスタンスに作成され、依存性注入のコンストラクタで返されています。 :--:1
 ```python
 class FakeConnection:
     async def execute(self, query: str, **arguments):
@@ -254,19 +238,14 @@ async def handler(request, conn: FakeConnection):
 $ curl localhost:8000/
 result
 ```
-
 :---
 
 ---:1
-
 ### 上位APIを使った`dependency`
 
 依存性インジェクションを追加する際に利用できる実際の *オブジェクト* があるので、より高レベルの `dependency` メソッドを使用することができます。 これにより、パターンを書くのがより簡単になります。
 
-このメソッドは、アプリケーションインスタンスのライフタイムを通じて存在し、リクエストに依存しないものをインジェクションしたい場合に常に使用する必要があります。 サービスやサードパーティークライアント、コネクションプールなどはリクエストに依存しないので、非常に便利です。
-
-:--:1
-
+このメソッドは、アプリケーションインスタンスのライフタイムを通じて存在し、リクエストに依存しないものをインジェクションしたい場合に常に使用する必要があります。 サービスやサードパーティークライアント、コネクションプールなどはリクエストに依存しないので、非常に便利です。 :--:1
 ```python
 class FakeConnection:
     async def execute(self, query: str, **arguments):
@@ -288,14 +267,63 @@ async def handler(request, conn: FakeConnection):
 $ curl localhost:8000/
 result
 ```
-
 :---
 
-::: new NEW in v22.9
+## Generic types
+
+Be carefule when using a [generic type](https://docs.python.org/3/library/typing.html#typing.Generic). The way that Sanic's dependency injection works is by matching the entire type definition. Therefore, `Foo` is not the same as `Foo[str]`. This can be particularly tricky when trying to use the [higher-level `dependency` method](#the-higher-level-api-using-dependency) since the type is inferred.
+
+---:1 For example, this will **NOT** work as expected since there is no definition for `Test[str]`. :--:1
+```python{12,16}
+import typing
+from sanic import Sanic, text
+
+T = typing.TypeVar("T")
+
+
+class Test(typing.Generic[T]):
+    test: T
+
+
+app = Sanic("testapp")
+app.ext.dependency(Test())
+
+
+@app.get("/")
+def test(request, test: Test[str]):
+    ...
+```
+:---
+
+---:1 To get this example to work, you will need to add an explicit definition for the type you intend to be injected. :--:1
+```python{13}
+import typing
+from sanic import Sanic, text
+
+T = typing.TypeVar("T")
+
+
+class Test(typing.Generic[T]):
+    test: T
+
+
+app = Sanic("testapp")
+_singleton = Test()
+app.ext.add_dependency(Test[str], lambda: _singleton)
+
+
+@app.get("/")
+def test(request, test: Test[str]):
+    ...
+```
+:---
+
 ## Configuration
 
 ---:1 By default, dependencies will be injected after the `http.routing.after` [signal](../../guide/advanced/signals.md#built-in-signals). Starting in v22.9, you can change this to the `http.handler.before` signal. :--:1
 ```python
 app.config.INJECTION_SIGNAL = "http.handler.before"
 ```
-:--- :::
+:---
+
+*Added in v22.9*
