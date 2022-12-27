@@ -449,7 +449,6 @@ Do not forget to use `add_security_scheme`. See [security](./security.md) for mo
 
 ::::
 
-::: new NEW in v22.9
 ## Integration with Pydantic
 
 Pydantic models have the ability to [generate OpenAPI schema](https://pydantic-docs.helpmanual.io/usage/schema/).
@@ -477,4 +476,4 @@ async def get(request):
 ```
 :---
 
-:::
+*Added in v22.9*
