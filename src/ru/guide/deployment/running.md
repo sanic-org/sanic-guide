@@ -88,7 +88,9 @@ app.run(host='0.0.0.0', port=1337, workers=4)
 
 Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
----:1 The easiest way to get the maximum CPU performance is to use the `fast` option. This will automatically run the maximum number of workers given the system constraints. :--:1
+---:1 The easiest way to get the maximum CPU performance is to use the `fast` option. This will automatically run the maximum number of workers given the system constraints.
+
+*Added in v21.12* :--:1
 ```python
 app.run(host='0.0.0.0', port=1337, fast=True)
 ```
@@ -111,13 +113,13 @@ workers = multiprocessing.cpu_count()
 app.run(..., workers=workers)
 ```
 
-::: new NEW in v22.9 In version 22.9, Sanic introduced a new worker manager to provide more consistency and flexibility between development and production servers. Read [about the manager](./manager.md) for more details about workers.
+In version 22.9, Sanic introduced a new worker manager to provide more consistency and flexibility between development and production servers. Read [about the manager](./manager.md) for more details about workers.
 
 ---:1 If you only want to run Sanic with a single process, specify `single_process` in the run arguments. This means that auto-reload, and the worker manager will be unavailable. :--:1
 ```python
 app.run(host='0.0.0.0', port=1337, single_process=True)
 ```
-:--- :::
+:---
 
 ### Running via command
 
@@ -269,6 +271,8 @@ sanic ./path/to/dir --simple
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
+
+*Added in v21.6*
 
 ### HTTP/3
 
