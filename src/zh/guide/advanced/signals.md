@@ -66,13 +66,9 @@ async def my_signal_handler():
 
 除了创建新信号外，还有许多从 Sanic 自身发出的内置信号。 这些信号的存在为开发人员提供了更多将功能添加到请求和服务器生命周期中的机会。
 
----:1
+*Added in v21.9*
 
-
-和其他的信号一样，您同样可以将这些内置信号附加到应用程序上或者蓝图中。
-
-:--:1
-
+---:1 You can attach them just like any other signal to an application or blueprint instance. :--:1
 ```python
 @app.signal("http.lifecycle.complete")
 async def my_signal_handler(conn_info):
@@ -105,9 +101,11 @@ These signals are the signals that are available, along with the arguments that 
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
-::: new NEW in v22.9 `http.handler.before` and `http.handler.after` added in Version 22.9. :::
+Version 22.9 added `http.handler.before` and `http.handler.after`.
 
-为了更方便的使用内置信号，Sanic 设置了一个 `Enum` 对象，其中包含了所有允许的内置信号。 您无需记住字符串形式的事件名称即可直接使用。 :--:1
+为了更方便的使用内置信号，Sanic 设置了一个 `Enum` 对象，其中包含了所有允许的内置信号。 您无需记住字符串形式的事件名称即可直接使用。
+
+*Added in v21.12* :--:1
 ```python
 from sanic.signals import Event
 
