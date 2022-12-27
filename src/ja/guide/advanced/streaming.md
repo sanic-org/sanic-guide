@@ -89,6 +89,8 @@ async def index(request):
 
 `await response.eof()` を呼び出すことで、ストリームを明示的に終了させることができます。 上記の例では、`await response.eof()` は `await response.send("", True)` を置き換える便利なメソッドとして呼び出されます。 ハンドラがクライアントに送り返すものが何も残っていないと判断した場合、** 1回** *after*を呼び出す必要があります。 Sanicサーバで使用するのは*任意*ですが、SanicをASGIモードで動作させている場合は、**必ず**明示的にストリームを終了させなければなりません。
 
+*Calling `eof` became optional in v21.6*
+
 ## ファイルストリーミング
 
 ---:1
