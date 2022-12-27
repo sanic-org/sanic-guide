@@ -35,9 +35,9 @@ pip install sanic-ext
 
 Sanic Extensionsは、特別な操作なしに、たくさんの機能を有効にしてくれます。
 
-::: new v21.12で追加 ---:1 Sanic Extensions (v21.12+) をセットアップするために必要なこと: **何もありません**。 環境でインストールされている場合は、セットアップして実行する準備ができています。
+---:1 To setup Sanic Extensions (v21.12+), you need to do: **nothing**. 環境でインストールされている場合は、セットアップして実行する準備ができています。
 
-このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリを_何も変更せずに_そのまま使用しています。 :--:1
+This code is the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md) _without any changes_, but using Sanic Extensions with `sanic-ext` installed in the background. :--:1
 ```python
 from sanic import Sanic
 from sanic.response import text
@@ -48,7 +48,8 @@ app = Sanic("MyHelloWorldApp")
 async def hello_world(request):
     return text("Hello, world.")
 ```
-:--- :::
+
+:---
 
 ---:1 **_古い非推奨の設定_**
 
