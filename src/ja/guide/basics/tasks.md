@@ -98,4 +98,4 @@ This pattern can be particularly useful with `websockets`:
 
 このパターンは、特に `websocket` で有効です:
 
-:::
+@app.websocket("/feed") async def feed(request, ws): task_name = f"receiver:{request.id}" request.app.add_task(receiver(ws), name=task_name) try: while True: await request.app.event("my.custom.event") await ws.send("A message") finally: # When the websocket closes, let's cleanup the task await request.app.cancel_task(task_name) request.app.purge_tasks() ::: *Added in v21.12*
