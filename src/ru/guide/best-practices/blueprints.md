@@ -52,12 +52,7 @@ async def bp_root(request):
 :---
 ## Copying
 
----:1
-
-Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint.
-
-:--:1
-
+---:1 Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. The only required argument is to pass it a new `name`. However, you could also use this to override any of the values from the old blueprint. :--:1
 ```python
 v1 = Blueprint("Version1", version=1)
 
@@ -77,8 +72,9 @@ Available routes:
 /v2/something
 
 ```
-
 :---
+
+*Added in v21.9*
 
 ## Blueprint groups
 
@@ -323,7 +319,7 @@ group = Blueprint.group(auth, metrics, version="v1")
 
 A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
 
----:1 Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes. :--:1
+*Added in v21.6* ---:1 Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes. :--:1
 ```python
 app = Sanic(__name__)
 blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
