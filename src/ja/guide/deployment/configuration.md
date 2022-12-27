@@ -148,7 +148,11 @@ app.update_config(MyConfig())
 - **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
 - **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
 
----:1 さらに、Sanicは追加のタイプコンバータを使用して、追加の型をキャストするように設定することができます。 これは、値を返すか、`ValueError`を発生させる任意のcallableでなければならない。 :--:1
+If a value cannot be cast, it will default to a `str`.
+
+---:1 さらに、Sanicは追加のタイプコンバータを使用して、追加の型をキャストするように設定することができます。 これは、値を返すか、`ValueError`を発生させる任意のcallableでなければならない。
+
+*Added in v21.12* :--:1
 ```python
 app = Sanic(..., config=Config(converters=[UUID]))
 ```
@@ -160,18 +164,24 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | **変数**                      | **デフォルト**       | **説明**                                                                                                  |
 | --------------------------- | --------------- | ------------------------------------------------------------------------------------------------------- |
 | ACCESS_LOG                  | True            | アクセスログを無効または有効にする。                                                                                      |
-| AUTO_EXTEND ^               | True            | [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) が既存の仮想環境内にある場合にロードするかどうかを制御する            |
+| AUTO_EXTEND                 | True            | [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) が既存の仮想環境内にある場合にロードするかどうかを制御する            |
 | AUTO_RELOAD                 | True            | ファイルが変更されたときにアプリケーションが自動的にリロードするかどうかを制御します。                                                             |
 | EVENT_AUTOREGISTER          | True            | `True` のとき、存在しないシグナルに対して `app.event()` メソッドを使用すると、自動的にシグナルを生成して例外を発生させないEVENT_AUTOREGISTER.index.index. |
 | FALLBACK_ERROR_FORMAT     | html            | 例外が発生し処理されなかった場合のエラー応答のフォーマット                                                                           |
 | FORWARDED_FOR_HEADER      | X-Forwarded-For | クライアントとプロキシのIPを含む「X-Forwarded-For」HTTPヘッダの名前です。                                                         |
 | FORWARDED_SECRET            | None            | 特定のプロキシサーバーを安全に識別するために使用される（下記参照）                                                                       |
 | GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | アイドルでない接続を強制終了するまでの時間(秒)                                                                                |
-| KEEP_ALIVE                  | True            | Falseの場合、キープアライブを無効にする。                                                                                 |
+| INSPECTOR                   | False           | Whether to enable the Inspector                                                                         |
+| INSPECTOR_HOST              | localhost       | The host for the Inspector                                                                              |
+| INSPECTOR_PORT              | 6457            | The port for the Inspector                                                                              |
+| INSPECTOR_TLS_KEY         | -               | The TLS key for the Inspector                                                                           |
+| INSPECTOR_TLS_CERT        | -               | The TLS certificate for the Inspector                                                                   |
+| INSPECTOR_API_KEY         | -               | The API key for the Inspector                                                                           |
 | KEEP_ALIVE_TIMEOUT        | 5               | TCP接続を開いたままにする時間(秒)                                                                                     |
-| MOTD ^                      | True            | 起動時にMOTD（今日のメッセージ）を表示するかどうか                                                                             |
-| MOTD_DISPLAY ^              | {}              | MOTDに任意のデータを追加表示するためのキー/バリュー・ペア                                                                         |
-| NOISY_EXCEPTIONS ^          | False           | すべての `quiet` 例外を強制的にログに記録する                                                                             |
+| KEEP_ALIVE                  | True            | Falseの場合、キープアライブを無効にする。                                                                                 |
+| MOTD                        | True            | 起動時にMOTD（今日のメッセージ）を表示するかどうか                                                                             |
+| MOTD_DISPLAY                | {}              | MOTDに任意のデータを追加表示するためのキー/バリュー・ペア                                                                         |
+| NOISY_EXCEPTIONS            | False           | すべての `quiet` 例外を強制的にログに記録する                                                                             |
 | PROXIES_COUNT               | None            | アプリの前にあるプロキシサーバーの数(例：nginx)                                                                             |
 | REAL_IP_HEADER            | None            | 本当のクライアントIPを含む「X-Real-IP」HTTPヘッダーの名前 | REAL_IP_HEADER | なし                                            |
 | REGISTER                    | True            | アプリのレジストリを有効にするかどうか。                                                                                    |
@@ -188,7 +198,9 @@ app = Sanic(..., config=Config(converters=[UUID]))
 ::: tip FYI
 - `USE_UVLOOP` の値は、Gunicorn で実行されている場合、無視されます。 サポートされていないプラットフォーム (Windows) では、デフォルトは `False` である。
 - ASGI モードでは `WEBSOCKET_` 値は無視されます。 :::
-:::
+- v21.12 added: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
+- v22.9 added: `INSPECTOR`
+- v22.12 added: `INSPECTOR_HOST`, `INSPECTOR_PORT`, `INSPECTOR_TLS_KEY`, `INSPECTOR_TLS_CERT`, `INSPECTOR_API_KEY` :::
 
 ## タイムアウト
 
