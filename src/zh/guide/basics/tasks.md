@@ -117,4 +117,4 @@ app.purge_tasks()
 
 之后，您可以使用 `get_task` 方法从应用程序的任何地方查看您的任务。
 
-async def notify_server_started_after_five_seconds(): await asyncio.sleep(5) print('Server successfully started!') app.add_task(notify_server_started_after_five_seconds())
+@app.websocket("/feed") async def feed(request, ws): task_name = f"receiver:{request.id}" request.app.add_task(receiver(ws), name=task_name) try: while True: await request.app.event("my.custom.event") await ws.send("A message") finally: # When the websocket closes, let's cleanup the task await request.app.cancel_task(task_name) request.app.purge_tasks() ::: *Added in v21.12*
