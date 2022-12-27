@@ -157,7 +157,7 @@ If you haven't already configured valid certificates on your server, now is a go
 certbot --nginx -d example.com -d www.example.com
 ```
 
-`<https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/>`_
+Reference: [Using Free Let’s Encrypt SSL/TLS Certificates with NGINX](https://www.nginx.com/blog/using-free-ssltls-certificates-from-lets-encrypt-with-nginx/)
 
 ## Running as a service
 
