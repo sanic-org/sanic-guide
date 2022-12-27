@@ -99,35 +99,31 @@ raise InvalidUsage("blah blah", quiet=True)
 ```
 :---
 
----:1
+---:1 Sometimes while debugging you may want to globally ignore the `quiet=True` property. 您可以使用 `NOISY_EXCEPTIONS` 来忽略 `quiet` 的设置，强制 Sanic 注销所有异常。
 
-有时在调试时，您可能希望全局忽略 `quiet=True` 属性。 您可以使用 `NOISY_EXCEPTIONS` 来忽略 `quiet` 的设置，强制 Sanic 注销所有异常。
-
-:--:1
+*Added in v21.12* :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
 ```
 :---
 
 ---:1
-
 ### `extra`
 
 请参考 [上下文异常](./exceptions.md#contextual-exceptions)
 
-:--:1
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
 ```
 :---
 
 ---:1
-
 ### `context`
 
 请参考 [上下文异常](./exceptions.md#contextual-exceptions)
 
-:--:1
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
 ```
@@ -189,12 +185,9 @@ app.error_handler.add(Exception, server_error_handler)
 
 Sanic 支持三种不同的异常格式: HTML、JSON 和 TEXT。 您可以在下面的 [异常格式](#fallback-handler) 一节中看到它们的示例。
 
----:1
+---:1 You can control _per route_ which format to use with the `error_format` keyword argument.
 
-您可以通过设置 `error_format` 关键字参数来控制每一个路由所使用的异常格式。
-
-:--:1
-
+*Added in v21.9* :--:1
 ```python
 @app.request("/", error_format="text")
 async def handler(request):
@@ -422,6 +415,8 @@ But this lacks two things:
 
 1. 如何设置动态且可预测的消息格式
 2. 如何向错误消息中添加额外上下文内容(稍后将详细介绍)
+
+*Added in v21.12*
 
 ### 使用 `extra` 来设置动态且可预测的消息(Dynamic and predictable message using `extra`)
 
