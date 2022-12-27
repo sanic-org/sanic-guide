@@ -241,6 +241,7 @@ async def handler(request, article: str):
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
 
+*Added in v21.6* :::
 ::: tab path
 
 ```python
@@ -683,15 +684,15 @@ app.static(
 
 Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory. :--:1
 ```python
->> > app.url_for(
+>>> app.url_for(
     "static",
     name="static",
     filename="file.txt",
 )
 '/static/file.txt'
-
-​```python
->> > app.url_for(
+```
+```python
+>>> app.url_for(
     "static",
     name="uploads",
     filename="image.png",
@@ -743,4 +744,4 @@ async def do_something(request):
     if request.route.ctx.label == "something":
         ...
 ```
-:---
+:--- *Added in v21.12*
