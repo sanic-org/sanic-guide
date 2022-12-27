@@ -627,7 +627,7 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
     filename="file.txt",
 )
 '/static/file.txt'
-
+```
 ```python
 >>> app.url_for(
     "static",
