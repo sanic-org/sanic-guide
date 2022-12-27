@@ -107,7 +107,7 @@ Sanicアプリケーションインスタンスは、インスタンス化時に
 
 カスタム設定オブジェクトを作成する場合は、Sanicの`Config`オプションをサブクラス化して、その動作を継承することを強くお勧めします。 このオプションを使用して、プロパティを追加することも、独自のカスタムロジックセットを追加することもできます。
 
-:--:1
+*Added in v21.6* :--:1
 ```python
 from sanic.config import Config
 
@@ -152,11 +152,9 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
 ### カスタム コンテキスト
----:1
+---:1 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. ただし、代わりに任意のオブジェクトを渡すこともできます。
 
-デフォルトでは、アプリケーション・コンテキストは [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) であり、必要なプロパティを設定できます。 ただし、代わりに任意のオブジェクトを渡すこともできます。
-
-:--:1
+*Added in v21.6* :--:1
 ```python
 app = Sanic(..., ctx=1)
 ```
@@ -236,13 +234,14 @@ app = Sanic(__name__, dumps=dumps)
 ```
 :---
 
-::: new NEW in v 22.9
 ### Custom loads function
 
----:1 Similar to `dumps`, you can also provide a custom function for deserializing data. :--:1
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data.
+
+*Added in v22.9* :--:1
 ```python
 from orjson import loads
 
 app = Sanic(__name__, loads=loads)
 ```
-:--- :::
+:---
