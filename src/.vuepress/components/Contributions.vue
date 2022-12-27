@@ -1,7 +1,7 @@
 <template>
   <div>
     <ContributorList
-      title="2022 Steering Council"
+      title="2023 Steering Council"
       v-bind:contributors="steering"
     />
     <ContributorList

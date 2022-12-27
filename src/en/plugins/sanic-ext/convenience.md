@@ -77,7 +77,7 @@ $ curl localhost:8000/eat_cookies -X POST
 Sanic Extensions comes with a subcleass of `Request` that can be setup to automatically keep track of the number of requests processed per worker process. To enable this, you should pass the `CountedRequest` class to your application contructor.
 :--:1
 ```python
-from sanic.request import CountedRequest
+from sanic_ext import CountedRequest
 
 app = Sanic(..., request_class=CountedRequest)
 ```
