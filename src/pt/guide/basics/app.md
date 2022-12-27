@@ -108,7 +108,7 @@ This simplest form of custom configuration would be to pass your own object dire
 
 If you create a custom configuration object, it is *highly* recommended that you subclass the Sanic `Config` option to inherit its behavior. You could use this option for adding properties, or your own set of custom logic.
 
-:--:1
+*Added in v21.6* :--:1
 ```python
 from sanic.config import Config
 
@@ -153,11 +153,9 @@ app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
 ### Custom context
----:1
+---:1 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. However, you also have the option of passing any object whatsoever instead.
 
-By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. However, you also have the option of passing any object whatsoever instead.
-
-:--:1
+*Added in v21.6* :--:1
 ```python
 app = Sanic(..., ctx=1)
 ```
@@ -237,13 +235,14 @@ app = Sanic(__name__, dumps=dumps)
 ```
 :---
 
-::: new NEW in v 22.9
 ### Custom loads function
 
----:1 Similar to `dumps`, you can also provide a custom function for deserializing data. :--:1
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data.
+
+*Added in v22.9* :--:1
 ```python
 from orjson import loads
 
 app = Sanic(__name__, loads=loads)
 ```
-:--- :::
+:---
