@@ -148,7 +148,11 @@ app.update_config(MyConfig())
 - **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
 - **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
 
-此外，Sanic 可以通过配置类型转换器来进行类型转换。 这应该是一个能够返回任何值且能触发 `ValueError` 的可调用函数。 :--:1
+If a value cannot be cast, it will default to a `str`.
+
+此外，Sanic 可以通过配置类型转换器来进行类型转换。 这应该是一个能够返回任何值且能触发 `ValueError` 的可调用函数。
+
+*Added in v21.12* :--:1
 ```python
 app = Sanic(..., config=Config(converters=[UUID]))
 ```
@@ -160,18 +164,24 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | **变量名称**                    | **默认值**         | **说明**                                                                              |
 | --------------------------- | --------------- | ----------------------------------------------------------------------------------- |
 | ACCESS_LOG                  | True            | 访问日志开关                                                                              |
-| AUTO_EXTEND^                | True            | Sanic 拓展启用开关                                                                        |
+| AUTO_EXTEND                 | True            | Sanic 拓展启用开关                                                                        |
 | AUTO_RELOAD                 | True            | 自动重载开关                                                                              |
 | EVENT_AUTOREGISTER          | True            | 自动注册信号开关（开启后不存在的事件将会自动注册）                                                           |
 | FALLBACK_ERROR_FORMAT     | html            | 异常返回格式                                                                              |
 | FORWARDED_FOR_HEADER      | X-Forwarded-For | 客户端 IP 和代理 IP：X-Forwarded-For                                                       |
 | FORWARDED_SECRET            | None            | 用于安全地识别特定的代理服务器（见下文）                                                                |
 | GRACEFUL_SHUTDOWN_TIMEOUT | 15.0            | 强制关闭非空闲连接的等待时间(秒)                                                                   |
-| KEEP_ALIVE                  | True            | 是否启用长连接                                                                             |
+| INSPECTOR                   | False           | Whether to enable the Inspector                                                     |
+| INSPECTOR_HOST              | localhost       | The host for the Inspector                                                          |
+| INSPECTOR_PORT              | 6457            | The port for the Inspector                                                          |
+| INSPECTOR_TLS_KEY         | -               | The TLS key for the Inspector                                                       |
+| INSPECTOR_TLS_CERT        | -               | The TLS certificate for the Inspector                                               |
+| INSPECTOR_API_KEY         | -               | The API key for the Inspector                                                       |
 | KEEP_ALIVE_TIMEOUT        | 5               | 长连接超时时间                                                                             |
-| MOTD^                       | True            | 是否在启动时展示 MOTD 信息                                                                    |
+| KEEP_ALIVE                  | True            | 是否启用长连接                                                                             |
+| MOTD                        | True            | 是否在启动时展示 MOTD 信息                                                                    |
 | MOTD_DISPLAY                | {}              | 键/值对显示 MOTD 中的附加任意数据                                                                |
-| NOISY_EXCEPTIONS ^          | False           | 强制禁止异常输出                                                                            |
+| NOISY_EXCEPTIONS            | False           | 强制禁止异常输出                                                                            |
 | PROXIES_COUNT               | None            | 应用程序钱代理服务器的数量（见下文）                                                                  |
 | REAL_IP_HEADER            | None            | 客户端真实 IP： X-Real-IP                                                                 |
 | REGISTER                    | True            | 是否启用应用程序注册表                                                                         |
@@ -187,7 +197,10 @@ app = Sanic(..., config=Config(converters=[UUID]))
 
 `app.update_config` 的方法同样适用于字典
 - 如果您使用 Gunicorn 运行，那么 `USE_UVLOOP` 将会被忽略。 在不支持的平台(Windows)上该值默认为 False。
-- 如果您处于 ASGI 模式， 那么 `WEBSOCKET_` 的值将会被忽略 :::
+- 如果您处于 ASGI 模式， 那么 `WEBSOCKET_` 的值将会被忽略
+- v21.12 added: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
+- v22.9 added: `INSPECTOR`
+- v22.12 added: `INSPECTOR_HOST`, `INSPECTOR_PORT`, `INSPECTOR_TLS_KEY`, `INSPECTOR_TLS_CERT`, `INSPECTOR_API_KEY` :::
 
 ## 超时(Timeouts)
 
