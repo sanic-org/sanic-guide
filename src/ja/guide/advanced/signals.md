@@ -66,13 +66,9 @@ async def my_signal_handler():
 
 新しいシグナルを作成することに加えて、Sanic自体からディスパッチされる組み込み信号がいくつかあります。 これらの信号は、開発者に要求とサーバーのライフサイクルに機能を追加する機会を増やすために存在します。
 
----:1
+*Added in v21.9*
 
-
-他のシグナルと同じように、アプリケーションまたはブループリントインスタンスにアタッチできます。
-
-:--:1
-
+---:1 You can attach them just like any other signal to an application or blueprint instance. :--:1
 ```python
 @app.signal("http.lifecycle.complete")
 async def my_signal_handler(conn_info):
@@ -105,9 +101,11 @@ async def my_signal_handler(conn_info):
 | `server.shutdown.before` | app, loop                       |                                                            |
 | `server.shutdown.after`  | app, loop                       |                                                            |
 
-::: new NEW in v22.9 `http.handler.before` and `http.handler.after` added in Version 22.9. :::
+Version 22.9 added `http.handler.before` and `http.handler.after`.
 
-::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1 :--:1
+::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1
+
+*Added in v21.12* :--:1
 ```python
 from sanic.signals import Event
 
