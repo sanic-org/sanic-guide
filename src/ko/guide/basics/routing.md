@@ -451,7 +451,7 @@ File extensions can be matched using the special `ext` parameter type. It uses a
 ::: tab regex
 
 ```python
-@app.route(r"/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
+@app.route(r"/path/to/<foo:([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
 async def handler(request, foo: str):
     ...
 ```
