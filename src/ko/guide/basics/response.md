@@ -1,6 +1,26 @@
 # 응답 (Response)
 
-모든 [핸들러](./handlers.md)는 **반드시** 응답 객체를 반환해야하고 [미들웨어](./middleware.md)는 선택적으로 응답 객체를 반환할 수 있습니다.
+All [handlers](./handlers.md)* **must** return a response object, and [middleware](./middleware.md) may optionally return a response object.
+
+To clarify that statement:
+- unless the handler is a streaming endpoint, the return value must be an instance of `sanic.HTTPResponse` (to learn more about this exception see [streaming responses](../advanced/streaming.md#response-streaming))
+- if a middleware returns a response object, that will be used instead of whatever the handler would do (see [middleware](./middleware.md) to learn more)
+
+A most basic handler would look like the following. The `HTTPResponse` object will allow you to set the status, body, and headers to be returned to the client.
+
+```python
+from sanic import HTTPResponse, Sanic
+
+app = Sanic("TestApp")
+
+
+@app.route("")
+def handler(_):
+    return HTTPResponse()
+```
+
+However, usually it is easier to use one of the convenience methods discussed below.
+
 
 ## 메소드 (Methods)
 
@@ -79,8 +99,7 @@ async def handler(request):
     return await file("/path/to/whatever.png")
 ```
 
-Sanic은 파일을 검사하고 MIME 유형을 추측하고 콘텐츠 유형에 적절한 값을 사용합니다. 
-원하는 경우 명시적일 수 있습니다:
+Sanic은 파일을 검사하고 MIME 유형을 추측하고 콘텐츠 유형에 적절한 값을 사용합니다. 원하는 경우 명시적일 수 있습니다:
 
 ```python
 file("/path/to/whatever.png", mime_type="image/png")
@@ -92,34 +111,10 @@ file("/path/to/whatever.png", mime_type="image/png")
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab Streaming
+::: tab "File Streaming"
 
 **기본 콘텐츠 유형**: `text/plain; charset=utf-8`  
 **설명**: 클라이언트에 데이터 스트리밍
-
-```python
-from sanic.response import stream
-
-@app.route("/")
-async def handler(request):
-    return stream(streaming_fn)
-
-async def streaming_fn(response):
-    await response.write('foo')
-    await response.write('bar')
-```
-
-기본적으로 Sanic은 클라이언트가 지원하는 경우 청크 인코딩을 사용하여 클라이언트로 다시 스트리밍합니다. 
-비활성화할수도 있습니다:
-
-```python
-stream(streaming_fn, chunked=False)
-```
-:::
-::: tab "File Streaming"
-
-**기본 콘텐츠 유형**: N/A  
-**설명**: 파일을 클라이언트로 스트리밍하며, 동영상과 같은 대용량 파일을 스트리밍할 때 유용합니다.
 
 ```python
 from sanic.response import file_stream
@@ -129,8 +124,7 @@ async def handler(request):
     return await file_stream("/path/to/whatever.mp4")
 ```
 
-`file()` 메소드와 마찬가지로 `file_stream()`은 파일의 MIME 유형을 결정하려고 시도합니다.
-:::
+`file()` 메소드와 마찬가지로 `file_stream()`은 파일의 MIME 유형을 결정하려고 시도합니다. :::
 ::: tab Raw
 
 **기본 콘텐츠 유형**: `application/octet-stream`  
@@ -170,8 +164,8 @@ from sanic.response import empty
 async def handler(request):
     return empty()
 ```
-기본값은 `204` 상태입니다.
-:::
+
+기본값은 `204` 상태입니다. :::
 ::::
 
 ## 기본 상태 (Default status)
@@ -185,3 +179,39 @@ async def create_new(request):
     new_thing = await do_create(request)
     return json({"created": True, "id": new_thing.thing_id}, status=201)
 ```
+
+::: new NEW in v22.12
+## Returning JSON data
+
+Starting in v22.12, When you use the `sanic.json` convenience method, it will return a subclass of `HTTPResponse` called `JSONResponse`. This object will have several convenient methods available to modify common JSON body.
+
+```python
+from sanic import json
+
+resp = json(...)
+```
+
+- `resp.set_body(<raw_body>)` - Set the body of the JSON object to the value passed
+- `resp.append(<value>)` - Append a value to the body like `list.append` (only works if the root JSON is an array)
+- `resp.extend(<value>)` - Extend a value to the body like `list.extend` (only works if the root JSON is an array)
+- `resp.update(<value>)` - Update the body with a value like `dict.update` (only works if the root JSON is an object)
+- `resp.pop()` - Pop a value like `list.pop` or `dict.pop` (only works if the root JSON is an array or an object)
+
+::: warning The raw Python object is stored on the `JSONResponse` object as `raw_body`. While it is safe to overwrite this value with a new one, you should **not** attempt to mutate it. You should instead use the methods listed above.
+
+```python
+resp = json({"foo": "bar"})
+
+# This is OKAY
+resp.raw_body = {"foo": "bar", "something": "else"}
+
+# This is better
+resp.set_body({"foo": "bar", "something": "else"})
+
+# This is also works well
+resp.update({"something": "else"})
+
+# This is NOT OKAY
+resp.raw_body.update({"something": "else"})
+```
+:::

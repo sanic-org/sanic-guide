@@ -2,9 +2,9 @@
 
 ## Sanicの例外を使う
 
-場合によっては、ハンドラの実行を停止し、ステータスコード応答を返すようにSanicに指示する必要があります。このために 「SanicException」 を発生させることができ、残りはSanicが行います。
+場合によっては、ハンドラの実行を停止し、ステータスコード応答を返すようにSanicに指示する必要があります。 このために 「SanicException」 を発生させることができ、残りはSanicが行います。
 
-オプションの`status_code`引数を渡すことができます。デフォルトでは、SanicExceptionは内部サーバエラー500応答を返します。
+オプションの`status_code`引数を渡すことができます。 デフォルトでは、SanicExceptionは内部サーバエラー500応答を返します。
 
 ```python
 from sanic.exceptions import SanicException
@@ -14,7 +14,7 @@ async def no_no(request):
         raise SanicException("Something went wrong.", status_code=501)
 ```
 
-Sanicはいくつかの標準的な例外を提供しています。これらはそれぞれ、応答で適切なHTTPステータスコードを自動的に生成します。詳しくは[APIリファレンスを確認](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions)を参照してください。
+Sanicはいくつかの標準的な例外を提供しています。 これらはそれぞれ、応答で適切なHTTPステータスコードを自動的に生成します。 詳しくは[APIリファレンスを確認](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#module-sanic.exceptions)を参照してください。
 
 ---:1
 
@@ -45,7 +45,7 @@ async def login(request):
 
 ## 例外プロパティ
 
-Sanicのすべての例外は `SanicException` から派生します。このクラスにはいくつかのプロパティがあり、開発者がアプリケーション全体で一貫して例外を報告できるように支援します。
+Sanicのすべての例外は `SanicException` から派生します。 このクラスにはいくつかのプロパティがあり、開発者がアプリケーション全体で一貫して例外を報告できるように支援します。
 
 - `message`
 - `status_code`
@@ -58,8 +58,7 @@ Sanicのすべての例外は `SanicException` から派生します。このク
 ---:1
 ### `message`
 
-`message` プロパティは、Python の他の例外と同様に、表示されるメッセージを制御します。特に便利なのは、クラス定義で `message` プロパティを設定できることで、アプリケーション全体の言語を簡単に標準化することができることです。
-:--:1
+`message` プロパティは、Python の他の例外と同様に、表示されるメッセージを制御します。 特に便利なのは、クラス定義で `message` プロパティを設定できることで、アプリケーション全体の言語を簡単に標準化することができることです。 :--:1
 ```python
 class CustomError(SanicException):
     message = "Something bad happened"
@@ -73,8 +72,7 @@ raise CustomError("Override the default message with something else")
 ---:1
 ### `status_code`
 
-このプロパティは、例外が発生したときの応答コードを設定するために用います。これは、通常クライアントから来る悪い情報への対応である、カスタムの400シリーズ例外を作成するときに特に有用です。
-:--:1
+このプロパティは、例外が発生したときの応答コードを設定するために用います。 これは、通常クライアントから来る悪い情報への対応である、カスタムの400シリーズ例外を作成するときに特に有用です。 :--:1 :--:1
 ```python
 class TeapotError(SanicException):
     status_code = 418
@@ -89,8 +87,7 @@ raise TeapotError(status_code=400)
 ---:1
 ### `quiet`
 
-デフォルトでは、例外は Sanic によって `error_logger` に出力されます。特に例外ハンドラでイベントのトリガとして例外を使っている場合、これは望ましくないことがあります ([次のセクションを参照してください](./exceptions.md#handling))。`quiet=True`を使用すると、ログ出力を抑制することができます。
-:--:1
+デフォルトでは、例外は Sanic によって `error_logger` に出力されます。 特に例外ハンドラでイベントのトリガとして例外を使っている場合、これは望ましくないことがあります ([次のセクションを参照してください](./exceptions.md#handling))。 `quiet=True`を使用すると、ログ出力を抑制することができます。 :--:1 :--:1
 ```python
 class SilentError(SanicException):
     message = "Something happened, but not shown in logs"
@@ -102,35 +99,31 @@ raise InvalidUsage("blah blah", quiet=True)
 ```
 :---
 
----:1
-::: new NEW in v21.12
-デバッグ中に、`quiet=True` プロパティをグローバルに無視したいことがあるかもしれません。このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。
-:::
-:--:1
+---:1 Sometimes while debugging you may want to globally ignore the `quiet=True` property. このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。 ::: :--:1
+
+*Added in v21.12* :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
 ```
 :---
 
 ---:1
-::: new NEW in v21.12
 ### `extra`
 
-[文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
-:::
-:--:1
+---:1 ::: new NEW in v21.12
+
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
 ```
 :---
 
 ---:1
-::: new NEW in v21.12
 ### `context`
 
-[文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
-:::
-:--:1
+Sanicはこのためのデコレータを提供しており、これはSanic標準の例外だけでなく、アプリケーションがスローする可能性のある**任意の**例外にも適用されます。
+
+*Added in v21.12* :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
 ```
@@ -139,13 +132,13 @@ raise SanicException(..., context={"foo": "bar"})
 
 ## 取り扱い
 
-Sanicはエラーページを表示することで例外を自動的に処理するので、多くの場合、ユーザ自身が処理する必要はありません。ただし、例外が発生したときの処理をより詳細に制御したい場合は、ハンドラを自分で実装できます。
+Sanicはエラーページを表示することで例外を自動的に処理するので、多くの場合、ユーザ自身が処理する必要はありません。 ただし、例外が発生したときの処理をより詳細に制御したい場合は、ハンドラを自分で実装できます。
 
-Sanicはこのためのデコレータを提供しており、これはSanic標準の例外だけでなく、アプリケーションがスローする可能性のある**任意の**例外にも適用されます。
+Sanic provides a decorator for this, which applies to not only the Sanic standard exceptions, but **any** exception that your application might throw.
 
 ---:1
 
-ハンドラを追加する最も簡単な方法は、`@app.exception()`を使用して1つ以上の例外を渡すことです。
+`Exception`をキャッチすることで、catchallハンドラを作成することもできます。
 
 :--:1
 
@@ -161,7 +154,7 @@ async def ignore_404s(request, exception):
 
 ---:1
 
-`Exception`をキャッチすることで、catchallハンドラを作成することもできます。
+`app.error_handler.add()`を使用してエラー・ハンドラを追加することもできます。
 
 :--:1
 
@@ -175,7 +168,7 @@ async def catch_anything(request, exception):
 
 ---:1
 
-`app.error_handler.add()`を使用してエラー・ハンドラを追加することもできます。
+ハンドラを追加する最も簡単な方法は、`@app.exception()`を使用して1つ以上の例外を渡すことです。
 
 :--:1
 
@@ -190,14 +183,11 @@ app.error_handler.add(Exception, server_error_handler)
 
 ## 組み込みのエラー処理
 
-Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が用意されています。以下の [Fallback handler](#fallback-handler) セクションに例があります。
+Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が用意されています。 以下の [Fallback handler](#fallback-handler) セクションに例があります。
 
----:1
+---:1 You can control _per route_ which format to use with the `error_format` keyword argument.
 
-route_which形式を使用するには、`error_format`キーワード引数を使用します。
-
-:--:1
-
+*Added in v21.9* :--:1
 ```python
 @app.request("/", error_format="text")
 async def handler(request):
@@ -209,7 +199,7 @@ async def handler(request):
 
 ## カスタムエラー処理
 
-場合によっては、デフォルトで提供される機能にさらにエラー処理機能を追加する必要があります。この場合、次のようにSanicのデフォルトのエラーハンドラをサブクラス化できます。
+場合によっては、デフォルトで提供される機能にさらにエラー処理機能を追加する必要があります。 この場合、次のようにSanicのデフォルトのエラーハンドラをサブクラス化できます。
 
 ```python
 from sanic.handlers import ErrorHandler
@@ -225,7 +215,7 @@ app.error_handler = CustomErrorHandler()
 
 ## ハンドルフォールバック
 
-Sanicには3つのフォールバック例外ハンドラがあります。
+Sanic comes with three fallback exception handlers:
 
 1. HTML (*default*)
 2. Text
@@ -386,15 +376,14 @@ content-type: application/json
 
 ### 自動
 
-Sanicには、使用するフォールバックオプションを推測するためのオプションも用意されています。これはまだ**実験的な機能です**.
+Sanicには、使用するフォールバックオプションを推測するためのオプションも用意されています。 これはまだ**実験的な機能です**.
 
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
 ```
 ## 文脈上の例外
 
-::: new NEW in v21.12
-デフォルトの例外メッセージにより、アプリケーション全体で一貫して例外を発生させる機能を簡素化できます。
+---:1 **制作**
 
 ```python
 class TeapotError(SanicException):
@@ -404,10 +393,12 @@ class TeapotError(SanicException):
 raise TeapotError
 ```
 
-しかし、これには2つのことが欠けています。
+:--:1 **開発**
 
 1. ダイナミックで予測可能なメッセージのフォーマット
 2. エラーメッセージに追加のコンテキストを追加する機能（詳細は後述します）
+
+*Added in v21.12*
 
 ### `Extra` を使用した動的で予測可能なメッセージ
 
@@ -424,30 +415,25 @@ class TeapotError(SanicException):
 raise TeapotError(extra={"name": "Adam"})
 ```
 
-この新しい機能では、例外インスタンスに `extra` メタを渡すことができます。これは、上記の例のように、メッセージテキストに動的なデータを渡すのに特に便利です。この `extra` 情報オブジェクトは、 `PRODUCTION` モードでは抑制され**、 `DEVELOPMENT` モードでは表示されます。
+この新しい機能では、例外インスタンスに `extra` メタを渡すことができます。 これは、上記の例のように、メッセージテキストに動的なデータを渡すのに特に便利です。 この `extra` 情報オブジェクトは、 `PRODUCTION` モードでは抑制され**、 `DEVELOPMENT` モードでは表示されます。
 
----:1
-**制作**
+:--:1 **開発**
 
-![image](https://user-images.githubusercontent.com/166269/139014161-cda67cd1-843f-4ad2-9fa1-acb94a59fc4d.png)
-:--:1
-**開発**
+![image](https://user-images.githubusercontent.com/166269/139014161-cda67cd1-843f-4ad2-9fa1-acb94a59fc4d.png) ---:1 **制作**
 
-![image](https://user-images.githubusercontent.com/166269/139014121-0596b084-b3c5-4adb-994e-31ba6eba6dad.png)
-:---
+![image](https://user-images.githubusercontent.com/166269/139014121-0596b084-b3c5-4adb-994e-31ba6eba6dad.png) :---
 
 ### エラーメッセージに `context` を追加する
 
-Sanic の例外は、 `context` 引数とともに発生させて、何が起こったのかについてユーザーに意図した情報を渡すこともできます。これは、マイクロサービスや、JSON形式のエラーメッセージを渡すことを目的としたAPIを作成するときに特に便利です。この使用例では、クライアントに詳細を返すために、解析可能なエラーメッセージだけでなく、例外の周りにいくつかのコンテキストを持ちたいと思います。
+Sanic の例外は、 `context` 引数とともに発生させて、何が起こったのかについてユーザーに意図した情報を渡すこともできます。 これは、マイクロサービスや、JSON形式のエラーメッセージを渡すことを目的としたAPIを作成するときに特に便利です。 この使用例では、クライアントに詳細を返すために、解析可能なエラーメッセージだけでなく、例外の周りにいくつかのコンテキストを持ちたいと思います。
 
 ```python
 raise TeapotError(context={"foo": "bar"})
 ```
 
-これは、(利用可能であれば)常にエラーで渡される**ようにしたい**情報です。以下のような感じです。
+これは、(利用可能であれば)常にエラーで渡される**ようにしたい**情報です。 以下のような感じです。
 
----:1
-**制作**
+---:1 **PRODUCTION**
 
 ```json
 {
@@ -459,8 +445,7 @@ raise TeapotError(context={"foo": "bar"})
   }
 }
 ```
-:--:1
-**開発**
+:--:1 **DEVELOPMENT**
 
 ```json
 {
@@ -495,4 +480,3 @@ raise TeapotError(context={"foo": "bar"})
 }
 ```
 :---
-:::

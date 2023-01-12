@@ -2,11 +2,11 @@
 
 ## 介绍(Introduction)
 
-长期以来，环境一直是部署的难题。如果您的项目中有冲突的配置，您将不得不花费大量时间来解决它们。幸运的是，虚拟化为我们提供了一个很好的解决思路。Docker 就是其中之一。如果您不了解 Docker，可以访问 [Docker 官网](https://www.docker.com/) 了解更多。
+长期以来，环境一直是部署的难题。 如果您的项目中有冲突的配置，您将不得不花费大量时间来解决它们。 幸运的是，虚拟化为我们提供了一个很好的解决思路。 Docker 就是其中之一。 如果您不了解 Docker，可以访问 [Docker 官网](https://www.docker.com/) 了解更多。
 
 ## 构建镜像(Build Image)
 
-我们以一个最简单的 Sanic 工程作为例子。假设项目`SanicDocker` 的路径是`/path/to/SanicDocker`。
+Let's start with a simple project. 我们以一个最简单的 Sanic 工程作为例子。 假设项目`SanicDocker` 的路径是`/path/to/SanicDocker`。
 
 ---:1
 
@@ -39,19 +39,28 @@ async def hello(request):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8000)
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
 ```
 
 :---
 
 ::: tip 小提示
 
-请注意这里的 host 不能为 127.0.0.1 。在 docker 容器中，127.0.0.1 只表示本机本容器中的一个虚拟网卡，只接受本容器中的应用相互通讯。更多信息请参考 [Docker 网络](https://docs.docker.com/engine/reference/commandline/network/)
+请注意这里的 host 不能为 127.0.0.1 。 在 docker 容器中，127.0.0.1 只表示本机本容器中的一个虚拟网卡，只接受本容器中的应用相互通讯。 更多信息请参考 [Docker 网络](https://docs.docker.com/engine/reference/commandline/network/)
 
 :::
 
 代码准备好后，我们编写 `Dockerfile` 文件，其内容如下：
 
 ```Dockerfile
+
+FROM sanicframework/sanic:3.8-latest
+
+WORKDIR /sanic
+
+COPY . .
 
 FROM sanicframework/sanic:3.8-latest
 
@@ -100,11 +109,13 @@ OK!
 
 ## 使用 docker-compose 编排(Use docker-compose)
 
-当您的项目中涵盖了多个不同的组件或服务时，您可以使用 [docker-compose](https://docs.docker.com/compose/) 来编排容器。以刚才打包好的 `my-sanic-image` 和 `nginx` 为例，我们来实现通过 `nginx` 代理 `Sanic` 服务器。
+当您的项目中涵盖了多个不同的组件或服务时，您可以使用 [docker-compose](https://docs.docker.com/compose/) 来编排容器。
+
+首先我们需要准备 nginx 的配置文件，将其命名为 `mysanic.conf` 并写入内容：
 
 ---:1
 
-首先我们需要准备 nginx 的配置文件，将其命名为 `mysanic.conf` 并写入内容：
+First of all, we need prepare nginx configuration file. create a file named `mysanic.conf`:
 
 :--:1
 
@@ -125,7 +136,7 @@ server {
 
 ---:1
 
-然后我们来准备 `docker-compose.yml` 文件，其内容为：
+然后我们来准备 `docker-compose.yml` 文件，其内容为： The content follows:
 
 :--:1
 

@@ -2,18 +2,15 @@
 
 ## 概述(Overview)
 
-蓝图是应用中可以作为子路由的对象。蓝图定义了同样的添加路由的方式，您可以将一系列路由注册到蓝图上而不是直接注册到应用上，然后再以可插拔的方式将蓝图注册到到应用程序。
+蓝图是应用中可以作为子路由的对象。 蓝图定义了同样的添加路由的方式，您可以将一系列路由注册到蓝图上而不是直接注册到应用上，然后再以可插拔的方式将蓝图注册到到应用程序。
 
-蓝图对于大型应用特别有用。在大型应用中，您可以将应用代码根据不同的业务分解成多个蓝图。
+Blueprints are especially useful for larger applications, where your application logic can be broken down into several groups or areas of responsibility.
 
 ## 创建和注册蓝图(Creating and registering)
 
 ---:1
 
-首先，您必须先创建一个蓝图。蓝图对象有着和 `Sanic` 对象十分相似的方法，它也提供了相同的装饰器来注册路由。
-
-:--:1
-
+首先，您必须先创建一个蓝图。 It has a very similar API as the `Sanic()` app instance with many of the same decorators. :--:1
 ```python
 # ./my_blueprint.py
 from sanic.response import json
@@ -26,15 +23,12 @@ bp = Blueprint("my_blueprint")
 async def bp_root(request):
     return json({"my": "blueprint"})
 ```
-
 :---
+
 
 ---:1
 
-接下来，您可以将蓝图注册到 Sanic 应用上。
-
-:--:1
-
+Next, you register it with the app instance. :--:1
 ```python
 from sanic import Sanic
 from my_blueprint import bp
@@ -42,17 +36,13 @@ from my_blueprint import bp
 app = Sanic(__name__)
 app.blueprint(bp)
 ```
-
 :---
 
 蓝图也提供了 `websocket()` 装饰器和 `add_websocket_route` 方法来实现 websocket 通讯。
 
 ---:1
 
-从 v21.12 开始，您可以在向蓝图中添加响应函数之前或之后注册蓝图。以前，只有在注册时附加到蓝图的响应函数才会被加载到应用程序实例中。
-
-:--:1
-
+从 v21.12 开始，您可以在向蓝图中添加响应函数之前或之后注册蓝图。 Previously, only objects attached to the Blueprint at the time of registration would be loaded into application instance. :--:1
 ```python
 app.blueprint(bp)
 
@@ -60,17 +50,10 @@ app.blueprint(bp)
 async def bp_root(request):
     ...
 ```
-
 :---
-
 ## 复制蓝图(Copying)
 
----:1
-
-使用 `copy()` 方法可以将蓝图以及附加到其上的所有内容复制到新实例中。唯一需要的参数是给它传递一个新的 `name`。当然，您也可以使用它来覆盖旧蓝图中的任何值。
-
-:--:1
-
+---:1 Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. 唯一需要的参数是给它传递一个新的 `name`。 当然，您也可以使用它来覆盖旧蓝图中的任何值。 :--:1
 ```python
 v1 = Blueprint("Version1", version=1)
 
@@ -90,12 +73,13 @@ Available routes:
 /v2/something
 
 ```
-
 :---
+
+*Added in v21.9*
 
 ## 蓝图组(Blueprint groups)
 
-蓝图也可以以列表或者元组的形式进行注册，在这种情况下，注册时会递归地遍历当前序列，在序列中或者在子序列中的所有蓝图对象都会被注册到应用上。`Blueprint.group` 方法允许模拟一个后端目录结构来简化上述问题。请看这个例子：
+蓝图也可以以列表或者元组的形式进行注册，在这种情况下，注册时会递归地遍历当前序列，在序列中或者在子序列中的所有蓝图对象都会被注册到应用上。 `Blueprint.group` 方法允许模拟一个后端目录结构来简化上述问题。 请看这个例子：
 
 ```text
 api/
@@ -113,14 +97,12 @@ app.py
 #### 第一个蓝图(First blueprint)
 
 :--:1
-
 ```python
 # api/content/authors.py
 from sanic import Blueprint
 
 authors = Blueprint("content_authors", url_prefix="/authors")
 ```
-
 :---
 
 ---:1
@@ -128,14 +110,12 @@ authors = Blueprint("content_authors", url_prefix="/authors")
 #### 第二个蓝图(Second blueprint)
 
 :--:1
-
 ```python
 # api/content/static.py
 from sanic import Blueprint
 
 static = Blueprint("content_static", url_prefix="/static")
 ```
-
 :---
 
 ---:1
@@ -143,7 +123,6 @@ static = Blueprint("content_static", url_prefix="/static")
 #### 蓝图组(Blueprint group)
 
 :--:1
-
 ```python
 # api/content/__init__.py
 from sanic import Blueprint
@@ -152,7 +131,6 @@ from .authors import authors
 
 content = Blueprint.group(static, authors, url_prefix="/content")
 ```
-
 :---
 
 ---:1
@@ -160,14 +138,12 @@ content = Blueprint.group(static, authors, url_prefix="/content")
 #### 第三个蓝图(Third blueprint)
 
 :--:1
-
 ```python
 # api/info.py
 from sanic import Blueprint
 
 info = Blueprint("info", url_prefix="/info")
 ```
-
 :---
 
 ---:1
@@ -175,7 +151,6 @@ info = Blueprint("info", url_prefix="/info")
 #### 另一个蓝图组(Another blueprint group)
 
 :--:1
-
 ```python
 # api/__init__.py
 from sanic import Blueprint
@@ -184,7 +159,6 @@ from .info import info
 
 api = Blueprint.group(content, info, url_prefix="/api")
 ```
-
 :---
 
 ---:1
@@ -194,7 +168,6 @@ api = Blueprint.group(content, info, url_prefix="/api")
 所有的蓝图都会被注册。
 
 :--:1
-
 ```python
 # app.py
 from sanic import Sanic
@@ -203,17 +176,13 @@ from .api import api
 app = Sanic(__name__)
 app.blueprint(api)
 ```
-
 :---
 
 ## 中间件(Middleware)
 
 ---:1
 
-蓝图也可以有自己的中间件，这些中间件只会影响到注册到该蓝图上的路由。
-
-:--:1
-
+Blueprints can also have middleware that is specifically registered for its endpoints only. :--:1
 ```python
 @bp.middleware
 async def print_on_request(request):
@@ -229,15 +198,11 @@ async def halt_request(request):
 async def halt_response(request, response):
     return text("I halted the response")
 ```
-
 :---
 
 ---:1
 
-同样的，使用蓝图组能够将中间件应用给同组中的所用蓝图。
-
-:--:1
-
+同样的，使用蓝图组能够将中间件应用给同组中的所用蓝图。 :--:1
 ```python
 bp1 = Blueprint("bp1", url_prefix="/bp1")
 bp2 = Blueprint("bp2", url_prefix="/bp2")
@@ -269,23 +234,18 @@ async def group_middleware(request):
 # Register Blueprint group under the app
 app.blueprint(group)
 ```
-
 :---
 
 ## 异常(Exceptions)
 
 ---:1
 
-正如 [异常处理](./exceptions.md) 一章所述，您可以定义蓝图特定的异常响应函数。
-
-:--:1
-
+正如 [异常处理](./exceptions.md) 一章所述，您可以定义蓝图特定的异常响应函数。 :--:1
 ```python
 @bp.exception(NotFound)
 def ignore_404s(request, exception):
     return text("Yep, I totally found the page: {}".format(request.url))
 ```
-
 :---
 
 ## 静态文件(Static files)
@@ -293,38 +253,27 @@ def ignore_404s(request, exception):
 ---:1
 
 蓝图也可以单独指定需要代理的静态文件。
-
-:--:1
-
 ```python
 bp = Blueprint("bp", url_prefix="/bp")
 bp.static("/web/path", "/folder/to/serve")
 bp.static("/web/path", "/folder/to/server", name="uploads")
 ```
-
 :---
 
 ---:1
 
-然后文件可以使用 `url_for()` 函数来获取。详见 [路由](/zh/guide/basics/routing.md) 章节。
-
-:--:1
-
+然后文件可以使用 `url_for()` 函数来获取。 详见 [路由](/zh/guide/basics/routing.md) 章节。 :--:1
 ```python
 >>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
 '/bp/web/path/file.txt'
 ```
-
 :---
 
 ## 监听器(Listeners)
 
 ---:1
 
-蓝图也可以实现 [监听器](/zh/guide/basics/listeners.md)。
-
-:--:1
-
+蓝图也可以实现 [监听器](/zh/guide/basics/listeners.md)。 :--:1
 ```python
 @bp.listener("before_server_start")
 async def before_server_start(app, loop):
@@ -334,8 +283,11 @@ async def before_server_start(app, loop):
 @bp.listener("after_server_stop")
 async def after_server_stop(app, loop):
     ...
-```
 
+@bp.listener("after_server_stop")
+async def after_server_stop(app, loop):
+    ...
+```
 :---
 
 ## 版本管理(Versioning)
@@ -345,22 +297,15 @@ async def after_server_stop(app, loop):
 ---:1
 
 `version` 参数会被作为前缀添加到路由上，如 `/v1`，`/v2` 等等。
-
-:--:1
-
 ```python
 auth1 = Blueprint("auth", url_prefix="/auth", version=1)
 auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 ```
-
 :---
 
 ---:1
 
-当我们将蓝图注册到APP上时，`/v1/auth` 和 `/v2/auth` 路由将指向两个不同的蓝图，这就允许您为每个 API 版本创建子路由。
-
-:--:1
-
+当我们将蓝图注册到APP上时，`/v1/auth` 和 `/v2/auth` 路由将指向两个不同的蓝图，这就允许您为每个 API 版本创建子路由。 :--:1
 ```python
 from auth_blueprints import auth1, auth2
 
@@ -368,15 +313,11 @@ app = Sanic(__name__)
 app.blueprint(auth1)
 app.blueprint(auth2)
 ```
-
 :---
 
 ---:1
 
-您也可以将多个蓝图放在一个蓝图组下然后同时为他们添加上版本信息。
-
-:--:1
-
+It is also possible to group the blueprints under a `BlueprintGroup` entity and version multiple of them together at the same time. :--:1
 ```python
 auth = Blueprint("auth", url_prefix="/auth")
 metrics = Blueprint("metrics", url_prefix="/metrics")
@@ -386,19 +327,13 @@ group = Blueprint.group(auth, metrics, version="v1")
 # This will provide APIS prefixed with the following URL path
 # /v1/auth/ and /v1/metrics
 ```
-
 :---
 
 ## 组合(Composable)
 
-一个蓝图对象可以被多个蓝图组注册，且蓝图组之间可以进行嵌套注册。这样就消除了蓝图之间组合的限制。
+A `Blueprint` may be registered to multiple groups, and each of `BlueprintGroup` itself could be registered and nested further. This creates a limitless possibility `Blueprint` composition.
 
----:1
-
-请看下面的例子，看看两个响应函数是如何被注册到不同的五个路由上的。
-
-:--:1
-
+*Added in v21.6* ---:1 Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes. :--:1
 ```python
 app = Sanic(__name__)
 blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")
@@ -436,8 +371,8 @@ app.blueprint(blueprint_1)
 # /bp1
 
 ```
-
 :---
+
 
 ## URL 生成(Generating a URL)
 

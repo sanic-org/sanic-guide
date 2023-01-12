@@ -1,10 +1,8 @@
-# Sanic Application
+# Sanicアプリケーション
 
-## Instance
+## インスタンス化
 
----:1
-最も基本的な構成要素は、`Sanic()`インスタンスです。これは必須ではありませんが、カスタムはこれを`server.py`というファイルでインスタンス化します。
-:--:1
+---:1 最も基本的な構成要素は、`Sanic()`インスタンスです。 これは必須ではありませんが、カスタムはこれを`server.py`というファイルでインスタンス化します。 :--:1
 ```python
 # /path/to/server.py
 
@@ -14,34 +12,31 @@ app = Sanic("My Hello, world app")
 ```
 :---
 
-## Application context
+## アプリケーションコンテキスト
 
-ほとんどのアプリケーションでは、コード・ベースのさまざまな部分でデータやオブジェクトを共有/再利用する必要があります。最も一般的な例はDB接続です。
----:1
-v21.3より前のバージョンのSanicでは、これは通常、属性をアプリケーションインスタンスにアタッチすることによって行われていました。
-:--:1
+ほとんどのアプリケーションでは、コード・ベースのさまざまな部分でデータやオブジェクトを共有/再利用する必要があります。 最も一般的な例はDB接続です。 ---:1 v21.3より前のバージョンのSanicでは、これは通常、属性をアプリケーションインスタンスにアタッチすることによって行われていました。 :--:1
+
+---:1 Sanicのv21.3以前のバージョンでは、これは一般的にアプリケーションのインスタンスに属性を添付することによって行われました。 :--:1
 ```python
-# Raises a warning as deprecated feature in 21.3
+# 21.3では非推奨として警告を出します。
 app = Sanic("MyApp")
 app.db = Database()
 ```
 :---
 
----:1
-これにより、名前の競合に関する潜在的な問題が発生したり、[要求コンテキスト](./request.md#context)オブジェクトv 21.3では、アプリケーションレベルのコンテキストオブジェクトが導入されました。
-:--:1
+---:1 これにより、名前の競合に関する潜在的な問題が発生したり、[要求コンテキスト](./request.md#context)オブジェクトv 21.3では、アプリケーションレベルのコンテキストオブジェクトが導入されました。 :--:1
 ```python
-# Correct way to attach objects to the application
+# アプリケーションにオブジェクトを添付する正しい方法
 app = Sanic("MyApp")
 app.ctx.db = Database()
 ```
 :---
 
-## App Registry
+## アプリケーションの登録
 
 ---:1
-Sanicインスタンスをインスタンス化すると、後でSanicアプリケーションレジストリから取得できます。これは、他の方法ではアクセスできない場所からSanicインスタンスにアクセスする必要がある場合などに便利です。
-:--:1
+
+Sanicインスタンスをインスタンス化すると、後でSanicアプリケーションレジストリから取得できます。 これは、他の方法ではアクセスできない場所からSanicインスタンスにアクセスする必要がある場合などに便利です。 :--:1 :--:1
 ```python
 # ./path/to/server.py
 from sanic import Sanic
@@ -56,8 +51,8 @@ app = Sanic.get_app("my_awesome_server")
 :---
 
 ---:1
-存在しないアプリケーションで`Sanic.get_app("non-existing")`を呼び出すと、デフォルトで`SanicException'が発生します。代わりに、その名前の新しいSanicインスタンスを返すようにメソッドに強制できます。
-:--:1
+
+---:1 存在しないアプリケーションで`Sanic.get_app("non-existing")`を呼び出すと、デフォルトで`SanicException'が発生します。 代わりに、その名前の新しいSanicインスタンスを返すようにメソッドに強制できます。 :--:1 :--:1
 ```python
 app = Sanic.get_app(
     "non-existing",
@@ -66,9 +61,7 @@ app = Sanic.get_app(
 ```
 :---
 
----:1
-**Sanicインスタンスが1つしか登録されていない**場合、引数なしで`Sanic.get_app () `を呼び出すと、そのインスタンスが返されます。
-:--:1
+---:1 **Sanicインスタンスが1つしか登録されていない**場合、引数なしで`Sanic.get_app ()`を呼び出すと、そのインスタンスが返されます。 :--:1
 ```python
 Sanic("My only app")
 
@@ -76,11 +69,9 @@ app = Sanic.get_app()
 ```
 :---
 
-## Configuration
+## 構成
 
----:1
-Sanicは、Sanicインスタンスのconfig属性に設定を保持します。構成は、ドット表記を使用するか、辞書のように変更できます。
-:--:1
+---:1 Sanicは、`Sanic`インスタンスの`config`属性に設定を保持します。 設定は、 ドット表記**または**辞書の**どちらかを**使用して変更できます。 ---:1
 ```python
 app = Sanic('myapp')
 
@@ -96,29 +87,27 @@ app.config.update(db_settings)
 ```
 :---
 
-::: tip Heads up
-構成キーは大文字でなければなりません。しかし、これは主に規約によるもので、ほとんどの場合小文字で動作します。
+::: tip Heads up 構成キーは大文字で_なければなりません_。 しかし、これは主に規約によるもので、ほとんどの場合小文字で動作します。
 ```
-app.config.GOOD = "yay!"
-app.config.bad = "boo"
+app.config.GOOD = "yay!" app.config.bad = "boo"
 ```
 :::
 
-[設定の詳細](/guide/deployment/configuration.md)については後で説明します。
+カスタム設定の最も単純な形式は、独自のオブジェクトを直接そのSanicアプリケーションインスタンスに渡すことです。
 
 
-## Customization
+## カスタマイズ
 
 Sanicアプリケーションインスタンスは、インスタンス化時にさまざまな方法でアプリケーションのニーズに合わせてカスタマイズできます。
 
-### Custom configuration
+### カスタムな構成
 ---:1
 
-カスタム設定の最も単純な形式は、独自のオブジェクトを直接そのSanicアプリケーションインスタンスに渡すことです。
+この最も単純なカスタム設定の方法は、独自のオブジェクトを直接Sanicアプリケーションのインスタンスに渡すことです。
 
-カスタム設定オブジェクトを作成する場合は、Sanicの`Config`オプションをサブクラス化して、その動作を継承することを強くお勧めします。このオプションを使用して、プロパティを追加することも、独自のカスタムロジックセットを追加することもできます。
+カスタム設定オブジェクトを作成する場合は、Sanicの`Config`オプションをサブクラス化して、その動作を継承することを強くお勧めします。 このオプションを使用して、プロパティを追加することも、独自のカスタムロジックセットを追加することもできます。
 
-:--:1
+*Added in v21.6* :--:1
 ```python
 from sanic.config import Config
 
@@ -129,10 +118,7 @@ app = Sanic(..., config=MyConfig())
 ```
 :---
 
----:1
-
-この機能の有用な例は、 [supported](../deployment/configuration.md#using-sanic-update-config)とは異なる形式の設定ファイルを使用する場合です。
-:--:1
+この機能の有用な例は、 [supported](../deployment/configuration.md#using-sanic-update-config)とは異なる形式の設定ファイルを使用する場合です。 :--:1 ---:1
 ```python
 from sanic import Sanic, text
 from sanic.config import Config
@@ -165,12 +151,10 @@ toml_config = TomlConfig(path="/path/to/config.toml")
 app = Sanic(toml_config.APP_NAME, config=toml_config)
 ```
 :---
-### Custom context
----:1
+### カスタム コンテキスト
+---:1 By default, the application context is a [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) that allows you to set any properties you want on it. ただし、代わりに任意のオブジェクトを渡すこともできます。
 
-デフォルトでは、アプリケーション・コンテキストは [`SimpleNamespace()`](https://docs.python.org/3/library/types.html#types.SimpleNamespace) であり、必要なプロパティを設定できます。ただし、代わりに任意のオブジェクトを渡すこともできます。
-
-:--:1
+*Added in v21.6* :--:1
 ```python
 app = Sanic(..., ctx=1)
 ```
@@ -180,22 +164,20 @@ app = Sanic(..., ctx={})
 ```
 
 ```python
-class MyContext:
+class CustomContext:
     ...
 
 app = Sanic(..., ctx=MyContext())
 ```
 :---
-### Custom requests
----:1
-独自の 「Request」 クラスを用意し、デフォルトの代わりにそれを使用するようにSanicに指示すると便利な場合があります。たとえば、デフォルトの`request.id`ジェネレータを変更する場合です。
+### カスタムリクエスト
+---:1 独自の 「Request」 クラスを用意し、デフォルトの代わりにそれを使用するようにSanicに指示すると便利な場合があります。 たとえば、デフォルトの`request.id`ジェネレータを変更する場合です。
 
-::: tip Important
+::: tip 重要
 
 クラスのインスタンスではなく、*クラス*を渡すことを覚えておくことが重要です。
 
-:::
-:--:1
+::: :--:1
 ```python
 import time
 
@@ -217,20 +199,49 @@ async def handler(request):
 ```
 :---
 
-### Custom error handler
+### カスタムエラー処理
 
----:1
-詳細については、[exception handling](../best-practices/exceptions.md#custom-error-handling)を参照してください。
-:--:1
+---:1 詳細については、[exception handling](../best-practices/exceptions.md#custom-error-handling)を参照してください。 :--:1
 ```python
 from sanic.handlers import ErrorHandler
 
 class CustomErrorHandler(ErrorHandler):
     def default(self, request, exception):
-        ''' handles errors that have no error handlers assigned '''
-        # You custom error handling logic...
+        ''' エラーハンドラが割り当てられていないエラーを処理する '''
+        # あなた独自のエラーハンドリングロジック...
         return super().default(request, exception)
 
 app = Sanic(..., error_handler=CustomErrorHandler())
+```
+:---
+
+### Custom dumps function
+
+---:1 It may sometimes be necessary or desirable to provide a custom function that serializes an object to JSON data. :--:1
+```python
+import ujson
+
+dumps = partial(ujson.dumps, escape_forward_slashes=False)
+app = Sanic(__name__, dumps=dumps)
+```
+:---
+
+---:1 Or, perhaps use another library or create your own. :--:1
+```python
+from orjson import dumps
+
+app = Sanic(__name__, dumps=dumps)
+```
+:---
+
+### Custom loads function
+
+---:1 Similar to `dumps`, you can also provide a custom function for deserializing data.
+
+*Added in v22.9* :--:1
+```python
+from orjson import loads
+
+app = Sanic(__name__, loads=loads)
 ```
 :---

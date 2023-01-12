@@ -1,6 +1,6 @@
 # 基于类的视图(Class Based Views)
 
-## 为什么要使用它？(Why use them?)
+## 为什么要使用它？
 
 ---:1
 
@@ -8,11 +8,20 @@
 
 在日常的 API 设计过程中，将不同的响应函数通过不同的 HTTP 方法挂载到同一路由上是一种常用的设计模式。
 
-虽然我们之前讲到的方式也能够实现同样的效果，但事实证明它们并不是一种好的设计实践。随着时间的推移以及项目的发展，它们将变得越来越难以维护：
-
-:--:1
-
+虽然我们之前讲到的方式也能够实现同样的效果，但事实证明它们并不是一种好的设计实践。 随着时间的推移以及项目的发展，它们将变得越来越难以维护： :--:1
 ```python
+@app.get("/foo")
+async def foo_get(request):
+    ...
+
+@app.post("/foo")
+async def foo_post(request):
+    ...
+
+@app.put("/foo")
+async def foo_put(request):
+    ...
+
 @app.get("/foo")
 async def foo_get(request):
     ...
@@ -33,45 +42,52 @@ async def bar(request):
         ...
     elif request.method == "PATCH":
         ...
+    elif request.method == "POST":
+        ...
+    elif request.method == "PATCH":
+        ...
 ```
-
 :---
 
 ---:1
 
 ### 破局(The solution)
 
-基于类的视图是一种实现了响应请求行为的类，该类提供了一种在同一路由上分隔处理不同 HTTP 请求类型的方法。 
-
-:--:1
-
+Class-based views are simply classes that implement response behavior to requests. They provide a way to compartmentalize handling of different HTTP request types at the same endpoint. :--:1
 ```python
 from sanic.views import HTTPMethodView
 
 class FooBar(HTTPMethodView):
     async def get(self, request):
         ...
-        
+
     async def post(self, request):
         ...
-        
+
+    async def put(self, request):
+        ...
+
+app.add_route(FooBar.as_view(), "/foobar")
+
+    async def post(self, request):
+        ...
+
     async def put(self, request):
         ...
 
 app.add_route(FooBar.as_view(), "/foobar")
 ```
-
 :---
 
 ## 定义视图(Defining a view)
 
-基于类的视图应该是 `HTTPMethodView` 的子类 。您可以使用相应的 HTTP 方法的名称实现类方法。如果收到的请求没有定义的方法，将生成  `405: Method not allowed` 响应。
+基于类的视图应该是 `HTTPMethodView` 的子类 。 您可以使用相应的 HTTP 方法的名称实现类方法。 如果收到的请求没有定义的方法，将生成  `405: Method not allowed` 响应。
 
 ---:1
 
-若想要将基于类的视图挂载到路由上，则应该使用 `app.add_route` 方法，其中第一个参数是使用 `as_view` 调用后的已经定义好的类，第二个参数是要分配的 URL 路由。
+若想要将基于类的视图挂载到路由上，则应该使用 `app.add_route` 方法，其中第一个参数是使用 `as_view` 调用后的已经定义好的类，第二个参数是要分配的 URL 路由。 The first argument should be the defined class with the method `as_view` invoked, and the second should be the URL endpoint.
 
-HTTPMethodView 支持的方法有：
+The available methods are:
 
 - get
 - post
@@ -80,9 +96,6 @@ HTTPMethodView 支持的方法有：
 - delete
 - head
 - options
-
-:--:1
-
 ```python
 from sanic.views import HTTPMethodView
 from sanic.response import text
@@ -107,17 +120,13 @@ class SimpleView(HTTPMethodView):
 
 app.add_route(SimpleView.as_view(), "/")
 ```
-
 :---
 
 ## 路由参数(Path parameters)
 
 ---:1
 
-您完全可以按照我们在 [路由](/zh/guide/basics/routing.md) 这一章节所讨论的使用方式来使用路由参数。
-
-:--:1
-
+You can use path parameters exactly as discussed in [the routing section](/guide/basics/routing.md). :--:1
 ```python
 class NameView(HTTPMethodView):
 
@@ -126,26 +135,22 @@ class NameView(HTTPMethodView):
 
 app.add_route(NameView.as_view(), "/<name>")
 ```
-
 :---
 
 ## 装饰器(Decorators)
 
-就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应函数添加额外的功能，基于类的视图给出了两种方式来添加装饰器：
+就像 [装饰器](/zh/guide/best-practices/decorators.md) 这一章节所述，您可能经常需要使用装饰器来对您的响应函数添加额外的功能，基于类的视图给出了两种方式来添加装饰器： You have two options with CBV:
 
-1.  应用于视图中的 *所有*  HTTP 方法
-2.  独自应用于视图中的 *指定*  HTTP 方法
+1. 应用于视图中的 *所有*  HTTP 方法
+2. 独自应用于视图中的 *指定*  HTTP 方法
 
-让我们分别来看看他们的用法：
+您完全可以按照我们在 [路由](/zh/guide/basics/routing.md) 这一章节所讨论的使用方式来使用路由参数。
 
 ---:1
 
 ### 用于所有方法(Apply to all methods)
 
-如果您想要添加应用于所有方法的类，您可以通过类变量 `decorators` 来实现，设置后，这些装饰器将在调用 `as_view` 时应用于类。
-
-:--:1
-
+如果您想要添加应用于所有方法的类，您可以通过类变量 `decorators` 来实现，设置后，这些装饰器将在调用 `as_view` 时应用于类。 These will be applied to the class when `as_view` is called. :--:1
 ```python
 class ViewWithDecorator(HTTPMethodView):
   decorators = [some_decorator_here]
@@ -164,10 +169,7 @@ app.add_route(ViewWithDecorator.as_view(), "/url")
 
 ### 应用于单个方法(Apply to individual methods)
 
-但是，如果您只是想装饰一些方法，而不是所有的方法，您可以这样使用：
-
-:--:1
-
+但是，如果您只是想装饰一些方法，而不是所有的方法，您可以这样使用： :--:1
 ```python
 class ViewWithSomeDecorator(HTTPMethodView):
 
@@ -177,7 +179,7 @@ class ViewWithSomeDecorator(HTTPMethodView):
         return text("Hello I have a decorator")
 
     def post(self, request, name):
-        return text("Hello I don"t have any decorators")
+        return text("Hello I do not have any decorators")
 
     @some_decorator_here
     def patch(self, request, name):
@@ -186,13 +188,9 @@ class ViewWithSomeDecorator(HTTPMethodView):
 :---
 
 ## URL生成(Generating a URL)
-
 ---:1
 
-和路由章节中的 [URL生成](/zh/guide/basics/routing.md#generating-a-url) 一样，除了指定需要添加的类之外，其他的使用方法是一致的。
-
-:--:1
-
+和路由章节中的 [URL生成](/zh/guide/basics/routing.md#generating-a-url) 一样，除了指定需要添加的类之外，其他的使用方法是一致的。 :--:1
 ```python
 @app.route("/")
 def index(request):
@@ -206,6 +204,8 @@ class SpecialClassView(HTTPMethodView):
 
 
 app.add_route(SpecialClassView.as_view(), "/special_class_view")
-```
 
+
+app.add_route(SpecialClassView.as_view(), "/special_class_view")
+```
 :---

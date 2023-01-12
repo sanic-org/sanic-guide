@@ -4,16 +4,15 @@
 
 Sanic에서 핸들러는 `Request` 인스턴스를 인수로 취하는 모든 호출 가능한 함수(Callable) 입니다, 그리고 `HTTP Response` 인스턴스 또는 같은 작업을 수행하는 코루틴(coroutine)을 반환합니다.
 
+
+
 ---:1
 
 어라? :confused:
 
 이것은 일반 함수일 수도 있고, 비동기 함수일 수도 있습니다.
 
-핸들러의 역할은 엔드 포인트에 응답하여 무언가를 하는 것입니다. 이것은 대부분의 비즈니스 로직이 적용되는 곳입니다.
-
-:--:1
-
+핸들러의 역할은 엔드 포인트에 응답하여 무언가를 하는 것입니다. 이것은 대부분의 비즈니스 로직이 적용되는 곳입니다. :--:1
 ```python
 def i_am_a_handler(request):
     return HTTPResponse()
@@ -21,32 +20,23 @@ def i_am_a_handler(request):
 async def i_am_ALSO_a_handler(request):
     return HTTPResponse()
 ```
-
 :---
 
-::: tip Heads up
-논리 캡슐화에 대해 자세히 알아보려면 [클래스 기반 뷰](/guide/advanced/class-based-views.md)를 확인하세요.
-:::
----:1
-그 다음 엔드포인트(endpoint)에 연결하기만 하면 됩니다. 곧 [라우팅](./routing.md)에서 자세히 알아 보겠습니다.
+::: tip Heads up 논리 캡슐화에 대해 자세히 알아보려면 [클래스 기반 뷰](/guide/advanced/class-based-views.md)를 확인하세요. ::: ---:1 그 다음 엔드포인트(endpoint)에 연결하기만 하면 됩니다. 곧 [라우팅](./routing.md)에서 자세히 알아 보겠습니다.
 
-실용적인 예를 살펴보겠습니다.
+Let's look at a practical example.
 
 - 앱 인스턴스에 편리한 데코레이터를 사용합니다 :`@ app.get ()`
 - 응답 객체를 생성하기 위한 편리한 방법: `text()`
 
-임무 완수 :muscle:
-:--:1
-
+실용적인 예를 살펴보겠습니다.
 ```python
-
 from sanic.response import text
 
 @app.get("/foo")
 async def foo_handler(request):
     return text("I said foo!")
 ```
-
 :---
 
 ---
@@ -57,28 +47,23 @@ async def foo_handler(request):
 
 동기식 핸들러를 작성하는 것도 당연히 가능합니다.
 
-이 예에서는 _블로킹(blocking)_ `time.sleep()`을 사용하여 100ms의 처리 시간을 시뮬레이션합니다.
-이것은 DB 또는 타사 웹 사이트에서 데이터를 가져오는 것을 나타냅니다.
+이 예에서는 _블로킹(blocking)_ `time.sleep()`을 사용하여 100ms의 처리 시간을 시뮬레이션합니다. 이것은 DB 또는 타사 웹 사이트에서 데이터를 가져오는 것을 나타냅니다.
 
 4개의 작업자(worker) 프로세스와 평범한 벤치마킹 도구를 사용합니다.:
 
 - 30.10초 동안 **956**건의 요청이 이뤄졌습니다.
 - 또는 약 **31.76** 요청/초입니다.
-  
-:--:1
-
 ```python
 @app.get("/sync")
 def sync_handler(request):
     time.sleep(0.1)
     return text("Done.")
 ```
-
 :---
 
 ---:1
 
-비동기식 대안 `asyncio.sleep()`으로 변경하는 것만으로도 성능이 크게 변하는 것을 볼 수 있습니다.
+비동기식 대안 `asyncio.sleep()`으로 변경하는 것만으로도 성능이 크게 변하는 것을 볼 수 있습니다. :rocket:
 
 동일한 4 개의 작업자(worker) 프로세스 사용:
 
@@ -94,19 +79,17 @@ def sync_handler(request):
 하지만, 요점은 이것입니다! Sanic은 사용 가능한 리소스를 사용하고 성능을 압축하기 때문에 속도가 빠릅니다. 동시에 많은 요청을 처리할 수 있으므로 초당 더 많은 요청을 처리할 수 있습니다.
 
 :--:1
-
 ```python
 @app.get("/async")
 async def async_handler(request):
     await asyncio.sleep(0.1)
     return text("Done.")
 ```
-
 :---
 
 ::: warning 일반적인 실수입니다!
 
-이러지 마세요! 웹 사이트를 ping해야 할 때, 뭘 쓰시나요? `pip install your-fav-request-library` :see_no_evil:
+이러지 마세요! 웹 사이트를 ping해야 할 때, 뭘 쓰시나요? What do you use? `pip install your-fav-request-library` :see_no_evil:
 
 대신 `async / await` 가 가능한 클라이언트를 사용해보세요. 당신의 서버가 고마워 할 것입니다. 차단(Blocking) 도구를 사용하지 말고 비동기 생태계에서 잘 작동하는 도구를 사용하세요. 추천이 필요한 경우 [Awesome Sanic](https://github.com/mekicha/awesome-sanic)을 확인하세요.
 

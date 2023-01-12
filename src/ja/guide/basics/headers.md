@@ -1,10 +1,10 @@
 # Headers
 
-リクエストおよびレスポンスのヘッダーは、それぞれ`Request`オブジェクトと`HTTPResponse`オブジェクトで使用できます。単一のキーが複数の値を持つことを可能にする [`multidict`パッケージ] (https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict) を利用します。
+リクエストおよびレスポンスのヘッダーは、それぞれ`Request`オブジェクトと`HTTPResponse`オブジェクトで使用できます。 単一のキーが複数の値を持つことを可能にする [`multidict`パッケージ] (https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict) を利用します。
 
 ::: tip FYI
 
-ヘッダキーは、解析時に*小文字*に変換されます。ヘッダーでは大文字と小文字は区別されません。
+ヘッダキーは、解析時に*小文字*に変換されます。 ヘッダーでは大文字と小文字は区別されません。
 
 :::
 
@@ -44,18 +44,17 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 #### Proxy headers
 
-Sanicはプロキシヘッダを特別に扱います。詳細については、 [proxy headers] (/guide/advanced/proxy-headers.md) セクションを参照してください。
+Sanicはプロキシヘッダを特別に扱います。 詳細については、 \[proxy headers\] (/guide/advanced/proxy-headers.md) セクションを参照してください。
 
 #### Host header and dynamic URL construction
 
-*実効ホスト*は`request.host`を介して使用できます。これは、プロキシ転送されたホストを優先し、サーバ名の設定によって強制される可能性があるため、必ずしもホストヘッダーと同じではありません。
+*実効ホスト*は`request.host`を介して使用できます。 これは、プロキシ転送されたホストを優先し、サーバ名の設定によって強制される可能性があるため、必ずしもホストヘッダーと同じではありません。
 
-Webアプリケーションは通常、どのようにデプロイされても同じように機能できるように、このアクセサを使用する必要があります。実際のホストヘッダーは、必要に応じて`request.headers`
+Webアプリケーションは通常、どのようにデプロイされても同じように機能できるように、このアクセサを使用する必要があります。 実際のホストヘッダーは、必要に応じて`request.headers`
 
 実効ホストは、ハンドラの外部アドレスを決定するためにリクエストを使用する`request.url_for`を介して動的URL構築でも使用されます。
 
-::: tip Be wary of malicious clients
-これらのURLは、誤ったホストヘッダーを送信することで操作できます。これが懸念される場合は、代わりに`app.url_for`を使用する必要があります。
+::: tip Be wary of malicious clients これらのURLは、誤ったホストヘッダーを送信することで操作できます。 これが懸念される場合は、代わりに`app.url_for`を使用する必要があります。 :::
 :::
 
 :--:1
@@ -90,7 +89,7 @@ $ curl localhost:8000/hosts
 ---:1
 #### Other headers
 
-すべてのリクエストヘッダーは`request.headers`で使用でき、辞書形式でアクセスできます。大文字はヘッダーでは考慮されず、大文字または小文字のキーを使用してアクセスできます。
+すべてのリクエストヘッダーは`request.headers`で使用でき、辞書形式でアクセスできます。 大文字はヘッダーでは考慮されず、大文字または小文字のキーを使用してアクセスできます。
 
 :--:1
 
@@ -145,18 +144,16 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :---
 
-::: tip FYI
-💡 request.headersオブジェクトは、辞書のタイプの1つで、各値はリストです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。
+::: tip FYI 💡 request.headersオブジェクトは、辞書のタイプの1つで、各値はリストです。 これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。
 
-ほとんどの場合、リストではなく最初の要素にアクセスするには、.get () または.getone () メソッドを使用します。すべての項目のリストが必要な場合は、.getall () を使用できます。
+ほとんどの場合、リストではなく最初の要素にアクセスするには、.get () または.getone () メソッドを使用します。 すべての項目のリストが必要な場合は、.getall () を使用できます。 ::: 
 :::
 
 #### Request ID
 
 ---:1
 
-多くの場合、 「X-Request-ID」 ヘッダーを使用してリクエストを追跡すると便利です。次の方法で簡単にアクセスできます。
-`request.id`.
+多くの場合、 「X-Request-ID」 ヘッダーを使用してリクエストを追跡すると便利です。 次の方法で簡単にアクセスできます。 `request.id`.
 
 :--:1
 
@@ -205,7 +202,7 @@ async def add_csp(request, response):
 
 ---:1
 
-一般的な [ミドルウェア] (middleware.md) は、すべての応答に`X-Request-ID`ヘッダーを追加することです。前述のように、`request.id`は着信要求からIDを提供します。ただし、リクエストヘッダーにIDが指定されていない場合でも、自動的にIDが指定されます。
+一般的な \[ミドルウェア\] (middleware.md) は、すべての応答に`X-Request-ID`ヘッダーを追加することです。 前述のように、`request.id`は着信要求からIDを提供します。 ただし、リクエストヘッダーにIDが指定されていない場合でも、自動的にIDが指定されます。
 
 [詳細については、APIドキュメントを参照してください。](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
 

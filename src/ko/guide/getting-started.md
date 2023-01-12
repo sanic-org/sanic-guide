@@ -18,6 +18,8 @@ pip install sanic
 Flask 또는 다른 프레임워크를 사용하다 온 경우 몇 가지 짚고 넘어가야 할 중요한 것들이 있습니다. 기억하세요, Sanic은 성능, 유연성 및 사용 편의성을 목표로 합니다. 이러한 지침 원칙은 API 및 작동 방식에 실질적인 영향을 미칩니다.
 :::
 
+
+
 :--:1
 
 ```python
@@ -41,18 +43,44 @@ async def hello_world(request):
 
 ### 실행(Running)
 
----:1
-위에서 작성한 파일을 `server.py`로 저장하고 실행해 보겠습니다.
-:--:1
-
+---:1 위에서 작성한 파일을 `server.py`로 저장하고 실행해 보겠습니다. And launch it. :--:1
 ```bash
 sanic server.app
 ```
-
 :---
 
-::: tip
-**또 다른** 중요한 차이점입니다. 다른 프레임워크는 개발 서버가 내장되어 있으며 개발 전용이라고 _명시적_ 으로 말합니다. Sanic은 그 반대입니다.
+::: tip **또 다른** 중요한 차이점입니다. 다른 프레임워크는 개발 서버가 내장되어 있으며 개발 전용이라고 _명시적_ 으로 말합니다. Sanic은 그 반대입니다.
 
-**프로덕션 환경에서 사용할 수 있는 서버가 준비되있습니다.**
-:::
+**프로덕션 환경에서 사용할 수 있는 서버가 준비되있습니다.** :::
+
+## Sanic Extensions
+
+Sanic intentionally aims for a clean and unopinionated feature list. The project does not want to require you to build your application in a certain way, and tries to avoid prescribing specific development patterns. There are a number of third-party plugins that are built and maintained by the community to add additional features that do not otherwise meet the requirements of the core repository.
+
+However, in order **to help API developers**, the Sanic organization maintains an official plugin called [Sanic Extensions](../plugins/sanic-ext/getting-started.md) to provide all sorts of goodies, including:
+
+- **OpenAPI** documentation with Redoc and/or Swagger
+- **CORS** protection
+- **Dependency injection** into route handlers
+- Request query arguments and body input **validation**
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
+- Predefined, endpoint-specific response serializers
+
+The preferred method to set it up is to install it along with Sanic, but you can also install the packages on their own.
+
+---:1
+```
+$ pip install sanic[ext]
+```
+:--:1
+```
+$ pip install sanic sanic-ext
+```
+:---
+
+Starting in v21.12, Sanic will automatically setup Sanic Extensions if it is in the same environment. You will also have access to two additional application properties:
+
+- `app.extend()` - used to configure Sanic Extensions
+- `app.ext` - the `Extend` instance attached to the application
+
+See [the plugin documentation](../plugins/sanic-ext/getting-started.md) for more information about how to use and work with the plugin

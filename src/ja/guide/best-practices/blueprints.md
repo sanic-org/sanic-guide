@@ -2,7 +2,7 @@
 
 ## 概要
 
-設計図は、アプリケーション内のサブルーティングに使用できるオブジェクトです。設計図では、アプリケーション・インスタンスにルートを追加する代わりに、ルートを追加するための同様のメソッドを定義し、それを柔軟でプラグ可能な方法でアプリケーションに登録します。
+設計図は、アプリケーション内のサブルーティングに使用できるオブジェクトです。 設計図では、アプリケーション・インスタンスにルートを追加する代わりに、ルートを追加するための同様のメソッドを定義し、それを柔軟でプラグ可能な方法でアプリケーションに登録します。
 
 設計図は、アプリケーション・ロジックを複数のグループまたは責任領域に分けることができる大規模なアプリケーションに特に役立ちます。
 
@@ -10,8 +10,7 @@
 
 ---:1
 
-まず、設計図を作成する必要があります。これは、多くの同じデコレータを持つ`Sanic()`アプリケーションインスタンスと非常に似たAPIを持っています。
-:--:1
+まず、設計図を作成する必要があります。 これは、多くの同じデコレータを持つ`Sanic()`アプリケーションインスタンスと非常に似たAPIを持っています。 :--:1 :--:1
 ```python
 # ./my_blueprint.py
 from sanic.response import json
@@ -28,8 +27,7 @@ async def bp_root(request):
 
 ---:1
 
-次に、アプリケーションインスタンスに登録します。
-:--:1
+次に、アプリケーションインスタンスに登録します。 :--:1 :--:1
 ```python
 from sanic import Sanic
 from my_blueprint import bp
@@ -43,9 +41,7 @@ Blueprintには、websocketsを実装するための同じ`websocket()`デコレ
 
 ---:1
 
-::: new NEW in v21.12
-v21.12 以降では、ブループリントはオブジェクトを追加する前でも後でも登録することができます。以前は、登録時にブループリントにアタッチされたオブジェクトのみがアプリケーション インスタンスにロードされました。
-:--:1
+::: new NEW in v21.12 v21.12 以降では、ブループリントはオブジェクトを追加する前でも後でも登録することができます。 以前は、登録時にブループリントにアタッチされたオブジェクトのみがアプリケーション インスタンスにロードされました。 :--:1 :--:1
 ```python
 app.blueprint(bp)
 
@@ -56,12 +52,7 @@ async def bp_root(request):
 :---
 ## Copying
 
----:1
-
-`copy()`メソッドを使用すると、設計図とそれにアタッチされているすべてのものを新しいインスタンスにコピーできます。唯一必要な引数は、新しい`name`を渡すことです。ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。
-
-:--:1
-
+---:1 Blueprints along with everything that is attached to them can be copied to new instances using the `copy()` method. 唯一必要な引数は、新しい`name`を渡すことです。 ただし、これを使用して、古い設計図の値をオーバーライドすることもできます。 :--:1
 ```python
 v1 = Blueprint("Version1", version=1)
 
@@ -81,12 +72,13 @@ Available routes:
 /v2/something
 
 ```
-
 :---
+
+*Added in v21.9*
 
 ## Blueprintグループ
 
-設計図は、リストまたはタプルの一部として登録することもでき、レジストラは、設計図のサブシーケンスを再帰的に巡回し、それに従って登録する。Blueprint.groupメソッドは、このプロセスを単純化するために提供されており、フロントエンドから見えるものを模倣する`モック`バックエンドディレクトリ構造を可能にする。次の (かなり不自然な) 例を考えてみましょう。
+設計図は、リストまたはタプルの一部として登録することもでき、レジストラは、設計図のサブシーケンスを再帰的に巡回し、それに従って登録する。 Blueprint.groupメソッドは、このプロセスを単純化するために提供されており、フロントエンドから見えるものを模倣する`モック`バックエンドディレクトリ構造を可能にする。 次の (かなり不自然な) 例を考えてみましょう。
 
 ```text
 api/
@@ -189,8 +181,7 @@ app.blueprint(api)
 
 ---:1
 
-Blueprintsは、エンドポイント専用に登録されたミドルウェアを持つこともできます。
-:--:1
+Blueprintsは、エンドポイント専用に登録されたミドルウェアを持つこともできます。 :--:1 :--:1
 ```python
 @bp.middleware
 async def print_on_request(request):
@@ -208,8 +199,7 @@ async def halt_response(request, response):
 
 ---:1
 
-同様に、設計図グループを使用すると、ネストされた設計図グループ全体にミドルウェアを適用できます。
-:--:1
+同様に、設計図グループを使用すると、ネストされた設計図グループ全体にミドルウェアを適用できます。 :--:1 :--:1
 ```python
 bp1 = Blueprint("bp1", url_prefix="/bp1")
 bp2 = Blueprint("bp2", url_prefix="/bp2")
@@ -241,8 +231,7 @@ app.blueprint(group)
 
 ---:1
 
-他の[例外処理](./exceptions.md)を使用して、設計図固有のハンドラーを定義できます。
-:--:1
+他の[例外処理](./exceptions.md)を使用して、設計図固有のハンドラーを定義できます。 :--:1 :--:1
 ```python
 @bp.exception(NotFound)
 def ignore_404s(request, exception):
@@ -254,8 +243,7 @@ def ignore_404s(request, exception):
 
 ---:1
 
-Blueprintsは独自の静的ハンドラを持つこともできます。
-:--:1
+Blueprintsは独自の静的ハンドラを持つこともできます。 :--:1
 ```python
 bp = Blueprint("bp", url_prefix="/bp")
 bp.static("/web/path", "/folder/to/serve")
@@ -265,8 +253,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-これは、`url_for()`を使用して取得できます。詳細については、[ルーティング](/guide/basics/routing.md) を参照してください。
-:--:1
+これは、`url_for()`を使用して取得できます。 詳細については、[ルーティング](/guide/basics/routing.md) を参照してください。 :--:1 :--:1
 ```python
 >>> print(app.url_for("static", name="bp.uploads", filename="file.txt"))
 '/bp/web/path/file.txt'
@@ -277,8 +264,7 @@ bp.static("/web/path", "/folder/to/server", name="uploads")
 
 ---:1
 
-Blueprintsは[listeners](/guide/basics/listeners.md)も実装できます。
-:--:1
+Blueprintsは[listeners](/guide/basics/listeners.md)も実装できます。 :--:1 :--:1
 ```python
 @bp.listener("before_server_start")
 async def before_server_start(app, loop):
@@ -296,8 +282,7 @@ async def after_server_stop(app, loop):
 
 ---:1
 
-`version`は、ルートの前に`/v1`または`/v2`のように付加されます。
-:--:1
+`version`は、ルートの前に`/v1`または`/v2`のように付加されます。 :--:1
 ```python
 auth1 = Blueprint("auth", url_prefix="/auth", version=1)
 auth2 = Blueprint("auth", url_prefix="/auth", version=2)
@@ -306,8 +291,7 @@ auth2 = Blueprint("auth", url_prefix="/auth", version=2)
 
 ---:1
 
-アプリケーションに設計図を登録すると、ルート`/v1/auth`と`/v2/auth`は個々の設計図を指すようになり、各APIバージョンのサブサイトを作成できるようになります。
-:--:1
+アプリケーションに設計図を登録すると、ルート`/v1/auth`と`/v2/auth`は個々の設計図を指すようになり、各APIバージョンのサブサイトを作成できるようになります。 :--:1 :--:1
 ```python
 from auth_blueprints import auth1, auth2
 
@@ -319,8 +303,7 @@ app.blueprint(auth2)
 
 ---:1
 
-設計図を`BlueprintGroup`エンティティの下にグループ化し、同じ時間。
-:--:1
+設計図を`BlueprintGroup`エンティティの下にグループ化し、同じ時間。 :--:1 :--:1
 ```python
 auth = Blueprint("auth", url_prefix="/auth")
 metrics = Blueprint("metrics", url_prefix="/metrics")
@@ -334,11 +317,9 @@ group = Blueprint.group([auth, metrics], version="v1")
 
 ## 合成可能
 
-`Blueprint`は複数のグループに登録することができ、`BlueprintGroup`自体もそれぞれ登録してさらにネストすることができる。これにより、無限の可能性を持つ`Blueprint`コンポジションが作成されます。
+`Blueprint`は複数のグループに登録することができ、`BlueprintGroup`自体もそれぞれ登録してさらにネストすることができる。 これにより、無限の可能性を持つ`Blueprint`コンポジションが作成されます。
 
----:1
-この例を見て、2つのハンドラーが実際には5つの異なるルートとしてマウントされていることを確認してください。
-:--:1
+*Added in v21.6* ---:1 Take a look at this example and see how the two handlers are actually mounted as five (5) distinct routes. :--:1
 ```python
 app = Sanic(__name__)
 blueprint_1 = Blueprint("blueprint_1", url_prefix="/bp1")

@@ -1,6 +1,6 @@
 # 快速开始（Getting Started）
 
-Sanic Extensions 是一个由 SCO _官方开发和维护的_ 插件。这个项目的主要目标是为 Sanic 添加额外的功能，以帮助开发人员更轻松地进行网络应用程序开发。
+Sanic Extensions 是一个由 SCO _官方开发和维护的_ 插件。 这个项目的主要目标是为 Sanic 添加额外的功能，以帮助开发人员更轻松地进行网络应用程序开发。
 
 ## 特征（Features）
 
@@ -10,6 +10,7 @@ Sanic Extensions 是一个由 SCO _官方开发和维护的_ 插件。这个项�
 - 允许进行路由参数的注入
 - 完美适配 Redoc 和 Swagger
 - 能够对请求参数和请求体进行验证
+- Auto create `HEAD`, `OPTIONS`, and `TRACE` endpoints
 
 ## 最低要求（Minimum requirements）
 
@@ -34,16 +35,9 @@ pip install sanic-ext
 
 ---:1
 
-开箱即用，Sanic 扩展将为您启用一系列功能。
+---:1 To setup Sanic Extensions (v21.12+), you need to do: **nothing**. If it is installed in the environment, it is setup and ready to go.
 
-::: new v21.12 新特性
-
-如果您安装了 Sanic 拓展(v21.12+)，您不需要做任何初始化设置，它已经是配置好的状态，随时都可使用。
-
-下面这段代码和 [Sanic 快速开始页面](../../guide/getting-started.md) 中的 Hello，World 示例完全一致，没有做任何改动。
-
-:--:1
-
+This code is the Hello, world app in the [Sanic Getting Started page](../../guide/getting-started.md) _without any changes_, but using Sanic Extensions with `sanic-ext` installed in the background. :--:1
 ```python
 from sanic import Sanic
 from sanic.response import text
@@ -57,14 +51,11 @@ async def hello_world(request):
 
 :---
 
----:1
-**_已弃用的旧配置_**
-
-在 v21.9 中，最简单的使用方法就是通过 `Extend` 来对其进行一个实例化。
-
-如果您回看 [Sanic 快速开始](../../guide/getting-started.md) 页面 中的 Hello，world 示例代码，您将看它们之间唯一的区别是多了两行高亮部分的代码。
+下面这段代码和 [Sanic 快速开始页面](../../guide/getting-started.md) 中的 Hello，World 示例完全一致，没有做任何改动。
 
 :--:1
+
+如果您回看 [Sanic 快速开始](../../guide/getting-started.md) 页面 中的 Hello，world 示例代码，您将看它们之间唯一的区别是多了两行高亮部分的代码。 :--:1
 
 ```python{3,6}
 from sanic import Sanic
@@ -78,7 +69,6 @@ Extend(app)
 async def hello_world(request):
     return text("Hello, world.")
 ```
-
 :---
 
-不管它是如何设置的，您现在应该能够通过 [http://localhost:8000/docs](http://localhost:8000/docs) 看到 OpenAPI 文档，并能够看到一些正在运行的功能。
+在 v21.9 中，最简单的使用方法就是通过 `Extend` 来对其进行一个实例化。

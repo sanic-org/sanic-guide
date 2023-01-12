@@ -1,10 +1,11 @@
 # 헤더(Headers)
 
-요청 및 응답 헤더는 각각 `Request` 및 `HTTPResponse` 객체에서 사용할 수 있습니다.
-단일 키가 여러 값을 가질 수 있도록 허용하는 [`multidict` 패키지](https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict)를 사용합니다.
+요청 및 응답 헤더는 각각 `Request` 및 `HTTPResponse` 객체에서 사용할 수 있습니다. 단일 키가 여러 값을 가질 수 있도록 허용하는 [`multidict` 패키지](https://multidict.readthedocs.io/en/stable/multidict.html#cimultidict)를 사용합니다.
 
 ::: tip FYI
-헤더 키는 구문 분석시 *소문자*로 변환됩니다. 헤더에는 대문자 사용이 고려되지 않습니다.
+
+::: tip FYI 헤더 키는 구문 분석시 *소문자*로 변환됩니다. 헤더에는 대문자 사용이 고려되지 않습니다.
+
 :::
 
 ## 요청(Request)
@@ -15,7 +16,8 @@ Sanic은 요청 헤더를 개발자에게 제공하기 전에 요청 헤더에 �
 
 #### 토큰(Tokens)
 
-`Token <token>` 또는 `Bearer <token>`형식의 인증 토큰이 요청 객체 `request.token`으로 추출됩니다.
+`Token <token>` 또는 `Bearer <token>`형식의 인증 토큰이 요청 객체 `request.token`으로 추출됩니다. :--:1
+
 :--:1
 
 ```python
@@ -52,10 +54,7 @@ Sanic에는 프록시 헤더에 대한 특수 처리 기능이 있습니다. 자
 
 유효 호스트는 요청을 사용하여 핸들러의 외부 주소를 결정하는 `request.url_for`를 통한 동적 URL 구성에도 사용됩니다.
 
-::: tip 악의적인 클라이언트를 조심하세요!
-
-이러한 URL은 오해의 소지가 있는 호스트 헤더를 전송하여 조작할 수 있습니다. 이것이 우려된다면 `app.url_for`를 대신 사용해야 합니다.
-:::
+이러한 URL은 오해의 소지가 있는 호스트 헤더를 전송하여 조작할 수 있습니다. 이것이 우려된다면 `app.url_for`를 대신 사용해야 합니다. :::
 
 :--:1
 
@@ -144,11 +143,9 @@ $ curl localhost:9999/headers -H "Foo: one" -H "FOO: two"|jq
 
 :---
 
-::: tip FYI
-💡 request.headers 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다
+::: tip FYI 💡 request.headers 객체는 각 값이 목록인 사전인 몇 가지 유형 중 하나입니다. HTTP에서는 단일 키를 재사용하여 여러 값을 보낼 수 있기 때문입니다
 
-대부분의 경우 .get() 또는 .getone() 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하려고 합니다. 모든 항목의 목록을 원하면 .getall()을 사용할 수 있습니다.
-:::
+대부분의 경우 .get() 또는 .getone() 메서드를 사용하여 목록이 아닌 첫 번째 요소에 액세스하려고 합니다. 모든 항목의 목록을 원하면 .getall()을 사용할 수 있습니다. :::
 
 #### 요청 ID(Request ID)
 
@@ -181,9 +178,12 @@ Sanic은 자동으로 다음 응답 헤더(해당되는 경우)를 설정합니�
 - `connection`
 - `transfer-encoding`
 
+In most circumstances, you should never need to worry about setting these headers.
+
 ---:1
 
 설정할 다른 헤더는 경로 핸들러 또는 응답 미들웨어에서 수행할 수 있습니다.
+
 :--:1
 
 ```python
@@ -200,11 +200,9 @@ async def add_csp(request, response):
 
 ---:1
 
-::: new
-일반적인 [middleware](middleware.md)는 모든 응답에 `X-Request-ID` 헤더를 추가하는 것입니다. 위에서 언급했듯이`request.id`는 수신 요청의 ID를 제공합니다. 그러나 요청 헤더에 ID가 제공되지 않은 경우에도 자동으로 제공됩니다.
+::: new 일반적인 [middleware](middleware.md)는 모든 응답에 `X-Request-ID` 헤더를 추가하는 것입니다. 위에서 언급했듯이`request.id`는 수신 요청의 ID를 제공합니다. 그러나 요청 헤더에 ID가 제공되지 않은 경우에도 자동으로 제공됩니다.
 
-[자세한 내용은 API 문서를 참조하세요.](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
-:::
+[[자세한 내용은 API 문서를 참조하세요.](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id) :::](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
 
 :--:1
 

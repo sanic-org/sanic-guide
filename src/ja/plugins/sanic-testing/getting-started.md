@@ -1,6 +1,6 @@
 # スタートアップ
 
-Sanic Testing は Sanic の *公式* テストクライアントです。主な用途は、Sanicプロジェクト自体のテストを強化することです。しかし、それはまた、あなたのAPIテストを素早く立ち上げ、実行するための使いやすいクライアントとして意図されています。
+Sanic Testing は Sanic の *公式* テストクライアントです。 主な用途は、Sanicプロジェクト自体のテストを強化することです。 しかし、それはまた、あなたのAPIテストを素早く立ち上げ、実行するための使いやすいクライアントとして意図されています。
 
 ## 最低要件
 
@@ -29,15 +29,21 @@ pip install sanic-testing
 ```python
 import pytest
 from sanic import Sanic, response
+
+
 @pytest.fixture
 def app():
     sanic_app = Sanic("TestSanic")
+
     @sanic_app.get("/")
     def basic(request):
         return response.text("foo")
+
     return sanic_app
+
 def test_basic_test_client(app):
     request, response = app.test_client.get("/")
+
     assert request.method.lower() == "get"
     assert response.body == b"foo"
     assert response.status == 200
@@ -51,21 +57,26 @@ def test_basic_test_client(app):
 pip install pytest-asyncio
 ```
 
-その後、非同期テストを作成し、ASGIクライアントを使用することができます。
+その後、非同期テストを作成し、ASGIクライアントを使用することができます:
 
 ```python
 import pytest
 from sanic import Sanic, response
+
 @pytest.fixture
 def app():
     sanic_app = Sanic(__name__)
+
     @sanic_app.get("/")
     def basic(request):
         return response.text("foo")
+
     return sanic_app
+
 @pytest.mark.asyncio
 async def test_basic_asgi_client(app):
     request, response = await app.asgi_client.get("/")
+
     assert request.method.lower() == "get"
     assert response.body == b"foo"
     assert response.status == 200

@@ -2,7 +2,7 @@
 
 > 認証と認可を制御するにはどうすればよいですか。
 
-これは、いくつかのスニペットに詰め込むのが非常に複雑な問題です。しかし、これはこの問題に取り組む方法についてのアイデアを提供するはずです。この例では [JWT](https://jwt.io/)を使用していますが、この概念はセッションやその他のスキームにも同様に適用できます。
+これは、いくつかのスニペットに詰め込むのが非常に複雑な問題です。 しかし、これはこの問題に取り組む方法についてのアイデアを提供するはずです。 この例では [JWT](https://jwt.io/)を使用していますが、この概念はセッションやその他のスキームにも同様に適用できます。
 
 :::: tabs
 ::: tab server.py
@@ -75,11 +75,19 @@ def protected(wrapped):
 
     return decorator(wrapped)
 ```
-このデコレーターのパターンは、 [decorators page](/en/guide/best-practices/decorators.md) から取得されます。
-:::
+このデコレーターのパターンは、 [decorators page](/en/guide/best-practices/decorators.md) から取得されます。 :::
+:::: :::
 ::::
 
 ```bash
+$ curl localhost:9999/secret -i
+HTTP/1.1 401 Unauthorized
+content-length: 21
+connection: keep-alive
+content-type: text/plain; charset=utf-8
+
+You are unauthorized.
+
 $ curl localhost:9999/secret -i
 HTTP/1.1 401 Unauthorized
 content-length: 21

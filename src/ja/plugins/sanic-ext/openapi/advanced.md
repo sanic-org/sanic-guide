@@ -1,6 +1,6 @@
 # 高機能
 
-_ドキュメンテーションは2021年10月に追加予定_
+_Documentation coming EOQ1 2023_
 
 ## CBV
 
