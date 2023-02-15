@@ -73,4 +73,4 @@ async def test(request):
 
 ## Eating
 
-I like cookies :cookie:
+Sanic likes cookies :cookie:
