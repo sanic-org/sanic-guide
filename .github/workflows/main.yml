@@ -6,12 +6,12 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    using: 'node16'
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
       - name: Install and Build 🔧
-        using: 'node16'
         run: |
           npm install
           npm run docs:build
