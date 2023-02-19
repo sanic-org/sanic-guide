@@ -24,12 +24,12 @@ logo: false
 
 ## The lightning-fast asynchronous Python web framework
 
-**With the features and tools <span class="text-accent">you'd expect</span>.<br />And some <span class="text-accent">you wouldn't</span>.**
+**With the features and tools <span class="text-accent">you'd expect</span>.<br />And some <span class="text-accent">you wouldn't believe</span>.**
 
 :::: tabs
 ::: tab "Production-grade"
 
-After installing, Sanic has all the tools you need for a production-grade server out of the box.
+After installing, Sanic has all the tools you need for a scalable, production-grade server—out of the box!
 
 Including [full TLS support](#tls-server).
 
@@ -68,13 +68,13 @@ Running Sanic with TLS enabled is as simple as passing it the file paths...
 ▶ sanic path.to.server:app --cert=/path/to/bundle.crt --key=/path/to/privkey.pem
 ```
 
-... or the a directory containing fullchain.pem and privkey.pem
+... or the a directory containing `fullchain.pem` and `privkey.pem`
 
 ```
 ▶ sanic path.to.server:app --tls=/path/to/certs
 ```
 
-**Even better**, while you are developing, let Sanic handle setting up local TLS certificates so you can access your site at [https://localhost:8443](https://localhost:8443)
+**Even better**, while you are developing, let Sanic handle setting up local TLS certificates so you can access your site over TLS at [https://localhost:8443](https://localhost:8443)
 
 ```
 ▶ sanic path.to.server:app --dev --auto-tls
@@ -96,10 +96,11 @@ async def feed(request: Request, ws: Websocket):
 
 ::: tab "Static files"
 
-Serving static files is of course intuitive and easy. Just name an endpoint and either a file or directory to server.
+Serving static files is of course intuitive and easy. Just name an endpoint and either a file or directory that should be served.
 
 ```python
 app.static("/", "/path/to/index.html")
+app.static("/uploads/", "/path/to/uploads/")
 ```
 :::
 
@@ -129,25 +130,27 @@ async def setup_db(app):
     await app.ctx.db_pool.shutdown()
 ```
 
-But, Sanic allows you to tie into a bunch of built-in events (called signals), or create your own.
+But, Sanic also allows you to tie into a bunch of built-in events (called signals), or create and dispatch your own.
 
 ```python
-@app.signal("http.lifecycle.complete")
+@app.signal("http.lifecycle.complete")  # built-in
 async def my_signal_handler(conn_info):
     print("Connection has been closed")
 
-@app.signal("something.happened.ohmy")
+@app.signal("something.happened.ohmy")  # custom
 async def my_signal_handler():
     print("something happened")
+
+await app.dispatch("something.happened.ohmy")
 ```
 :::
 
 ::: tab "Smart error handling"
 
-Raising errors will intuitively result in properly HTTP errors:
+Raising errors will intuitively result in proper HTTP errors:
 
 ```python
-raise sanic.exceptions.NotFound  # HTTP 404
+raise sanic.exceptions.NotFound  # Automatically responds with HTTP 404
 ```
 
 Or, make your own:
