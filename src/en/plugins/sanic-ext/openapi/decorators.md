@@ -19,7 +19,7 @@ from sanic_ext import openapi
 @app.get("/path/to/<something>")
 @openapi.summary("This is a summary")
 @openapi.description("This is a description")
-async def handler(request, somethind: str):
+async def handler(request, something: str):
     ...
 ```
 
