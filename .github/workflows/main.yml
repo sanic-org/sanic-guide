@@ -10,6 +10,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@master
 
+      - name: Use Node.js 16.19
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.19
+
       - name: Install and Build 🔧
         run: |
           nvm use 16
