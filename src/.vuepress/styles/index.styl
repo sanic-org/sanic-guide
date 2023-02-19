@@ -1,6 +1,7 @@
 @require '~vuepress-plugin-tabs/dist/themes/default.styl'
 @require 'breakpoints.styl'
 @require 'custom.styl'
+@require 'code.styl'
 @require 'darkmode.styl'
 
 html
@@ -84,5 +85,19 @@ section.tabs-component-panel::before
     //     content: '- ';
     //     position: absolute;
     //     left: 1rem;
+
+.home .hero .description
+    max-width: 48ch !important
+    font-family: "Fira Code", "Source Code Pro", Menlo, Monaco, Consolas, "Lucisa Console", monospace
+
 a
     display: inline-block
+
+.landing-page .theme-default-content
+    width: 90%
+    margin: auto
+
+.code-copy
+	position: absolute
+	right: 0.25rem
+	bottom: 0.25rem

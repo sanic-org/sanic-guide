@@ -53,6 +53,9 @@ body.dark-mode
         border-color: #272727
 
     .tabs-component-tab
+        &.is-active
+            color: #ddd
+
         &:not(.is-active)
             background-color: #181818
             color: #999
@@ -94,3 +97,50 @@ body.dark-mode
         background-color: rgba(106, 100, 48, 0.66)
         top: 4px
         position: relative
+
+    div[class*="language-"]
+        background-color: #1e2024
+
+    .token.punctuation,
+    .token.operator,
+    .token.entity,
+    .token.url
+        color: #a2a2a2
+
+    .theme-default-content pre code, .theme-default-content pre[class*="language-"] code
+        color: #e2e2e2
+
+    .token.boolean,
+    .token.number,
+    .token.function
+        color: #0092FF
+
+    .token.property,
+    .token.class-name,
+    .token.constant,
+    .token.symbol
+        color: #FFE900
+
+    .token.selector,
+    .token.important,
+    .token.atrule,
+    .token.keyword,
+    .token.builtin
+        color: #ff0d68
+
+    .token.string,
+    .token.char,
+    .token.attr-value,
+    .token.regex,
+    .token.variable
+        color: #16DB93
+
+
+    header.hero img
+        display: none
+
+    header.hero h1
+        background: url(/images/logo-white.svg) no-repeat
+        background-position: 50%  0
+        overflow: visible
+        padding-top: 150px
