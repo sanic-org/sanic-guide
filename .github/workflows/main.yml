@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Install and Build 🔧
+        using: 'node16'
         run: |
           npm install
           npm run docs:build
