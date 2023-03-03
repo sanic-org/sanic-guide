@@ -59,13 +59,13 @@ app.add_route(FooBar.as_view(), "/foobar")
 
 ## ビューの定義
 
-クラスベースのビューは、`HTTPMethodView` をサブクラス化する必要があります。その後、対応するHTTPメソッドの名前でクラスメソッドを実装できます。定義されたメソッドを持たない要求を受信すると、`405: Method not allowed` 応答が生成されます。
+クラスベースのビューは、`HTTPMethodView`のサブクラスである必要があります。その後、対応するHTTPメソッドの名前でクラスメソッドを実装できます。定義されたメソッドを持たない要求を受信すると、`405: Method not allowed`応答が生成されます。
 
 ---:1
 
-エンドポイントにクラスベースのビューを登録するには、`app.add_route`メソッドが使用されます。最初の引数は、メソッド `as_view` が呼び出された定義されたクラスで、2 番目の引数は URL エンドポイントである必要があります。
+エンドポイントにクラスベースのビューを登録するために、`app.add_route`メソッドが使用できます。最初の引数は、メソッド`as_view`が呼び出された定義済みクラスで、2番目の引数はURLエンドポイントである必要があります。
 
-利用可能な方法は:
+利用可能なメソッドは:
 
 - get
 - post
@@ -84,7 +84,7 @@ class SimpleView(HTTPMethodView):
   def get(self, request):
       return text("I am get method")
 
-  # You can also use async syntax
+  # 非同期構文も利用可能
   async def post(self, request):
       return text("I am post method")
 
@@ -119,7 +119,7 @@ app.add_route(NameView.as_view(), "/<name>")
 
 ## デコレーター
 
-[デコレータセクション](/guide/best-practices/decorators.md)で説明したように、デコレータを使用してエンドポイントに機能を追加する必要があります。 あなたはCBVと二つ選択肢があります。
+[デコレータセクション](/guide/best-practices/decorators.md)で説明したように、デコレータを使用してエンドポイントに機能を追加する必要がある場合があります。 CBVによる二つの選択肢があります:
 
 1. ビュー内の _全ての_ HTTPメソッドに適用する
 2. ビュー内のHTTPメソッドに個別に適用する
@@ -128,19 +128,19 @@ app.add_route(NameView.as_view(), "/<name>")
 
 ---:1
 
-### すべての方法に適用する
+### すべてのメソッドに適用する
 
-クラスにデコレータを追加する場合は、`デコレータ`クラス変数を設定できます。これらは、`as_view`が呼び出されるとクラスに適用されます。
+クラスにデコレータを追加する場合は、`decorators`クラス変数を設定できます。 これらは、`as_view`が呼び出されるとクラスに適用されます。
 :--:1
 ```python
 class ViewWithDecorator(HTTPMethodView):
   decorators = [some_decorator_here]
 
   def get(self, request, name):
-    return text("Hello I have a decorator")
+    return text("やあ、僕はデコレータを持ってるよ")
 
   def post(self, request, name):
-    return text("Hello I also have a decorator")
+    return text("やあ、僕もデコレータを持ってるよ")
 
 app.add_route(ViewWithDecorator.as_view(), "/url")
 ```
@@ -158,14 +158,14 @@ class ViewWithSomeDecorator(HTTPMethodView):
     @staticmethod
     @some_decorator_here
     def get(request, name):
-        return text("Hello I have a decorator")
+        return text("やあ、僕はデコレータを持ってるよ")
 
     def post(self, request, name):
-        return text("Hello I don"t have any decorators")
+        return text("やあ、僕はデコレータを持っていないよ")
 
     @some_decorator_here
     def patch(self, request, name):
-        return text("Hello I have a decorator")
+        return text("やあ、僕もデコレータを持っているよ")
 ```
 :---
 
@@ -183,7 +183,7 @@ def index(request):
 
 class SpecialClassView(HTTPMethodView):
     def get(self, request):
-        return text("Hello from the Special Class View!")
+        return text("Special Class Viewからこんにちは!")
 
 
 app.add_route(SpecialClassView.as_view(), "/special_class_view")
