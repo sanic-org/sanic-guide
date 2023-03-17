@@ -198,6 +198,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | REQUEST_BUFFER_SIZE | 65536 | リクエストが一時停止するまでのリクエストバッファサイズ、デフォルトは64Kib |
 | REQUEST_ID_HEADER | X-Request-ID | リクエスト/相関 ID を含む HTTP ヘッダー "X-Request-ID" の名前 |
 | REQUEST_MAX_SIZE | 100000000 | リクエストの大きさ (バイト)、デフォルトは100メガバイトです。 |
+| REQUEST_MAX_HEADER_SIZE | 8192 | Request要求ヘッダ最大バイト数(最大16384バイト)です。    |
 | REQUEST_TIMEOUT | 60 | リクエストが到着するまでの時間(秒)です。 |
 | RESPONSE_TIMEOUT | 60 | レスポンス処理にかかる時間(秒)です。 |
 | USE_UVLOOP | True | ループポリシーをオーバーライドして `uvloop` を使用するかどうかを指定します。`app.run`でのみサポートされる。 |
