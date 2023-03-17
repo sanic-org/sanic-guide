@@ -238,6 +238,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | REQUEST_BUFFER_QUEUE_SIZE | 100             | 请求流缓冲区队列大小                               |
 | REQUEST_ID_HEADER         | X-Request-ID    | 请求头中的请求 ID 名称：X-Request-ID               |
 | REQUEST_MAX_SIZE          | 100000000       | Request 的最大字节数                               |
+| REQUEST_MAX_HEADER_SIZE   | 8192            | Request 请求头最大字节数 (最大16384)                |
 | REQUEST_TIMEOUT           | 60              | 请求超时时间                                       |
 | RESPONSE_TIMEOUT          | 60              | 响应超时时间                                       |
 | WEBSOCKET_MAX_SIZE        | 2^20            | websocket 传入消息最大字节数                       |
