@@ -1,9 +1,9 @@
 # Response
 
-All [handlers](./handlers.md)* **must** return a response object, and [middleware](./middleware.md) may optionally return a response object.
+All [handlers](./handlers.md) *usually* return a response object, and [middleware](./middleware.md) may optionally return a response object.
 
 To clarify that statement:
-- unless the handler is a streaming endpoint, the return value must be an instance of `sanic.HTTPResponse` (to learn more about this exception see [streaming responses](../advanced/streaming.md#response-streaming))
+- unless the handler is a streaming endpoint handling its own pattern for sending bytes to the client, the return value must be an instance of `sanic.HTTPResponse` (to learn more about this exception see [streaming responses](../advanced/streaming.md#response-streaming))
 - if a middleware returns a response object, that will be used instead of whatever the handler would do (see [middleware](./middleware.md) to learn more)
 
 A most basic handler would look like the following. The `HTTPResponse` object will allow you to set the status, body, and headers to be returned to the client.
@@ -182,7 +182,6 @@ async def create_new(request):
     return json({"created": True, "id": new_thing.thing_id}, status=201)
 ```
 
-::: new NEW in v22.12
 ## Returning JSON data
 
 Starting in v22.12, When you use the `sanic.json` convenience method, it will return a subclass of `HTTPResponse` called `JSONResponse`. This object will 
@@ -218,4 +217,4 @@ resp.update({"something": "else"})
 # This is NOT OKAY
 resp.raw_body.update({"something": "else"})
 ```
-:::
+*Added in v22.9*

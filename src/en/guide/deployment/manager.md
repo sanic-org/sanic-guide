@@ -86,10 +86,6 @@ WorkerManager.THRESHOLD = 600
 ```
 :---
 
-
-
-
-::: new NEW in v22.12
 ### Zero downtime restarts
 
 By default, when restarting workers, Sanic will teardown the existing process first before starting a new one. 
@@ -105,7 +101,6 @@ app.m.restart(zero_downtime=True)
 :---
 
 *Added in v22.12*
-:::
 
 ## Using shared context between worker processes
 
