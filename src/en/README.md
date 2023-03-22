@@ -271,10 +271,12 @@ Sanic is **built for building**.
 
 From the moment it is installed, Sanic includes helpful tools to help the developer get their job done.
 
-- Develop locally in DEV mode on the same server that will run your PRODUCTION application
-- Of course auto-reloading, right? But also auto-reload on any arbitrary directory
-- Super helpful (and beautiful) error pages
-- Simple auto-TLS mode in development
+- **One server** - Develop locally in DEV mode on the same server that will run your PRODUCTION application
+- **Auto reload** - Reload running applications every time you save a Python fil, but also auto-reload **on any arbitrary directory** like HTML template directories
+- **Debuggin tools** - Super helpful (and beautiful) [error pages](#smart-error-handling) that help you traverse the trace stack easily
+- **Auto TLS** - Running a localhost website with `https` can be difficult, [Sanic makes it easy](#tls-server)
+- **Streamlined testing** - Built-in testing capabilities, making it easier for developers to create and run tests, ensuring the quality and reliability of their services
+- **Modern Python** - Thoughtful use of type hints to help the developer IDE experience
 :::
 
 ::::
