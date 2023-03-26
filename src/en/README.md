@@ -43,8 +43,8 @@ app = Sanic("MyHelloWorldApp")
 async def hello_world(request):
     return text("Hello, world.")
 ```
-```
-▶ sanic path.to.server:app
+```sh
+sanic path.to.server:app
 [2023-01-31 12:34:56 +0000] [999996] [INFO] Sanic v22.12.0
 [2023-01-31 12:34:56 +0000] [999996] [INFO] Goin' Fast @ http://127.0.0.1:8000
 [2023-01-31 12:34:56 +0000] [999996] [INFO] mode: production, single worker
@@ -64,20 +64,20 @@ async def hello_world(request):
 ::: tab "TLS server"
 
 Running Sanic with TLS enabled is as simple as passing it the file paths...
-```
-▶ sanic path.to.server:app --cert=/path/to/bundle.crt --key=/path/to/privkey.pem
+```sh
+sanic path.to.server:app --cert=/path/to/bundle.crt --key=/path/to/privkey.pem
 ```
 
 ... or the a directory containing `fullchain.pem` and `privkey.pem`
 
-```
-▶ sanic path.to.server:app --tls=/path/to/certs
+```sh
+sanic path.to.server:app --tls=/path/to/certs
 ```
 
 **Even better**, while you are developing, let Sanic handle setting up local TLS certificates so you can access your site over TLS at [https://localhost:8443](https://localhost:8443)
 
-```
-▶ sanic path.to.server:app --dev --auto-tls
+```sh
+sanic path.to.server:app --dev --auto-tls
 ```
 :::
 
@@ -102,6 +102,35 @@ Serving static files is of course intuitive and easy. Just name an endpoint and 
 app.static("/", "/path/to/index.html")
 app.static("/uploads/", "/path/to/uploads/")
 ```
+
+Moreover, serving a directory has two additional features: automatically serving an index, and automatically serving a file browser.
+
+---:1
+Sanic can automatically serve `index.html` (or any other named file) as an index page in a directory or its subdirectories.
+:--:
+```python
+app.static(
+    "/uploads/",
+    "/path/to/uploads/",
+    index="index.html"
+)
+```
+:---
+
+And/or, setup Sanic to display a file browser.
+
+---:1
+![image](../assets/images/directory-view.png)
+:--:
+```python
+app.static(
+    "/uploads/",
+    "/path/to/uploads/",
+    directory_view=True
+)
+```
+:---
+
 :::
 
 ::: tab Lifecycle
@@ -165,14 +194,19 @@ class TeapotError(SanicException):
 raise TeapotError
 ```
 
+And, when an error does happen, Sanic's beautiful DEV mode error page will help you drill down to the bug quickly.
+
+![image](../assets/images/error-div-by-zero.png)
+
 Regardless, Sanic comes with an algorithm that attempts to respond with HTML, JSON, or text-based errors as appropriate. Don't worry, it is super easy to setup and customize your error handling to your exact needs.
+
 :::
 
 ::: tab "App Inspector"
 
 Check in on your live, running applications (whether local or remote).
-```python
-▶ sanic inspect      
+```sh
+sanic inspect      
 
   ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
   │                                                        Sanic                                                        │
@@ -205,6 +239,18 @@ Check in on your live, running applications (whether local or remote).
   	start_at: 2023-01-31T12:34:56.00000+00:00
   	starts: 1
 ```
+
+And, issue commands like `reload`, `shutdown`, `scale`...
+
+```sh
+sanic inspect scale 4
+```
+
+... or even create your own!
+
+```sh
+sanic inspect migrations
+```
 :::
 
 ::: tab Extensible
@@ -218,6 +264,19 @@ In addition to the tools that Sanic comes with, the officially supported [Sanic 
 - Request query arguments and body input **validation**
 - **Auto create** HEAD, OPTIONS, and TRACE endpoints
 - Live **health monitor**
+:::
+
+::: tab "Developer Experience"
+Sanic is **built for building**.
+
+From the moment it is installed, Sanic includes helpful tools to help the developer get their job done.
+
+- **One server** - Develop locally in DEV mode on the same server that will run your PRODUCTION application
+- **Auto reload** - Reload running applications every time you save a Python fil, but also auto-reload **on any arbitrary directory** like HTML template directories
+- **Debuggin tools** - Super helpful (and beautiful) [error pages](#smart-error-handling) that help you traverse the trace stack easily
+- **Auto TLS** - Running a localhost website with `https` can be difficult, [Sanic makes it easy](#tls-server)
+- **Streamlined testing** - Built-in testing capabilities, making it easier for developers to create and run tests, ensuring the quality and reliability of their services
+- **Modern Python** - Thoughtful use of type hints to help the developer IDE experience
 :::
 
 ::::

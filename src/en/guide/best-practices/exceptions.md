@@ -20,7 +20,7 @@ Sanic provides a number of standard exceptions. They each automatically will rai
 
 The more common exceptions you _should_ implement yourself include:
 
-- `InvalidUsage` (400)
+- `BadRequest` (400)
 - `Unauthorized` (401)
 - `Forbidden` (403)
 - `NotFound` (404)
@@ -38,7 +38,6 @@ async def login(request):
         raise exceptions.NotFound(
             f"Could not find user with username={request.json.username}"
         )
-    ...
 ```
 
 :---
@@ -50,6 +49,7 @@ All exceptions in Sanic derive from `SanicException`. That class has a few prope
 - `message`
 - `status_code`
 - `quiet`
+- `headers`
 - `context`
 - `extra`
 
@@ -109,6 +109,25 @@ Sometimes while debugging you may want to globally ignore the `quiet=True` prope
 :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
+```
+:---
+
+---:1
+### `headers`
+
+Using `SanicException` as a tool for creating responses is super powerful. This is in part because not only can you control the `status_code`, but you can also control reponse headers directly from the exception.
+:--:1
+```python
+class MyException(SanicException):
+    headers = {
+      "X-Foo": "bar"
+    }
+
+raise MyException
+# or
+raise InvalidUsage("blah blah", headers={
+    "X-Foo": "bar"
+})
 ```
 :---
 
@@ -214,10 +233,14 @@ In some cases, you might want to add some more error handling functionality to w
 from sanic.handlers import ErrorHandler
 
 class CustomErrorHandler(ErrorHandler):
-    def default(self, request, exception):
+    def default(self, request: Request, exception: Exception) -> HTTPResponse:
         ''' handles errors that have no error handlers assigned '''
         # You custom error handling logic...
-        return super().default(request, exception)
+        status_code = getattr(exception, "status_code", 500)
+        return json({
+          "error": str(exception),
+          "foo": "bar"
+        }, status=status_code)
 
 app.error_handler = CustomErrorHandler()
 ```
@@ -226,11 +249,13 @@ app.error_handler = CustomErrorHandler()
 
 Sanic comes with three fallback exception handlers:
 
-1. HTML (*default*)
+1. HTML
 2. Text
 3. JSON
 
 These handlers present differing levels of detail depending upon whether your application is in [debug mode](/guide/deployment/development.md) or not.
+
+By default, Sanic will be in "auto" mode, which means that it will using the incoming request and potential matching handler to choose the appropriate response format. For example, when in a browser it should always provide an HTML error page. When using curl, you might see JSON or plain text.
 
 ### HTML
 
@@ -244,7 +269,7 @@ app.config.FALLBACK_ERROR_FORMAT = "html"
 app.config.DEBUG = True
 ```
 
-![Error](~@assets/images/error-html-debug.png)
+![Error](~@assets/images/error-display-html-debug.png)
 
 :--:1
 
@@ -252,7 +277,7 @@ app.config.DEBUG = True
 app.config.DEBUG = False
 ```
 
-![Error](~@assets/images/error-html-no-debug.png)
+![Error](~@assets/images/error-display-html-prod.png)
 
 :---
 
@@ -268,10 +293,10 @@ app.config.FALLBACK_ERROR_FORMAT = "text"
 app.config.DEBUG = True
 ```
 
-```bash
-$ curl localhost:8000/exc -i
+```sh
+curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
-content-length: 590
+content-length: 620
 connection: keep-alive
 content-type: text/plain; charset=utf-8
 
@@ -280,13 +305,16 @@ content-type: text/plain; charset=utf-8
 That time when that thing broke that other thing? That happened.
 
 ServerError: That time when that thing broke that other thing? That happened. while handling path /exc
-Traceback of __BASE__ (most recent call last):
+Traceback of TestApp (most recent call last):
 
   ServerError: That time when that thing broke that other thing? That happened.
-    File /path/to/sanic/app.py, line 986, in handle_request
+    File /path/to/sanic/app.py, line 979, in handle_request
     response = await response
 
-    File /path/to/server.py, line 222, in exc
+    File /path/to/server.py, line 16, in handler
+    do_something(cause_error=True)
+
+    File /path/to/something.py, line 9, in do_something
     raise ServerError(
 ```
 
@@ -296,8 +324,8 @@ Traceback of __BASE__ (most recent call last):
 app.config.DEBUG = False
 ```
 
-```bash
-$ curl localhost:8000/exc -i
+```sh
+curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
 content-length: 134
 connection: keep-alive
@@ -322,12 +350,12 @@ app.config.FALLBACK_ERROR_FORMAT = "json"
 app.config.DEBUG = True
 ```
 
-```bash
-$ curl localhost:8000/exc -i
+```sh
+curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
-content-length: 129
+content-length: 572
 connection: keep-alive
-content-type: application/json
+content-type: application/jso
 
 {
   "description": "Internal Server Error",
@@ -342,22 +370,26 @@ content-type: application/json
       "frames": [
         {
           "file": "/path/to/sanic/app.py",
-          "line": 986,
+          "line": 979,
           "name": "handle_request",
           "src": "response = await response"
         },
         {
           "file": "/path/to/server.py",
-          "line": 222,
-          "name": "exc",
+          "line": 16,
+          "name": "handler",
+          "src": "do_something(cause_error=True)"
+        },
+        {
+          "file": "/path/to/something.py",
+          "line": 9,
+          "name": "do_something",
           "src": "raise ServerError("
         }
       ]
     }
   ]
 }
-
-
 ```
 
 :--:1
@@ -366,10 +398,10 @@ content-type: application/json
 app.config.DEBUG = False
 ```
 
-```bash
-$ curl localhost:8000/exc -i
+```sh
+curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
-content-length: 530
+content-length: 129
 connection: keep-alive
 content-type: application/json
 
@@ -385,7 +417,7 @@ content-type: application/json
 
 ### Auto
 
-Sanic also provides an option for guessing which fallback option to use. This is still an **experimental feature**.
+Sanic also provides an option for guessing which fallback option to use.
 
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
@@ -409,6 +441,24 @@ But this lacks two things:
 
 *Added in v21.12*
 
+Using one of Sanic's exceptions, you have two options to provide additional details at runtime:
+
+```python
+raise TeapotError(extra={"foo": "bar"}, context={"foo": "bar"})
+```
+
+What's the difference and when should you decide to use each?
+
+- `extra` - The object itself will **never** be sent to a production client. It is meant for internal use only. What could it be used for?
+  - Generating (as we will see in a minute) a dynamic error message
+  - Providing runtime details to a logger
+  - Debug information (when in development mode, it is rendered)
+- `context` - This object is **always** sent to production clients. It is generally meant to be used to send additional details about the context of what happened. What could it be used for?
+  - Providing alternative values on a `BadRequest` validation issue
+  - Responding with helpful details for your customers to open a support ticket
+  - Displaying state information like current logged in user info
+
+
 ### Dynamic and predictable message using `extra`
 
 Sanic exceptions can be raised using `extra` keyword arguments to provide additional information to a raised exception instance.
@@ -427,13 +477,13 @@ raise TeapotError(extra={"name": "Adam"})
 The new feature allows the passing of `extra` meta to the exception instance, which can be particularly useful as in the above example to pass dynamic data into the message text. This `extra` info object **will be suppressed** when in `PRODUCTION` mode, but displayed in `DEVELOPMENT` mode.
 
 ---:1
-**PRODUCTION**
-
-![image](https://user-images.githubusercontent.com/166269/139014161-cda67cd1-843f-4ad2-9fa1-acb94a59fc4d.png)
-:--:1
 **DEVELOPMENT**
 
-![image](https://user-images.githubusercontent.com/166269/139014121-0596b084-b3c5-4adb-994e-31ba6eba6dad.png)
+![image](~@assets/images/error-extra-debug.png)
+:--:1
+**PRODUCTION**
+
+![image](~@assets/images/error-extra-prod.png)
 :---
 
 ### Additional `context` to an error message

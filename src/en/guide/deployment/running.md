@@ -1,88 +1,31 @@
 # Running Sanic
 
-Sanic ships with its own internal web server. Under most circumstances, this is the preferred method for deployment. In addition, you can also deploy Sanic as an ASGI app bundled with an ASGI-able web server, or using gunicorn.
+Sanic ships with its own internal web server. Under most circumstances, this is the preferred method for deployment. In addition, you can also deploy Sanic as an ASGI app bundled with an ASGI-able web server.
 
 ## Sanic Server
 
-There are two main ways to run Sanic Server:
+The main way to run Sanic is to use the included [CLI](#sanic-cli).
 
-1. Using `app.run`
-1. Using the [CLI](#sanic-cli)
+```sh
+sanic path.to.server:app
+```
 
-When using `app.run` you will just call your Python file like any other script.
+In this example, Sanic is instructed to look for a python module called `path.to.server`. Inside of that module, it will look for a global variable called `app`, which should be an instance of `Sanic(...)`.
 
----:1
-`app.run` must be properly nested inside of a name-main block.
-:--:1
 ```python
-# server.py
-app = Sanic("MyApp")
+# ./path/to/server.py
+from sanic import Sanic, Request, json
 
-if __name__ == "__main__":
-    app.run()
+app = Sanic("TestApp")
+
+
+@app.get("/")
+async def handler(request: Request):
+    return json({"foo": "bar"})
 ```
-:---
 
+You may also dropdown to the [lower level API](#low-level-apprun) to call `app.run` as a script. However, if you choose this option you should be more comfortable handling issues that may arise with `multiprocessing`.
 
-
-After defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
-
-|       Parameter       |     Default    |                                           Description                                     |
-| :-------------------: | :------------: | :---------------------------------------------------------------------------------------- |
-|  **host**             | `"127.0.0.1"`  | Address to host the server on.                                                            |
-|  **port**             | `8000`         | Port to host the server on.                                                               |
-|  **unix**             | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
-|  **debug**            | `False`        | Enables debug output (slows server).                                                      |
-|  **ssl**              | `None`         | SSLContext for SSL encryption of worker(s).                                               |
-|  **sock**             | `None`         | Socket for the server to accept connections from.                                         |
-|  **workers**          | `1`            | Number of worker processes to spawn. Cannot be used with fast.                            |
-|  **loop**             | `None`         | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
-|  **protocol**         | `HttpProtocol` | Subclass of asyncio.protocol.                                                             |
-|  **access_log**       | `True`         | Enables log on handling requests (significantly slows server).                            |
-|  **reload_dir**       | `None`         | A path or list of paths to directories the auto-reloader should watch.                    |
-|  **noisy_exceptions** | `None`         | Whether to set noisy exceptions globally. None means leave as default.                    |
-|  **motd**             | `True`         | Whether to display the startup message.                                                   |
-|  **motd_display**     | `None`         | A dict with extra key/value information to display in the startup message                 |
-|  **fast**             | `False`        | Whether to maximize worker processes.  Cannot be used with workers.                       |
-|  **verbosity**        | `0`            | Level of logging detail. Max is 2.                                                        |
-|  **auto_tls**         | `False`        | Whether to auto-create a TLS certificate for local development. Not for production.       |
-|  **single_process**   | `False`        | Whether to run Sanic in a single process.                                                 |
-
----:1
-In the above example, we decided to turn off the access log in order to increase performance.
-:--:1
-```python
-# server.py
-app = Sanic("MyApp")
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=1337, access_log=False)
-```
-:---
-
----:1
-Now, just execute the python script that has `app.run(...)`
-:--:1
-```bash
-python server.py
-```
-:---
-
-For a slightly more advanced implementation, it is good to know that `app.run` will call `app.prepare` and `Sanic.serve` under the hood.
-
----:1
-Therefore, these are equivalent:
-:--:1
-```python
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=1337, access_log=False)
-```
-```python
-if __name__ == "__main__":
-    app.prepare(host='0.0.0.0', port=1337, access_log=False)
-    Sanic.serve()
-```
-:---
 
 ### Workers
 
@@ -91,47 +34,32 @@ By default, Sanic runs a main process and a single worker process (see [worker m
 
 To crank up the juice, just specify the number of workers in the run arguments.
 :--:1
-```python
-app.run(host='0.0.0.0', port=1337, workers=4)
+```sh
+sanic server:app --host=0.0.0.0 --port=1337 --workers=4
 ```
 :---
 
 Sanic will automatically spin up multiple processes and route traffic between them. We recommend as many workers as you have available processors.
 
 ---:1
-The easiest way to get the maximum CPU performance is to use the `fast` option. This will automatically run the maximum number of workers given the system constraints.
+The easiest way to get the maximum CPU performance is to use the `--fast` option. This will automatically run the maximum number of workers given the system constraints.
 
 *Added in v21.12*
 :--:1
-```python
-app.run(host='0.0.0.0', port=1337, fast=True)
-```
-```python
-$ sanic server:app --host=0.0.0.0 --port=1337 --fast
+```sh
+sanic server:app --host=0.0.0.0 --port=1337 --fast
 ```
 :---
-
-In older versions of Sanic without the `fast` option, a common way to check this on Linux based operating systems:
-
-```
-$ nproc
-```
-
-Or, let Python do it:
-
-```python
-import multiprocessing
-workers = multiprocessing.cpu_count()
-app.run(..., workers=workers)
-```
 
 In version 22.9, Sanic introduced a new worker manager to provide more consistency and flexibility between development and production servers. Read [about the manager](./manager.md) for more details about workers.
 
 ---:1
 If you only want to run Sanic with a single process, specify `single_process` in the run arguments. This means that auto-reload, and the worker manager will be unavailable.
+
+*Added in v22.9*
 :--:1
-```python
-app.run(host='0.0.0.0', port=1337, single_process=True)
+```sh
+sanic server:app --host=0.0.0.0 --port=1337 --single-process
 ```
 :---
 
@@ -139,38 +67,19 @@ app.run(host='0.0.0.0', port=1337, single_process=True)
 
 #### Sanic CLI
 
----:1
-Sanic also has a simple CLI to launch via command line.
-
-For example, if you initialized Sanic as app in a file named `server.py`, you could run the server like so:
-:--:1
-```bash
-sanic server.app --host=0.0.0.0 --port=1337 --workers=4
-```
-
-:---
-
 Use `sanic --help` to see all the options.
 
 ::: details Sanic CLI help output
 
 ```text
 $ sanic --help
-usage: sanic [-h] [--version]
-             [--factory | -s | --inspect | --inspect-raw | --trigger-reload | --trigger-shutdown]
-             [--http {1,3}] [-1] [-3] [-H HOST] [-p PORT] [-u UNIX]
-             [--cert CERT] [--key KEY] [--tls DIR] [--tls-strict-host]
-             [-w WORKERS | --fast | --single-process] [--legacy]
-             [--access-logs | --no-access-logs] [--debug] [-r] [-R PATH] [-d]
-             [--auto-tls] [--coffee | --no-coffee] [--motd | --no-motd] [-v]
-             [--noisy-exceptions | --no-noisy-exceptions]
-             module
 
    ▄███ █████ ██      ▄█▄      ██       █   █   ▄██████████
   ██                 █   █     █ ██     █   █  ██
    ▀███████ ███▄    ▀     █    █   ██   ▄   █  ██
                ██  █████████   █     ██ █   █  ▄▄
   ████ ████████▀  █         █  █       ██   █   ▀██ ███████
+
 
  To start running a Sanic application, provide a path to the module, where
  app is a Sanic() instance:
@@ -254,35 +163,181 @@ Optional
     --noisy-exceptions  Output stack traces for all exceptions
     --no-noisy-exceptions
                         No output stack traces for all exceptions
+
 ```
 :::
 
 #### As a module
 
 ---:1
-It can also be called directly as a module.
+Sanic applications can also be called directly as a module.
 :--:1
 ```bash
 python -m sanic server.app --host=0.0.0.0 --port=1337 --workers=4
 ```
 :---
 
-::: tip FYI
-With either method (CLI or module), you shoud *not* invoke `app.run()` in your Python file. If you do, make sure you wrap it so that it only executes when directly run by the interpreter.
+#### Using a factory
+
+A very common solution is to develop your application *not* as a global variable, but instead using the factory pattern. In this context, "factory" means a function that returns an instance of `Sanic(...)`.
+
+---:1
+Suppose that you have this in your `server.py`
+:--:1
+```python
+from sanic import Sanic
+
+def create_app() -> Sanic:
+    app = Sanic("MyApp")
+
+    return app
+```
+:---
+
+---:1
+You can run this application now by referencing it in the CLI explicitly as a factory:
+:--:1
+```sh
+sanic server:create_app --factory
+```
+Or, explicitly like this:
+```sh
+sanic "server:create_app()"
+```
+:::new NEW in v23.3
+Or, implicitly like this:
+```sh
+sanic server:create_app
+```
+:::
+:---
+
+### Low level `app.run`
+
+
+When using `app.run` you will just call your Python file like any other script.
+
+---:1
+`app.run` must be properly nested inside of a name-main block.
+:--:1
+```python
+# server.py
+app = Sanic("MyApp")
+
+if __name__ == "__main__":
+    app.run()
+```
+:---
+
+::: danger
+Be *careful* when using this pattern. A very common mistake is to put too much logic inside of the `if __name__ == "__main__":` block.
+
+🚫 This is a mistake
 
 ```python
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1337, workers=4)
+from sanic import Sanic
+from my.other.module import bp
+
+app = Sanic("MyApp")
+
+if __name__ == "__main__":
+    app.blueprint(bp)
+    app.run()
+```
+
+If you do this, your [blueprint](../best-practices/blueprints.md) will not be attached to your application. This is because the `__main__` block will only run on Sanic's main worker process, **NOT** any of its [worker processes](../deployment/manager.md). This goes for anything else that might impact your application (like attaching listeners, signals, middleware, etc). The only safe operations are anything that is meant for the main process, like the `app.main_*` listeners.
+
+Perhaps something like this is more appropriate:
+
+```python
+from sanic import Sanic
+from my.other.module import bp
+
+app = Sanic("MyApp")
+
+if __name__ == "__mp_main__":
+    app.blueprint(bp)
+elif __name__ == "__main__":
+    app.run()
 ```
 :::
 
+To use the low-level `run` API, after defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
+
+|       Parameter       |     Default    |                                           Description                                     |
+| :-------------------: | :------------: | :---------------------------------------------------------------------------------------- |
+|  **host**             | `"127.0.0.1"`  | Address to host the server on.                                                            |
+|  **port**             | `8000`         | Port to host the server on.                                                               |
+|  **unix**             | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
+|  **debug**            | `False`        | Enables debug output (slows server).                                                      |
+|  **ssl**              | `None`         | SSLContext for SSL encryption of worker(s).                                               |
+|  **sock**             | `None`         | Socket for the server to accept connections from.                                         |
+|  **workers**          | `1`            | Number of worker processes to spawn. Cannot be used with fast.                            |
+|  **loop**             | `None`         | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
+|  **protocol**         | `HttpProtocol` | Subclass of asyncio.protocol.                                                             |
+|  **access_log**       | `True`         | Enables log on handling requests (significantly slows server).                            |
+|  **reload_dir**       | `None`         | A path or list of paths to directories the auto-reloader should watch.                    |
+|  **noisy_exceptions** | `None`         | Whether to set noisy exceptions globally. None means leave as default.                    |
+|  **motd**             | `True`         | Whether to display the startup message.                                                   |
+|  **motd_display**     | `None`         | A dict with extra key/value information to display in the startup message                 |
+|  **fast**             | `False`        | Whether to maximize worker processes.  Cannot be used with workers.                       |
+|  **verbosity**        | `0`            | Level of logging detail. Max is 2.                                                        |
+|  **auto_tls**         | `False`        | Whether to auto-create a TLS certificate for local development. Not for production.       |
+|  **single_process**   | `False`        | Whether to run Sanic in a single process.                                                 |
+
+---:1
+For example, we can turn off the access log in order to increase performance, and bind to a custom host and port.
+:--:1
+```python
+# server.py
+app = Sanic("MyApp")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=1337, access_log=False)
+```
+:---
+
+---:1
+Now, just execute the python script that has `app.run(...)`
+:--:1
+```sh
+python server.py
+```
+:---
+
+For a slightly more advanced implementation, it is good to know that `app.run` will call `app.prepare` and `Sanic.serve` under the hood.
+
+---:1
+Therefore, these are equivalent:
+:--:1
+```python
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=1337, access_log=False)
+```
+```python
+if __name__ == "__main__":
+    app.prepare(host='0.0.0.0', port=1337, access_log=False)
+    Sanic.serve()
+```
+:---
+---:1
+This can be useful if you need to bind your appliction(s) to multiple ports.
+:--:1
+```python
+if __name__ == "__main__":
+    app1.prepare(host='0.0.0.0', port=9990)
+    app1.prepare(host='0.0.0.0', port=9991)
+    app2.prepare(host='0.0.0.0', port=5555)
+    Sanic.serve()
+```
+:---
 
 ### Sanic Simple Server
 
 ---:1
 Sometimes you just have a directory of static files that need to be served. This especially can be handy for quickly standing up a localhost server. Sanic ships with a Simple Server, where you only need to point it at a directory.
 :--:1
-```bash
+```sh
 sanic ./path/to/dir --simple
 ```
 :---
@@ -290,7 +345,7 @@ sanic ./path/to/dir --simple
 ---:1
 This could also be paired with auto-reloading.
 :--:1
-```bash
+```sh
 sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 ```
 :---
@@ -302,23 +357,23 @@ sanic ./path/to/dir --simple --reload --reload-dir=./path/to/dir
 
 Sanic server offers HTTP/3 support using [aioquic](https://github.com/aiortc/aioquic). This **must** be installed to use HTTP/3:
 
-```
+```sh
 pip install sanic aioquic
 ```
 
-```
+```sh
 pip install sanic[http3]
 ```
 
 To start HTTP/3, you must explicitly request it when running your application.
 
 ---:1
-```
-$ sanic path.to.server:app --http=3
+```sh
+sanic path.to.server:app --http=3
 ```
 
-```
-$ sanic path.to.server:app -3
+```sh
+sanic path.to.server:app -3
 ```
 :--:1
 
@@ -331,12 +386,12 @@ To run both an HTTP/3 and HTTP/1.1 server simultaneously, you can use [applicati
 
 
 ---:1
-```
-$ sanic path.to.server:app --http=3 --http=1
+```sh
+sanic path.to.server:app --http=3 --http=1
 ```
 
-```
-$ sanic path.to.server:app -3 -1
+```sh
+sanic path.to.server:app -3 -1
 ```
 :--:1
 
@@ -361,8 +416,10 @@ Daphne does not support the ASGI `lifespan` protocol, and therefore cannot be us
 
 Follow their documentation for the proper way to run them, but it should look something like:
 
-```
+```sh
 uvicorn myapp:app
+```
+```sh
 hypercorn myapp:app
 ```
 
@@ -375,7 +432,7 @@ A couple things to note when using ASGI:
 
 Sanic has experimental support for running on Trio with:
 
-```
+```sh
 hypercorn -k trio myapp:app
 ```
 
@@ -386,7 +443,7 @@ hypercorn -k trio myapp:app
 
 In order to run Sanic application with Gunicorn, you need to use it with the adapter from [uvicorn](https://www.uvicorn.org/). Make sure uvicorn is installed and run it with `uvicorn.workers.UvicornWorker` for Gunicorn worker-class argument:
 
-```bash
+```sh
 gunicorn myapp:app --bind 0.0.0.0:1337 --worker-class uvicorn.workers.UvicornWorker
 ```
 
@@ -401,8 +458,8 @@ It is generally advised to not use `gunicorn` unless you need it. The Sanic Serv
 ---:1
 When running in production, make sure you turn off `debug`.
 :--:1
-```python
-app.run(..., debug=False)
+```sh
+sanic path.to.server:app
 ```
 :---
 
@@ -411,7 +468,7 @@ Sanic will also perform fastest if you turn off `access_log`.
 
 If you still require access logs, but want to enjoy this performance boost, consider using [Nginx as a proxy](./nginx.md), and letting that handle your access logging. It will be much faster than anything Python can handle.
 :--:1
-```python
-app.run(..., access_log=False)
+```sh
+sanic path.to.server:app --no-access-logs
 ```
 :---
