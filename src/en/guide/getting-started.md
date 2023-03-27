@@ -4,7 +4,7 @@ Before we begin, make sure you are running Python 3.7 or higher. Currently, Sani
 
 ## Install
 
-```bash
+```sh
 pip install sanic
 ```
 
@@ -46,8 +46,8 @@ async def hello_world(request):
 ---:1
 Let's save the above file as `server.py`. And launch it.
 :--:1
-```bash
-sanic server.app
+```sh
+sanic server
 ```
 :---
 
@@ -73,12 +73,12 @@ However, in order **to help API developers**, the Sanic organization maintains a
 The preferred method to set it up is to install it along with Sanic, but you can also install the packages on their own.
 
 ---:1
-```
-$ pip install sanic[ext]
+```sh
+pip install sanic[ext]
 ```
 :--:1
-```
-$ pip install sanic sanic-ext
+```sh
+pip install sanic sanic-ext
 ```
 :---
 
