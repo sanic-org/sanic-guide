@@ -205,6 +205,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | REQUEST_BUFFER_SIZE       | 65536            | Request buffer size before request is paused, default is 64 Kib                                                                       |
 | REQUEST_ID_HEADER         | X-Request-ID     | The name of "X-Request-ID" HTTP header that contains request/correlation ID                                                           |
 | REQUEST_MAX_SIZE          | 100000000        | How big a request may be (bytes), default is 100 megabytes                                                                            |
+| REQUEST_MAX_HEADER_SIZE   | 8192            | How big a request header may be (bytes), default is 8192 megabytes                                                                    |
 | REQUEST_TIMEOUT           | 60               | How long a request can take to arrive (sec)                                                                                           |
 | RESPONSE_TIMEOUT          | 60               | How long a response can take to process (sec)                                                                                         |
 | USE_UVLOOP                | True             | Whether to override the loop policy to use `uvloop`. Supported only with `app.run`.                                                   |
