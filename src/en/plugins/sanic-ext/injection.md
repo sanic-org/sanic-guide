@@ -11,7 +11,7 @@ The `Extend` instance has two basic methods on it used for dependency injection:
 
 **Lower level**: `app.ext.add_dependency(...)`
 
-- `type: Type,`: some unique class that will be the type of the oject
+- `type: Type,`: some unique class that will be the type of the object
 - `constructor: Optional[Callable[..., Any]],` (OPTIONAL): a function that will return that type
 
 **Higher level**: `app.ext.dependency(...)`

@@ -146,6 +146,13 @@ const org = [
       ]
 const releaseNotes = [
         {
+          title: "2023",
+          sidebarDepth: 2,
+          children: [
+            "/en/guide/release-notes/v23.3.md",
+          ]
+        },
+        {
           title: "2022",
           sidebarDepth: 2,
           children: [

@@ -136,18 +136,17 @@ async def handler(request):
 ::::
 
 ::: warning
-By default, Sanic will **only** consume the incoming request body on non-safe HTTP methods (`POST`, `PUT`, `PATCH`). If you want to receive data in the HTTP request on any other method, you will need to do one of the following two options:
+By default, Sanic will **only** consume the incoming request body on non-safe HTTP methods (`POST`, `PUT`, `PATCH`, `DELETE`). If you want to receive data in the HTTP request on any other method, you will need to do one of the following two options:
 
 **Option #1 - Tell Sanic to consume the body using `ignore_body`**
 ```python
-@app.delete("/path", ignore_body=False)
+@app.request("/path", ignore_body=False)
 async def handler(_):
-    ...
 ```
 
 **Option #2 - Manually consume the body in the handler using `receive_body`**
 ```python
-@app.delete("/path")
+@app.get("/path")
 async def handler(request: Request):
     await request.receive_body()
 ```
@@ -426,13 +425,12 @@ async def post_handler(request, post_id):
 You can pass any arbitrary number of keyword arguments. Anything that is _not_ a request parameter will be implemented as a part of the query string.
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "post_handler",
     post_id=5,
     arg_one="one",
     arg_two="two",
-)
-'/posts/5?arg_one=one&arg_two=two'
+) == "/posts/5?arg_one=one&arg_two=two"
 ```
 :---
 
@@ -441,12 +439,11 @@ You can pass any arbitrary number of keyword arguments. Anything that is _not_ a
 Also supported is passing multiple values for a single query key.
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "post_handler",
     post_id=5,
     arg_one=["one", "two"],
-)
-'/posts/5?arg_one=one&arg_one=two'
+) == "/posts/5?arg_one=one&arg_one=two"
 ```
 :---
 
@@ -455,20 +452,20 @@ Also supported is passing multiple values for a single query key.
 See [API Docs]() for more details.
 
 ```python
->>> app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
-'/posts/5?arg_one=one#anchor'
+app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
+# '/posts/5?arg_one=one#anchor'
 
 # _external requires you to pass an argument _server or set SERVER_NAME in app.config if not url will be same as no _external
->>> app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
-'//server/posts/5?arg_one=one'
+app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
+# '//server/posts/5?arg_one=one'
 
 # when specifying _scheme, _external must be True
->>> app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
-'http://server/posts/5?arg_one=one'
+app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
+# 'http://server/posts/5?arg_one=one'
 
 # you can pass all special arguments at once
->>> app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
-'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
+app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
+# 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
 ### Customizing a route name
@@ -489,8 +486,7 @@ def handler(request):
 Now, use this custom name to retrieve the URL
 :--:1
 ```python
->>> app.url_for("get_handler", foo="bar")
-'/get?foo=bar'
+assert app.url_for("get_handler", foo="bar") == "/get?foo=bar"
 ```
 :---
 
@@ -588,11 +584,17 @@ The order of arguments is important:
 2. Path to the files on the server
 
 See [API docs]() for more details.
+
 :--:1
 ```python
-app.static("/static", "/path/to/directory")
+app.static("/static/", "/path/to/directory/")
 ```
 :---
+
+
+::: tip
+It is generally best practice to end your directory paths with a trailing slash (`/this/is/a/directory/`). This removes ambiguity by being more explicit.
+:::
 
 ---:1
 
@@ -609,8 +611,8 @@ It is also sometimes helpful to name your endpoint
 :--:1
 ```python
 app.static(
-    "/user/uploads",
-    "/path/to/uploads",
+    "/user/uploads/",
+    "/path/to/uploads/",
     name="uploads",
 )
 ```
@@ -621,20 +623,18 @@ app.static(
 Retrieving the URLs works similar to handlers. But, we can also add the `filename` argument when we need a specific file inside a directory.
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "static",
     name="static",
     filename="file.txt",
-)
-'/static/file.txt'
+) == "/static/file.txt"
 ```
 ```python
->>> app.url_for(
+assert app.url_for(
     "static",
     name="uploads",
     filename="image.png",
-)
-'/user/uploads/image.png'
+) == "/user/uploads/image.png"
 
 ```
 :---
@@ -643,9 +643,37 @@ Retrieving the URLs works similar to handlers. But, we can also add the `filenam
 If you are going to have multiple `static()` routes, then it is *highly* suggested that you manually name them. This will almost certainly alleviate potential hard to discover bugs.
 
 ```python
-app.static("/user/uploads", "/path/to/uploads", name="uploads")
-app.static("/user/profile", "/path/to/profile", name="profile_pics")
+app.static("/user/uploads/", "/path/to/uploads/", name="uploads")
+app.static("/user/profile/", "/path/to/profile/", name="profile_pics")
 ```
+:::
+
+::: new NEW in v23.3
+#### Auto index serving
+
+---:1
+If you have a directory of static files that should be served by an index page, you can provide the filename of the index. Now, when reaching that directory URL, the index page will be served.
+:--:
+```python
+app.static("/foo/", "/path/to/foo/", index="index.html")
+```
+:---
+
+*Added in v23.3*
+
+#### File browser
+
+
+---:1
+When serving a directory from a static handler, Sanic can be configured to show a basic file browser instead using directory_view=True.
+:--:
+```python
+app.static("/uploads/", "/path/to/dir", directory_view=True)
+```
+:---
+![image](~@assets/images/directory-view.png)
+
+*Added in v23.3*
 :::
 
 ## Route context
