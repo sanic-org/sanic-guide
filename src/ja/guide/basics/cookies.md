@@ -1,6 +1,6 @@
-# Cookies
+# クッキー
 
-## Reading
+## 読み込み
 
 ---:1
 
@@ -10,12 +10,12 @@
 @app.route("/cookie")
 async def test(request):
     test_cookie = request.cookies.get("test")
-    return text("Test cookie: {}".format(test_cookie))
+    return text("テストクッキー: {}".format(test_cookie))
 ```
 :---
 
 
-## Writing
+## 書き込み
 
 ---:1
 
@@ -24,7 +24,7 @@ async def test(request):
 ```python
 @app.route("/cookie")
 async def test(request):
-    response = text("There's a cookie up in this response")
+    response = text("このレスポンスにはクッキーがあります")
     response.cookies["test"] = "It worked!"
     response.cookies["test"]["domain"] = ".yummy-yummy-cookie.com"
     response.cookies["test"]["httponly"] = True
@@ -43,7 +43,7 @@ async def test(request):
 - `httponly: bool` - クッキーをJavaScriptで読み取ることができないかどうかを指定します。
 - `samesite: str` - デフォルトはブラウザに依存し、仕様状態(Lax、Strict、None)は有効な値です。
 
-## Deleting
+## 削除
 
 ---:1
 
@@ -52,17 +52,17 @@ async def test(request):
 ```python
 @app.route("/cookie")
 async def test(request):
-    response = text("Time to eat some cookies muahaha")
+    response = text("クッキーを食べる時間だ！ハハハ")
 
-    # This cookie will be set to expire in 0 seconds
+    # 0秒後にこのクッキーは削除されます
     del response.cookies["kill_me"]
 
-    # This cookie will self destruct in 5 seconds
+    # このクッキーは5秒後に自分から消えます
     response.cookies["short_life"] = "Glad to be here"
     response.cookies["short_life"]["max-age"] = 5
     del response.cookies["favorite_color"]
 
-    # This cookie will remain unchanged
+    # このクッキーには変更はありません
     response.cookies["favorite_color"] = "blue"
     response.cookies["favorite_color"] = "pink"
     del response.cookies["favorite_color"]
@@ -71,6 +71,6 @@ async def test(request):
 ```
 :---
 
-## Eating
+## 食べる
 
-私はクッキーが好きです:🍪:
+Sanicはクッキーが好きなんです :cookie:

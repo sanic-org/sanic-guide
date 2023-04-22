@@ -1,11 +1,18 @@
 # Listeners
 
-Sanicは、アプリケーションのライフサイクルにオペレーションを注入する6つの機会を提供します。
+Sanicは、アプリケーションのライフサイクルにオペレーションを注入する6つの機会を提供します。This does not include the [signals](../advanced/signals.md), which allow further injection customization.
 
-メインのSanicプロセスで**のみ**を実行するものが2つあります(つまり、`sanic server.app`への呼び出しごとに1回です。)。
+メインのSanicプロセスで**のみ**を実行するものが2つあります(つまり、`sanic server.app`への呼び出しごとに1回です)。
 
 - `main_process_start`
 - `main_process_stop`
+
+There are also two (2) that run **only** in a reloader process if auto-reload has been turned on.
+
+- `reload_process_start`
+- `reload_process_stop`
+
+*Added `reload_process_start` and `reload_process_stop` in v22.3*
 
 サーバの起動時または終了時にスタートアップ/ティアダウンコードを実行できるようにするには、4つの方法があります。
 
@@ -60,16 +67,30 @@ loop
 end
 Note over Process: exit
 ```
+
+The reloader process live outside of this worker process inside of a process that is responsible for starting and stopping the Sanic processes. Consider the following example:
+
+```python
+@app.reload_process_start
+async def reload_start(*_):
+    print(">>>>>> reload_start <<<<<<")
+@app.main_process_start
+async def main_start(*_):
+    print(">>>>>> main_start <<<<<<")
+```
+
+If this application were run with auto-reload turned on, the `reload_start` function would be called once. This is contrasted with `main_start`, which would be run every time a file is save and the reloader restarts the applicaition process.
+
 ## Attaching a listener
 
 ---:1
 
 関数をリスナーとして設定するプロセスは、ルートの宣言に似ています。
 
-注入される2つの引数は、現在実行中の`Sanic()`インスタンスと現在実行中のループです。
+The currently running `Sanic()` instance is injected into the listener.
 :--:1
 ```python
-async def setup_db(app, loop):
+async def setup_db(app,):
     app.ctx.db = await db_setup()
 
 app.register_listener(setup_db, "before_server_start")
