@@ -12,7 +12,7 @@ layout: BlankLayout
 
 チャットや質問への迅速な回答に最も適した場所です。
 
-[Discordサーバー](https://discord.gg/FARQzAEMAA)の`#sanic-support`チャンネルへ
+[Discordサーバー](https://discord.gg/FARQzAEMAA)の`#sanic-support`チャンネルへ (もしくは、日本人であれば`#general-jp-🇯🇵`チャンネルも使えますよ！)
 
 :--:1
 

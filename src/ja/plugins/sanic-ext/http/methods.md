@@ -9,7 +9,7 @@
 
 :::tab HEAD
 
-- **Configuration**: `AUTO_HEAD` (default `True`)
+- **Configuration**: `AUTO_HEAD` (デフォルトは`True`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/HEAD)
 
 `HEAD` リクエストはヘッダーを提供し、それ以外は `GET` リクエストが提供するものと同じレスポンスを提供します。
@@ -36,7 +36,7 @@ content-type: text/plain; charset=utf-8
 
 :::tab OPTIONS
 
-- **Configuration**: `AUTO_OPTIONS` (default `True`)
+- **Configuration**: `AUTO_OPTIONS` (デフォルトは`True`)
 - **MDN**: [Read more](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/OPTIONS)
 
 `OPTIONS` リクエストは、クライアントが与えられたエンドポイントとの通信をどのように許可されるかの詳細を受信者に提供します。
