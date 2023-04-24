@@ -4,12 +4,13 @@ Sanic Extensionsは、SCOが開発し、保守している*公式サポート*�
 
 ## 機能
 
-- 自動で`HEAD`、`OPTIONS`、`TRACE`エンドポイントを作成
 - CORSによる保護
-- あらかじめ定義されたエンドポイント固有のレスポンスシリアライザー
+- Jinjaによるテンプレートのレンダリング
 - ルートハンドラへの引数挿入
 - RedocやSwaggerを使ったOpenAPIドキュメンテーション
+- あらかじめ定義されたエンドポイント固有のレスポンスシリアライザー
 - リクエストのクエリ引数とボディ入力のバリデーション
+- 自動で`HEAD`、`OPTIONS`、`TRACE`エンドポイントを作成
 
 ## 最低要件
 
@@ -34,11 +35,10 @@ pip install sanic-ext
 
 Sanic Extensionsは、特別な操作なしに、たくさんの機能を有効にしてくれます。
 
-::: new NEW in v21.12
 ---:1
 Sanic Extensions (v21.12+) をセットアップするために必要なこと: **何もない**。環境にインストールされていれば、セットアップが完了し、すぐに使えるようになっています。
 
-このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリを変更せずにそのまま使用しています_。
+このコードは、[Sanic Getting Started page](../../guide/getting-started.md) にある Hello, world アプリ_変更せずにそのまま使用していますが_、バックグラウンドに`sanic-ext`をインストールしSanic Extensionsを利用しています。
 :--:1
 ```python
 from sanic import Sanic
@@ -50,15 +50,15 @@ app = Sanic("MyHelloWorldApp")
 async def hello_world(request):
     return text("Hello, world.")
 ```
+
 :---
-:::
 
 ---:1
 **古い非推奨の設定**
 
 v21.9 では、`Extend` でインスタンス化するのが最も簡単な方法です。
 
-Sanic Getting Started page](../../guide/getting-started.md) の Hello, world アプリを見返してみると、ここで追加されているのはハイライトした2行だけであることがわかると思います。
+[Sanicを始めよう](../../guide/getting-started.md) ページの Hello, world アプリを見返してみると、ここで追加されているのはハイライトした2行だけであることがわかると思います。
 :--:1
 
 ```python{3,6}

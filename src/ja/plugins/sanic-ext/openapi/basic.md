@@ -6,24 +6,27 @@ Sanic ExtensionsのOpenAPI実装は、[`sanic-openapi`](https://github.com/sanic
 
 ---:1
 
-Sanic Extensionsは、[v3.0 OpenAPI仕様](https://swagger.io/specification/)を用いて自動生成されたAPIドキュメントをそのまま提供します。必要なのは、Sanic Extensionsをインスタンス化することによって、アプリケーションを`拡張`することだけです。
+Sanic Extensionsは、[v3.0 OpenAPI仕様](https://swagger.io/specification/)を用いて自動生成されたAPIドキュメントをそのまま提供します。あなたがする必要のあることはありません。
 
 :--:1
 
 ```python
 from sanic import Sanic
-from sanic_ext import Extend
 
 app = Sanic("MyApp")
-Extend(app)
+
+# すべてのviewを追加する
 ```
 
 :---
 
 これで、既存のアプリケーションに基づいた美しいドキュメントがすでに生成されていることになります:
 
-[http://localhost:8000/docs](http://localhost:8000/docs)
+ [http://localhost:8000/docs](http://localhost:8000/docs)
+- [http://localhost:8000/docs/redoc](http://localhost:8000/docs/redoc)
+- [http://localhost:8000/docs/swagger](http://localhost:8000/docs/swagger)
 
+Checkout the [section on configuration](../configuration.md) to learn about changing the routes for the docs. You can also turn off one of the two UIs, and customize which UI will be available on the `/docs` route.
 
 ---:1
 
@@ -38,4 +41,30 @@ Extend(app)
 
 ![Swagger UI](~@assets/images/sanic-ext-swagger.png)
 
+
+:---
+
+## Changing specification metadata
+
+---:1
+If you want to change any of the metada, you should use the `describe` method.
+
+In this example `dedent` is being used with the `description` argument to make multi-line strings a little cleaner. This is not necessary, you can pass any string value here.
+:--:1
+```python
+from textwrap import dedent
+
+app.ext.openapi.describe(
+    "Testing API",
+    version="1.2.3",
+    description=dedent(
+        """
+        # Info
+        This is a description. It is a good place to add some _extra_ doccumentation.
+
+        **MARKDOWN** is supported.
+        """
+    ),
+)
+```
 :---

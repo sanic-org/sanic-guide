@@ -38,7 +38,7 @@ class UserProfile:
 
 ## デコレーターの定義
 
-### `@opanepi.definition`
+### `@openapi.definition`
 
 `@openapi.definition`デコレーターを使用すると、パス上の操作のすべての部分を一度に定義することができます。これは、他のデコレーターと同じように操作の定義を作成できるオムニバムデコレーターです。複数のフィールド固有のデコレータを使うか、あるいは単一のデコレータを使うかは、 開発者のスタイルによります。
 
@@ -54,10 +54,11 @@ class UserProfile:
 | `document`    | **str, ExternalDocumentation**                                            | 
 | `exclude`     | **bool**                                                                  |
 | `operation`   | **str**                                                                   |
-| `parameter`   | **dict, Parameter, *ユーザー定義モデル*, [dict], [Parameter], [*ユーザー定義モデル*]** |
-| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response], [*ユーザー定義モデル*]** |
+| `parameter`   | **str, dict, Parameter, [str], [dict], [Parameter]** |
+| `response`    | **dict, Response, *ユーザー定義モデル*, [dict], [Response]** |
 | `summary`     | **str**                                                                   |
 | `tag`         | **str, Tag, [str], [Tag]**                                                |
+| `secured`     | **Dict[str, Any]**                                                        |
 
 **Examples**
 
@@ -116,6 +117,10 @@ class UserProfile:
 
 ```python
 @openapi.body(RequestBody(UserProfile))
+```
+
+```python
+@openapi.body({"application/json": {"description": ...}})
 ```
 
 :---
@@ -400,4 +405,79 @@ openapi.exclude(bp=some_blueprint)
 
 :---
 
+:::
+
+:::tab secured
+
+**Arguments**
+
+| Field             | Type                    |
+| ----------------- | ----------------------- |
+| `*args, **kwargs` | **str, Dict[str, Any]** |
+
+**Examples**
+
+---:1
+```python
+@openapi.secured()
+```
+:--:1
+:---
+
+---:1
+```python
+@openapi.tag("foo")
+```
+:--:1
+```python
+@openapi.secured("token1", "token2")
+```
+:---
+
+---:1
+```python
+@openapi.tag({"my_api_key": []})
+```
+:--:1
+```python
+@openapi.secured(my_api_key=[])
+```
+:---
+
+Do not forget to use `add_security_scheme`. See [security](./security.md) for more details.
+
+:::
+
 ::::
+
+
+## Integration with Pydantic
+
+Pydantic models have the ability to [generate OpenAPI schema](https://pydantic-docs.helpmanual.io/usage/schema/). 
+
+---:1
+To take advantage of Pydantic model schema generation, pass the output in place of the schema.
+:--:1
+```python
+from sanic import Sanic, json
+from sanic_ext import validate, openapi
+from pydantic import BaseModel, Field
+
+class Test(BaseModel):
+    foo: str = Field(description="Foo Description", example="FOOO")
+    bar: str = "test"
+
+
+app = Sanic("test")
+
+@app.get("/")
+@openapi.definition(
+    body={'application/json': Test.schema()},
+)
+@validate(json=Test)
+async def get(request):
+    return json({})
+```
+:---
+
+*Added in v22.9*

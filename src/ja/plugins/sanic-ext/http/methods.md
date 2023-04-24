@@ -81,7 +81,7 @@ async def handler(request):
 ```python
 from sanic_ext import Extend, Config
 
-Extend(app, config=Config(auto_trace=True))
+app.extend(config=Config(http_auto_trace=True))
 ```
 
 さて、いくつかのエンドポイントが設定されていると仮定して、以下のようにトレースすることができます。
