@@ -41,7 +41,7 @@ async def handler(request):
 
 ---:1
 
-... または `add_route()` メソッドを使う。
+...または `add_route()` メソッドを使う。
 :--:1
 ```python
 bp.add_route(

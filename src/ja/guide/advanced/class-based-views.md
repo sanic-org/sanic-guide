@@ -169,7 +169,7 @@ class ViewWithSomeDecorator(HTTPMethodView):
 ```
 :---
 
-## URLを作成
+## URLの生成
 ---:1
 
 これは、クラス名がエンドポイントの一部であることを除いて、[他のURLの生成](/guide/basics/routing.md#generating-a-url)と同じように機能します。

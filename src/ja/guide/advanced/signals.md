@@ -113,9 +113,13 @@ async def my_signal_handler(conn_info):
 
 Version 22.9 added `http.handler.before` and `http.handler.after`.
 
-::: new NEW in v21.12 ---:1 ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。 :--:1
+::: new NEW in v21.12
+---:1
+ビルトインシグナルを使いやすくするために、許可されたビルトインをすべて含む `Enum` オブジェクトが用意されています。 最近の IDE では、イベント名の完全なリストを文字列として覚えておく必要がないので、これは便利です。
+:--:1
 
-*Added in v21.12* :--:1
+*Added in v21.12*
+:--:1
 ```python
 from sanic.signals import Event
 
@@ -256,7 +260,7 @@ await app.dispatch(
 
 ### Blueprints
 
-Blueprintシグナルのディスパッチは、[middleware](../basics/middleware.md)と同様に機能します。 アプリレベルから行われるものは、blueprintまで流れ落ちます。 ただし、blueprintでディスパッチすると、そのblueprintで定義されているシグナルのみが実行されます。
+Blueprintシグナルのディスパッチは、[middleware](../basics/middleware.md)と同様に機能します。アプリレベルから行われるものは、blueprintまで流れ落ちます。 ただし、blueprintでディスパッチすると、そのblueprintで定義されているシグナルのみが実行されます。
 
 ---:1
 おそらく、例は説明しやすいでしょう:
