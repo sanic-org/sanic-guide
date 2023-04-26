@@ -61,7 +61,7 @@ bar
 ::: tip FYI
 :bulb: `request.form`オブジェクトは、各値がリストであるディクショナリの、いくつかのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
 
 ::: tab Uploaded
@@ -121,7 +121,6 @@ async def hi_my_name_is(request):
 ---:1
 
 多くの場合、APIは同じクライアントに対して複数の同時 (または連続) リクエストを処理する必要があります。たとえば、データを取得するために複数のエンドポイントにクエリを実行する必要があるプログレッシブウェブアプリでは、これが頻繁に発生します。
-
 
 HTTPプロトコルでは、[keep alive headers](../ deployment/configuration.md#keep-alive-timeout)を使用した接続によって発生するオーバーヘッド時間を緩和する必要があります。
 
@@ -193,5 +192,49 @@ key1=val1&key2=val2&key1=val3
 ::: tip FYI
 :bulb: `request.args`オブジェクトは、各値がリストになっているディクショナリのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
+
+## Current request getter
+
+Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
+
+```python
+import logging
+
+from sanic import Request, Sanic, json
+from sanic.exceptions import SanicException
+from sanic.log import LOGGING_CONFIG_DEFAULTS
+
+LOGGING_FORMAT = (
+    "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: "
+    "%(request_id)s %(request)s %(message)s %(status)d %(byte)d"
+)
+
+old_factory = logging.getLogRecordFactory()
+
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.request_id = ""
+
+    try:
+        request = Request.get_current()
+    except SanicException:
+        ...
+    else:
+        record.request_id = str(request.id)
+
+    return record
+
+
+logging.setLogRecordFactory(record_factory)
+
+LOGGING_CONFIG_DEFAULTS["formatters"]["access"]["format"] = LOGGING_FORMAT
+
+app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
+```
+
+In this example, we are adding the `request.id` to every access log message.
+
+*Added in v22.6*

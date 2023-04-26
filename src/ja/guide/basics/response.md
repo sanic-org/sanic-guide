@@ -1,6 +1,26 @@
 # Response
 
-すべての[ハンドラ](./handlers.md) **は**レスポンス・オブジェクトを返し、[ミドルウェア](./middleware.md)は、オプションで応答オブジェクトを返すことができます。
+All [handlers](./handlers.md) *usually* return a response object, and [middleware](./middleware.md) may optionally return a response object.
+
+To clarify that statement:
+- unless the handler is a streaming endpoint handling its own pattern for sending bytes to the client, the return value must be an instance of `sanic.HTTPResponse` (to learn more about this exception see [streaming responses](../advanced/streaming.md#response-streaming))
+- if a middleware returns a response object, that will be used instead of whatever the handler would do (see [middleware](./middleware.md) to learn more)
+
+A most basic handler would look like the following. The `HTTPResponse` object will allow you to set the status, body, and headers to be returned to the client.
+
+```python
+from sanic import HTTPResponse, Sanic
+
+app = Sanic("TestApp")
+
+
+@app.route("")
+def handler(_):
+    return HTTPResponse()
+```
+
+However, usually it is easier to use one of the convenience methods discussed below.
+
 
 ## Methods
 
@@ -91,28 +111,6 @@ You can also choose to override the file name:
 file("/path/to/whatever.png", filename="super-awesome-incredible.png")
 ```
 :::
-::: tab Streaming
-
-**Default Content-Type**: `text/plain; charset=utf-8`  
-**Description**: Streams data to a client
-
-```python
-from sanic.response import stream
-
-@app.route("/")
-async def handler(request):
-    return stream(streaming_fn)
-
-async def streaming_fn(response):
-    await response.write('foo')
-    await response.write('bar')
-```
-By default, Sanic will stream back to the client using chunked encoding if the client supports it. You can disable this:
-
-```python
-stream(streaming_fn, chunked=False)
-```
-:::
 ::: tab "File Streaming"
 
 **Default Content-Type**: N/A  
@@ -183,3 +181,40 @@ async def create_new(request):
     new_thing = await do_create(request)
     return json({"created": True, "id": new_thing.thing_id}, status=201)
 ```
+
+## Returning JSON data
+
+Starting in v22.12, When you use the `sanic.json` convenience method, it will return a subclass of `HTTPResponse` called `JSONResponse`. This object will 
+have several convenient methods available to modify common JSON body.
+
+```python
+from sanic import json
+
+resp = json(...)
+```
+
+- `resp.set_body(<raw_body>)` - Set the body of the JSON object to the value passed
+- `resp.append(<value>)` - Append a value to the body like `list.append` (only works if the root JSON is an array)
+- `resp.extend(<value>)` - Extend a value to the body like `list.extend` (only works if the root JSON is an array)
+- `resp.update(<value>)` - Update the body with a value like `dict.update` (only works if the root JSON is an object)
+- `resp.pop()` - Pop a value like `list.pop` or `dict.pop` (only works if the root JSON is an array or an object)
+
+::: warning
+The raw Python object is stored on the `JSONResponse` object as `raw_body`. While it is safe to overwrite this value with a new one, you should **not** attempt to mutate it. You should instead use the methods listed above.
+
+```python
+resp = json({"foo": "bar"})
+
+# This is OKAY
+resp.raw_body = {"foo": "bar", "something": "else"}
+
+# This is better
+resp.set_body({"foo": "bar", "something": "else"})
+
+# This is also works well
+resp.update({"something": "else"})
+
+# This is NOT OKAY
+resp.raw_body.update({"something": "else"})
+```
+*Added in v22.9*

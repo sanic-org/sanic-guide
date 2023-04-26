@@ -136,18 +136,17 @@ async def handler(request):
 ::::
 
 ::: warning
-デフォルトでは、Sanic は安全でない HTTP メソッド (`POST`、`PUT`、`PATCH`) で受信したリクエストボディ**のみ**を消費します。他のメソッドでHTTPリクエストのデータを受け取りたい場合は、以下の2つのオプションのいずれかを実行する必要があります。
+デフォルトでは、Sanic は安全でない HTTP メソッド (`POST`、`PUT`、`PATCH`, `DELETE`) で受信したリクエストボディ**のみ**を消費します。他のメソッドでHTTPリクエストのデータを受け取りたい場合は、以下の2つのオプションのいずれかを実行する必要があります。
 
 **オプション#1 - `ignore_body`を使用してSanicにボディを消費するように指示する。**
 ```python
-@app.delete("/path", ignore_body=False)
+@app.request("/path", ignore_body=False)
 async def handler(_):
-    ...
 ```
 
 **オプション #2 - ハンドラ内で `receive_body` を使って手動でボディを消費する。**
 ```python
-@app.delete("/path")
+@app.get("/path")
 async def handler(request: Request):
     await request.receive_body()
 ```
@@ -194,8 +193,26 @@ async def handler(request, foo: str):
 - `/path/to/Bob`
 - `/path/to/Python%203`
 
+Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for this behavior.
 
-以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
+:::
+::: tab strorempty
+
+```python
+@app.route("/path/to/<foo:strorempty>")
+async def handler(request, foo: str):
+    ...
+```
+**Regular expression applied**: `r"[^/]*")`  
+**Cast type**: `str`  
+**Example matches**:
+- `/path/to/Bob`
+- `/path/to/Python%203`
+- `/path/to/`
+
+Unlike the `str` path parameter type, `strorempty` can also match on an empty string path segment.
+
+*Added in v22.3*
 :::
 ::: tab  int
 
@@ -226,7 +243,6 @@ async def handler(request, foo: float):
 - `/path/to/-10`
 - `/path/to/1.5`
 
-以前のバージョンのSanicでは、この形式は非推奨となり、v21.12で削除される予定です。
 :::
 ::: tab alpha
 
@@ -256,6 +272,7 @@ async def handler(request, article: str):
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
 
+*Added in v21.6*
 :::
 ::: tab path
 
@@ -301,10 +318,37 @@ async def handler(request, foo: UUID):
 
 :::
 
+::: tab ext
+
+```python
+@app.route("/path/to/<foo:ext>")
+async def handler(request, foo: str, ext: str):
+    ...
+```
+**Regular expression applied**: n/a  
+**Cast type**: *varies*  
+**Example matches**:
+
+| definition                        | example     | filename    | extension  |
+| --------------------------------- | ----------- | ----------- | ---------- |
+| \<file:ext>                       | page.txt    | `"page"`    | `"txt"`    |
+| \<file:ext=jpg>                   | cat.jpg     | `"cat"`     | `"jpg"`    |
+| \<file:ext=jpg\|png\|gif\|svg>    | cat.jpg     | `"cat"`     | `"jpg"`    |
+| <file=int:ext>                    | 123.txt     | `123`       | `"txt"`    |
+| <file=int:ext=jpg\|png\|gif\|svg> | 123.svg     | `123`       | `"svg"`    |
+| <file=float:ext=tar.gz>           | 3.14.tar.gz | `3.14`      | `"tar.gz"` | 
+
+File extensions can be matched using the special `ext` parameter type. It uses a special format that allows you to specify other types of parameter types as the file name, and one or more specific extensions as shown in the example table above.
+
+It does *not* support the `path` parameter type.
+
+*Added in v22.3*
+:::
+
 ::: tab regex
 
 ```python
-@app.route(r"/path/to/<foo:^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
+@app.route(r"/path/to/<foo:([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))>")
 async def handler(request, foo: str):
     ...
 ```
@@ -381,13 +425,12 @@ async def post_handler(request, post_id):
 任意の数のキーワード引数を渡すことができます。_not_a要求パラメータであるものはすべて、クエリ文字列の一部として実装されます。
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "post_handler",
     post_id=5,
     arg_one="one",
     arg_two="two",
-)
-'/posts/5?arg_one=one&arg_two=two'
+) == "/posts/5?arg_one=one&arg_two=two"
 ```
 :---
 
@@ -396,12 +439,11 @@ async def post_handler(request, post_id):
 また、1つのクエリキーに複数の値を渡すこともサポートされています。
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "post_handler",
     post_id=5,
     arg_one=["one", "two"],
-)
-'/posts/5?arg_one=one&arg_one=two'
+) == "/posts/5?arg_one=one&arg_one=two"
 ```
 :---
 
@@ -410,20 +452,20 @@ async def post_handler(request, post_id):
 See [API Docs]() for more details.
 
 ```python
->>> app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
-'/posts/5?arg_one=one#anchor'
+app.url_for("post_handler", post_id=5, arg_one="one", _anchor="anchor")
+# '/posts/5?arg_one=one#anchor'
 
 # _external requires you to pass an argument _server or set SERVER_NAME in app.config if not url will be same as no _external
->>> app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
-'//server/posts/5?arg_one=one'
+app.url_for("post_handler", post_id=5, arg_one="one", _external=True)
+# '//server/posts/5?arg_one=one'
 
 # when specifying _scheme, _external must be True
->>> app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
-'http://server/posts/5?arg_one=one'
+app.url_for("post_handler", post_id=5, arg_one="one", _scheme="http", _external=True)
+# 'http://server/posts/5?arg_one=one'
 
 # you can pass all special arguments at once
->>> app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
-'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
+app.url_for("post_handler", post_id=5, arg_one=["one", "two"], arg_two=2, _anchor="anchor", _scheme="http", _external=True, _server="another_server:8888")
+# 'http://another_server:8888/posts/5?arg_one=one&arg_one=two&arg_two=2#anchor'
 ```
 
 ### ルート名をカスタマイズ
@@ -444,8 +486,7 @@ def handler(request):
 ここで、このカスタム名を使用してURLを取得します。
 :--:1
 ```python
->>> app.url_for("get_handler", foo="bar")
-'/get?foo=bar'
+assert app.url_for("get_handler", foo="bar") == "/get?foo=bar"
 ```
 :---
 
@@ -457,10 +498,10 @@ WebsocketルーティングはHTTPメソッドと同様に動作します。
 :--:1
 ```python
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 
 app.add_websocket_route(handler, "/test")
 ```
@@ -473,10 +514,10 @@ app.add_websocket_route(handler, "/test")
 ```python
 @app.websocket("/test")
 async def handler(request, ws):
-    messgage = "Start"
+    message = "Start"
     while True:
         await ws.send(message)
-        message = ws.recv()
+        message = await ws.recv()
 ```
 :---
 
@@ -543,11 +584,17 @@ Sanicから静的ファイルを提供するには、`app.static()`を使用し�
 2. サーバー上のファイルへのパス
 
 詳しくは[API docs]()を見てください。
+
 :--:1
 ```python
-app.static("/static", "/path/to/directory")
+app.static("/static/", "/path/to/directory/")
 ```
 :---
+
+
+::: tip
+It is generally best practice to end your directory paths with a trailing slash (`/this/is/a/directory/`). This removes ambiguity by being more explicit.
+:::
 
 ---:1
 
@@ -564,8 +611,8 @@ app.static("/", "/path/to/index.html")
 :--:1
 ```python
 app.static(
-    "/user/uploads",
-    "/path/to/uploads",
+    "/user/uploads/",
+    "/path/to/uploads/",
     name="uploads",
 )
 ```
@@ -576,20 +623,18 @@ app.static(
 URLの取得は、ハンドラと同様に機能します。ただし、ディレクトリ内に特定のファイルが必要な場合は、`filename`引数を追加することもできます。
 :--:1
 ```python
->>> app.url_for(
+assert app.url_for(
     "static",
     name="static",
     filename="file.txt",
-)
-'/static/file.txt'
-
+) == "/static/file.txt"
+```
 ```python
->>> app.url_for(
+assert app.url_for(
     "static",
     name="uploads",
     filename="image.png",
-)
-'/user/uploads/image.png'
+) == "/user/uploads/image.png"
 
 ```
 :---
@@ -598,13 +643,40 @@ URLの取得は、ハンドラと同様に機能します。ただし、ディ�
 複数の`static()`ルートを使用する場合は、手動で名前を付けることを推奨します。これにより、バグを発見するのが難しい可能性がほぼ確実に軽減されます。
 
 ```python
-app.static("/user/uploads", "/path/to/uploads", name="uploads")
-app.static("/user/profile", "/path/to/profile", name="profile_pics")
+app.static("/user/uploads/", "/path/to/uploads/", name="uploads")
+app.static("/user/profile/", "/path/to/profile/", name="profile_pics")
 ```
 :::
 
+::: new NEW in v23.3
+#### Auto index serving
+
+---:1
+If you have a directory of static files that should be served by an index page, you can provide the filename of the index. Now, when reaching that directory URL, the index page will be served.
+:--:
+```python
+app.static("/foo/", "/path/to/foo/", index="index.html")
+```
+:---
+
+*Added in v23.3*
+
+#### File browser
+
+
+---:1
+When serving a directory from a static handler, Sanic can be configured to show a basic file browser instead using directory_view=True.
+:--:
+```python
+app.static("/uploads/", "/path/to/dir", directory_view=True)
+```
+:---
+![image](~@assets/images/directory-view.png)
+
+*Added in v23.3*
+:::
+
 ## ルートコンテキスト
-::: new NEW in v21.12
 
 ---:1
 ルートが定義されるとき、`ctx_` という接頭辞を持つキーワード引数をいくつでも追加することができます。これらの値はルートの `ctx` オブジェクトにインジェクションされます。
@@ -628,3 +700,4 @@ async def do_something(request):
         ...
 ```
 :---
+*Added in v21.12*

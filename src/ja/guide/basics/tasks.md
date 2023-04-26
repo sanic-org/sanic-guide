@@ -48,20 +48,20 @@ Appを実行する前にバックグラウンドタスクを追加すること�
 `app.run`の前にタスクを追加する例
 :---:1
 ```python
-async def slow_work(...):
+async def slow_work():
+   ...
+   
+async def even_slower(num):
    ...
 
 app = Sanic(...)
-app.add_task(slow_work) # Note: we are passing the callable and not coroutine object `slow_work(...)`
+app.add_task(slow_work) # Note: we are passing the callable and not coroutine object ...
+app.add_task(even_slower(10)) # ... or we can call the function and pass the coroutine.
 app.run(...)
 ```
-::: tip
-上記の`slow_work`にパラメータを渡すには、`functools.partial`を使用します。
-:::
 
 ## Named tasks
 
-::: new NEW in v21.12
 _Python 3.8以上でのみサポートされます_
 
 ---:1
@@ -124,3 +124,4 @@ async def feed(request, ws):
         request.app.purge_tasks()
 ```
 :::
+*Added in v21.12*
