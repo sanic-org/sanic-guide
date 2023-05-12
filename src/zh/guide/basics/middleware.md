@@ -157,7 +157,7 @@ foo_bar_baz
 
 :---
 
-## 提前响应(Resonding early)
+## 提前响应(Responding early)
 
 ---:1
 
