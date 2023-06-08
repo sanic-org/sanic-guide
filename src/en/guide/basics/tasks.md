@@ -122,5 +122,6 @@ async def feed(request, ws):
         # When the websocket closes, let's cleanup the task
         await request.app.cancel_task(task_name)
         request.app.purge_tasks()
-:::
+```
+
 *Added in v21.12*
