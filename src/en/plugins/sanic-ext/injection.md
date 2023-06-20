@@ -156,7 +156,7 @@ This could be used in cases where you otherwise might:
 - use middleware to preprocess and add something to the `request.ctx`
 - use decorators to preprocess and inject arguments into the request handler
 
-In this example, we are using the `Request` object in the `compule_profile` constructor to run a fake DB query to generate and return a `UserProfile` object.
+In this example, we are using the `Request` object in the `compile_profile` constructor to run a fake DB query to generate and return a `UserProfile` object.
 :--:1
 ```python
 @dataclass
