@@ -38,7 +38,7 @@ class UserProfile:
 
 ## 多功能装饰器（Definition decorator）
 
-### `@opanepi.definition`
+### `@openapi.definition`
 
 `@openapi.definition` 装饰器允许您一次性定义文档中要展示的所有部分。 它是一个多功能装饰器，因为它具有与其他装饰器相同的定义功能。 使用多个特定字段的装饰器还是使用单个多功能装饰器取决于您自己的使用偏好。
 
