@@ -147,7 +147,7 @@ app.config.INSPECTOR_TLS_KEY = "/path/to/key.pem"
 This will require use of the `--secure` flag, or `https://`.
 :--:1
 ```sh
-sanic insect --secure --host=<somewhere>
+sanic inspect --secure --host=<somewhere>
 ```
 ```sh
 curl https://<somewhere>:6457
