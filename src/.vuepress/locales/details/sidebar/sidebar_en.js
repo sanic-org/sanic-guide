@@ -54,6 +54,7 @@ const userGuideFull = [
         "/en/guide/deployment/app-loader.md",
         "/en/guide/deployment/inspector.md",
         // "/guide/deployment/server-choice.md",
+        "/en/guide/deployment/caddy.md",
         "/en/guide/deployment/nginx.md",
         "/en/guide/deployment/docker.md",
         // "/guide/deployment/kubernetes.md",
