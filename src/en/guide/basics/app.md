@@ -274,3 +274,12 @@ from orjson import loads
 app = Sanic(__name__, loads=loads)
 ```
 :---
+
+
+### Custom typed application
+
+...
+
+### Custom typed request
+
+...
