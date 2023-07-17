@@ -147,6 +147,67 @@ request.conn_info.ctx.foo=3
 ```
 :---
 
+### Custom Request Objects
+
+As dicussed in [application customization](./app.md#custom-requests), you can create a subclass of `sanic.Request` to add additional functionality to the request object. This is useful for adding additional attributes or methods that are specific to your application.
+
+---:1
+For example, imagine your application sends a custom header that contains a user ID. You can create a custom request object that will parse that header and store the user ID for you.
+:--:1
+```python
+from sanic import Sanic, Request
+
+class CustomRequest(Request):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user_id = self.headers.get("X-User-ID")
+
+app = Sanic("Example", request_class=CustomRequest)
+```
+:---
+
+---:1
+Now, in your handlers, you can access the `user_id` attribute.
+:--:1
+```python
+@app.route("/")
+async def handler(request: CustomRequest):
+    return text(f"User ID: {request.user_id}")
+```
+:---
+
+::: new NEW in v23.6
+### Custom Request Context
+
+By default, the request context (`request.ctx`) is a `SimpleNamespace` object allowing you to set arbitrary attributes on it. While this is super helpful to reuse logic across your application, it can be difficult in the development experience since the IDE will not know what attributes are available.
+
+To help with this, you can create a custom request context object that will be used instead of the default `SimpleNamespace`. This allows you to add type hints to the context object and have them be available in your IDE.
+
+---:1
+Start by subclassing the `sanic.Request` class to create a custom request type. Then, you will need to add a `make_context()` method that returns an instance of your custom context object. *NOTE: the `make_context` method should be a static method.*
+:--:1
+```python
+from sanic import Sanic, Request
+from types import SimpleNamespace
+
+class CustomRequest(Request):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ctx.user_id = self.headers.get("X-User-ID")
+
+    @staticmethod
+    def make_context() -> CustomContext:
+        return CustomContext()
+
+@dataclass
+class CustomContext:
+    user_id: str = None
+```
+:---
+
+*Added in v23.6*
+:::
+
 ## Parameters
 
 ---:1

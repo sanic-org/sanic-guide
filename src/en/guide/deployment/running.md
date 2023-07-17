@@ -204,12 +204,13 @@ Or, explicitly like this:
 ```sh
 sanic "server:create_app()"
 ```
-:::new NEW in v23.3
 Or, implicitly like this:
 ```sh
 sanic server:create_app
 ```
-:::
+
+*Implicit command added in v23.3*
+
 :---
 
 ### Low level `app.run`
