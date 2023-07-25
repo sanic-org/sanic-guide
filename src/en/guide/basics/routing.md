@@ -187,8 +187,8 @@ async def uuid_handler(request, foo_id: UUID):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/]+")`  
-**Cast type**: `str`  
+**Regular expression applied**: `r"[^/]+")`
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
@@ -203,8 +203,8 @@ Beginning in v22.3 `str` will *not* match on empty strings. See `strorempty` for
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/]*")`  
-**Cast type**: `str`  
+**Regular expression applied**: `r"[^/]*")`
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/Bob`
 - `/path/to/Python%203`
@@ -221,8 +221,8 @@ Unlike the `str` path parameter type, `strorempty` can also match on an empty st
 async def handler(request, foo: int):
     ...
 ```
-**Regular expression applied**: `r"-?\d+")`  
-**Cast type**: `int`  
+**Regular expression applied**: `r"-?\d+")`
+**Cast type**: `int`
 **Example matches**:
 - `/path/to/10`
 - `/path/to/-10`
@@ -236,8 +236,8 @@ _Does not match float, hex, octal, etc_
 async def handler(request, foo: float):
     ...
 ```
-**Regular expression applied**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`  
-**Cast type**: `float`  
+**Regular expression applied**: `r"-?(?:\d+(?:\.\d*)?|\.\d+)")`
+**Cast type**: `float`
 **Example matches**:
 - `/path/to/10`
 - `/path/to/-10`
@@ -251,8 +251,8 @@ async def handler(request, foo: float):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[A-Za-z]+")`  
-**Cast type**: `str`  
+**Regular expression applied**: `r"[A-Za-z]+")`
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/Bob`
 - `/path/to/Python`
@@ -266,8 +266,8 @@ _Does not match a digit, or a space or other special character_
 async def handler(request, article: str):
     ...
 ```
-**Regular expression applied**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`  
-**Cast type**: `str`  
+**Regular expression applied**: `r"[a-z0-9]+(?:-[a-z0-9]+)*")`
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/some-news-story`
 - `/path/to/or-has-digits-123`
@@ -281,15 +281,15 @@ async def handler(request, article: str):
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: `r"[^/].*?")`  
-**Cast type**: `str`  
+**Regular expression applied**: `r"[^/].*?")`
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/hello`
 - `/path/to/hello.txt`
 - `/path/to/hello/world.txt`
 
 ::: warning
-Because this will match on `/`, you should be careful and thoroughly test your patterns that use `path` so they do not capture traffic intended for another endpoint.
+Because this will match on `/`, you should be careful and thoroughly test your patterns that use `path` so they do not capture traffic intended for another endpoint. Additionally, depending on how you use this type, you may be creating a path traversal vulnerability in your application. It is your job to protect your endpoint against this, but feel free to ask in our community channels for help if you need it :)
 :::
 ::: tab ymd
 
@@ -298,8 +298,8 @@ Because this will match on `/`, you should be careful and thoroughly test your p
 async def handler(request, foo: datetime.date):
     ...
 ```
-**Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`  
-**Cast type**: `datetime.date`  
+**Regular expression applied**: `r"^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))"`
+**Cast type**: `datetime.date`
 **Example matches**:
 - `/path/to/2021-03-28`
 :::
@@ -311,8 +311,8 @@ async def handler(request, foo: datetime.date):
 async def handler(request, foo: UUID):
     ...
 ```
-**Regular expression applied**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`  
-**Cast type**: `UUID`  
+**Regular expression applied**: `r"[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}"`
+**Cast type**: `UUID`
 **Example matches**:
 - `/path/to/123a123a-a12a-1a1a-a1a1-1a12a1a12345`
 
@@ -325,8 +325,8 @@ async def handler(request, foo: UUID):
 async def handler(request, foo: str, ext: str):
     ...
 ```
-**Regular expression applied**: n/a  
-**Cast type**: *varies*  
+**Regular expression applied**: n/a
+**Cast type**: *varies*
 **Example matches**:
 
 | definition                        | example     | filename    | extension  |
@@ -336,7 +336,7 @@ async def handler(request, foo: str, ext: str):
 | \<file:ext=jpg\|png\|gif\|svg>    | cat.jpg     | `"cat"`     | `"jpg"`    |
 | <file=int:ext>                    | 123.txt     | `123`       | `"txt"`    |
 | <file=int:ext=jpg\|png\|gif\|svg> | 123.svg     | `123`       | `"svg"`    |
-| <file=float:ext=tar.gz>           | 3.14.tar.gz | `3.14`      | `"tar.gz"` | 
+| <file=float:ext=tar.gz>           | 3.14.tar.gz | `3.14`      | `"tar.gz"` |
 
 File extensions can be matched using the special `ext` parameter type. It uses a special format that allows you to specify other types of parameter types as the file name, and one or more specific extensions as shown in the example table above.
 
@@ -352,12 +352,12 @@ It does *not* support the `path` parameter type.
 async def handler(request, foo: str):
     ...
 ```
-**Regular expression applied**: _whatever you insert_  
-**Cast type**: `str`  
+**Regular expression applied**: _whatever you insert_
+**Cast type**: `str`
 **Example matches**:
 - `/path/to/2021-01-01`
 
-This gives you the freedom to define specific matching patterns for your use case. 
+This gives you the freedom to define specific matching patterns for your use case.
 
 In the example shown, we are looking for a date that is in `YYYY-MM-DD` format.
 
@@ -410,7 +410,7 @@ Sanic provides a method to generate URLs based on the handler method name: `app.
 async def index(request):
     # generate a URL for the endpoint `post_handler`
     url = app.url_for('post_handler', post_id=5)
-    
+
     # Redirect to `/posts/5`
     return redirect(url)
 
@@ -583,7 +583,7 @@ The order of arguments is important:
 1. Route the files will be served from
 2. Path to the files on the server
 
-See [API docs]() for more details.
+See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api/app.html#sanic.app.Sanic.static) for more details.
 
 :--:1
 ```python
