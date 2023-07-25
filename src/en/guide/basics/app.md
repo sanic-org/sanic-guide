@@ -274,3 +274,193 @@ from orjson import loads
 app = Sanic(__name__, loads=loads)
 ```
 :---
+
+::: new NEW in v23.6
+### Custom typed application
+
+The correct, default type of a Sanic application instance is:
+
+```python
+sanic.app.Sanic[sanic.config.Config, types.SimpleNamespace]
+```
+
+It refers to two generic types:
+
+1. The first is the type of the configuration object. It defaults to `sanic.config.Config`, but can be any subclass of that.
+2. The second is the type of the application context. It defaults to `types.SimpleNamespace`, but can be **any object** as show above.
+
+Let's look at some examples of how the type will change.
+
+---:1
+Consider this example where we pass a custom subclass of `Config` and a custom context object.
+
+:--:1
+```python
+from sanic import Sanic
+from sanic.config import Config
+
+class CustomConfig(Config):
+    pass
+
+app = Sanic("test", config=CustomConfig())
+reveal_type(app) # N: Revealed type is "sanic.app.Sanic[main.CustomConfig, types.SimpleNamespace]"
+```
+```
+sanic.app.Sanic[main.CustomConfig, types.SimpleNamespace]
+```
+:---
+
+---:1
+Similarly, when passing a custom context object, the type will change to reflect that.
+:--:1
+```python
+from sanic import Sanic
+
+class Foo:
+    pass
+
+app = Sanic("test", ctx=Foo())
+reveal_type(app)  # N: Revealed type is "sanic.app.Sanic[sanic.config.Config, main.Foo]"
+```
+```
+sanic.app.Sanic[sanic.config.Config, main.Foo]
+```
+:---
+
+---:1
+Of course, you can set both the config and context to custom types.
+:--:1
+```python
+from sanic import Sanic
+from sanic.config import Config
+
+class CustomConfig(Config):
+    pass
+
+class Foo:
+    pass
+
+app = Sanic("test", config=CustomConfig(), ctx=Foo())
+reveal_type(app)  # N: Revealed type is "sanic.app.Sanic[main.CustomConfig, main.Foo]"
+```
+```
+sanic.app.Sanic[main.CustomConfig, main.Foo]
+```
+:---
+
+This pattern is particularly useful if you create a custom type alias for your application instance so that you can use it to annotate listeners and handlers.
+
+```python
+# ./path/to/types.py
+from sanic.app import Sanic
+from sanic.config import Config
+from myapp.context import MyContext
+from typing import TypeAlias
+
+MyApp = TypeAlias("MyApp", Sanic[Config, MyContext])
+```
+
+```python
+# ./path/to/listeners.py
+from myapp.types import MyApp
+
+
+def add_listeners(app: MyApp):
+    @app.before_server_start
+    async def before_server_start(app: MyApp):
+        # do something with your fully typed app instance
+        await app.ctx.db.connect()
+```
+
+```python
+# ./path/to/server.py
+from myapp.types import MyApp
+from myapp.context import MyContext
+from myapp.config import MyConfig
+from myapp.listeners import add_listeners
+
+app = Sanic("myapp", config=MyConfig(), ctx=MyContext())
+add_listeners(app)
+```
+
+*Added in v23.6*
+
+### Custom typed request
+
+Sanic also allows you to customize the type of the request object. This is useful if you want to add custom properties to the request object, or be able to access your custom properties of a typed application instance.
+
+The correct, default type of a Sanic request instance is:
+
+```python
+sanic.request.Request[
+    sanic.app.Sanic[sanic.config.Config, types.SimpleNamespace],
+    types.SimpleNamespace
+]
+```
+
+It refers to two generic types:
+
+1. The first is the type of the application instance. It defaults to `sanic.app.Sanic[sanic.config.Config, types.SimpleNamespace]`, but can be any subclass of that.
+2. The second is the type of the request context. It defaults to `types.SimpleNamespace`, but can be **any object** as show above in [custom requests](#custom-requests).
+
+Let's look at some examples of how the type will change.
+
+---:1
+Expanding upon the full example above where there is a type alias for a customized application instance, we can also create a custom request type so that we can access those same type annotations.
+
+Of course, you do not need type aliases for this to work. We are only showing them here to cut down on the amount of code shown.
+:--:1
+```python
+from sanic import Request
+from myapp.types import MyApp
+from types import SimpleNamespace
+
+def add_routes(app: MyApp):
+    @app.get("/")
+    async def handler(request: Request[MyApp, SimpleNamespace]):
+        # do something with your fully typed app instance
+        results = await request.app.ctx.db.query("SELECT * FROM foo")
+```
+:---
+
+---:1
+Perhaps you have a custom request object that generates a custom context object. You can type annotate it to properly access those properties with your IDE as shown here.
+:--:1
+```python
+from sanic import Request, Sanic
+from sanic.config import Config
+
+class CustomConfig(Config):
+    pass
+
+class Foo:
+    pass
+
+class RequestContext:
+    foo: Foo
+
+class CustomRequest(Request[Sanic[CustomConfig, Foo], RequestContext]):
+    @staticmethod
+    def make_context() -> RequestContext:
+        ctx = RequestContext()
+        ctx.foo = Foo()
+        return ctx
+
+app = Sanic(
+    "test", config=CustomConfig(), ctx=Foo(), request_class=CustomRequest
+)
+
+@app.get("/")
+async def handler(request: CustomRequest):
+    # Full access to typed:
+    # - custom application configuration object
+    # - custom application context object
+    # - custom request context object
+    pass
+```
+:---
+
+See more information in the [custom request context](./request.md#custom-request-context) section.
+
+*Added in v23.6*
+:::

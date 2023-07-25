@@ -106,12 +106,15 @@ These signals are the signals that are available, along with the arguments that 
 | `http.lifecycle.complete`  | conn_info                       |                                                           |
 | `http.middleware.before`   | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
 | `http.middleware.after`    | request, response               | `{"attach_to": "request"}` or `{"attach_to": "response"}` |
+| `server.exception.report`  | app, exception                  |                                                           |
 | `server.init.before`       | app, loop                       |                                                           |
 | `server.init.after`        | app, loop                       |                                                           |
 | `server.shutdown.before`   | app, loop                       |                                                           |
 | `server.shutdown.after`    | app, loop                       |                                                           |
 
 Version 22.9 added `http.handler.before` and `http.handler.after`.
+
+Version 23.6 added `server.exception.report`.
 
 ---:1
 To make using the built-in signals easier, there is an `Enum` object that contains all of the allowed built-ins. With a modern IDE this will help so that you do not need to remember the full list of event names as strings.

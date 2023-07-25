@@ -648,7 +648,6 @@ app.static("/user/profile/", "/path/to/profile/", name="profile_pics")
 ```
 :::
 
-::: new NEW in v23.3
 #### Auto index serving
 
 ---:1
@@ -674,7 +673,6 @@ app.static("/uploads/", "/path/to/dir", directory_view=True)
 ![image](~@assets/images/directory-view.png)
 
 *Added in v23.3*
-:::
 
 ## Route context
 
