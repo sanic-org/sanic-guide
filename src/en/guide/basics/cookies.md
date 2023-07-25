@@ -50,7 +50,7 @@ Response cookies can be set like dictionary values and have the following parame
 
 - `path: str` - The subset of URLs to which this cookie applies. Defaults to `/`.
 - `domain: str` - Specifies the domain for which the cookie is valid. An explicitly specified domain must always start with a dot.
-- `max-age: int` - Number of seconds the cookie should live for.
+- `max_age: int` - Number of seconds the cookie should live for.
 - `expires: datetime` - The time for the cookie to expire on the client’s browser. Usually it is better to use max-age instead.
 - `secure: bool` - Specifies whether the cookie will only be sent via HTTPS. Defaults to `True`.
 - `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
