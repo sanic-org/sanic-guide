@@ -583,7 +583,7 @@ The order of arguments is important:
 1. Route the files will be served from
 2. Path to the files on the server
 
-See [API docs]() for more details.
+See [API docs](https://sanic.readthedocs.io/en/stable/sanic/api/app.html#sanic.app.Sanic.static) for more details.
 
 :--:1
 ```python
