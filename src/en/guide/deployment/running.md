@@ -264,26 +264,29 @@ elif __name__ == "__main__":
 
 To use the low-level `run` API, after defining an instance of `sanic.Sanic`, we can call the run method with the following keyword arguments:
 
-|       Parameter       |     Default    |                                           Description                                     |
-| :-------------------: | :------------: | :---------------------------------------------------------------------------------------- |
-|  **host**             | `"127.0.0.1"`  | Address to host the server on.                                                            |
-|  **port**             | `8000`         | Port to host the server on.                                                               |
-|  **unix**             | `None`         | Unix socket name to host the server on (instead of TCP).                                  |
-|  **debug**            | `False`        | Enables debug output (slows server).                                                      |
-|  **ssl**              | `None`         | SSLContext for SSL encryption of worker(s).                                               |
-|  **sock**             | `None`         | Socket for the server to accept connections from.                                         |
-|  **workers**          | `1`            | Number of worker processes to spawn. Cannot be used with fast.                            |
-|  **loop**             | `None`         | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
-|  **protocol**         | `HttpProtocol` | Subclass of asyncio.protocol.                                                             |
-|  **access_log**       | `True`         | Enables log on handling requests (significantly slows server).                            |
-|  **reload_dir**       | `None`         | A path or list of paths to directories the auto-reloader should watch.                    |
-|  **noisy_exceptions** | `None`         | Whether to set noisy exceptions globally. None means leave as default.                    |
-|  **motd**             | `True`         | Whether to display the startup message.                                                   |
-|  **motd_display**     | `None`         | A dict with extra key/value information to display in the startup message                 |
-|  **fast**             | `False`        | Whether to maximize worker processes.  Cannot be used with workers.                       |
-|  **verbosity**        | `0`            | Level of logging detail. Max is 2.                                                        |
-|  **auto_tls**         | `False`        | Whether to auto-create a TLS certificate for local development. Not for production.       |
-|  **single_process**   | `False`        | Whether to run Sanic in a single process.                                                 |
+|       Parameter       |     Default      |                                           Description                                     |
+| :-------------------: | :--------------: | :---------------------------------------------------------------------------------------- |
+|  **host**             | `"127.0.0.1"`    | Address to host the server on.                                                            |
+|  **port**             | `8000`           | Port to host the server on.                                                               |
+|  **unix**             | `None`           | Unix socket name to host the server on (instead of TCP).                                  |
+|  **dev**              | `False`          | Equivalent to `debug=True` and `auto_reload=True`.                                        |
+|  **debug**            | `False`          | Enables debug output (slows server).                                                      |
+|  **ssl**              | `None`           | SSLContext for SSL encryption of worker(s).                                               |
+|  **sock**             | `None`           | Socket for the server to accept connections from.                                         |
+|  **workers**          | `1`              | Number of worker processes to spawn. Cannot be used with fast.                            |
+|  **loop**             | `None`           | An asyncio-compatible event loop. If none is specified, Sanic creates its own event loop. |
+|  **protocol**         | `HttpProtocol`   | Subclass of asyncio.protocol.                                                             |
+|  **version**          | `HTTP.VERSION_1` | The HTTP version to use (`HTTP.VERSION_1` or `HTTP.VERSION_3`).                           |
+|  **access_log**       | `True`           | Enables log on handling requests (significantly slows server).                            |
+|  **auto_reload**      | `None`           | Enables auto-reload on the source directory.                                              |
+|  **reload_dir**       | `None`           | A path or list of paths to directories the auto-reloader should watch.                    |
+|  **noisy_exceptions** | `None`           | Whether to set noisy exceptions globally. None means leave as default.                    |
+|  **motd**             | `True`           | Whether to display the startup message.                                                   |
+|  **motd_display**     | `None`           | A dict with extra key/value information to display in the startup message                 |
+|  **fast**             | `False`          | Whether to maximize worker processes.  Cannot be used with workers.                       |
+|  **verbosity**        | `0`              | Level of logging detail. Max is 2.                                                        |
+|  **auto_tls**         | `False`          | Whether to auto-create a TLS certificate for local development. Not for production.       |
+|  **single_process**   | `False`          | Whether to run Sanic in a single process.                                                 |
 
 ---:1
 For example, we can turn off the access log in order to increase performance, and bind to a custom host and port.
