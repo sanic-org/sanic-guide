@@ -57,7 +57,7 @@ $ export SANIC_REQUEST_TIMEOUT=10
 $ export MYAPP_REQUEST_TIMEOUT=10
 ```
 ```python
->>> app = Sanic(__name__, load_env='MYAPP_')
+>>> app = Sanic(__name__, env_prefix='MYAPP_')
 >>> print(app.config.REQUEST_TIMEOUT)
 10
 ```
