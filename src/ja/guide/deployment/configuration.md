@@ -68,7 +68,7 @@ $ export MYAPP_REQUEST_TIMEOUT=10
 環境変数のロードを完全に無効にすることもできます。
 :--:1
 ```python
-app = Sanic(__name__, load_env=False)
+app = Sanic(__name__, env_prefix=None)
 ```
 :---
 

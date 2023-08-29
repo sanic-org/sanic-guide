@@ -85,7 +85,7 @@ $ export MYAPP_REQUEST_TIMEOUT=10
 :--:1
 
 ```python
-app = Sanic(__name__, load_env=False)
+app = Sanic(__name__, env_prefix=None)
 ```
 
 :---
