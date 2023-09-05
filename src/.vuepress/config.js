@@ -43,6 +43,7 @@ let site_config = {
     "/zh/": locales.locale_abstract_zh,
     "/ja/": locales.locale_abstract_ja,
     "/ko/": locales.locale_abstract_ko,
+    "/pt/": locales.locale_abstract_pt,
   },
 
   markdown: {
@@ -94,6 +95,7 @@ let site_config = {
           "/zh/": "新的",
           "/ja/": "新しい",
           "/ko/": "새로운",
+          "/pt/": "NOVO",
         },
       },
     ],
@@ -135,6 +137,7 @@ let site_config = {
       "/zh/": locales.locale_detail_zh,
       "/ja/": locales.locale_detail_ja,
       "/ko/": locales.locale_detail_ko,
+      "/pt/": locales.locale_detail_pt,
     },
     author: {
       name: "Sanic Community Organization",
