@@ -462,19 +462,23 @@ Do not forget to use `add_security_scheme`. See [security](./security.md) for mo
 ## Integration with Pydantic
 
 Pydantic models have the ability to [generate OpenAPI schema](https://pydantic-docs.helpmanual.io/usage/schema/). 
-
+OpenAPI Schema can be defined in-line with `Test.schema()`, or defined and referenced as a component `openapi.Component(Test)`.
 ---:1
 To take advantage of Pydantic model schema generation, pass the output in place of the schema.
 :--:1
 ```python
 from sanic import Sanic, json
 from sanic_ext import validate, openapi
+from typing import Literal
 from pydantic import BaseModel, Field
 
 class Test(BaseModel):
     foo: str = Field(description="Foo Description", example="FOOO")
-    bar: str = "test"
-
+    biz: str = "default"
+    buz: Literal['this', 'that'] = Field(...,
+        description="... is a required",
+        example="this"
+    )
 
 app = Sanic("test")
 
@@ -482,9 +486,16 @@ app = Sanic("test")
 @openapi.definition(
     body={'application/json': Test.schema()},
 )
+@openapi.response(200,
+    {"application/json": openapi.Component(Test)}
+)
 @validate(json=Test)
 async def get(request):
-    return json({})
+    return json({
+        'foo': 'biz',
+        'bar': 'baz',
+        'buz': 'this'
+    })
 ```
 :---
 
