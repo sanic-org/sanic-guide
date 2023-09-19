@@ -52,6 +52,7 @@ from inspect import getmembers
 from pathlib import Path
 from types import ModuleType
 from typing import Union
+import os 
 
 from sanic.blueprints import Blueprint
 
@@ -82,7 +83,8 @@ def autodiscover(
                 if path not in _imported:
                     name = "module"
                     if "__init__" in path:
-                        *_, name, __ = path.split("/")
+                        sep = "\\" if os.name == 'nt' else "/"
+                        *_, name, __ = path.split(sep)
                     spec = util.spec_from_file_location(name, path)
                     specmod = util.module_from_spec(spec)
                     _imported.add(path)
