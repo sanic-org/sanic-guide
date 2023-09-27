@@ -49,7 +49,7 @@ their IP addresses and more.
 Install Certbot and obtain a certicate for all your domains. This will spin up its own webserver on port 80 for a moment to verify you control the given domain names.
 
 ```bash
-certbot -d example.com -d www.example.com
+certbot certonly -d example.com -d www.example.com
 ```
 
 ## Nginx configuration
@@ -94,7 +94,7 @@ server {
     proxy_http_version 1.1;
     proxy_request_buffering off;
     proxy_buffering off;
-    proxy_set_header forwarded by=\"_$hostname\";$for_addr;proto=$scheme;host=\"$http_host\";
+    proxy_set_header forwarded by=\"_$hostname\"\;$for_addr\;proto=$scheme\;host=\"$http_host\";
     # Allow websockets and keep-alive (avoid connection: close)
     proxy_set_header connection "upgrade";
     proxy_set_header upgrade $http_upgrade;
