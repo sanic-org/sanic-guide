@@ -52,7 +52,7 @@ sanic server
 :---
 
 ::: tip 
-This **another** important distinction. Other frameworks come with a built in development server and explicitly say that it is _only_ intended for development use. The opposite is true with Sanic. 
+This is **another** important distinction. Other frameworks come with a built in development server and explicitly say that it is _only_ intended for development use. The opposite is true with Sanic. 
 
 **The packaged server is production ready.**
 :::
