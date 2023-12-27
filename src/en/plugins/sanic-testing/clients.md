@@ -67,7 +67,7 @@ Unlike the `SanicTestClient` that spins up a server on every request, the `Sanic
 This test client provides all of the same methods and generally works as the `SanicTestClient`. The only difference is that you will need to add an `await` to each call:
 :--:
 ```python
-await app.test_client.get("/path/to/endpoint")
+await app.asgi_client.get("/path/to/endpoint")
 ```
 :---
 

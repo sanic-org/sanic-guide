@@ -261,7 +261,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 
 ### 响应超时(RESPONSE_TIMEOUT)
 
-响应时间用于衡量从整个 HTTP 请求接收完成到 Sanic 将响应完整发送至客户端所花费的时间。如果响应时间超过了设定的 `RESONSE_TIMEOUT` ，Sanic 会将其视为服务端错误并将 HTTP 503 作为响应发送给客户端。如果您的应用程序需要消耗大量的时间来进行响应，请尝试将此参数调至更高或优化响应效率。
+响应时间用于衡量从整个 HTTP 请求接收完成到 Sanic 将响应完整发送至客户端所花费的时间。如果响应时间超过了设定的 `RESPONSE_TIMEOUT` ，Sanic 会将其视为服务端错误并将 HTTP 503 作为响应发送给客户端。如果您的应用程序需要消耗大量的时间来进行响应，请尝试将此参数调至更高或优化响应效率。
 
 ### 长连接超时(KEEP_ALIVE_TIMEOUT)
 

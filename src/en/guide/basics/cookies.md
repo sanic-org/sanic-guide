@@ -15,7 +15,6 @@ async def test(request):
 
 :---
 
-::: new NEW in v23.3
 ::: tip FYI
 
 💡 The `request.cookies` object is one of a few types that is a dictionary with each value being a `list`. This is because HTTP allows a single key to be reused to send multiple values.
@@ -50,7 +49,7 @@ Response cookies can be set like dictionary values and have the following parame
 
 - `path: str` - The subset of URLs to which this cookie applies. Defaults to `/`.
 - `domain: str` - Specifies the domain for which the cookie is valid. An explicitly specified domain must always start with a dot.
-- `max-age: int` - Number of seconds the cookie should live for.
+- `max_age: int` - Number of seconds the cookie should live for.
 - `expires: datetime` - The time for the cookie to expire on the client’s browser. Usually it is better to use max-age instead.
 - `secure: bool` - Specifies whether the cookie will only be sent via HTTPS. Defaults to `True`.
 - `httponly: bool` - Specifies whether the cookie cannot be read by JavaScript.
@@ -61,6 +60,10 @@ Response cookies can be set like dictionary values and have the following parame
 - `partitioned: bool` - Whether to mark the cookie as partitioned.
 
 To better understand the implications and usage of these values, it might be helpful to read the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies) on [setting cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie).
+
+::: tip FYI
+By default, Sanic will set the `secure` flag to `True` to ensure that cookies are only sent over HTTPS as a sensible default. This should not be impactful for local development since secure cookies over HTTP should still be sent to `localhost`. For more information, you should read the [MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies) on [secure cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie#Secure).
+:::
 
 ## Deleting
 

@@ -545,3 +545,24 @@ This is information **that we want** to always be passed in the error (when it i
 }
 ```
 :---
+
+
+::: new NEW in v23.6
+
+## Error reporting
+
+Sanic has a [signal](../advanced/signals.md#built-in-signals) that allows you to hook into the exception reporting process. This is useful if you want to send exception information to a third party service like Sentry or Rollbar. This can be conveniently accomplished by attaching an error reporting handler as show below:
+
+```python
+@app.report_exception
+async def catch_any_exception(app: Sanic, exception: Exception):
+    print("Caught exception:", exception)
+```
+
+::: tip NOTE
+This handler will be dispatched into a background task and **IS NOT** intended for use to manipulate any response data. It is intended to be used for logging or reporting purposes only, and should not impact the ability of your application to return the error response to the client.
+:::
+
+*Added in v23.6*
+:::
+

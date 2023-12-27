@@ -194,7 +194,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | INSPECTOR_TLS_KEY         | -                | The TLS key for the Inspector                                                                                                         |
 | INSPECTOR_TLS_CERT        | -                | The TLS certificate for the Inspector                                                                                                 |
 | INSPECTOR_API_KEY         | -                | The API key for the Inspector                                                                                                         |
-| KEEP_ALIVE_TIMEOUT        | 5                | How long to hold a TCP connection open (sec)                                                                                          |
+| KEEP_ALIVE_TIMEOUT        | 120              | How long to hold a TCP connection open (sec)                                                                                          |
 | KEEP_ALIVE                | True             | Disables keep-alive when False                                                                                                        |
 | MOTD                      | True             | Whether to display the MOTD (message of the day) at startup                                                                           |
 | MOTD_DISPLAY              | {}               | Key/value pairs to display additional, arbitrary data in the MOTD                                                                     |
@@ -205,7 +205,7 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | REQUEST_BUFFER_SIZE       | 65536            | Request buffer size before request is paused, default is 64 Kib                                                                       |
 | REQUEST_ID_HEADER         | X-Request-ID     | The name of "X-Request-ID" HTTP header that contains request/correlation ID                                                           |
 | REQUEST_MAX_SIZE          | 100000000        | How big a request may be (bytes), default is 100 megabytes                                                                            |
-| REQUEST_MAX_HEADER_SIZE   | 8192            | How big a request header may be (bytes), default is 8192 megabytes                                                                    |
+| REQUEST_MAX_HEADER_SIZE   | 8192            | How big a request header may be (bytes), default is 8192 bytes                                                                         |
 | REQUEST_TIMEOUT           | 60               | How long a request can take to arrive (sec)                                                                                           |
 | RESPONSE_TIMEOUT          | 60               | How long a response can take to process (sec)                                                                                         |
 | USE_UVLOOP                | True             | Whether to override the loop policy to use `uvloop`. Supported only with `app.run`.                                                   |
@@ -233,36 +233,25 @@ or upload requests very slowly.
 
 ### RESPONSE_TIMEOUT
 
-A response timeout measures the duration of time between the instant the Sanic server passes the HTTP request to the
-Sanic App, and the instant a HTTP response is sent to the client. If the time taken exceeds the `RESPONSE_TIMEOUT`
-value (in seconds), this is considered a Server Error so Sanic generates an `HTTP 503` response and sends that to the
-client. Set this parameter's value higher if your application is likely to have long-running process that delay the
+A response timeout measures the duration of time between the instant the Sanic server passes the HTTP request to the Sanic App, and the instant a HTTP response is sent to the client. If the time taken exceeds the `RESPONSE_TIMEOUT` value (in seconds), this is considered a Server Error so Sanic generates an `HTTP 503` response and sends that to the client. Set this parameter's value higher if your application is likely to have long-running process that delay the
 generation of a response.
 
 ### KEEP_ALIVE_TIMEOUT
 
 #### What is Keep Alive? And what does the Keep Alive Timeout value do?
 
-`Keep-Alive` is a HTTP feature introduced in `HTTP 1.1`. When sending a HTTP request, the client (usually a web browser application)
-can set a `Keep-Alive` header to indicate the http server (Sanic) to not close the TCP connection after it has send the response.
-This allows the client to reuse the existing TCP connection to send subsequent HTTP requests, and ensures more efficient
-network traffic for both the client and the server.
+`Keep-Alive` is a HTTP feature introduced in `HTTP 1.1`. When sending a HTTP request, the client (usually a web browser application) can set a `Keep-Alive` header to indicate the http server (Sanic) to not close the TCP connection after it has send the response. This allows the client to reuse the existing TCP connection to send subsequent HTTP requests, and ensures more efficient network traffic for both the client and the server.
 
-The `KEEP_ALIVE` config variable is set to `True` in Sanic by default. If you don't need this feature in your application,
-set it to `False` to cause all client connections to close immediately after a response is sent, regardless of
-the `Keep-Alive` header on the request.
+The `KEEP_ALIVE` config variable is set to `True` in Sanic by default. If you don't need this feature in your application, set it to `False` to cause all client connections to close immediately after a response is sent, regardless of the `Keep-Alive` header on the request.
 
-The amount of time the server holds the TCP connection open is decided by the server itself.
-In Sanic, that value is configured using the `KEEP_ALIVE_TIMEOUT` value. By default, it is set to 5 seconds.
-This is the same default setting as the Apache HTTP server and is a good balance between allowing enough time for
-the client to send a new request, and not holding open too many connections at once. Do not exceed 75 seconds unless
-you know your clients are using a browser which supports TCP connections held open for that long.
+The amount of time the server holds the TCP connection open is decided by the server itself. In Sanic, that value is configured using the `KEEP_ALIVE_TIMEOUT` value. By default, **it is set to 120 seconds**. This means that if the client sends a `Keep-Alive` header, the server will hold the TCP connection open for 120 seconds after sending the response, and the client can reuse the connection to send another HTTP request within that time.
 
 For reference:
 
 * Apache httpd server default keepalive timeout = 5 seconds
 * Nginx server default keepalive timeout = 75 seconds
 * Nginx performance tuning guidelines uses keepalive = 15 seconds
+* Caddy server default keepalive timeout = 120 seconds
 * IE (5-9) client hard keepalive limit = 60 seconds
 * Firefox client hard keepalive limit = 115 seconds
 * Opera 11 client hard keepalive limit = 120 seconds
