@@ -1,1 +1,1 @@
-# Choosing a server
+# サーバーを選択する

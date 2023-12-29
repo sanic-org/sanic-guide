@@ -39,13 +39,13 @@ Once the inspector is running, you will have access to it via the CLI or by dire
 
 ---:1
 **Via CLI**
-```
-$ sanic inspect
+```sh
+sanic inspect
 ```
 :--:1
 **Via HTTP**
-```
-$ curl http://localhost:6457
+```sh
+curl http://localhost:6457
 ```
 :---
 
@@ -99,8 +99,8 @@ In the CLI, the positional and keyword parameters are passed as either positiona
 - A keyword parameter with no assigned value will be: `True`
 - Unless the parameter is prefixed with `no-`, then it will be: `False`
 :--:1
-```
-$ sanic inspect something one two three --four --no-five --six=6
+```sh
+sanic inspect something one two three --four --no-five --six=6
 ```
 In your application log console, you will see:
 ```
@@ -112,8 +112,8 @@ In your application log console, you will see:
 ---:1
 The same can be achieved by hitting the API directly. You can pass arguments to the method by exposing them in a JSON payload. The only thing to note is that the positional arguments should be exposed as `{"args": [...]}`.
 :--:1
-```
-$ curl http://localhost:6457/something \
+```sh
+curl http://localhost:6457/something \
   --json '{"args":["one", "two", "three"], "four":true, "five":false, "six":6}'
 ```
 In your application log console, you will see:
@@ -146,11 +146,11 @@ app.config.INSPECTOR_TLS_KEY = "/path/to/key.pem"
 ---:1
 This will require use of the `--secure` flag, or `https://`.
 :--:1
+```sh
+sanic inspect --secure --host=<somewhere>
 ```
-$ sanic insect --secure --host=<somewhere>
-```
-```
-$ curl https://<somewhere>:6457
+```sh
+curl https://<somewhere>:6457
 ```
 :---
 
@@ -167,11 +167,11 @@ app.config.INSPECTOR_API_KEY = "Super-Secret-200"
 ---:1
 This will require the `--api-key` parameter, or bearer token authorization header.
 :--:1
+```sh
+sanic inspect --api-key=Super-Secret-200
 ```
-$ sanic inspect --api-key=Super-Secret-200
-```
-```
-$ curl http://localhost:6457  -H "Authorization: Bearer Super-Secret-200"
+```sh
+curl http://localhost:6457  -H "Authorization: Bearer Super-Secret-200"
 ```
 :---
 

@@ -159,3 +159,41 @@ def print_something(app, loop):
 ```
 :::
 ::::
+
+
+```text
+here is the dir tree
+generate with 'find . -type d -name "__pycache__" -exec rm -rf {} +; tree'
+
+. # run 'sanic sever -d' here
+├── blueprints
+│   ├── __init__.py # you need add this file, just empty
+│   ├── level1.py
+│   └── one
+│       └── two
+│           └── level3.py
+├── listeners
+│   └── something.py
+├── parent
+│   └── child
+│       ├── __init__.py
+│       └── nested.py
+├── server.py
+└── utility.py
+```
+
+```bash
+. ./.venv/bin/activate # activate the python venv which sanic is installed in
+sanic sever -d # run this in the directory containing server.py
+```
+
+```text
+you will see "something ***" like this:
+
+[2023-07-12 11:23:36 +0000] [113704] [DEBUG] something
+[2023-07-12 11:23:36 +0000] [113704] [DEBUG] something inside __init__.py
+[2023-07-12 11:23:36 +0000] [113704] [DEBUG] something @ level3
+[2023-07-12 11:23:36 +0000] [113704] [DEBUG] something @ level1
+[2023-07-12 11:23:36 +0000] [113704] [DEBUG] something @ nested
+```
+

@@ -86,10 +86,6 @@ WorkerManager.THRESHOLD = 600
 ```
 :---
 
-
-
-
-::: new NEW in v22.12
 ### Zero downtime restarts
 
 By default, when restarting workers, Sanic will teardown the existing process first before starting a new one. 
@@ -105,7 +101,6 @@ app.m.restart(zero_downtime=True)
 :---
 
 *Added in v22.12*
-:::
 
 ## Using shared context between worker processes
 
@@ -303,6 +298,9 @@ async def ready(app: Sanic, _):
 ---:1
 If you would like to opt out of running multiple processes, you can run Sanic in a single process only. In this case, the Manager will not run. You will also not have access to any features that require processes (auto-reload, the inspector, etc).
 :--:1
+```sh
+sanic path.to.server:app --single-process
+```
 ```python
 if __name__ == "__main__":
     app.run(single_process=True)
@@ -311,8 +309,5 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     app.prepare(single_process=True)
     Sanic.serve_single()
-```
-```
-sanic path.to.server:app --single-process
 ```
 :---

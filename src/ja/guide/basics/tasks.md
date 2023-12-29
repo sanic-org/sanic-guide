@@ -123,5 +123,5 @@ async def feed(request, ws):
         await request.app.cancel_task(task_name)
         request.app.purge_tasks()
 ```
-:::
+
 *Added in v21.12*

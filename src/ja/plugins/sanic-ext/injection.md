@@ -156,7 +156,7 @@ await request.receive_body()
 - ミドルウェアを使用して、前処理と `request.ctx` への追加を行う。
 - デコレータを使用して、前処理とリクエストハンドラへの引数の注入を行う。
 
-この例では、`compule_profile` コンストラクタで `Request` オブジェクトを使用して、偽の DB クエリを実行して `UserProfile` オブジェクトを生成し、それを返します。
+この例では、`compile_profile` コンストラクタで `Request` オブジェクトを使用して、偽の DB クエリを実行して `UserProfile` オブジェクトを生成し、それを返します。
 :--:1
 ```python
 @dataclass

@@ -5,6 +5,9 @@ Running Sanic has been optimized to work with the CLI. If you have not read it y
 ---:1
 This includes running it as a global scope object...
 :--:1
+```sh
+sanic path.to.server:app
+```
 ```python
 # server.py
 app = Sanic("TestApp")
@@ -13,15 +16,15 @@ app = Sanic("TestApp")
 async def handler(request: Request):
     return json({"foo": "bar"})
 ```
-```
-sanic path.to.server:app
-```
 :---
 
 
 ---:1
 ...or, a factory function that creates the `Sanic` application object.
 :--:1
+```sh
+sanic path.to.server:create_app --factory
+```
 ```python
 # server.py
 def create_app():
@@ -32,9 +35,6 @@ def create_app():
         return json({"foo": "bar"})
 
     return app
-```
-```
-sanic path.to.server:create_app --factory
 ```
 :---
 
@@ -73,8 +73,8 @@ if __name__ == "__main__":
     app.prepare(port=9999, dev=True)
     Sanic.serve(primary=app, app_loader=loader)
 ```
-```
-$ python path/to/server.py MyTestAppName
+```sh
+python path/to/server.py MyTestAppName
 ```
 :---
 

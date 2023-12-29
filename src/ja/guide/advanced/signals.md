@@ -106,12 +106,15 @@ async def my_signal_handler(conn_info):
 | `http.lifycle.complete`  | conn_info                       |                                                            |
 | `http.middleware.before` | request, response               | `{"attach_to": "request"}` または `{"attach_to": "response"}` |
 | `http.middleware.after`  | request, response               | `{"attach_to": "request"}` または `{"attach_to": "response"}` |
+| `server.exception.report`  | app, exception                  |                                                           |
 | `server.init.before`     | app, loop                       |                                                            |
 | `server.init.after`      | app, loop                       |                                                            |
 | `server.shutdown.before` | app, loop                       |                                                            |
 | `server.shutdown.after`  | app, loop                       |                                                            |
 
 Version 22.9 added `http.handler.before` and `http.handler.after`.
+
+Version 23.6 added `server.exception.report`.
 
 ::: new NEW in v21.12
 ---:1
