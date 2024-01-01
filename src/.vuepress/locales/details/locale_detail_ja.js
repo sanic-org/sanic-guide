@@ -1,13 +1,11 @@
 const sidebar_ja = require("./sidebar/sidebar_ja");
 const nav_ja = require("./nav/nav_ja");
-
 module.exports = {
-   selectText: "Languages",
-   label: "日本語",
-   editLinkText: "Edit this page on GitHub",
-   helpText: "Help",
-   algolia: {},
-   current: "現在のバージョン21.12",
-   nav: nav_ja,
-   sidebar: sidebar_ja,
+  selectText: "言語",
+  label: "日本語",
+  editLinkText: "このページをGitHubで編集",
+  helpText: "Help",
+  algolia: {},
+  nav: nav_ja,
+  sidebar: sidebar_ja,
 };

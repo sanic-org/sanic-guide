@@ -65,7 +65,7 @@ test_client.request("/path/to/endpoint", http_method="get")
 このテストクライアントは、`SanicTestClient` と同じメソッドを提供し、一般的に動作します。唯一の違いは、各コールに `await` を追加する必要があることです。
 :--:
 ```python
-await app.test_client.get("/path/to/endpoint")
+await app.asgi_client.get("/path/to/endpoint")
 ```
 :---
 

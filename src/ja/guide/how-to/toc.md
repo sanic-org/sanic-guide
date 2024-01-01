@@ -4,18 +4,10 @@
 
 | Page | How do I ... |
 |:-----|:------------|
-| [Applicationのマウント](./mounting.md) | ... どうやってルートより上のパスにアプリケーションをマウントする? |
-| [Authentication](./authentication.md) | ... どうやって認証と許可を制御しますか? |
-| [Autodiscovery](./autodiscovery.md)   | ... どうやってアプリケーションの構築に使用しているコンポーネントを自動検出しますか? |
-| [CORS](./cors.md)                     | ... どうやってCORS用にアプリケーションを構成しますか？ |
-| CSRF                                  | *Coming soon* |
-| Databases                             | *Coming soon* |
-| IPv6                                  | *Coming soon* |
-| Request ID Logging                    | *Coming soon* |
-| Request validation                    | *Coming soon* |
-| Serialization                         | *Coming soon* |
-| Server Sent Events                    | *Coming soon* |
-| [ORM](./orm)                          | ... どうやってSanicでORMを使う? |
-| Task queues                           | *Coming soon* |
-| [TLS/SSL/HTTPS](./tls.md)             | ... どうやってHTTPS経由でSanicを実行する? ... どうやってHTTPをHTTPSにリダイレクトしますか? |
-| Websocket feeds                       | *Coming soon* |
+| [Application mounting](./mounting.md)       | ... mount my application at some path above the root? |
+| [Authentication](./authentication.md)       | ... control authentication and authorization? |
+| [Autodiscovery](./autodiscovery.md)         | ... autodiscover the components I am using to build my application? |
+| [CORS](./cors.md)                           | ... configure my application for CORS? |
+| [ORM](./orm)                                | ... use an ORM with Sanic? |
+| ["Static" Redirects](./static-redirects.md) | ... configure static redirects |
+| [TLS/SSL/HTTPS](./tls.md)                   | ... run Sanic via HTTPS?<br> ... redirect HTTP to HTTPS? |

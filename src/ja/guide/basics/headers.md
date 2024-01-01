@@ -44,7 +44,7 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4
 
 #### Proxy headers
 
-Sanicはプロキシヘッダを特別に扱います。詳細については、 [proxy headers] (/guide/advanced/proxy-headers.md) セクションを参照してください。
+Sanicはプロキシヘッダを特別に扱います。詳細については、 [proxy headers](/guide/advanced/proxy-headers.md) セクションを参照してください。
 
 #### Host header and dynamic URL construction
 
@@ -205,7 +205,7 @@ async def add_csp(request, response):
 
 ---:1
 
-一般的な [ミドルウェア] (middleware.md) は、すべての応答に`X-Request-ID`ヘッダーを追加することです。前述のように、`request.id`は着信要求からIDを提供します。ただし、リクエストヘッダーにIDが指定されていない場合でも、自動的にIDが指定されます。
+一般的な [ミドルウェア](middleware.md) は、すべての応答に`X-Request-ID`ヘッダーを追加することです。前述のように、`request.id`は着信要求からIDを提供します。ただし、リクエストヘッダーにIDが指定されていない場合でも、自動的にIDが指定されます。
 
 [詳細については、APIドキュメントを参照してください。](https://sanic.readthedocs.io/en/latest/sanic/api_reference.html#sanic.request.Request.id)
 

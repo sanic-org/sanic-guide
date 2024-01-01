@@ -57,7 +57,7 @@ $ export SANIC_REQUEST_TIMEOUT=10
 $ export MYAPP_REQUEST_TIMEOUT=10
 ```
 ```python
->>> app = Sanic(__name__, load_env='MYAPP_')
+>>> app = Sanic(__name__, env_prefix='MYAPP_')
 >>> print(app.config.REQUEST_TIMEOUT)
 10
 ```
@@ -163,16 +163,17 @@ app.update_config(MyConfig())
 - **`True`**: `y`, `yes`, `yep`, `yup`, `t`, `true`, `on`, `enable`, `enabled`, `1`
 - **`False`**: `n`, `no`, `f`, `false`, `off`, `disable`, `disabled`, `0`
 
-::: new NEW in v21.12
+If a value cannot be cast, it will default to a `str`.
 
 ---:1
 さらに、Sanicは追加のタイプコンバータを使用して、追加の型をキャストするように設定することができます。これは、値を返すか、`ValueError`を発生させる任意のcallableでなければならない。
+
+*Added in v21.12*
 :--:1
 ```python
 app = Sanic(..., config=Config(converters=[UUID]))
 ```
 :---
-:::
 
 ## 組み込み値
 
@@ -180,18 +181,24 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | **変数** | **デフォルト** | **説明** |
 |--|--|--|
 | ACCESS_LOG | True | アクセスログを無効または有効にする。
-| AUTO_EXTEND ^ | True | [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) が既存の仮想環境内にある場合にロードするかどうかを制御する |
+| AUTO_EXTEND   | True | [Sanic Extensions](../../plugins/sanic-ext/getting-started.md) が既存の仮想環境内にある場合にロードするかどうかを制御する |
 | AUTO_RELOAD | True | ファイルが変更されたときにアプリケーションが自動的にリロードするかどうかを制御します。 |
 | EVENT_AUTOREGISTER | True | `True` のとき、存在しないシグナルに対して `app.event()` メソッドを使用すると、自動的にシグナルを生成して例外を発生させないEVENT_AUTOREGISTER.index.index. |
-| FALLBACK_ERROR_FORMAT|html| 例外が発生し処理されなかった場合のエラー応答のフォーマット |
-| FORWARDED_FOR_HEADER| X-Forwarded-For| クライアントとプロキシのIPを含む「X-Forwarded-For」HTTPヘッダの名前です。 |
+| FALLBACK_ERROR_FORMAT | html | 例外が発生し処理されなかった場合のエラー応答のフォーマット |
+| FORWARDED_FOR_HEADER | X-Forwarded-For| クライアントとプロキシのIPを含む「X-Forwarded-For」HTTPヘッダの名前です。 |
 | FORWARDED_SECRET|なし|特定のプロキシサーバーを安全に識別するために使用される（下記参照） |
 | GRACEFUL_SHUTDOWN_TIMEOUT | 15.0 | アイドルでない接続を強制終了するまでの時間(秒) |
+| INSPECTOR                 | False            | Whether to enable the Inspector                                                                                                       |
+| INSPECTOR_HOST            | localhost        | The host for the Inspector                                                                                                            |
+| INSPECTOR_PORT            | 6457             | The port for the Inspector                                                                                                            |
+| INSPECTOR_TLS_KEY         | -                | The TLS key for the Inspector                                                                                                         |
+| INSPECTOR_TLS_CERT        | -                | The TLS certificate for the Inspector                                                                                                 |
+| INSPECTOR_API_KEY         | -                | The API key for the Inspector                                                                                                         |
+| KEEP_ALIVE_TIMEOUT        | 120              | How long to hold a TCP connection open (sec)                                                                                          |
 | KEEP_ALIVE | True | Falseの場合、キープアライブを無効にする。 |
-| KEEP_ALIVE_TIMEOUT | 5 | TCP接続を開いたままにする時間(秒) |
-| MOTD ^ | True | 起動時にMOTD（今日のメッセージ）を表示するかどうか |
-| MOTD_DISPLAY ^ | {} | MOTDに任意のデータを追加表示するためのキー/バリュー・ペア |
-| NOISY_EXCEPTIONS ^ | False | すべての `quiet` 例外を強制的にログに記録する |
+| MOTD   | True | 起動時にMOTD（今日のメッセージ）を表示するかどうか |
+| MOTD_DISPLAY   | {} | MOTDに任意のデータを追加表示するためのキー/バリュー・ペア |
+| NOISY_EXCEPTIONS   | False | すべての `quiet` 例外を強制的にログに記録する |
 | PROXIES_COUNT | なし | アプリの前にあるプロキシサーバーの数(例：nginx) |
 | REAL_IP_HEADER | なし | 本当のクライアントIPを含む「X-Real-IP」HTTPヘッダーの名前 | REAL_IP_HEADER | なし |
 | REGISTER | True | アプリのレジストリを有効にするかどうか。 |
@@ -206,13 +213,12 @@ app = Sanic(..., config=Config(converters=[UUID]))
 | WEBSOCKET_PING_INTERVAL | 20 | Pingフレームはping_interval秒ごとに送信されます。 |
 | WEBSOCKET_PING_TIMEOUT | 20 |ping_timeout秒後にPongを受信しない場合、接続を終了します。|
 
-::: new NEW in v21.12
-新要素: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
-:::
-
 ::: tip FYI
 - `USE_UVLOOP` の値は、Gunicorn で実行されている場合、無視されます。サポートされていないプラットフォーム (Windows) では、デフォルトは `False` である。
 - ASGI モードでは `WEBSOCKET_` 値は無視されます。
+- v21.12 added: `AUTO_EXTEND`, `MOTD`, `MOTD_DISPLAY`, `NOISY_EXCEPTIONS`
+- v22.9 added: `INSPECTOR`
+- v22.12 added: `INSPECTOR_HOST`, `INSPECTOR_PORT`, `INSPECTOR_TLS_KEY`, `INSPECTOR_TLS_CERT`, `INSPECTOR_API_KEY`
 :::
 
 ## タイムアウト
@@ -233,13 +239,14 @@ app = Sanic(..., config=Config(converters=[UUID]))
 
 Sanicでは、`KEEP_ALIVE`設定変数がデフォルトで `True` に設定されています。アプリケーションでこの機能を必要としない場合は、`False`に設定すると、リクエストの `Keep-Alive` ヘッダに関係なく、レスポンスが送信された後にすべてのクライアント接続を直ちに終了するようになります。
 
-サーバーが TCP 接続を開いたままにする時間は、サーバー自身が決定します。Sanic では、その値は `KEEP_ALIVE_TIMEOUT` 値を使用して設定されます。デフォルトでは、5秒に設定されています。これは Apache HTTP サーバーと同じデフォルト設定で、クライアントが新しいリクエストを送信するのに十分な時間を与えることと、一度に多くのコネクションをオープンしないことのバランスが取れています。クライアントが、その時間だけ開いたままの TCP 接続をサポートするブラウザを使用していることが分かっている場合を除き、75 秒を超えないようにしてください。
+サーバーが TCP 接続を開いたままにする時間は、サーバー自身が決定します。Sanic では、その値は `KEEP_ALIVE_TIMEOUT` 値を使用して設定されます。デフォルトでは、**it is set to 120 seconds**. This means that if the client sends a `Keep-Alive` header, the server will hold the TCP connection open for 120 seconds after sending the response, and the client can reuse the connection to send another HTTP request within that time.
 
 参考までに
 
 * Apache httpd サーバーのデフォルトのキープアライブタイムアウト = 5 秒
 * Nginxサーバのデフォルトのキープアライブタイムアウトは75秒です。
 * Nginx パフォーマンスチューニングガイドラインでは、keepalive = 15 秒を使用しています。
+* Caddy server default keepalive timeout = 120 seconds
 * IE（5-9）クライアントのハードキープアライブ制限 = 60秒
 * Firefoxクライアントハードキープアライブ制限=115秒
 * Opera 11クライアントハードキープアライブ制限 = 120秒

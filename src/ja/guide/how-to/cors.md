@@ -7,6 +7,8 @@ title: CORS
 
 > アプリケーションをCORS用に構成する方法は?
 
+The best solution is to use [Sanic Extensions](../../plugins/sanic-ext/http/cors.md). However, if you would like to build your own version, you could use this limited example.
+
 :::: tabs
 ::: tab server.py
 ```python
@@ -53,11 +55,7 @@ def _add_cors_headers(response, methods: Iterable[str]) -> None:
 
 def add_cors_headers(request, response):
     if request.method != "OPTIONS":
-        methods = [
-            method
-            for methods in request.route.methods.values()
-            for method in methods
-        ]
+        methods = [method for method in request.route.methods]
         _add_cors_headers(response, methods)
 ```
 :::
@@ -76,11 +74,11 @@ def _compile_routes_needing_options(
     routes: Dict[str, Route]
 ) -> Dict[str, FrozenSet]:
     needs_options = defaultdict(list)
-    # This is 21.3 and later. You will need to change this for older versions.
+    # This is 21.12 and later. You will need to change this for older versions.
     for route in routes.values():
-        for uri, methods in route.methods.items():
-            if "OPTIONS" not in methods:
-                needs_options[uri].extend(methods)
+        if "OPTIONS" not in route.methods:
+            needs_options[route.uri].extend(route.methods)
+
     return {
         uri: frozenset(methods) for uri, methods in dict(needs_options).items()
     }

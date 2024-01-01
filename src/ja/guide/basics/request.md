@@ -61,7 +61,7 @@ bar
 ::: tip FYI
 :bulb: `request.form`オブジェクトは、各値がリストであるディクショナリの、いくつかのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
 
 ::: tab Uploaded
@@ -122,7 +122,6 @@ async def hi_my_name_is(request):
 
 多くの場合、APIは同じクライアントに対して複数の同時 (または連続) リクエストを処理する必要があります。たとえば、データを取得するために複数のエンドポイントにクエリを実行する必要があるプログレッシブウェブアプリでは、これが頻繁に発生します。
 
-
 HTTPプロトコルでは、[keep alive headers](../ deployment/configuration.md#keep-alive-timeout)を使用した接続によって発生するオーバーヘッド時間を緩和する必要があります。
 
 複数のリクエストが1つの接続を共有する場合、Sanicはそれらのリクエストが状態を共有できるようにコンテキストオブジェクトを提供します。
@@ -147,6 +146,67 @@ request.conn_info.ctx.foo=2
 request.conn_info.ctx.foo=3
 ```
 :---
+
+### Custom Request Objects
+
+As dicussed in [application customization](./app.md#custom-requests), you can create a subclass of `sanic.Request` to add additional functionality to the request object. This is useful for adding additional attributes or methods that are specific to your application.
+
+---:1
+For example, imagine your application sends a custom header that contains a user ID. You can create a custom request object that will parse that header and store the user ID for you.
+:--:1
+```python
+from sanic import Sanic, Request
+
+class CustomRequest(Request):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.user_id = self.headers.get("X-User-ID")
+
+app = Sanic("Example", request_class=CustomRequest)
+```
+:---
+
+---:1
+Now, in your handlers, you can access the `user_id` attribute.
+:--:1
+```python
+@app.route("/")
+async def handler(request: CustomRequest):
+    return text(f"User ID: {request.user_id}")
+```
+:---
+
+::: new NEW in v23.6
+### Custom Request Context
+
+By default, the request context (`request.ctx`) is a `SimpleNamespace` object allowing you to set arbitrary attributes on it. While this is super helpful to reuse logic across your application, it can be difficult in the development experience since the IDE will not know what attributes are available.
+
+To help with this, you can create a custom request context object that will be used instead of the default `SimpleNamespace`. This allows you to add type hints to the context object and have them be available in your IDE.
+
+---:1
+Start by subclassing the `sanic.Request` class to create a custom request type. Then, you will need to add a `make_context()` method that returns an instance of your custom context object. *NOTE: the `make_context` method should be a static method.*
+:--:1
+```python
+from sanic import Sanic, Request
+from types import SimpleNamespace
+
+class CustomRequest(Request):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.ctx.user_id = self.headers.get("X-User-ID")
+
+    @staticmethod
+    def make_context() -> CustomContext:
+        return CustomContext()
+
+@dataclass
+class CustomContext:
+    user_id: str = None
+```
+:---
+
+*Added in v23.6*
+:::
 
 ## Parameters
 
@@ -193,5 +253,49 @@ key1=val1&key2=val2&key1=val3
 ::: tip FYI
 :bulb: `request.args`オブジェクトは、各値がリストになっているディクショナリのタイプの1つです。これは、HTTPでは1つのキーを再利用して複数の値を送信できるためです。  
 
-ほとんどの場合、リストではなく最初の要素にアクセスするには、`.get()`メソッドを使用します。すべての項目のリストが必要な場合は、`.getlist()`を使用できます。
+Most of the time you will want to use the `.get()` method to access the first element and not a list. If you do want a list of all items, you can use `.getlist()`.
 :::
+
+## Current request getter
+
+Sometimes you may find that you need access to the current request in your application in a location where it is not accessible. A typical example might be in a `logging` format. You can use `Request.get_current()` to fetch the current request (if any).
+
+```python
+import logging
+
+from sanic import Request, Sanic, json
+from sanic.exceptions import SanicException
+from sanic.log import LOGGING_CONFIG_DEFAULTS
+
+LOGGING_FORMAT = (
+    "%(asctime)s - (%(name)s)[%(levelname)s][%(host)s]: "
+    "%(request_id)s %(request)s %(message)s %(status)d %(byte)d"
+)
+
+old_factory = logging.getLogRecordFactory()
+
+
+def record_factory(*args, **kwargs):
+    record = old_factory(*args, **kwargs)
+    record.request_id = ""
+
+    try:
+        request = Request.get_current()
+    except SanicException:
+        ...
+    else:
+        record.request_id = str(request.id)
+
+    return record
+
+
+logging.setLogRecordFactory(record_factory)
+
+LOGGING_CONFIG_DEFAULTS["formatters"]["access"]["format"] = LOGGING_FORMAT
+
+app = Sanic("Example", log_config=LOGGING_CONFIG_DEFAULTS)
+```
+
+In this example, we are adding the `request.id` to every access log message.
+
+*Added in v22.6*

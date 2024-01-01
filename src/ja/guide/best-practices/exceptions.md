@@ -38,7 +38,6 @@ async def login(request):
         raise exceptions.NotFound(
             f"Could not find user with username={request.json.username}"
         )
-    ...
 ```
 
 :---
@@ -50,6 +49,7 @@ Sanicのすべての例外は `SanicException` から派生します。このク
 - `message`
 - `status_code`
 - `quiet`
+- `headers`
 - `context`
 - `extra`
 
@@ -103,9 +103,9 @@ raise InvalidUsage("blah blah", quiet=True)
 :---
 
 ---:1
-::: new NEW in v21.12
 デバッグ中に、`quiet=True` プロパティをグローバルに無視したいことがあるかもしれません。このプロパティに関係なく、Sanicにすべての例外をログアウトさせるには、 `NOISY_EXCEPTIONS` を使用します。
-:::
+
+*v21.12で追加*
 :--:1
 ```python
 app.config.NOISY_EXCEPTIONS = True
@@ -113,11 +113,30 @@ app.config.NOISY_EXCEPTIONS = True
 :---
 
 ---:1
-::: new NEW in v21.12
+### `headers`
+
+Using `SanicException` as a tool for creating responses is super powerful. This is in part because not only can you control the `status_code`, but you can also control reponse headers directly from the exception.
+:--:1
+```python
+class MyException(SanicException):
+    headers = {
+      "X-Foo": "bar"
+    }
+
+raise MyException
+# or
+raise InvalidUsage("blah blah", headers={
+    "X-Foo": "bar"
+})
+```
+:---
+
+---:1
 ### `extra`
 
 [文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
-:::
+
+*v21.12で追加*
 :--:1
 ```python
 raise SanicException(..., extra={"name": "Adam"})
@@ -125,11 +144,11 @@ raise SanicException(..., extra={"name": "Adam"})
 :---
 
 ---:1
-::: new NEW in v21.12
 ### `context`
 
 [文脈上の例外](./exceptions.md#contextual-exceptions)を参照してください。
-:::
+
+*v21.12で追加*
 :--:1
 ```python
 raise SanicException(..., context={"foo": "bar"})
@@ -193,11 +212,10 @@ app.error_handler.add(Exception, server_error_handler)
 Sanicには、例外用にHTML、JSON、およびテキストの3つの形式が用意されています。以下の [Fallback handler](#fallback-handler) セクションに例があります。
 
 ---:1
-
 route_which形式を使用するには、`error_format`キーワード引数を使用します。
 
+*v21.9で追加*
 :--:1
-
 ```python
 @app.request("/", error_format="text")
 async def handler(request):
@@ -215,10 +233,14 @@ async def handler(request):
 from sanic.handlers import ErrorHandler
 
 class CustomErrorHandler(ErrorHandler):
-    def default(self, request, exception):
+    def default(self, request: Request, exception: Exception) -> HTTPResponse:
         ''' handles errors that have no error handlers assigned '''
         # You custom error handling logic...
-        return super().default(request, exception)
+        status_code = getattr(exception, "status_code", 500)
+        return json({
+          "error": str(exception),
+          "foo": "bar"
+        }, status=status_code)
 
 app.error_handler = CustomErrorHandler()
 ```
@@ -227,11 +249,13 @@ app.error_handler = CustomErrorHandler()
 
 Sanicには3つのフォールバック例外ハンドラがあります。
 
-1. HTML (*default*)
+1. HTML
 2. Text
 3. JSON
 
 これらのハンドラは、アプリケーションが[デバッグモード](/guide/deployment/development.md)にあるかどうかによって、異なる詳細レベルを表示します。
+
+By default, Sanic will be in "auto" mode, which means that it will using the incoming request and potential matching handler to choose the appropriate response format. For example, when in a browser it should always provide an HTML error page. When using curl, you might see JSON or plain text.
 
 ### HTML
 
@@ -281,13 +305,16 @@ content-type: text/plain; charset=utf-8
 That time when that thing broke that other thing? That happened.
 
 ServerError: That time when that thing broke that other thing? That happened. while handling path /exc
-Traceback of __BASE__ (most recent call last):
+Traceback of TestApp (most recent call last):
 
   ServerError: That time when that thing broke that other thing? That happened.
-    File /path/to/sanic/app.py, line 986, in handle_request
+    File /path/to/sanic/app.py, line 979, in handle_request
     response = await response
 
-    File /path/to/server.py, line 222, in exc
+    File /path/to/server.py, line 16, in handler
+    do_something(cause_error=True)
+
+    File /path/to/something.py, line 9, in do_something
     raise ServerError(
 ```
 
@@ -343,22 +370,26 @@ content-type: application/json
       "frames": [
         {
           "file": "/path/to/sanic/app.py",
-          "line": 986,
+          "line": 979,
           "name": "handle_request",
           "src": "response = await response"
         },
         {
           "file": "/path/to/server.py",
-          "line": 222,
-          "name": "exc",
+          "line": 16,
+          "name": "handler",
+          "src": "do_something(cause_error=True)"
+        },
+        {
+          "file": "/path/to/something.py",
+          "line": 9,
+          "name": "do_something",
           "src": "raise ServerError("
         }
       ]
     }
   ]
 }
-
-
 ```
 
 :--:1
@@ -370,7 +401,7 @@ app.config.DEBUG = False
 ```bash
 $ curl localhost:8000/exc -i
 HTTP/1.1 500 Internal Server Error
-content-length: 530
+content-length: 129
 connection: keep-alive
 content-type: application/json
 
@@ -384,16 +415,15 @@ content-type: application/json
 
 :---
 
-### 自動
+### Auto
 
-Sanicには、使用するフォールバックオプションを推測するためのオプションも用意されています。これはまだ**実験的な機能です**.
+Sanicには、使用するフォールバックオプションを推測するためのオプションも用意されています。
 
 ```python
 app.config.FALLBACK_ERROR_FORMAT = "auto"
 ```
 ## 文脈上の例外
 
-::: new NEW in v21.12
 デフォルトの例外メッセージにより、アプリケーション全体で一貫して例外を発生させる機能を簡素化できます。
 
 ```python
@@ -409,7 +439,27 @@ raise TeapotError
 1. ダイナミックで予測可能なメッセージのフォーマット
 2. エラーメッセージに追加のコンテキストを追加する機能（詳細は後述します）
 
-### `Extra` を使用した動的で予測可能なメッセージ
+*v21.12で追加*
+
+Using one of Sanic's exceptions, you have two options to provide additional details at runtime:
+
+```python
+raise TeapotError(extra={"foo": "bar"}, context={"foo": "bar"})
+```
+
+What's the difference and when should you decide to use each?
+
+- `extra` - The object itself will **never** be sent to a production client. It is meant for internal use only. What could it be used for?
+  - Generating (as we will see in a minute) a dynamic error message
+  - Providing runtime details to a logger
+  - Debug information (when in development mode, it is rendered)
+- `context` - This object is **always** sent to production clients. It is generally meant to be used to send additional details about the context of what happened. What could it be used for?
+  - Providing alternative values on a `BadRequest` validation issue
+  - Responding with helpful details for your customers to open a support ticket
+  - Displaying state information like current logged in user info
+
+
+### `extra` を使用した動的で予測可能なメッセージ
 
 Sanic の例外は `extra` キーワード引数を使って発生させることができ、発生した例外インスタンスに追加情報を提供することができます。
 
@@ -495,4 +545,24 @@ raise TeapotError(context={"foo": "bar"})
 }
 ```
 :---
+
+
+::: new NEW in v23.6
+
+## Error reporting
+
+Sanic has a [signal](../advanced/signals.md#built-in-signals) that allows you to hook into the exception reporting process. This is useful if you want to send exception information to a third party service like Sentry or Rollbar. This can be conveniently accomplished by attaching an error reporting handler as show below:
+
+```python
+@app.report_exception
+async def catch_any_exception(app: Sanic, exception: Exception):
+    print("Caught exception:", exception)
+```
+
+::: tip NOTE
+This handler will be dispatched into a background task and **IS NOT** intended for use to manipulate any response data. It is intended to be used for logging or reporting purposes only, and should not impact the ability of your application to return the error response to the client.
 :::
+
+*Added in v23.6*
+:::
+
